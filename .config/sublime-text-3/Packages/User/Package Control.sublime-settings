@@ -7,7 +7,6 @@
 	[
 		"A File Icon",
 		"AceJump",
-		"Babel",
 		"BracketHighlighter",
 		"Dockerfile Syntax Highlighting",
 		"DotENV",
@@ -19,11 +18,9 @@
 		"Origami",
 		"Package Control",
 		"PHP-Twig",
-		"RelativeLineNumbers",
 		"rubber-scheme",
 		"Rust Enhanced",
 		"Simple JSX",
-		"TypeScript",
 		"VimL",
 		"Vue Syntax Highlight"
 	],
@@ -31,7 +28,6 @@
 	[
 		"https://github.com/francescarpi/RelativeLineNumbers.git",
 		"https://github.com/VonHeikemen/NvMode",
-		"https://github.com/VonHeikemen/rubber-scheme",
 		"https://github.com/VonHeikemen/rubber-scheme"
 	]
 }

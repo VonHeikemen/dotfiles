@@ -15,12 +15,9 @@
 	"highlight_line": true,
 	"ignored_packages":
 	[
-		"Babel",
 		"GitGutter",
-		"RelativeLineNumbers",
 		"Rust",
 		"Rust Enhanced",
-		"TypeScript",
 		"Vintage"
 	],
 	"line_numbers": false,
