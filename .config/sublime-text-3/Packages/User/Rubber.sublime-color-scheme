@@ -1,0 +1,9 @@
+{
+  "variables": {
+    // Constants
+    "special": "#8893A6",    // gray
+  },
+  "globals": {
+    "line_highlight": "#1C2025",
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variables": {
+    "red": "#FF869A"
+  },
+
+  "rules": [
+    {
+      "name": "[PHP] Dollar sign",
+      "scope": "embedding.php punctuation.definition.variable.php",
+      "foreground": "var(magenta)"
+    }  
+  ]
+}

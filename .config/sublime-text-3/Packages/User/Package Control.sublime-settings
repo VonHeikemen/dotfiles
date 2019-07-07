@@ -1,0 +1,37 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"A File Icon",
+		"AceJump",
+		"Babel",
+		"BracketHighlighter",
+		"Dockerfile Syntax Highlighting",
+		"DotENV",
+		"FileManager",
+		"GitGutter",
+		"i3 wm",
+		"Night Owl",
+		"NvMode",
+		"Origami",
+		"Package Control",
+		"PHP-Twig",
+		"RelativeLineNumbers",
+		"rubber-scheme",
+		"Rust Enhanced",
+		"Simple JSX",
+		"TypeScript",
+		"VimL",
+		"Vue Syntax Highlight"
+	],
+	"repositories":
+	[
+		"https://github.com/francescarpi/RelativeLineNumbers.git",
+		"https://github.com/VonHeikemen/NvMode",
+		"https://github.com/VonHeikemen/rubber-scheme",
+		"https://github.com/VonHeikemen/rubber-scheme"
+	]
+}

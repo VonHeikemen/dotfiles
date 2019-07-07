@@ -1,0 +1,12 @@
+// GitGutter Settings - User
+{
+	"show_line_annotation": "false",
+	"show_markers_on_untracked_file": false,
+	"status_bar_text": [
+        "{% if repo and branch %}",
+        "{{repo}}/{{branch}}",
+        "{% if added_files + deleted_files + modified_files > 0 %}*{% endif %}",
+        "{% if state %}, File is {{state}}{% endif %}",
+        "{% endif %}"
+    ]
+}

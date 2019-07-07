@@ -1,0 +1,189 @@
+[
+	{
+		"keys": ["ctrl+escape"],
+		"command": "toggle_package",
+		"args": {"name": "NvMode"}
+	},
+
+	// Plugin: Origami
+	{
+		"keys": ["ctrl+w"],
+		"command": "pass"
+	},
+	{
+		"keys": ["ctrl+w", "q"],
+		"command": "close"
+	},
+	{
+		"keys": ["ctrl+w", "c"],
+		"command": "destroy_pane",
+		"args": {"direction": "self"}
+	},
+	{ 
+		"keys": ["ctrl+w", "k"],
+		"command": "travel_to_pane",
+		"args": {"direction": "up"}
+	},
+  	{
+  		"keys": ["ctrl+w", "l"],
+  		"command": "travel_to_pane",
+  		"args": {"direction": "right"}
+  	},
+  	{
+  		"keys": ["ctrl+w", "j"],
+  		"command": "travel_to_pane",
+  		"args": {"direction": "down"}
+  	},
+  	{
+  		"keys": ["ctrl+w", "h"],
+  		"command": "travel_to_pane",
+  		"args": {"direction": "left"}
+  	},
+  	{ 
+		"keys": ["ctrl+w", "K"],
+		"command": "clone_file_to_pane",
+		"args": {"direction": "up"}
+	},
+  	{
+  		"keys": ["ctrl+w", "L"],
+  		"command": "clone_file_to_pane",
+  		"args": {"direction": "right"}
+  	},
+  	{
+  		"keys": ["ctrl+w", "J"],
+  		"command": "clone_file_to_pane",
+  		"args": {"direction": "down"}
+  	},
+  	{
+  		"keys": ["ctrl+w", "H"],
+  		"command": "clone_file_to_pane",
+  		"args": {"direction": "left"}
+  	},
+
+  	// Plugin: GitGutter
+  	{
+		"keys": ["alt+u", "g"],
+		"command": "toggle_package",
+		"args": {"name": "GitGutter"}
+	},
+	{
+    	"keys": ["alt+["],
+    	"command": "git_gutter_prev_change"
+    },
+    {
+		"keys": ["alt+]"],
+    	"command": "git_gutter_next_change"
+    },
+
+    // Plugin: FileManager
+	{
+    	"keys": ["alt+`"],
+    	"command": "fm_open_terminal"
+	},
+
+	// Plugin: AceJump
+	{
+		"keys": ["alt+s"],
+		"command": "ace_jump_within_line"
+	},
+	{
+		"keys": ["alt+shift+s"],
+		"command": "ace_jump_line"
+	},
+	{
+		"keys": ["alt+f"],
+		"command": "ace_jump_word"
+	},
+	{
+		"keys": ["alt+shift+f"],
+		"command": "ace_jump_char"
+	},
+	{
+		"keys": ["alt+v"],
+		"command": "ace_jump_select"
+	},
+	{
+		"keys": ["alt+d"],
+		"command": "ace_jump_add_cursor"
+	},
+
+	// UI
+	{ 
+		"keys": ["escape"], 
+		"command": "focus_group",
+		"args": {"group": 0}, 
+		"context": [ {"key": "control", "operand": "sidebar_tree"} ] 
+	},
+	{
+		"keys": ["alt+u", "a"],
+		"command": "toggle_menu"
+	},
+	{
+		"keys": ["alt+u", "e"],
+		"command": "toggle_status_bar"
+	},
+	{
+		"keys": ["alt+u", "t"],
+		"command": "toggle_tabs"
+	},
+	{
+		"keys": ["alt+u", "n"],
+		"command": "toggle_setting",
+		"args": {"setting": "line_numbers"}
+	},
+	
+
+	// General:
+	{
+		"keys": ["alt+k"],
+		"command": "move",
+		"args": {"by": "lines", "forward": false},
+		"context": [
+			{"key": "overlay_visible", "operator": "equal", "operand": true}
+		]
+	},
+    {
+    	"keys": ["alt+j"],
+    	"command": "move",
+    	"args": {"by": "lines", "forward": true},
+    	"context": [
+    		{"key": "overlay_visible", "operator": "equal", "operand": true}
+    	]
+    },
+    {
+		"keys": ["alt+k"],
+		"command": "move",
+		"args": {"by": "lines", "forward": false},
+		"context": [
+			{"key": "auto_complete_visible", "operator": "equal", "operand": true}
+		]
+	},
+    {
+    	"keys": ["alt+j"],
+    	"command": "move",
+    	"args": {"by": "lines", "forward": true},
+    	"context": [
+    		{"key": "auto_complete_visible", "operator": "equal", "operand": true}
+    	]
+    },
+    {
+    	"keys": ["ctrl+;"],
+    	"command": "edit_settings", 
+    	"args": {
+	        "base_file": "${packages}/Default/Preferences.sublime-settings",
+	        "default": "// Settings in here override those in \"Default/Preferences.sublime-settings\",\n// and are overridden in turn by syntax-specific settings.\n{\n\t$0\n}\n"
+    	}
+	},
+	{
+    	"keys": ["ctrl+,"],
+    	"command": "edit_settings", 
+    	"args": {
+	        "base_file": "${packages}/Default/Default ($platform).sublime-keymap",
+	        "default": "[\n\t$0\n]\n"
+    	}
+	},
+	{
+		"keys": ["alt+.", "t"],
+		"command": "close_tag"
+	},
+]

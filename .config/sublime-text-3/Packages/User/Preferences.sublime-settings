@@ -1,0 +1,35 @@
+{
+	"block_caret": true,
+	"caret_style": "solid",
+	"color_scheme": "Packages/rubber-scheme/Rubber-enhanced.sublime-color-scheme",
+	"folder_exclude_patterns":
+	[
+		".svn",
+		".git",
+		".hg",
+		"CVS",
+		"node_modules",
+		"vendor"
+	],
+	"font_size": 13,
+	"highlight_line": true,
+	"ignored_packages":
+	[
+		"Babel",
+		"GitGutter",
+		"RelativeLineNumbers",
+		"Rust",
+		"Rust Enhanced",
+		"TypeScript",
+		"Vintage"
+	],
+	"line_numbers": false,
+	"mini_diff": false,
+	"nv_change_caret_style_in_command_mode": true,
+	"nv_toggle_hightlight_line_on_command_mode": false,
+	"relative_line_numbers_clear_timeout": 3000,
+	"tab_size": 2,
+	"theme": "Adaptive.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"word_wrap": false
+}

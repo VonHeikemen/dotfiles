@@ -1,0 +1,105 @@
+" Type :h vintageousrc for help.
+let mapleader=<space> 
+
+" Escape to normal mode
+noremap <C-l> <Esc>
+
+" Focus sidebar
+nnoremap <C-h> :FocusSideBar<CR>
+
+" Copy to clipboard
+noremap cp "+y
+
+" Paste from clipboard
+noremap cv "+p
+
+" Getting back the change motion
+noremap C c
+
+" Search will center on the line it's found in.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap # #zz
+nnoremap * *zz
+
+" Scroll half page
+nnoremap <C-u> Hzz
+nnoremap <C-d> Lzz
+
+" Indent
+nnoremap <Leader><tab> >>
+vnoremap <Leader><tab> >
+
+" Show opened files list
+noremap <Leader>bb :buffers<CR>
+
+" Select all text
+nnoremap <Leader>a ggvGg_
+
+" Go to matching pair
+noremap <Leader>e %
+noremap <Leader>E %zz
+
+" Go to first character in line
+noremap <Leader>h ^
+
+" Go to last character in line
+noremap <Leader>l g_
+
+" Change working directory to active view's folder
+noremap <Leader>ccd :cd%:h<CR>
+
+" Toggle GUI elements
+nnoremap <Leader>tt :ToggleTabs<CR>
+noremap <Leader>de :NeovintageousToggleSideBar<CR>
+noremap <Leader>s :RelativeLineNumbers<CR>
+noremap <Leader>cor :ToggleRulers rulers=80<CR>
+
+" Show status bar and menu
+noremap <Leader>co[ [oe[oa
+
+" Hide status bar and menu
+noremap <Leader>co] ]oe]oa
+
+" Add folder to project
+noremap <Leader>paf :PromptAddFolder<CR>
+
+" Open folder in another window
+noremap <Leader>pof :PromptOpenFolder<CR>
+
+" Close file
+noremap <Leader>qq :Close<CR>
+
+" Close pane
+noremap <Leader>qw :DestroyPane direction=self<CR>
+
+" Save file
+noremap <Leader>w :Save<CR>
+
+" Save as...
+noremap <Leader>W :PromptSaveAs<CR>
+
+" Show find and replace panel
+noremap <Leader>r :ShowPanel panel=replace reverse=false<CR> 
+
+" Show goto file
+noremap <Leader>ff :ShowOverlay overlay=goto show_files=true<CR>
+
+" Show goto symbol in file
+noremap <Leader>fs :ShowOverlay overlay=goto text=@<CR>
+
+" Show goto symbol in project
+noremap <Leader>fS :GotoSymbolInProject<CR>
+
+" Bookmarks
+noremap <Leader>m :ToggleBookmark<CR>
+noremap <Leader>M :ClearBookmarks<CR>
+
+" New file
+noremap <C-n> :NewFile<CR>
+
+" Open file
+noremap <C-O> :browse<CR>
+
+" Exit
+noremap <C-q> :Exit<CR>
