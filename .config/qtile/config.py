@@ -106,7 +106,7 @@ keys = [
     Key([mod], "i", lazy.spawn("pamac-manager")),
 
     # Run an application (mod + backtick)
-    Key([mod], "grave", lazy.spawncmd()),
+    Key([mod], "grave", lazy.spawn('sh -c "dmenu_recency"')),
 
     # Close application
     Key([mod, "shift"], "q", lazy.window.kill()),
@@ -197,9 +197,7 @@ keys = [
     # Take screenshot
     Key([], "Print", lazy.spawn("i3-scrot")),
     Key([mod], "Print", lazy.spawn("i3-scrot -w")),
-    Key([mod, "shift"], "Print", lazy.spawn(
-        ["qtile-run", "--group", "5", App.terminal, "-e", "i3-scrot", "-s"]
-    )),
+    Key([mod, "shift"], "Print", lazy.spawn('sh -c "i3-scrot -s"')),
 
     # Move mouse
     Key([caps], "KP_Left", move_mouse(-25, 0)),
@@ -216,7 +214,7 @@ keys = [
     Key([mod, "shift"], "u", lazy.spawn("xdotool mousemove 960 540")),
 ]
 
-groups = [Group(i) for i in "12345"]
+groups = [Group(i) for i in "1234"]
 
 for i in groups:
     keys.extend([
