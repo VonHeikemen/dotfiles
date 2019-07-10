@@ -50,7 +50,7 @@ def edit_file(path):
 
 def init_layout_theme():
     return {
-        "border_width": 2,
+        "border_width": 1,
         "margin": 0,
         "border_focus": border_focus,
         "border_normal": Color.black,
@@ -87,6 +87,10 @@ def move_mouse(mov_x, mov_y):
     return lazy.function(move)
 
 
+def hide_bar(qtile):
+    qtile.cmd_hide_show_bar()
+
+
 border_focus = Color.gray
 lock_screen = lambda qtile: subprocess.call(["blurlock"])
 inspect_log = lambda: term_exec(["less", "+F", log_file])
@@ -110,6 +114,9 @@ keys = [
 
     # Close application
     Key([mod, "shift"], "q", lazy.window.kill()),
+
+    # Toggle bar
+    Key([mod], "t", lazy.function(hide_bar)),
 
     # Lock screen
     Key([mod], "9", lazy.function(lock_screen)),
@@ -228,7 +235,8 @@ for i in groups:
 layouts = [
     layout.Columns(
         border_focus=layout_theme.get("border_focus"),
-        border_normal=layout_theme.get("border_normal")
+        border_normal=layout_theme.get("border_normal"),
+        insert_position=1
     ),
     layout.MonadTall(**layout_theme),
     layout.MonadWide(**layout_theme),
@@ -244,7 +252,7 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        bottom=bar.Bar(
+        top=bar.Bar(
             [
                 widget.GroupBox(disable_drag=True),
                 widget.CurrentLayoutIcon(scale=0.6),
