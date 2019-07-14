@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<JWM>
+
+    <!-- The root menu. -->
+    <RootMenu onroot="12">
+        <Program icon="terminal.svg" label="Terminal">kitty</Program>
+        <Program icon="thunar.svg" label="Filemanager">pcmanfm</Program>
+        <Program icon="firefox.svg" label="Browser">firefox-developer-edition</Program>
+        <Menu icon="deepin-launcher.svg" label="Applications">
+          <Include>$HOME/my-configs/jwm/jwmenu</Include>
+        </Menu>
+        <Menu icon="deepin-manual.svg" label="Utilities">
+            <Program icon="font.png" label="Fonts">xfontsel</Program>
+            <Program icon="window.png" label="Window Properties">
+                xprop | xmessage -file -
+            </Program>
+            <Program icon="window.png" label="Window Information">
+                xwininfo | xmessage -file -
+            </Program>
+        </Menu>
+        <Separator/>
+        <Program icon="kgpg.svg" label="Lock">
+            blurlock
+        </Program>
+        <Separator/>
+        <Restart label="Restart" icon="restart.png"/>
+        <Program label="Exit">
+          oblogout -c $HOME/my-configs/jwm/oblogout.conf
+        </Program>
+    </RootMenu>
+
+    <!-- Tray at the bottom. -->
+    <Tray x="0" y="-1" height="30" autohide="off">
+
+        <TrayButton icon="distributor-logo-manjaro.svg">root:1</TrayButton>
+        <Spacer width="5"/>
+
+        <!-- <Pager labeled="true"/> -->
+
+        <TaskList maxwidth="256"/>
+
+        <Clock format="%H:%M"><Button mask="123">exec:xclock</Button></Clock>
+        <Dock/>
+        <TrayButton icon="gshutdown.svg">
+          exec: oblogout -c $HOME/my-configs/jwm/oblogout.conf
+        </TrayButton>
+
+    </Tray>
+
+    <!-- 
+    black = #242830
+    white = #DCE0DD
+    gray = #576275
+    -->
+
+    <!-- Visual Styles -->
+    <WindowStyle>
+        <Font>Sans-9:bold</Font>
+        <Width>4</Width>
+        <Height>21</Height>
+        <Corner>3</Corner>
+        <Foreground>#DCE0DD</Foreground>
+        <Background>#555555</Background>
+        <Outline>#000000</Outline>
+        <Opacity>0.5</Opacity>
+        <Active>
+            <Foreground>#DCE0DD</Foreground>
+            <Background>#242830</Background>
+            <Outline>#000000</Outline>
+            <Opacity>1.0</Opacity>
+        </Active>
+    </WindowStyle>
+    <TrayStyle group="true" list="all">
+        <Font>Sans-9</Font>
+        <Background>#242830</Background>
+        <Foreground>#DCE0DD</Foreground>
+        <Outline>#000000</Outline>
+        <Opacity>0.75</Opacity>
+    </TrayStyle>
+    <TaskListStyle>
+      <Font>Sans-9</Font>
+      <Active>
+        <Foreground>#DCE0DD</Foreground>
+        <Background>#576275</Background>
+      </Active>
+      <Foreground>#DCE0DD</Foreground>
+      <Background>#242830</Background>
+    </TaskListStyle>
+    <PagerStyle>
+        <Outline>#000000</Outline>
+        <Foreground>#555555</Foreground>
+        <Background>#333333</Background>
+        <Text>#DCE0DD</Text>
+        <Active>
+            <Foreground>#0077CC</Foreground>
+            <Background>#004488</Background>
+        </Active>
+    </PagerStyle>
+    <MenuStyle>
+        <Font>Sans-9</Font>
+        <Foreground>#DCE0DD</Foreground>
+        <Background>#333333</Background>
+        <Outline>#000000</Outline>
+        <Active>
+            <Foreground>#DCE0DD</Foreground>
+            <Background>#0077CC</Background>
+        </Active>
+        <Opacity>0.85</Opacity>
+    </MenuStyle>
+    <PopupStyle>
+        <Font>Sans-11</Font>
+        <Foreground>#000000</Foreground>
+        <Background>#999999</Background>
+    </PopupStyle>
+
+    <!-- Path where icons can be found.
+         IconPath can be listed multiple times to allow searching
+         for icons in multiple paths.
+      -->
+    <IconPath>
+      /usr/share/icons/Papirus/32x32/apps/
+    </IconPath>
+    <IconPath>
+        /usr/share/icons/wm-icons/32x32-aquafusion
+    </IconPath>
+    <IconPath>
+        /usr/share/jwm
+    </IconPath>
+    <!-- Virtual Desktops -->
+    <!-- Desktop tags can be contained within Desktops for desktop names. -->
+    <Desktops width="4" height="1">
+        <!-- Default background. Note that a Background tag can be
+              contained within a Desktop tag to give a specific background
+              for that desktop.
+         -->
+        <Background type="solid">#111111</Background>
+    </Desktops>
+
+    <!-- Double click speed (in milliseconds) -->
+    <DoubleClickSpeed>400</DoubleClickSpeed>
+
+    <!-- Double click delta (in pixels) -->
+    <DoubleClickDelta>2</DoubleClickDelta>
+
+    <!-- The focus model (sloppy or click) -->
+    <FocusModel>sloppy</FocusModel>
+
+    <!-- The snap mode (none, screen, or border) -->
+    <SnapMode distance="10">border</SnapMode>
+
+    <!-- The move mode (outline or opaque) -->
+    <MoveMode>opaque</MoveMode>
+
+    <!-- The resize mode (outline or opaque) -->
+    <ResizeMode>opaque</ResizeMode>
+
+    <!-- Key bindings -->
+    <Key key="Up">up</Key>
+    <Key key="Down">down</Key>
+    <Key key="Right">right</Key>
+    <Key key="Left">left</Key>
+    <Key key="h">left</Key>
+    <Key key="j">down</Key>
+    <Key key="k">up</Key>
+    <Key key="l">right</Key>
+    <Key key="Return">select</Key>
+    <Key key="Escape">escape</Key>
+
+    <Key mask="A" key="Tab">nextstacked</Key>
+    <Key mask="A" key="F4">close</Key>
+    <Key mask="A" key="#">desktop#</Key>
+    <Key mask="A" key="F1">root:1</Key>
+    <Key mask="A" key="F2">window</Key>
+    <Key mask="A" key="F10">maximize</Key>
+    <Key mask="A" key="Right">rdesktop</Key>
+    <Key mask="A" key="Left">ldesktop</Key>
+    <Key mask="A" key="Up">udesktop</Key>
+    <Key mask="A" key="Down">ddesktop</Key>
+
+    <Key mask="4" key="d">root:1</Key>
+    <Key mask="4" key="F2">exec:firefox-developer-edition</Key>
+    <Key mask="4" key="F3">exec:pcmanfm</Key>
+    <Key mask="4" key="F4">exec:galculator</Key>
+    <Key mask="4" key="Return">exec:kitty</Key>
+    <Key mask="4S" key="q">close</Key>
+    <Key mask="4S" key="F5">restart</Key>
+    <Key mask="4" key="Escape">exec:oblogout -c $HOME/my-configs/jwm/oblogout.conf</Key>
+
+    <StartupCommand>
+      ~/my-configs/autostart.sh
+    </StartupCommand>
+
+</JWM>
