@@ -102,21 +102,21 @@ keys = [
     Key([mod], "Return", lazy.spawn(App.terminal)),
     Key([mod], "F2", lazy.spawn(App.browser)),
     Key([mod], "F3", lazy.spawn(App.filemanager)),
-    Key([mod], "o", lazy.spawn(App.editor)),
+    Key([mod], "F4", lazy.spawn("galculator")),
     Key([mod], "F12", lazy.spawn(App.musicplayer)),
+    Key([mod], "o", lazy.spawn(App.editor)),
     Key([mod], "p", lazy.spawn(term_exec(["htop"]))),
     Key([mod, "shift"], "p", lazy.spawn(tmux_session("pomodoro"))),
-    Key([mod], "F4", lazy.spawn("galculator")),
     Key([mod], "i", lazy.spawn("pamac-manager")),
 
-    # Run an application (mod + backtick)
-    Key([mod], "grave", lazy.spawn('sh -c "dmenu_recency"')),
+    # Run an application
+    Key([mod], "d", lazy.spawn('sh -c "dmenu_recency"')),
 
     # Close application
     Key([mod, "shift"], "q", lazy.window.kill()),
 
     # Toggle bar
-    Key([mod], "t", lazy.function(hide_bar)),
+    Key([mod], "b", lazy.function(hide_bar)),
 
     # Lock screen
     Key([mod], "9", lazy.function(lock_screen)),
@@ -180,7 +180,7 @@ keys = [
     # Move between groups
     Key([mod], "g", lazy.screen.next_group()),
     Key([mod, "shift"], "g", lazy.screen.prev_group()),
-    Key([mod], "b", lazy.screen.toggle_group()),
+    Key([mod], "x", lazy.screen.toggle_group()),
 
     # Restart qtile
     Key([mod, "shift"], "F5", lazy.function(reload_config)),
