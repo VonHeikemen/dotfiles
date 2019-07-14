@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Dwm (dev)
+Comment=Dwm Session
+Exec=~/my-configs/startdwm
+Type=Application
+Keywords=wm;tiling

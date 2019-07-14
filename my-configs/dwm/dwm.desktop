@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Dwm
+Comment=Dwm Session
+Exec=dwm
+Type=Application
+Keywords=wm;tiling
