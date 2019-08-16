@@ -8,7 +8,7 @@ alias -- -='cd -'
 
 alias cp="cp -i"
 alias df='df -h'
-alias free='free -m'
+# alias free='free -m'
 
 alias ls='ls --color=auto'
 alias grep='grep --colour=auto'
@@ -37,7 +37,10 @@ alias doc-start="systemctl start docker"
 alias doc-ls="docker ps -a"
 
 alias la='exa --git --header --long --all'
+# alias la='ls -lAh'
 alias ic='node ~/code-stuff/check-internet/index.js "$(which chromium)" --stdout'
+
+alias yt="youtube-dl -f 'bestvideo[height<=720]+bestaudio/best[height<=720]'"
 
 alias qtr='qtile-cmd -o cmd -f restart'
 alias qtl='less +F ~/.local/share/qtile/qtile.log'
