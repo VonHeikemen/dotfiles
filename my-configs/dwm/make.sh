@@ -9,10 +9,9 @@ branches=(
   "attachbottom"
   "bottomstack"
   "noborder"
-  "singularborders"
   "hide_vacant_tags"
   "center"
-  "dullcenteredwindowname"
+  "dullbar"
 )
 
 fullclean() {
