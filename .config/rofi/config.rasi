@@ -2,6 +2,7 @@ configuration {
 	modi: "run,drun";
 	lines: 5;
 	theme: "onedark";
+	sort: true;
 /* terminal: "rofi-sensible-terminal"; */
 /*	width: 50;*/
 /*	columns: 1;*/
@@ -26,7 +27,6 @@ configuration {
 /*	drun-display-format: "{name} [<span weight='light' size='small'><i>({generic})</i></span>]";*/
 /*	disable-history: false;*/
 /*	ignored-prefixes: "";*/
-/*	sort: false;*/
 /*	sorting-method: ;*/
 /*	case-sensitive: false;*/
 /*	cycle: true;*/
