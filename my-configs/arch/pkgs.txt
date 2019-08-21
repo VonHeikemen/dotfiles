@@ -22,6 +22,11 @@ kitty
 xarchiver
 unrar
 unzip
+bzip2
+gzip
+p7zip
+tar
+zip
 pcmanfm
 gvfs
 gvfs-mtp
@@ -38,6 +43,7 @@ leafpad
 galculator
 lxappearance
 simple-scan
+rofi
 dmenu
 scrot
 deluge
