@@ -24,7 +24,7 @@
   bg:         #282c34;
 
   spacing: 0;
-  background-color: transparent;
+  background-color: #282c34dd;
 
   font: "Knack Nerd Font 14";
   text-color: @text;

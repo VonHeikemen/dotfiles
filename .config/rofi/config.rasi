@@ -1,8 +1,10 @@
 configuration {
-	modi: "run,drun";
-	lines: 5;
+	modi: "drun";
+	lines: 6;
 	theme: "onedark";
 	sort: true;
+	drun-match-fields: "name,exec";
+	drun-display-format: "{name}";
 /* terminal: "rofi-sensible-terminal"; */
 /*	width: 50;*/
 /*	columns: 1;*/
@@ -22,9 +24,7 @@ configuration {
 /*	window-command: "wmctrl -i -R {window}";*/
 /*	window-match-fields: "all";*/
 /*	icon-theme: ;*/
-/*	drun-match-fields: "name,generic,exec,categories";*/
 /*	drun-show-actions: false;*/
-/*	drun-display-format: "{name} [<span weight='light' size='small'><i>({generic})</i></span>]";*/
 /*	disable-history: false;*/
 /*	ignored-prefixes: "";*/
 /*	sorting-method: ;*/
