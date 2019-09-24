@@ -6,10 +6,6 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 zle -N edit-command-line
 
-
-# enable vi-mode
-bindkey -v
-
 # start typing + [Up-Arrow] - fuzzy find history forward
 bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
 
@@ -46,7 +42,7 @@ bindkey '^e' edit-command-line
 # [Backspace] - delete backward
 bindkey '^?' backward-delete-char
 
-# [Ctrl+e] - delete word
+# [Ctrl+w] - delete word
 bindkey -M viins '^W' backward-kill-word
 
 # [Ctrl+h] - delete backward 
