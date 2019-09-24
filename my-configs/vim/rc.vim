@@ -327,6 +327,7 @@ nnoremap ]or :set norelativenumber<CR>
 
 " Find pattern in directory
 nnoremap <Leader>F :Find<Space>
+xnoremap <Leader>F :<C-u>GetSelection<CR>:Find<Space><C-R>/
 
 " Find buffer under project root
 nnoremap <Leader>B :FindProjectBuffers<CR>
