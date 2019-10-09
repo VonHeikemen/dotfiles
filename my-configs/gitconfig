@@ -1,0 +1,13 @@
+[core]
+	excludesfile = ~/my-configs/gitignore
+[user]
+	email = some@example.com
+	name = Some name
+[alias]
+	ss = status
+	st = stash
+	stp = stash pop
+	ch = checkout
+	cm = commit -m
+	up = push origin
+	down = pull origin
