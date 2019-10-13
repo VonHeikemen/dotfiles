@@ -16,9 +16,8 @@ alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
 
+alias np="pnpm"
 alias npr="pnpm run"
-alias npi='pnpm install'
-alias npi-flat='pnpm install --shamefully-flatten'
 
 alias lzg="lazygit"
 
