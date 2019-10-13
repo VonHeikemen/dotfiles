@@ -152,8 +152,8 @@ if has('nvim-0.4')
     let width = float2nr(&columns * 0.6)
     " horizontal position (centralized)
     let horizontal = float2nr((&columns - width) / 2)
-    " vertical position (one line down of the top)
-    let vertical = 1
+    " vertical position
+    let vertical = height * 0.3
 
     let opts = {
           \ 'relative': 'editor',
