@@ -159,6 +159,21 @@
 		"command": "slurp_find_string",
 		"context": [ {"key": "setting.command_mode"} ]
 	},
+	{
+		"keys": [" ", "/"],
+		"command": "show_panel",
+		"args": {"panel": "find_in_files"},
+		"context": [
+			{"key": "setting.command_mode", "operand": true},
+			{"key": "setting.visual_mode", "operand": true}
+		]
+	},
+	{
+		"keys": [" ", "/"],
+		"command": "show_panel",
+		"args": {"panel": "find_in_files"},
+		"context": [ {"key": "setting.command_mode"} ]
+	},
 
 
 	// Plugin: AceJump
