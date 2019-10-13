@@ -127,9 +127,13 @@
 		"command": "toggle_tabs"
 	},
 	{
-		"keys": ["alt+u", "n"],
-		"command": "toggle_setting",
-		"args": {"setting": "line_numbers"}
+    "keys": ["alt+u", "n"],
+    "command": "toggle_setting",
+    "args": {"setting": "line_numbers"}
+  },
+  {
+		"keys": ["alt+u", "b"],
+		"command": "toggle_side_bar",
 	},
 	
 
