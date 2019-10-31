@@ -6,6 +6,7 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob
 
 alias -- -='cd -'
 
+alias cl='clear'
 alias cp="cp -i"
 alias df='df -h'
 # alias free='free -m'
