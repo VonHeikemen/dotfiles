@@ -57,11 +57,14 @@ bindkey '^[w' forward-word
 # [Alt+f] - find next occurrence of char
 bindkey '^[f' vi-find-next-char
 
-# [Alt+Shift+f] - find previous occurrence of char
-bindkey '^[F' vi-find-prev-char
+# [Alt+g] - find previous occurrence of char
+bindkey '^[g' vi-find-prev-char
 
-# [Alt+;] - repeat search
-bindkey '^[;' vi-repeat-find
+# [Alt+u] - repeat character search
+bindkey '^[u' vi-repeat-find
+
+# [Alt+i] - repeat character search (reverse)
+bindkey '^[i' vi-rev-repeat-find
 
 # [Backspace] - delete backward
 bindkey '^?' backward-delete-char
