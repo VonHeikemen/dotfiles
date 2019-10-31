@@ -36,11 +36,14 @@ bindkey '^[[1;5C' forward-word
 # [Ctrl+LeftArrow] - move backward one word
 bindkey '^[[1;5D' backward-word
 
-# [Ctrl+e] - use $EDITOR to write a command
-bindkey '^e' edit-command-line
+# [Ctrl+x-Ctrl+e] - use $EDITOR to write a command
+bindkey '^x^e' edit-command-line
 
 # [Backspace] - delete backward
 bindkey '^?' backward-delete-char
+
+# [Ctrl+l] - enter vi-mode
+# bindkey '^l' vi-cmd-mode
 
 # [Ctrl+w] - delete word
 bindkey -M viins '^W' backward-kill-word
