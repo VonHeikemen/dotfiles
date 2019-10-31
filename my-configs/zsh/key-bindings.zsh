@@ -39,6 +39,30 @@ bindkey '^[[1;5D' backward-word
 # [Ctrl+x-Ctrl+e] - use $EDITOR to write a command
 bindkey '^x^e' edit-command-line
 
+# [Alt+h] - move backward a character
+bindkey '^[h' backward-char
+
+# [Alt+l] - move forward a character
+bindkey '^[l' forward-char
+
+# [Alt+k] - fuzzy find history forward 
+bindkey '^[k' up-line-or-beginning-search
+
+# [Alt+j] - fuzzy find history backward 
+bindkey '^[j' down-line-or-beginning-search
+
+# [Alt+w] - move forward one word
+bindkey '^[w' forward-word
+
+# [Alt+f] - find next occurrence of char
+bindkey '^[f' vi-find-next-char
+
+# [Alt+Shift+f] - find previous occurrence of char
+bindkey '^[F' vi-find-prev-char
+
+# [Alt+;] - repeat search
+bindkey '^[;' vi-repeat-find
+
 # [Backspace] - delete backward
 bindkey '^?' backward-delete-char
 
