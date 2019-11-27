@@ -11,3 +11,8 @@
 	cm = commit -m
 	up = push origin
 	down = pull origin
+	graph = log --oneline --graph --decorate
+  stop-tracking = update-index --assume-unchanged
+  track-again = update-index --no-assume-unchanged
+  new-branch = checkout -b
+  list-alias = config --get-regexp ^alias\\.
