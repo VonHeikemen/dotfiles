@@ -84,6 +84,12 @@ bindkey -M viins '^U' backward-kill-line
 # [Slash] - search history with fzf
 bindkey -M vicmd '/' fzf-history-widget
 
+# [k] - fuzzy find history forward 
+bindkey -M vicmd 'k' up-line-or-beginning-search
+
+# [j] - fuzzy find history backward 
+bindkey -M vicmd 'j' down-line-or-beginning-search
+
 # Disable delay when changing modes
 export KEYTIMEOUT=1
 
