@@ -258,6 +258,11 @@ function! s:force_tab()
 endfunction
 
 function! s:set_indentation() abort
+  if &buftype ==# 'help' || bufname('%') ==# ''
+    echo ''
+    return
+  endif
+
   let l:guess = s:guess_indentation()
 
   if l:guess[0] ==# 'spaces'
