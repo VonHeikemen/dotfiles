@@ -7,7 +7,7 @@ command! -bang -nargs=* Find
 " Search buffers below the project root
 command! FindProjectBuffers
   \ call fzf#run(fzf#wrap({
-    \'source': map(ProjectBuffers(getcwd()), function('s:format_buffer')),
+    \'source': map(ProjectBuffers(), function('s:format_buffer')),
     \'sink*': function('s:bufopen'),
     \'options': ['+m', '--expect', 'ctrl-t,ctrl-v,ctrl-x']})) 
 
@@ -22,6 +22,14 @@ command! ProjectRootGuess call s:auto_project_root_cd()
 
 " Call file manager
 command! ExploreDir call s:explore_dir()
+
+" Override tab settings
+command! ForceTab call s:force_tab()
+
+" Guess buffer indentation
+command! GuessIndent call s:set_indentation()
+command! AutoGuessIndent call s:guess_indent()
+command! TabStatus call s:tab_indicator()
 
 " Called when switching between tabpages
 autocmd TabEnter * call s:auto_project_root_cd()
@@ -167,3 +175,115 @@ if has('nvim-0.4')
     call nvim_open_win(buf, v:true, opts)
   endfunction
 endif
+
+function! s:guess_indentation() abort
+  let l:sample_len = min([line('$'), float2nr(pow(2, 14))])
+  let l:sample = getline(1, l:sample_len)
+
+  let l:starts_with_tab = 0
+  let l:spaces_list = []
+  let l:indented_lines = 0
+  let l:line_count = 1
+
+  for line in sample
+    if len(line) is 0
+      continue
+    elseif line[0] =~# '^\t\+$'
+      " line starts with tab
+      let l:starts_with_tab += 1
+      let l:indented_lines += 1
+    elseif line[0] =~# '^\s\+$' 
+      " line starts with space
+      call add(l:spaces_list, indent(l:line_count))
+      let l:indented_lines += 1
+    endif
+    let l:line_count += 1
+  endfor
+
+  let l:evidence = [1.0, 1.0, 0.8, 0.9, 0.8, 0.9, 0.9, 0.95, 1.0]
+
+  if len(l:spaces_list) > l:starts_with_tab
+    let l:index = 8
+
+    while l:index >= 0
+      let l:same_indent = []
+
+      " create same_indent list
+      for x in l:spaces_list
+        if x % l:index == 0
+          call add(l:same_indent, x)
+        endif
+      endfor
+
+      if len(l:same_indent) >= l:evidence[l:index] * len(l:spaces_list)
+        return ["spaces", l:index]
+      endif
+
+      let l:index -= 1
+    endwhile
+
+    " start again
+    let l:index = 8
+
+    while l:index >= 0
+     let l:same_indent = []
+
+      " create same_indent list
+      for x in l:spaces_list
+        if x % l:index == 0 || x % indent == 1
+          call add(l:same_indent, x)
+        endif
+      endfor
+
+      if len(l:same_indent) >= l:evidence[l:index] * len(l:spaces_list)
+        return ["spaces", l:index]
+      endif
+
+      let l:index -= 2
+    endwhile
+
+  elseif l:starts_with_tab >= 0.75 * l:indented_lines
+    return ["tabs", 0]
+
+  endif
+  
+  return ["default", 0]
+endfunction
+
+function! s:force_tab()
+  set tabstop=4
+  set shiftwidth=0
+  set softtabstop=0
+  set noexpandtab
+endfunction
+
+function! s:set_indentation() abort
+  let l:guess = s:guess_indentation()
+
+  if l:guess[0] ==# 'spaces'
+    echo 'Setting indentation to' l:guess[1] 'spaces'
+    call setbufvar('', '&tabstop', l:guess[1])
+	  call setbufvar('', '&shiftwidth', l:guess[1])
+	  call setbufvar('', '&softtabstop', l:guess[1])
+    return
+  endif
+
+  if l:guess[0] ==# 'tabs'
+    echo 'Setting indentation to tabs'
+    call setbufvar('', '&tabstop', 4)
+    call setbufvar('', '&shiftwidth', 0)
+    call setbufvar('', '&softtabstop', 0)
+    return
+  endif
+
+  echo 'Unclear indentation'
+endfunction
+
+function! s:guess_indent() abort
+  autocmd BufAdd * call feedkeys(":GuessIndent\<CR>", 'n')
+endfunction
+
+function! s:tab_indicator() abort
+  let sw = &shiftwidth
+  echo 'sw=' sw 'ts=' &tabstop 
+endfunction

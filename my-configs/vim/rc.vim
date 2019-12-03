@@ -88,8 +88,6 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab
 
-" set runtimepath^=/usr/bin/fzf
-" set rtp+=/usr/bin/fzf
 
 " ============================================================================ "
 " ===                               PLUGINS                                === "
