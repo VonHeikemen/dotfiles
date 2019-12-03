@@ -31,6 +31,7 @@ alias pomd='tmux new-session -A -D -s pomodoro'
 alias pmd-start='pomd gone -e "notify-send -u critical Pomodoro Timeout"'
 
 alias vi-s="nvim -S Session.vim"
+alias wvim="nvim -c ':ForceTab' -c ':AutoGuessIndent' -S Session.vim"
 
 alias dcc="docker-compose"
 
