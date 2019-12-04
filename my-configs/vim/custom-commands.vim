@@ -25,6 +25,7 @@ command! ExploreDir call s:explore_dir()
 
 " Override tab settings
 command! ForceTab call s:force_tab()
+command! -nargs=+ UseSpaces call s:use_spaces(<f-args>)
 
 " Guess buffer indentation
 command! GuessIndent call s:set_indentation()
@@ -194,8 +195,13 @@ function! s:guess_indentation() abort
       let l:indented_lines += 1
     elseif line[0] =~# '^\s\+$' 
       " line starts with space
-      call add(l:spaces_list, indent(l:line_count))
-      let l:indented_lines += 1
+      let l:space_indent = indent(l:line_count)
+
+      if l:space_indent > 1
+        call add(l:spaces_list, l:space_indent)
+        let l:indented_lines += 1
+      endif
+
     endif
     let l:line_count += 1
   endfor
@@ -270,6 +276,7 @@ function! s:set_indentation() abort
     call setbufvar('', '&tabstop', l:guess[1])
 	  call setbufvar('', '&shiftwidth', l:guess[1])
 	  call setbufvar('', '&softtabstop', l:guess[1])
+	  call setbufvar('', '&expandtab', 1)
     return
   endif
 
@@ -278,6 +285,7 @@ function! s:set_indentation() abort
     call setbufvar('', '&tabstop', 4)
     call setbufvar('', '&shiftwidth', 0)
     call setbufvar('', '&softtabstop', 0)
+    call setbufvar('', '&expandtab', 0)
     return
   endif
 
@@ -292,3 +300,11 @@ function! s:tab_indicator() abort
   let sw = &shiftwidth
   echo 'sw=' sw 'ts=' &tabstop 
 endfunction
+
+function! s:use_spaces(size) abort
+  call setbufvar('', '&tabstop', a:size)
+  call setbufvar('', '&shiftwidth', a:size)
+  call setbufvar('', '&softtabstop', a:size)
+  call setbufvar('', '&expandtab', 1)
+endfunction
+
