@@ -1,15 +1,10 @@
-" Find in files command
-command! -bang -nargs=* Find
-  \ call fzf#vim#grep(
-    \ 'rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --color "always" '.shellescape(<q-args>), 1,
-    \ <bang>0)
-
 " Search buffers below the project root
-command! FindProjectBuffers
+command! FindProjectBuffers 
   \ call fzf#run(fzf#wrap({
-    \'source': map(ProjectBuffers(), function('s:format_buffer')),
-    \'sink*': function('s:bufopen'),
-    \'options': ['+m', '--expect', 'ctrl-t,ctrl-v,ctrl-x']})) 
+  \   'source': map(ProjectBuffers(getcwd()), 's:format_buffer(v:val)'),
+  \   'sink*': function('s:bufopen'),
+  \   'options': ['+m', '--expect', 'ctrl-t,ctrl-v,ctrl-x']
+  \ }))
 
 " Show syntax id
 command! SyntaxQuery call s:syntax_query()
@@ -17,23 +12,14 @@ command! SyntaxQuery call s:syntax_query()
 " Get visually selected text
 command! GetSelection call s:get_selection('/')
 
-" Change window working directory
-command! ProjectRootGuess call s:auto_project_root_cd() 
-
 " Call file manager
 command! ExploreDir call s:explore_dir()
 
 " Override tab settings
 command! ForceTab call s:force_tab()
 command! -nargs=+ UseSpaces call s:use_spaces(<f-args>)
-
-" Guess buffer indentation
-command! GuessIndent call s:set_indentation()
-command! AutoGuessIndent call s:guess_indent()
+command! UseTabs call s:use_tabs()
 command! TabStatus call s:tab_indicator()
-
-" Called when switching between tabpages
-autocmd TabEnter * call s:auto_project_root_cd()
 
 " Called when opening a file
 augroup syntaxOverride
@@ -77,17 +63,6 @@ function! s:python_syntax_override()
   hi! link pythonConstant Boolean
 endfunction
 
-" Guess project root of current buffer
-function! s:auto_project_root_cd()
-  try
-    if &ft != 'help'
-      ProjectRootLCD
-    endif
-  catch
-    " Silently ignore invalid buffers
-  endtry
-endfunction
-
 " Returns visually selected text
 " taken from https://github.com/rafi/vim-config
 function! s:get_selection(cmdtype) "{{{
@@ -98,15 +73,14 @@ function! s:get_selection(cmdtype) "{{{
 endfunction "}}}
 
 " Return formatted buffer name
-function! s:format_buffer(key, val)
-  let index = '[%' . len(bufnr('$')) . 'd]'
+function! s:format_buffer(val)
   let name = fnamemodify(a:val, ':p:~:.')
   let bufnum = bufnr(a:val)
   let flag = bufnr('') == bufnum ? '%' 
     \ : bufnr('#') == bufnum ? '#'
-    \ : '-'
+    \ : ' '
 
-  return printf(index . ' %s %s', bufnum, flag, name)
+  return printf("[%d] %s\t%s", bufnum, flag, name)
 endfunction
 
 " Handle open selected file
@@ -134,10 +108,14 @@ endfunction
 " Handle file manager call
 function! s:explore_dir()
   try
-    exe 'Vaffle %:~:h'
+    if isdirectory( expand('%:p:h') )
+      exe 'Vaffle %:~:h'
+    else
+      echo 'Not a valid directory'
+    endif
   catch
-    exe 'Vaffle'
   endtry
+
 endfunction
 
 " Test floating windows
@@ -177,125 +155,6 @@ if has('nvim-0.4')
   endfunction
 endif
 
-function! s:guess_indentation() abort
-  let l:sample_len = min([line('$'), float2nr(pow(2, 14))])
-  let l:sample = getline(1, l:sample_len)
-
-  let l:starts_with_tab = 0
-  let l:spaces_list = []
-  let l:indented_lines = 0
-  let l:line_count = 1
-
-  for line in sample
-    if len(line) is 0
-      continue
-    elseif line[0] =~# '^\t\+$'
-      " line starts with tab
-      let l:starts_with_tab += 1
-      let l:indented_lines += 1
-    elseif line[0] =~# '^\s\+$' 
-      " line starts with space
-      let l:space_indent = indent(l:line_count)
-
-      if l:space_indent > 1
-        call add(l:spaces_list, l:space_indent)
-        let l:indented_lines += 1
-      endif
-
-    endif
-    let l:line_count += 1
-  endfor
-
-  let l:evidence = [1.0, 1.0, 0.8, 0.9, 0.8, 0.9, 0.9, 0.95, 1.0]
-
-  if len(l:spaces_list) > l:starts_with_tab
-    let l:index = 8
-
-    while l:index >= 0
-      let l:same_indent = []
-
-      " create same_indent list
-      for x in l:spaces_list
-        if x % l:index == 0
-          call add(l:same_indent, x)
-        endif
-      endfor
-
-      if len(l:same_indent) >= l:evidence[l:index] * len(l:spaces_list)
-        return ["spaces", l:index]
-      endif
-
-      let l:index -= 1
-    endwhile
-
-    " start again
-    let l:index = 8
-
-    while l:index >= 0
-     let l:same_indent = []
-
-      " create same_indent list
-      for x in l:spaces_list
-        if x % l:index == 0 || x % indent == 1
-          call add(l:same_indent, x)
-        endif
-      endfor
-
-      if len(l:same_indent) >= l:evidence[l:index] * len(l:spaces_list)
-        return ["spaces", l:index]
-      endif
-
-      let l:index -= 2
-    endwhile
-
-  elseif l:starts_with_tab >= 0.75 * l:indented_lines
-    return ["tabs", 0]
-
-  endif
-  
-  return ["default", 0]
-endfunction
-
-function! s:force_tab()
-  set tabstop=4
-  set shiftwidth=0
-  set softtabstop=0
-  set noexpandtab
-endfunction
-
-function! s:set_indentation() abort
-  if &buftype ==# 'help' || bufname('%') ==# ''
-    echo ''
-    return
-  endif
-
-  let l:guess = s:guess_indentation()
-
-  if l:guess[0] ==# 'spaces'
-    echo 'Setting indentation to' l:guess[1] 'spaces'
-    call setbufvar('', '&tabstop', l:guess[1])
-	  call setbufvar('', '&shiftwidth', l:guess[1])
-	  call setbufvar('', '&softtabstop', l:guess[1])
-	  call setbufvar('', '&expandtab', 1)
-    return
-  endif
-
-  if l:guess[0] ==# 'tabs'
-    echo 'Setting indentation to tabs'
-    call setbufvar('', '&tabstop', 4)
-    call setbufvar('', '&shiftwidth', 0)
-    call setbufvar('', '&softtabstop', 0)
-    call setbufvar('', '&expandtab', 0)
-    return
-  endif
-
-  echo 'Unclear indentation'
-endfunction
-
-function! s:guess_indent() abort
-  autocmd BufAdd * call feedkeys(":GuessIndent\<CR>", 'n')
-endfunction
-
 function! s:tab_indicator() abort
   let sw = &shiftwidth
   echo 'sw=' sw 'ts=' &tabstop 
@@ -306,5 +165,12 @@ function! s:use_spaces(size) abort
   call setbufvar('', '&shiftwidth', a:size)
   call setbufvar('', '&softtabstop', a:size)
   call setbufvar('', '&expandtab', 1)
+endfunction
+
+function! s:use_tabs() abort
+  call setbufvar('', '&tabstop', 4)
+  call setbufvar('', '&shiftwidth', 0)
+  call setbufvar('', '&softtabstop', 0)
+  call setbufvar('', '&expandtab', 0)
 endfunction
 

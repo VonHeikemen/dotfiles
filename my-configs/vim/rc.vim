@@ -324,14 +324,14 @@ nnoremap ]or :set norelativenumber<CR>
 " ============================================================================ "
 
 " Find pattern in directory
-nnoremap <Leader>F :Find<Space>
-xnoremap <Leader>F :<C-u>GetSelection<CR>:Find<Space><C-R>/
+nnoremap <Leader>F :Rg<Space>
+xnoremap <Leader>F :<C-u>GetSelection<CR>:Rg<Space><C-R>/
 
 " Find buffer under project root
 nnoremap <Leader>B :FindProjectBuffers<CR>
 
 " Switch working directory to project root
-nnoremap <Leader>dg :ProjectRootGuess<CR>:pwd<CR>
+nnoremap <Leader>dg :ProjectRootLCD<CR>:pwd<CR>
 
 " Open file manager
 nnoremap <Leader>da :ExploreDir<CR>
