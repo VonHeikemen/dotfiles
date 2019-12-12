@@ -3,8 +3,12 @@ export EDITOR="nvim"
 export PYTHONUSERBASE=~/.local
 export TERMINAL='kitty'
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!cache/*" --glob "!node_modules/*"'
+export FZF_DEFAULT_OPTS='--layout=reverse --border' 
 
 alias -- -='cd -'
+alias c2='cd ../..'
+alias c3='cd ../../..'
+alias c4='cd ../../../..'
 
 alias cl='clear'
 alias cp="cp -i"
@@ -31,7 +35,7 @@ alias pomd='tmux new-session -A -D -s pomodoro'
 alias pmd-start='pomd gone -e "notify-send -u critical Pomodoro Timeout"'
 
 alias vi-s="nvim -S Session.vim"
-alias wvim="nvim -c ':ForceTab' -c ':AutoGuessIndent' -S Session.vim"
+alias vff='nvim $(fzf)'
 
 alias dcc="docker-compose"
 
