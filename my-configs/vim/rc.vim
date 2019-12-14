@@ -88,7 +88,6 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab
 
-
 " ============================================================================ "
 " ===                               PLUGINS                                === "
 " ============================================================================ "
@@ -134,7 +133,6 @@ Plug 'wellle/targets.vim'
 Plug 'moll/vim-bbye'
 Plug 'justinmk/vim-sneak'
 Plug 'dbakker/vim-projectroot'
-Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'unblevable/quick-scope'
 Plug 'dhruvasagar/vim-zoom'
@@ -154,9 +152,6 @@ let g:python_space_error_highlight = 1
 
 " FZF
 let $FZF_DEFAULT_OPTS='--layout=reverse'
-
-" Sleuth
-let g:sleuth_automatic = 0
 
 " Emmet
 let g:user_emmet_leader_key = '<C-A>'
@@ -219,12 +214,6 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 nnoremap # #zz
 nnoremap * *zz
-
-" Use tab for indenting
-vnoremap <M-Tab> >gv|
-vnoremap <S-Tab> <gv
-nmap <M-Tab>   >>_
-nmap <S-Tab> <<_
 
 " ============================================================================ "
 " ===                           COMMAND MAPPINGS                           === "
@@ -335,8 +324,6 @@ nnoremap <Leader>dg :ProjectRootLCD<CR>:pwd<CR>
 
 " Open file manager
 nnoremap <Leader>da :ExploreDir<CR>
-nnoremap <Leader>de :vsplit \| ExploreDir<CR>
-nnoremap <Leader>ds :split \| ExploreDir<CR>
 nnoremap <Leader>dd :Vaffle<CR>
 
 " Begin search & replace using the selected text
@@ -350,18 +337,6 @@ vnoremap <Leader>y :<C-u>GetSelection<CR>gv
 
 " Close buffer while preserving the layout
 nnoremap <Leader>bc :Bdelete<CR>
-
-" Put content in register 'a'
-vnoremap cay "ay
-
-" Extract content from register 'a'
-nnoremap cap "ap
-
-" Replace selected text with register 'a'
-vnoremap cap d"ap
-
-" Delete and put content in register 'a'
-vnoremap cad "ad
 
 " Prevent vim-sneak from hijacking ; and ,
 nmap <M-;> <Plug>Sneak_;
