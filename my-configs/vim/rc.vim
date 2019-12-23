@@ -136,6 +136,7 @@ Plug 'dbakker/vim-projectroot'
 Plug 'tpope/vim-surround'
 Plug 'unblevable/quick-scope'
 Plug 'dhruvasagar/vim-zoom'
+Plug 'Lenovsky/nuake'
 
 call plug#end()
 
@@ -178,6 +179,10 @@ let g:sneak#s_next = 1
 
 " Theme
 colorscheme rubber-enhanced
+
+" Nuake
+let g:nuake_position = 'right'
+let g:nuake_size = 0.30
 
 " ============================================================================ "
 " ===                             KEY MAPPINGS                             === "
@@ -330,7 +335,18 @@ nnoremap <Leader>dd :Vaffle<CR>
 xnoremap <Leader>r :<C-u>GetSelection<CR>:%s/\V<C-R>=@/<CR>//gc<Left><Left><Left>
 
 " Open terminal
-nnoremap <Leader><CR> :exe has('nvim') ? 'vsplit \| term' : 'vert term'<CR>
+nnoremap <F4> :Nuake<CR>
+inoremap <F4> <C-\><C-n>:Nuake<CR>
+tnoremap <F4> <C-\><C-n>:Nuake<CR>
+nnoremap <Leader>ql :let g:nuake_position='right' \| Nuake<CR>
+nnoremap <Leader>qj :let g:nuake_position='bottom' \| Nuake<CR>
+
+" Zoom split
+nnoremap <F5> <C-\><C-n>:call zoom#toggle()<CR><Esc>
+tnoremap <F5> <C-\><C-n>:call zoom#toggle()<CR><C-\><C-n>i
+
+" Use tmux inside terminal
+tnoremap <M-v> tmux new-session -A -D -s vi<CR>
 
 " Put selected text in register '/'
 vnoremap <Leader>y :<C-u>GetSelection<CR>gv
