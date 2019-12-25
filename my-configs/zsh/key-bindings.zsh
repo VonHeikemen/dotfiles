@@ -69,6 +69,30 @@ bindkey '^[i' vi-rev-repeat-find
 # [Backspace] - delete backward
 bindkey '^?' backward-delete-char
 
+# [Ctrl+k] - delete line
+bindkey '^K' kill-line
+
+# [Ctrl+a] - Go to beginning of line
+bindkey '^A' beginning-of-line
+
+# [Ctrl+e] - Go to end of line
+bindkey '^E'  end-of-line
+
+# [Ctrl+b] - move backward a character
+bindkey '^B' backward-char
+
+# [Ctrl+f] - move forward a character
+bindkey '^F' forward-char
+
+# [Alt+f] - move forward one word
+bindkey '^[f' forward-word
+
+# [Alt+b] - move backward one word
+bindkey '^[b' backward-word
+
+# Unbind Alt
+bindkey -r '^['
+
 # [Ctrl+l] - enter vi-mode
 # bindkey '^l' vi-cmd-mode
 
