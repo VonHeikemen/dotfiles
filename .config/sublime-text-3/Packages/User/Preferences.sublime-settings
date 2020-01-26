@@ -16,6 +16,7 @@
 	"ignored_packages":
 	[
 		"GitGutter",
+		"NvMode",
 		"Rust",
 		"Rust Enhanced",
 		"Vintage"
