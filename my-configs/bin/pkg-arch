@@ -1,0 +1,72 @@
+#! /usr/bin/env sh
+
+if [ -z "$1" ];then
+  echo 'no arguments provided'
+  exit 1
+fi
+
+cmd=$1; shift
+
+if [ "$cmd" = 'upgrade' ];then
+  echo 'sudo pacman -Syu'
+  sudo pacman -Syu
+  exit 0
+fi
+
+if [ "$cmd" = 'refresh' ];then
+  echo 'sudo pacman -Sy'
+  sudo pacman -Sy
+  exit 0
+fi
+
+if [ "$cmd" = 'search' ];then
+  echo "pacman -Ss $@"
+  pacman -Ss $@
+  exit 0
+fi
+
+if [ "$cmd" = 'search-local' ];then
+  echo "pacman -Qs $@"
+  pacman -Qs $@
+  exit 0
+fi
+
+if [ "$cmd" = 'info' ];then
+  echo "pacman -Si $@"
+  pacman -Si $@
+  exit 0
+fi
+
+if [ "$cmd" = 'info-local' ];then
+  echo "pacman -Qi $@"
+  pacman -Qi $@
+  exit 0
+fi
+
+if [ "$cmd" = 'install' ];then
+  echo "sudo pacman -S $@"
+  sudo pacman -S $@
+  exit 0
+fi
+
+if [ "$cmd" = 'install-local' ];then
+  echo "sudo pacman -U $@"
+  sudo pacman -U $@
+  exit 0
+fi
+
+if [ "$cmd" = 'remove' ];then
+  echo "sudo pacman -Rns $@"
+  sudo pacman -Rns $@
+  exit 0
+fi
+
+if [ "$cmd" = 'remove-just' ];then
+  echo "sudo pacman -R $@"
+  sudo pacman -R $@
+  exit 0
+fi
+
+echo 'invalid command'
+exit 1
+
