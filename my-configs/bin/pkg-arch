@@ -67,6 +67,65 @@ if [ "$cmd" = 'remove-just' ];then
   exit 0
 fi
 
+if [ "$cmd" = '--show-commands' ];then
+  echo "  upgrade:          sudo pacman -Syu
+  refresh:          sudo pacman -Sy
+  search:           pacman -Ss [args]
+  search-local:     pacman -Qs [args]
+  info:             pacman -Si [args]
+  info-local:       pacman -Qi [args]
+  install:          sudo pacman -S [args]
+  install-local:    sudo pacman -U [args]
+  remove:           sudo pacman -Rns [args]
+  remove-just:      sudo pacman -R [args]"
+  exit 0
+fi
+
+if [ "$cmd" = '--help' ];then
+  echo "  pac - package manager helper.
+
+  USAGE
+    pac [COMMAND] [ARGS]
+  
+  COMMANDS
+    upgrade:
+      Sync with repositories before upgrading packages.
+
+    refresh:
+      Update and refresh the local package database.
+
+    search:
+      Search for packages in the repositories.
+
+    search-local:
+     Search for packages in the local database 
+
+    info:
+      Display information about a package in the repositories.
+
+    info-local:
+      Display information about a package in the local database.
+
+    install:
+      Install packages from the repositories.
+
+    install-local:
+      Install a package from a local file.
+
+    remove:
+      Remove packages, including its settings and dependencies.
+
+    remove-just:
+      Remove packages, keeping its settings and dependencies.
+
+    --help:
+      Display usage information.
+
+    --show-commands
+      Display a list of available commands and their underlying command to be executed."
+  exit 0
+fi
+
 echo 'invalid command'
 exit 1
 
