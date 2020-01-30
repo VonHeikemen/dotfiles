@@ -68,24 +68,24 @@ if [ "$cmd" = 'remove-just' ];then
 fi
 
 if [ "$cmd" = '--show-commands' ];then
-  echo "  upgrade:          sudo pacman -Syu
-  refresh:          sudo pacman -Sy
-  search:           pacman -Ss [args]
-  search-local:     pacman -Qs [args]
-  info:             pacman -Si [args]
-  info-local:       pacman -Qi [args]
-  install:          sudo pacman -S [args]
-  install-local:    sudo pacman -U [args]
-  remove:           sudo pacman -Rns [args]
-  remove-just:      sudo pacman -R [args]"
+  echo "  upgrade          : sudo pacman -Syu
+  refresh          : sudo pacman -Sy
+  search           : pacman -Ss [args]
+  search-local     : pacman -Qs [args]
+  info             : pacman -Si [args]
+  info-local       :  pacman -Qi [args]
+  install          : sudo pacman -S [args]
+  install-local    : sudo pacman -U [args]
+  remove           : sudo pacman -Rns [args]
+  remove-just      : sudo pacman -R [args]"
   exit 0
 fi
 
 if [ "$cmd" = '--help' ];then
-  echo "  pac - package manager helper.
+  echo "  pkg-arch - package manager helper.
 
   USAGE
-    pac [COMMAND] [ARGS]
+    pkg-arch [COMMAND] [ARGS]
   
   COMMANDS
     upgrade:
