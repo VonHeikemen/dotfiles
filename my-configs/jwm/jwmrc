@@ -4,27 +4,26 @@
     <!-- The root menu. -->
     <RootMenu onroot="12">
         <Program icon="terminal.svg" label="Terminal">kitty</Program>
-        <Program icon="thunar.svg" label="Filemanager">pcmanfm</Program>
-        <Program icon="firefox.svg" label="Browser">firefox-developer-edition</Program>
-        <Menu icon="deepin-launcher.svg" label="Applications">
+        <Program icon="thunar.svg" label="Archivos">pcmanfm</Program>
+        <Program icon="firefox.svg" label="Internet">firefox-developer-edition</Program>
+        <Menu icon="deepin-launcher.svg" label="Aplicaciones">
           <Include>$HOME/my-configs/jwm/jwmenu</Include>
         </Menu>
-        <Menu icon="deepin-manual.svg" label="Utilities">
-            <Program icon="font.png" label="Fonts">xfontsel</Program>
-            <Program icon="window.png" label="Window Properties">
-                xprop | xmessage -file -
+        <Menu icon="deepin-manual.svg" label="Utilidades">
+            <Program label="Instalar/Actualizar programas">
+                pamac-manager
             </Program>
-            <Program icon="window.png" label="Window Information">
-                xwininfo | xmessage -file -
+            <Program label="Actualizar menú">
+                xdgmenumaker -n -i -f jwm > ~/my-configs/jwm/jwmenu
             </Program>
+            <Restart label="Reinciar jwm" icon="restart.png"/>
         </Menu>
         <Separator/>
-        <Program icon="kgpg.svg" label="Lock">
+        <Program icon="kgpg.svg" label="Bloquear">
             blurlock
         </Program>
         <Separator/>
-        <Restart label="Restart" icon="restart.png"/>
-        <Program label="Exit">
+        <Program label="Salir">
           oblogout -c $HOME/my-configs/jwm/oblogout.conf
         </Program>
     </RootMenu>
@@ -39,7 +38,7 @@
 
         <TaskList maxwidth="256"/>
 
-        <Clock format="%H:%M"><Button mask="123">exec:xclock</Button></Clock>
+        <Clock format="%l:%M %p"><Button mask="123">exec:xclock</Button></Clock>
         <Dock/>
         <TrayButton icon="gshutdown.svg">
           exec: oblogout -c $HOME/my-configs/jwm/oblogout.conf
@@ -177,7 +176,8 @@
     <Key mask="A" key="Up">udesktop</Key>
     <Key mask="A" key="Down">ddesktop</Key>
 
-    <Key mask="4" key="d">root:1</Key>
+    <Key mask="4" key="a">root:1</Key>
+    <Key mask="4" key="d">exec:rofi -show drun</Key>
     <Key mask="4" key="F2">exec:firefox-developer-edition</Key>
     <Key mask="4" key="F3">exec:pcmanfm</Key>
     <Key mask="4" key="F4">exec:galculator</Key>
