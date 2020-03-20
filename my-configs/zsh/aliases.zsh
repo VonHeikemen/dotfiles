@@ -1,4 +1,4 @@
-export PATH=$HOME/.npm-packages/bin:$PATH
+export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
 export EDITOR='nvim'
 export PYTHONUSERBASE=~/.local
 export TERMINAL='kitty'
@@ -7,6 +7,7 @@ export FZF_DEFAULT_OPTS='--layout=reverse --border'
 export BAT_THEME='base16'
 
 alias -- -='cd -'
+alias c1='cd ..'
 alias c2='cd ../..'
 alias c3='cd ../../..'
 alias c4='cd ../../../..'
@@ -44,4 +45,9 @@ alias la='exa --git --header --long --all'
 
 alias yt="youtube-dl -f 'bestvideo[height<=720]+bestaudio/best[height<=720]'"
 alias dot='yadm'
+
+newdir() {
+  mkdir $1
+  cd $1
+}
 
