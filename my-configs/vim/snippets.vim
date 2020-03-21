@@ -7,6 +7,21 @@
 :autocmd FileType php
   \ :iabbrev <buffer> vd@ echo var_dump(); die();<Esc>2F)i
 
+:autocmd FileType php
+  \ :iabbrev <buffer> pfun@ public function()<CR>{<CR>}<Esc>%kffwi
+
+:autocmd FileType php
+  \ :iabbrev <buffer> prfun@ private function()<CR>{<CR>}<Esc>%kffwi
+
+:autocmd FileType php
+  \ :iabbrev <buffer> for@ for($i=0; $i <; $i++) {<CR>}<Esc>%F<a
+
+:autocmd FileType php
+  \ :iabbrev <buffer> fore@ foreach(z as $key => $value) {<CR>}<Esc>%Fzxi
+
+:autocmd FileType php
+  \ :iabbrev <buffer> sw@ switch(z)<CR>{<CR>}<Up><CR>case :<CR><BS>break;<CR><CR>default:<CR><BS><TAB>break;<Esc>vi{>><Esc>kkfzxi
+
 :autocmd FileType javascript,vue
   \ :iabbrev <buffer> con@ console.log();<Left><Left>
 
