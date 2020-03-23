@@ -37,5 +37,8 @@
 :autocmd FileType php,twig,html,javascript,vue
   \ :iabbrev <buffer> eli@ else {<CR>}<Esc>%iif() <Left><Left>
 
+:autocmd FileType twig,html,javascript,vue
+  \ :iabbrev <buffer> sw@ switch(z) {<CR>}<Up><End><CR>case :<CR><BS>break;<CR><CR>default:<CR><BS>break;<Esc>j%Fzxi
+
 :autocmd FileType php,twig,html,javascript,vue
   \ :iabbrev <buffer> fun@ function() {<CR>}<Esc>%F(i
