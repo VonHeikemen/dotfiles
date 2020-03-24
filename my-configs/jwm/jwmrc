@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <JWM>
-
     <!-- The root menu. -->
     <RootMenu onroot="12">
         <Program icon="terminal.svg" label="Terminal">kitty</Program>
@@ -24,7 +23,7 @@
         </Program>
         <Separator/>
         <Program label="Salir">
-          oblogout -c $HOME/my-configs/jwm/oblogout.conf
+          powermenu $HOME/my-configs/jwm/powermenu.conf
         </Program>
     </RootMenu>
 
@@ -41,7 +40,7 @@
         <Clock format="%l:%M %p"><Button mask="123">exec:xclock</Button></Clock>
         <Dock/>
         <TrayButton icon="gshutdown.svg">
-          exec: oblogout -c $HOME/my-configs/jwm/oblogout.conf
+          exec: powermenu $HOME/my-configs/jwm/powermenu.conf
         </TrayButton>
 
     </Tray>
@@ -184,10 +183,9 @@
     <Key mask="4" key="Return">exec:kitty</Key>
     <Key mask="4S" key="q">close</Key>
     <Key mask="4S" key="F5">restart</Key>
-    <Key mask="4" key="Escape">exec:oblogout -c $HOME/my-configs/jwm/oblogout.conf</Key>
+    <Key mask="4" key="Escape">exec:powermenu $HOME/my-configs/jwm/powermenu.conf</Key>
 
     <StartupCommand>
       ~/my-configs/autostart.sh
     </StartupCommand>
-
 </JWM>
