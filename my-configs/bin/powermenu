@@ -1,0 +1,56 @@
+#! /usr/bin/env sh
+
+# Config
+config_path="$1"
+
+if [ ! -e "$config_path"  ]
+then
+   notify-send --urgency critical "$1" "no es un archivo"
+   exit 1
+fi
+
+get_command() {
+   cmd=`grep -o "$1=.*" $2 | cut -d= -f2`
+
+   if [ -z "$cmd" ]
+   then
+       notify-send --urgency critical "No se encontró el comando '$1'" "en $2"
+       exit 1
+   fi
+
+   `$cmd`
+}
+
+# Options
+shutdown="1 - Apagar"
+restart="2 - Reiniciar"
+lock="3 - Bloquear"
+suspend="4 - Suspender"
+logout="5 - Cerrar sesión"
+
+# rofi options
+rofi_command='rofi -dmenu -theme-str #inputbar{children:[prompt,entry];}'
+
+options="$shutdown\n$restart\n$lock\n$suspend\n$logout"
+
+chosen="$(echo -e "$options" | $rofi_command -p "Elija una opción:" -selected-row 2)"
+case $chosen in
+    $shutdown)
+        get_command "shutdown" "$config_path"
+        ;;
+    $restart)
+        get_command "restart" "$config_path"
+        ;;
+    $lock)
+        get_command "lock" "$config_path"
+        ;;
+    $suspend)
+        get_command "suspend" "$config_path"
+        ;;
+    $logout)
+        get_command "logout" "$config_path"
+        ;;
+    *)
+        exit 1
+        ;;
+esac
