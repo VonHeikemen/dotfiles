@@ -67,17 +67,31 @@ if [ "$cmd" = 'remove-just' ];then
   exit 0
 fi
 
+if [ "$cmd" = 'clean-cache' ];then
+  echo "sudo pacman -Sc"
+  sudo pacman -Sc
+  exit 0
+fi
+
+if [ "$cmd" = 'destroy-cache' ];then
+  echo "sudo pacman -Scc"
+  sudo pacman -Scc
+  exit 0
+fi
+
 if [ "$cmd" = '--show-commands' ];then
   echo "  upgrade          : sudo pacman -Syu
   refresh          : sudo pacman -Sy
   search           : pacman -Ss [args]
   search-local     : pacman -Qs [args]
   info             : pacman -Si [args]
-  info-local       :  pacman -Qi [args]
+  info-local       : pacman -Qi [args]
   install          : sudo pacman -S [args]
   install-local    : sudo pacman -U [args]
   remove           : sudo pacman -Rns [args]
-  remove-just      : sudo pacman -R [args]"
+  remove-just      : sudo pacman -R [args]
+  clean-cache      : sudo pacman -Sc
+  destroy-cache    : sudo pacman -Scc"
   exit 0
 fi
 
@@ -117,6 +131,12 @@ if [ "$cmd" = '--help' ];then
 
     remove-just:
       Remove packages, keeping its settings and dependencies.
+
+    clean-cache:
+      Remove all cached versions of uninstalled packages.
+
+    destroy-cache:
+      Completely remove all packages (Whether they are installed or uninstalled) from the cache.
 
     --help:
       Display usage information.
