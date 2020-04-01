@@ -128,7 +128,7 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 
 " Snippets
 Plug 'tpope/vim-commentary'
-Plug 'mattn/emmet-vim', { 'for': ['javascript', 'vue', 'html', 'php'] }
+Plug 'mattn/emmet-vim', { 'for': ['javascript', 'vue', 'html', 'twig', 'php'] }
 Plug 'jiangmiao/auto-pairs'
 
 " Utilities
@@ -156,11 +156,7 @@ let g:python_space_error_highlight = 1
 
 " FZF
 let $FZF_DEFAULT_OPTS='--layout=reverse'
-
-" Emmet
-let g:user_emmet_leader_key = '<C-A>'
-let g:user_emmet_install_global = 0
-autocmd FileType html,javascript,vue,php EmmetInstall
+let g:fzf_preview_window = ''
 
 " Auto-pairs
 let g:AutoPairsMapBS = 0
