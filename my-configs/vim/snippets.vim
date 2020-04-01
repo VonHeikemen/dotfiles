@@ -42,3 +42,25 @@
 
 :autocmd FileType php,twig,html,javascript,vue
   \ :iabbrev <buffer> fun@ function() {<CR>}<Esc>%F(i
+
+:autocmd FileType markdown,md
+  \ :iabbrev <buffer> `@ ```<CR><Up><End><CR>
+
+:autocmd FileType markdown,md
+  \ :iabbrev <buffer> js@ ```<CR><Up><End>js<CR>
+
+:autocmd FileType markdown,md
+  \ :iabbrev <buffer> sh@ ```<CR><Up><End>sh<CR>
+
+:autocmd FileType markdown,md
+  \ :iabbrev <buffer> html@ ```<CR><Up><End>html<CR>
+
+:autocmd FileType markdown,md
+  \ :iabbrev <buffer> css@ ```<CR><Up><End>css<CR>
+
+:autocmd FileType markdown,md
+  \ :iabbrev <buffer> +dv@ +++<CR><CR>+++<Up>title = <CR>description = ""<CR>date = <CR>lang = ""<CR>[taxonomies]<CR>tags = []<Esc>5ki " 
+
+:autocmd FileType markdown,md
+  \ :iabbrev <buffer> -dv@ ---<CR><CR>---<Up>title:<CR>published: false<CR>description: <CR>tags: <Esc>3ka
+
