@@ -103,27 +103,6 @@ function! s:bufopen(lines)
   exe cmd name
 endfunction
 
-" Add mappings to vaffle
-function! s:customize_vaffle_mappings() abort
-  nmap <buffer> <CR> :
-  nmap <buffer> e <Plug>(vaffle-open-selected)
-  nmap <buffer> s <Plug>(vaffle-open-selected-split)
-  nmap <buffer> v <Plug>(vaffle-open-selected-vsplit)
-endfunction
-
-" Handle file manager call
-function! s:explore_dir()
-  try
-    if isdirectory( expand('%:p:h') )
-      exe 'Vaffle %:p:h'
-    else
-      echo 'Not a valid directory'
-    endif
-  catch
-  endtry
-
-endfunction
-
 " Test floating windows
 if has('nvim-0.4')
   if !exists(':FZF')
@@ -181,7 +160,7 @@ function! s:use_tabs() abort
 endfunction
 
 function! s:guess_indent() abort
-  autocmd BufAdd * call feedkeys(":GuessIndent\<CR>", 'n')
+  autocmd BufAdd * call feedkeys(":GuessIndent\<CR>", 'n') 
 endfunction
 
 " taken from Tim Pope's vim-sleuth

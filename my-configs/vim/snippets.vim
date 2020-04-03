@@ -25,22 +25,22 @@
 :autocmd FileType javascript,vue
   \ :iabbrev <buffer> con@ console.log();<Left><Left>
 
-:autocmd FileType twig,html,javascript,vue
+:autocmd FileType html.twig,html,javascript,vue
   \ :iabbrev <buffer> im@ import {} from '';<Left><Left>
 
-:autocmd FileType php,twig,html,javascript,vue
+:autocmd FileType php,html.twig,html,javascript,vue
   \ :iabbrev <buffer> if@ if() {<CR>}<Esc>%<Left><Left>i
 
-:autocmd FileType php,twig,html,javascript,vue
+:autocmd FileType php,html.twig,html,javascript,vue
   \ :iabbrev <buffer> el@ else {<CR>}<Up><End>
 
-:autocmd FileType php,twig,html,javascript,vue
+:autocmd FileType php,html.twig,html,javascript,vue
   \ :iabbrev <buffer> eli@ else {<CR>}<Esc>%iif() <Left><Left>
 
-:autocmd FileType twig,html,javascript,vue
+:autocmd FileType html.twig,html,javascript,vue
   \ :iabbrev <buffer> sw@ switch(z) {<CR>}<Up><End><CR>case :<CR><BS>break;<CR><CR>default:<CR><BS>break;<Esc>j%Fzxi
 
-:autocmd FileType php,twig,html,javascript,vue
+:autocmd FileType php,html.twig,html,javascript,vue
   \ :iabbrev <buffer> fun@ function() {<CR>}<Esc>%F(i
 
 :autocmd FileType markdown,md

@@ -5,6 +5,7 @@
 " fzf      - https://github.com/junegunn/fzf
 " ripgrep  - https://github.com/BurntSushi/ripgrep
 " vim-plug - https://github.com/junegunn/vim-plug
+" nnn      - https://github.com/jarun/nnn
 
 " ============================================================================ "
 " ===                           EDITING OPTIONS                            === "
@@ -50,7 +51,7 @@ set incsearch
 set cursorline
 
 " Disable status bar
-set laststatus=0
+" set laststatus=0
 
 " Enable syntax highlight
 syntax enable
@@ -91,6 +92,14 @@ set expandtab
 " Mouse support
 set mouse=a
 
+" Statusline
+set statusline=
+set statusline+=%=
+set statusline+=\ %l:%c
+set statusline+=\ %p%%
+set statusline+=\ %y
+set statusline+=\ 
+
 " ============================================================================ "
 " ===                               PLUGINS                                === "
 " ============================================================================ "
@@ -116,11 +125,11 @@ Plug 'maxboisvert/vim-simple-complete'
 Plug 'christoomey/vim-system-copy'
 
 " File manager
-Plug 'cocopon/vaffle.vim'
+Plug 'mcchrish/nnn.vim'
 
 " Language support
-Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'html', 'twig'] }
-Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'html', 'twig'] }
+Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'html', 'html.twig'] }
+Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'html', 'html.twig'] }
 Plug 'othree/html5.vim', { 'for': ['html', 'twig', 'php'] }
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 Plug 'lumiliet/vim-twig', { 'for': 'twig' }
@@ -128,7 +137,7 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 
 " Snippets
 Plug 'tpope/vim-commentary'
-Plug 'mattn/emmet-vim', { 'for': ['javascript', 'vue', 'html', 'twig', 'php'] }
+Plug 'mattn/emmet-vim', { 'for': ['javascript', 'vue', 'html', 'html.twig', 'php'] }
 Plug 'jiangmiao/auto-pairs'
 
 " Utilities
@@ -178,6 +187,14 @@ let g:sneak#s_next = 1
 
 " Theme
 colorscheme rubber-enhanced
+
+" NNN - File manager
+let g:nnn#layout = { 'window': { 'width': 0.6, 'height': 0.5, 'highlight': 'Debug' } }
+let g:nnn#action = {
+  \ '<c-t>': 'tab split',
+  \ '<c-x>': 'split',
+  \ '<c-v>': 'vsplit',
+  \ '<c-j>': 'edit' }
 
 " Nuake
 let g:nuake_position = 'right'
@@ -327,18 +344,18 @@ nnoremap <Leader>B :FindProjectBuffers<CR>
 nnoremap <Leader>dg :ProjectRootLCD<CR>:pwd<CR>
 
 " Open file manager
-nnoremap <Leader>da :ExploreDir<CR>
-nnoremap <Leader>dd :Vaffle<CR>
+nnoremap <leader>dd :NnnPicker '%:p:h'<CR>
+nnoremap <Leader>da :NnnPicker<CR>
 
 " Begin search & replace using the selected text
 xnoremap <Leader>r :<C-u>GetSelection<CR>:%s/\V<C-R>=@/<CR>//gc<Left><Left><Left>
 
 " Open terminal
-nnoremap <F4> :Nuake<CR>
-inoremap <F4> <C-\><C-n>:Nuake<CR>
-tnoremap <F4> <C-\><C-n>:Nuake<CR>
-nnoremap <Leader>ql :let g:nuake_position='right' \| Nuake<CR>
-nnoremap <Leader>qj :let g:nuake_position='bottom' \| Nuake<CR>
+nnoremap <F4> :noautocmd Nuake<CR>
+inoremap <F4> <C-\><C-n>:noautocmd Nuake<CR>
+tnoremap <F4> <C-\><C-n>:noautocmd Nuake<CR>
+nnoremap <Leader>ql :let g:nuake_position='right' \| noautocmd Nuake<CR>
+nnoremap <Leader>qj :let g:nuake_position='bottom' \| noautocmd Nuake<CR>
 
 " Zoom split
 nnoremap <F5> <C-\><C-n>:call zoom#toggle()<CR><Esc>
