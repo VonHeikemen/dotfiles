@@ -95,6 +95,7 @@ set mouse=a
 " Statusline
 set statusline=
 set statusline+=%=
+set statusline+=\%{zoom#statusline()}
 set statusline+=\ %l:%c
 set statusline+=\ %p%%
 set statusline+=\ %y
@@ -189,7 +190,7 @@ let g:sneak#s_next = 1
 colorscheme rubber-enhanced
 
 " NNN - File manager
-let g:nnn#layout = { 'window': { 'width': 0.6, 'height': 0.5, 'highlight': 'Debug' } }
+let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.5, 'highlight': 'Debug' } }
 let g:nnn#action = {
   \ '<c-t>': 'tab split',
   \ '<c-x>': 'split',
@@ -199,6 +200,9 @@ let g:nnn#action = {
 " Nuake
 let g:nuake_position = 'right'
 let g:nuake_size = 0.30
+
+" Zoom
+let g:zoom#statustext = 'M'
 
 " ============================================================================ "
 " ===                             KEY MAPPINGS                             === "
@@ -349,17 +353,18 @@ nnoremap <Leader>da :NnnPicker<CR>
 
 " Begin search & replace using the selected text
 xnoremap <Leader>r :<C-u>GetSelection<CR>:%s/\V<C-R>=@/<CR>//gc<Left><Left><Left>
+xnoremap <Leader>R :s/\V<C-R>=@/<CR>//gc<Left><Left><Left>
 
-" Open terminal
-nnoremap <F4> :noautocmd Nuake<CR>
-inoremap <F4> <C-\><C-n>:noautocmd Nuake<CR>
-tnoremap <F4> <C-\><C-n>:noautocmd Nuake<CR>
-nnoremap <Leader>ql :let g:nuake_position='right' \| noautocmd Nuake<CR>
-nnoremap <Leader>qj :let g:nuake_position='bottom' \| noautocmd Nuake<CR>
+" Toggle terminal
+nnoremap <F4> :OpenTerm current<CR>
+inoremap <F4> <C-\><C-n>:OpenTerm current<CR>
+tnoremap <F4> <C-\><C-n>:OpenTerm current<CR>
+nnoremap <F5> :OpenTerm fullscreen<CR>
+tnoremap <F5> <C-\><C-n>:OpenTerm fullscreen<CR>
 
-" Zoom split
-nnoremap <F5> <C-\><C-n>:call zoom#toggle()<CR><Esc>
-tnoremap <F5> <C-\><C-n>:call zoom#toggle()<CR><C-\><C-n>i
+" Change terminal position
+nnoremap <Leader>ql :OpenTerm right<CR>
+nnoremap <Leader>qj :OpenTerm bottom<CR>
 
 " Use tmux inside terminal
 tnoremap <M-v> tmux new-session -A -D -s vi<CR>

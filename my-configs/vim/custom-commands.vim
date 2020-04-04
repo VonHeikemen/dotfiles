@@ -27,6 +27,9 @@ command! AutoGuessIndent call s:guess_indent()
 " See tab related settings
 command! TabStatus call s:tab_indicator()
 
+" Toggle terminal
+command! -nargs=+ OpenTerm call s:show_term(<f-args>)
+
 " Called when opening a file
 augroup syntaxOverride
   autocmd!
@@ -101,6 +104,38 @@ function! s:bufopen(lines)
   let name = fnamemodify(bufname(buf + 0), ':p')
 
   exe cmd name
+endfunction
+
+" Handle terminal state
+let g:_terminal_open = 0
+function! s:show_term(mode) abort
+  let g:_terminal_open = !g:_terminal_open
+  let l:cmd = 'noautocmd Nuake'
+  
+  if a:mode == 'current'
+    exec l:cmd
+  elseif a:mode == 'right'
+    let g:nuake_position='right'
+    exec l:cmd
+  elseif a:mode == 'bottom'
+    let g:nuake_position='bottom'
+    exec l:cmd
+  elseif a:mode == 'fullscreen'
+    if g:_terminal_open
+      exec l:cmd
+      call zoom#toggle()
+    else
+      call zoom#toggle()
+      exec l:cmd
+    endif
+  endif
+
+  if g:_terminal_open
+    call feedkeys('i')
+  else
+    call feedkeys("\<Esc>")
+  endif
+
 endfunction
 
 " Test floating windows
