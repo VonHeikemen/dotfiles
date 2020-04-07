@@ -154,9 +154,9 @@ if has('nvim-0.4')
     let buf = nvim_create_buf(v:false, v:true)
 
     " 50% of the height
-    let height = float2nr(&lines * 0.5)
-    " 60% of the width
-    let width = float2nr(&columns * 0.6)
+    let height = float2nr(&lines * g:floating_windows.height)
+    " 90% of the width
+    let width = float2nr(&columns * g:floating_windows.width)
     " horizontal position (centralized)
     let horizontal = float2nr((&columns - width) / 2)
     " vertical position
