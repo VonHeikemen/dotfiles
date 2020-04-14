@@ -12,9 +12,6 @@ command! SyntaxQuery call s:syntax_query()
 " Get visually selected text
 command! GetSelection call s:get_selection('/')
 
-" Call file manager
-command! ExploreDir call s:explore_dir()
-
 " Override tab settings
 command! ForceTab call s:force_tab()
 command! -nargs=+ UseSpaces call s:use_spaces(<f-args>)

@@ -95,6 +95,8 @@ set mouse=a
 " Statusline
 set statusline=
 set statusline+=%=
+set statusline+=\ %r
+set statusline+=\%m
 set statusline+=\%{zoom#statusline()}
 set statusline+=\ %l:%c
 set statusline+=\ %p%%
@@ -193,6 +195,10 @@ let g:sneak#s_next = 1
 colorscheme rubber-enhanced
 
 " NNN - File manager
+
+" Disable default mappings
+let g:nnn#set_default_mappings = 0
+
 let g:nnn#layout = { 
   \ 'window': {
     \ 'width': g:floating_windows.width,
@@ -200,6 +206,7 @@ let g:nnn#layout = {
     \ 'highlight': 'Debug' 
     \} 
   \}
+
 let g:nnn#action = {
   \ '<c-t>': 'tab split',
   \ '<c-x>': 'split',
@@ -211,7 +218,7 @@ let g:nuake_position = 'bottom'
 let g:nuake_size = 0.30
 
 " Zoom
-let g:zoom#statustext = 'M'
+let g:zoom#statustext = '[M]'
 
 " ============================================================================ "
 " ===                             KEY MAPPINGS                             === "
