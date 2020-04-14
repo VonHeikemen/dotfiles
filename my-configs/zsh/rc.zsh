@@ -1,3 +1,6 @@
+# Turn off all beeps
+unsetopt BEEP
+
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=50000
 SAVEHIST=10000
