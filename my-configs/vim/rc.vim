@@ -157,6 +157,9 @@ call plug#end()
 " ===                            PLUGIN CONFIG                             === "
 " ============================================================================ "
 
+" Floating windows settings
+let g:floating_windows = { "height": 0.6, "width": 0.9 }
+
 " Python syntax
 let g:python_no_builtin_highlight = 1
 let g:python_no_doctest_code_highlight = 1
@@ -190,7 +193,13 @@ let g:sneak#s_next = 1
 colorscheme rubber-enhanced
 
 " NNN - File manager
-let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.5, 'highlight': 'Debug' } }
+let g:nnn#layout = { 
+  \ 'window': {
+    \ 'width': g:floating_windows.width,
+    \ 'height': g:floating_windows.height,
+    \ 'highlight': 'Debug' 
+    \} 
+  \}
 let g:nnn#action = {
   \ '<c-t>': 'tab split',
   \ '<c-x>': 'split',
@@ -198,7 +207,7 @@ let g:nnn#action = {
   \ '<c-j>': 'edit' }
 
 " Nuake
-let g:nuake_position = 'right'
+let g:nuake_position = 'bottom'
 let g:nuake_size = 0.30
 
 " Zoom
@@ -352,8 +361,8 @@ nnoremap <leader>dd :NnnPicker '%:p:h'<CR>
 nnoremap <Leader>da :NnnPicker<CR>
 
 " Begin search & replace using the selected text
-xnoremap <Leader>r :<C-u>GetSelection<CR>:%s/\V<C-R>=@/<CR>//gc<Left><Left><Left>
-xnoremap <Leader>R :s/\V<C-R>=@/<CR>//gc<Left><Left><Left>
+xnoremap <Leader>r :s///gc<Left><Left><Left><Left>
+xnoremap <Leader>R :<C-u>GetSelection<CR>:%s/\V<C-R>=@/<CR>//gc<Left><Left><Left>
 
 " Toggle terminal
 nnoremap <F4> :OpenTerm current<CR>
