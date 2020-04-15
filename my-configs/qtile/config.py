@@ -141,9 +141,9 @@ keys = [
     Key([mod], "f", lazy.window.toggle_floating()),
 
     # Toggle between different layouts
-    Key([mod], "m", set_layout(0)),        # set max
-    Key([mod], "t", set_layout(1)),        # set monadtall
-    Key([mod], "u", set_layout(2)),        # set monadwide
+    Key([mod], "t", set_layout(0)),        # set monadtall
+    Key([mod], "u", set_layout(1)),        # set monadwide
+    Key([mod], "m", set_layout(2)),        # set max
     Key([mod], "Tab", lazy.next_layout()), # rotate layouts
 
     # Move window focus in current group
@@ -207,7 +207,7 @@ keys = [
     Key([caps], "KP_Up", move_mouse(0, -25)),
     Key([caps], "KP_Begin", move_mouse(0, 25)),
     Key([caps], "KP_Insert", lazy.spawn(["xdotool", "click", "1"])),
-    Key([caps, "shift"], "KP_Insert", lazy.spawn(["xdotool", "click", "3"])),
+    Key([caps], "KP_End", lazy.spawn(["xdotool", "click", "3"])),
 
     # Move mouse cursor to a corner
     Key([mod], "x", lazy.spawn("xdotool mousemove 0 1080")),
@@ -231,9 +231,9 @@ for i in groups:
 layout_theme = init_layout_theme()
 
 layouts = [
-    layout.Max(),
     layout.MonadTall(**layout_theme),
-    layout.MonadWide(**layout_theme)
+    layout.MonadWide(**layout_theme),
+    layout.Max()
 ]
 
 widget_defaults = dict(
@@ -252,8 +252,8 @@ screens = [
                 widget.CurrentLayoutIcon(scale=0.6),
                 widget.Prompt(prompt="Run: "),
                 widget.Sep(foreground=Color.black),
-                widget.WindowName(),
-                widget.Clock(format='%A, %B %d | 🕒 %l:%M %p '),
+                widget.WindowTags(selected=("  ", "")),
+                widget.Clock(format='%A, %B %d | %l:%M %p '),
                 widget.Systray(),
             ],
             24,
