@@ -226,7 +226,7 @@ screens = [
                     hide_unused=True,
                     this_current_screen_border=Color.white,
                     active=Color.gray,
-                    highlight_method="text",
+                    highlight_method="border",
                 ),
                 widget.CurrentLayoutIcon(scale=0.6),
                 widget.Prompt(prompt="Run: "),
