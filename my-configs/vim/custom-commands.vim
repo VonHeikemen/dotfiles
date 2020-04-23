@@ -27,6 +27,9 @@ command! TabStatus call s:tab_indicator()
 " Toggle terminal
 command! -nargs=+ OpenTerm call s:show_term(<f-args>)
 
+" Enter 'writer mode'
+command! WriterMode call s:writer_mode()
+
 " Called when opening a file
 augroup syntaxOverride
   autocmd!
@@ -67,6 +70,15 @@ function! s:python_syntax_override()
 
   hi! link pythonFunction Function
   hi! link pythonConstant Boolean
+endfunction
+
+" Settings for writing in markdown
+function! s:writer_mode() abort
+  set wrap
+  noremap j gj
+  noremap k gk
+
+  let g:qs_max_chars = 2000
 endfunction
 
 " Returns visually selected text
