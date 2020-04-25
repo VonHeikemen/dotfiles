@@ -112,6 +112,11 @@ def float_to_stacked(qtile):
             if window.floating:
                 window.toggle_floating()
 
+
+def window_list(**kwargs):
+    return extension.WindowList(dmenu_command="rofi -dmenu", dmenu_lines=6, **kwargs)
+
+
 class BetterLayoutIcon(widget.CurrentLayoutIcon):
     def draw(self):
         if self.current_layout == 'max':
@@ -165,6 +170,10 @@ keys = [
     Key([mod], "u", set_layout(1)),  # set monadwide
     Key([mod], "m", set_layout(2)),  # set max
 
+    # Select windows
+    Key([mod], "w", lazy.run_extension(window_list(all_groups=False))),
+    Key([mod, "shift"], "w", lazy.run_extension(window_list())),
+
     # Move window focus in current group
     Key([mod], "h", lazy.layout.left()),
     Key([mod], "l", lazy.layout.right()),
@@ -205,7 +214,6 @@ keys = [
     Key([mod, ctrl], "r", lazy.restart()),
     Key([mod, "shift"], "Escape", lazy.shutdown()),
     Key([mod], "r", lazy.spawncmd()),
-    Key([mod], "slash", lazy.run_extension(extension.WindowList())),
 
     # Inspect log file
     Key([mod], "F6", lazy.spawn(inspect_log)),
