@@ -141,6 +141,11 @@ keys = [
     # Toggle bar
     Key([mod], "b", lazy.function(hide_bar)),
 
+    # Move between groups
+    Key([mod], "Tab", lazy.screen.toggle_group()),
+    Key([mod], "n", lazy.screen.next_group()),
+    Key([mod, "shift"], "n", lazy.screen.prev_group()),
+
     # Manage floating windows
     Key([mod], "f", lazy.window.toggle_floating()),
     Key([mod, "shift"], "f", lazy.window.bring_to_front()),
