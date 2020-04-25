@@ -112,39 +112,13 @@ def float_to_stacked(qtile):
             if window.floating:
                 window.toggle_floating()
 
-
-class BetterWindowName(widget.WindowName):
-    def _configure(self, qtile, bar):
-        self.layout_name = layouts[0].name
-
-        @hook.subscribe.layout_change
-        def on_layout_change(layout, group):
-            self.layout_name = layout.name
-            self.update()
-
-        super()._configure(qtile, bar)
-
-    def update(self, *args):
-        if self.for_current_screen:
-            w = self.qtile.current_screen.group.current_window
+class BetterLayoutIcon(widget.CurrentLayoutIcon):
+    def draw(self):
+        if self.current_layout == 'max':
+            self.text = "[%d]" % (len(self.bar.screen.group.windows))
+            widget.base._TextBox.draw(self)
         else:
-            w = self.bar.screen.group.current_window
-        state = ''
-
-        if self.show_state and w is not None:
-            if w.maximized:
-                state = '(M) '
-            elif w.minimized:
-                state = '(m) '
-            elif w.floating:
-                state = '(f) '
-        self.text = "%s%s" % (state, w.name if w and w.name else " ")
-        clients = len(self.bar.screen.group.windows)
-
-        if self.layout_name == 'max' and clients > 0:
-            self.text = "[%d] %s" % (clients, self.text)
-
-        self.bar.draw()
+            super().draw()
 
 
 border_focus = Color.magenta
@@ -302,9 +276,9 @@ screens = [
                 ),
                 widget.Prompt(prompt="Run: "),
                 widget.Sep(foreground=Color.black),
-                BetterWindowName(),
+                widget.WindowName(),
                 widget.Clock(format="%A, %B %d | %l:%M %p "),
-                widget.CurrentLayoutIcon(scale=0.6),
+                BetterLayoutIcon(scale=0.6),
                 widget.Systray(),
             ],
             24,
