@@ -54,6 +54,7 @@ class Color:
 
 
 class App:
+    launcher = "rofi -show drun"
     terminal = "kitty"
     browser = "firefox"
     filemanager = "pcmanfm"
@@ -112,6 +113,40 @@ def float_to_stacked(qtile):
                 window.toggle_floating()
 
 
+class BetterWindowName(widget.WindowName):
+    def _configure(self, qtile, bar):
+        self.layout_name = layouts[0].name
+
+        @hook.subscribe.layout_change
+        def on_layout_change(layout, group):
+            self.layout_name = layout.name
+            self.update()
+
+        super()._configure(qtile, bar)
+
+    def update(self, *args):
+        if self.for_current_screen:
+            w = self.qtile.current_screen.group.current_window
+        else:
+            w = self.bar.screen.group.current_window
+        state = ''
+
+        if self.show_state and w is not None:
+            if w.maximized:
+                state = '(M) '
+            elif w.minimized:
+                state = '(m) '
+            elif w.floating:
+                state = '(f) '
+        self.text = "%s%s" % (state, w.name if w and w.name else " ")
+        clients = len(self.bar.screen.group.windows)
+
+        if self.layout_name == 'max' and clients > 0:
+            self.text = "[%d] %s" % (clients, self.text)
+
+        self.bar.draw()
+
+
 border_focus = Color.magenta
 lock_screen = ["blurlock"]
 inspect_log = term_exec(["less", "+F", log_file])
@@ -127,7 +162,7 @@ keys = [
     Key([mod, "shift"], "p", lazy.spawn(tmux_session("pomodoro"))),
 
     # Run an application
-    Key([mod], "d", lazy.spawn("rofi -show drun")),
+    Key([mod], "d", lazy.spawn(App.launcher)),
 
     # Close application
     Key([mod, "shift"], "q", lazy.window.kill()),
@@ -263,13 +298,13 @@ screens = [
                     hide_unused=True,
                     this_current_screen_border=Color.white,
                     active=Color.gray,
-                    highlight_method="border",
+                    highlight_method="text",
                 ),
-                widget.CurrentLayoutIcon(scale=0.6),
                 widget.Prompt(prompt="Run: "),
                 widget.Sep(foreground=Color.black),
-                widget.WindowTags(selected=("  ", "")),
+                BetterWindowName(),
                 widget.Clock(format="%A, %B %d | %l:%M %p "),
+                widget.CurrentLayoutIcon(scale=0.6),
                 widget.Systray(),
             ],
             24,
