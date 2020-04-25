@@ -26,7 +26,7 @@
 
 from libqtile.config import Key, Screen, Group, Drag, Click
 from libqtile.command import lazy
-from libqtile import layout, bar, widget, hook
+from libqtile import layout, bar, widget, hook, extension
 
 from typing import List  # noqa: F401
 
@@ -105,9 +105,16 @@ def hide_bar(qtile):
     qtile.cmd_hide_show_bar()
 
 
+def float_to_stacked(qtile):
+    for group in qtile.groups:
+        for window in group.windows:
+            if window.floating:
+                window.toggle_floating()
+
+
 border_focus = Color.magenta
-lock_screen = lambda qtile: subprocess.call(["blurlock"])
-inspect_log = lambda: term_exec(["less", "+F", log_file])
+lock_screen = ["blurlock"]
+inspect_log = term_exec(["less", "+F", log_file])
 
 keys = [
     # Launch common applications
@@ -118,67 +125,89 @@ keys = [
     Key([mod], "F12", lazy.spawn(App.musicplayer)),
     Key([mod], "p", lazy.spawn(term_exec(["htop"]))),
     Key([mod, "shift"], "p", lazy.spawn(tmux_session("pomodoro"))),
+
     # Run an application
-    Key([mod], "d", lazy.spawn(["rofi", "-show", "drun"])),
+    Key([mod], "d", lazy.spawn("rofi -show drun")),
+
     # Close application
     Key([mod, "shift"], "q", lazy.window.kill()),
+
     # Lock screen
-    Key([mod], "9", lazy.function(lock_screen)),
+    Key([mod], "9", lazy.spawn(lock_screen)),
+
     # Exit qtile
     Key([mod], "Escape", lazy.spawn(["powermenu", resolve("powermenu.conf")])),
+
     # Toggle bar
     Key([mod], "b", lazy.function(hide_bar)),
-    # Toggle floating window
+
+    # Manage floating windows
     Key([mod], "f", lazy.window.toggle_floating()),
+    Key([mod, "shift"], "f", lazy.window.bring_to_front()),
+    Key([mod, ctrl], "f", lazy.function(float_to_stacked)),
+
     # Toggle between different layouts
     Key([mod], "t", set_layout(0)),  # set monadtall
     Key([mod], "u", set_layout(1)),  # set monadwide
     Key([mod], "m", set_layout(2)),  # set max
-    Key([mod], "Tab", lazy.next_layout()),  # rotate layouts
+
     # Move window focus in current group
     Key([mod], "h", lazy.layout.left()),
     Key([mod], "l", lazy.layout.right()),
     Key([mod], "j", lazy.layout.down()),
     Key([mod], "k", lazy.layout.up()),
-    # Move windows up or down in current stack
-    Key([mod, "control"], "k", lazy.layout.shuffle_down()),
-    Key([mod, "control"], "j", lazy.layout.shuffle_up()),
-    # Switch window focus to other pane(s) of stack
-    Key([mod], "space", lazy.layout.next()),
-    Key([mod, "shift"], "space", lazy.layout.previous()),
+
+    # Move windows
+    Key([mod, "shift"], "h", lazy.layout.shuffle_left()),
+    Key([mod, "shift"], "l", lazy.layout.shuffle_right()),
+    Key([mod, "shift"], "j", lazy.layout.shuffle_down()),
+    Key([mod, "shift"], "k", lazy.layout.shuffle_up()),
+    Key([mod, "shift"], "space", lazy.layout.flip()),
+    Key([mod] , "g", lazy.layout.swap_main()),
+
     # Resize windows
-    Key([mod], "bracketright", lazy.layout.grow()),
-    Key([mod], "bracketleft", lazy.layout.shrink()),
+    Key([mod], "bracketright", lazy.layout.grow_main()),
+    Key([mod], "bracketleft", lazy.layout.shrink_main()),
+    Key([mod, ctrl], "bracketright", lazy.layout.grow()),
+    Key([mod, ctrl], "bracketleft", lazy.layout.shrink()),
     Key([mod], "e", lazy.layout.normalize()),
+    Key([mod, "shift"], "e", lazy.layout.reset()),
+
     # Move floating window
-    Key([mod, ctrl], "Left", lazy.window.move_floating(-25, 0, None, None)),
-    Key([mod, ctrl], "Right", lazy.window.move_floating(25, 0, None, None)),
-    Key([mod, ctrl], "Up", lazy.window.move_floating(0, -25, None, None)),
-    Key([mod, ctrl], "Down", lazy.window.move_floating(0, 25, None, None)),
+    Key([mod, "shift"], "Left", lazy.window.move_floating(-25, 0)),
+    Key([mod, "shift"], "Right", lazy.window.move_floating(25, 0)),
+    Key([mod, "shift"], "Up", lazy.window.move_floating(0, -25)),
+    Key([mod, "shift"], "Down", lazy.window.move_floating(0, 25)),
+
     # Resize floating window
-    Key([mod, alt], "Left", lazy.window.resize_floating(-25, 0, None, None)),
-    Key([mod, alt], "Right", lazy.window.resize_floating(25, 0, None, None)),
-    Key([mod, alt], "Up", lazy.window.resize_floating(0, -25, None, None)),
-    Key([mod, alt], "Down", lazy.window.resize_floating(0, 25, None, None)),
-    Key([mod, alt, ctrl], "Down", lazy.window.resize_floating(-25, -25, None, None)),
-    Key([mod, alt, ctrl], "Up", lazy.window.resize_floating(25, 25, None, None)),
-    # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout()),
-    Key([mod, "control"], "r", lazy.restart()),
-    Key([mod, "control"], "q", lazy.shutdown()),
+    Key([mod, ctrl], "Left", lazy.window.resize_floating(-25, 0)),
+    Key([mod, ctrl], "Right", lazy.window.resize_floating(25, 0)),
+    Key([mod, ctrl], "Up", lazy.window.resize_floating(0, -25)),
+    Key([mod, ctrl], "Down", lazy.window.resize_floating(0, 25)),
+    Key([mod], "comma", lazy.window.resize_floating(-25, -25)),
+    Key([mod], "period", lazy.window.resize_floating(25, 25)),
+
+    # Control Qtile
+    Key([mod, ctrl], "r", lazy.restart()),
+    Key([mod, "shift"], "Escape", lazy.shutdown()),
     Key([mod], "r", lazy.spawncmd()),
+    Key([mod], "slash", lazy.run_extension(extension.WindowList())),
+
     # Inspect log file
-    Key([mod], "F6", lazy.spawn(inspect_log())),
+    Key([mod], "F6", lazy.spawn(inspect_log)),
+
     # Control cmus
     Key([], "F9", lazy.spawn("cmus-remote --pause")),
     Key([], "F10", lazy.spawn("cmus-remote --prev")),
     Key([], "F11", lazy.spawn("cmus-remote --next")),
     Key([mod], "equal", lazy.spawn("cmus-remote --vol +10%")),
     Key([mod], "minus", lazy.spawn("cmus-remote --vol -10%")),
+
     # Take screenshot
     Key([], "Print", lazy.spawn("i3-scrot")),
     Key([mod], "Print", lazy.spawn("i3-scrot -w")),
     Key([mod, "shift"], "Print", lazy.spawn('sh -c "i3-scrot -s"')),
+
     # Move mouse
     Key([caps], "KP_Left", move_mouse(-25, 0)),
     Key([caps], "KP_Right", move_mouse(25, 0)),
@@ -186,11 +215,14 @@ keys = [
     Key([caps], "KP_Begin", move_mouse(0, 25)),
     Key([caps], "KP_Insert", lazy.spawn(["xdotool", "click", "1"])),
     Key([caps], "KP_End", lazy.spawn(["xdotool", "click", "3"])),
+
     # Move mouse cursor to a corner
     Key([mod], "x", lazy.spawn("xdotool mousemove 0 1080")),
+
     # Move mouse cursor to the center of the screen
     Key([mod, "shift"], "x", lazy.spawn("xdotool mousemove 960 540")),
 ]
+
 
 groups = [Group(i) for i in "1234"]
 
@@ -258,7 +290,7 @@ mouse = [
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
 main = None
-follow_mouse_focus = True
+follow_mouse_focus = False
 bring_front_click = False
 cursor_warp = False
 floating_layout = layout.Floating(
