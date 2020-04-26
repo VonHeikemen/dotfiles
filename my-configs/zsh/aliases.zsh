@@ -46,8 +46,5 @@ alias la='exa --git --header --long --all'
 alias yt="youtube-dl -f 'bestvideo[height<=720]+bestaudio/best[height<=720]'"
 alias dot='yadm'
 
-newdir() {
-  mkdir $1
-  cd $1
-}
+
 
