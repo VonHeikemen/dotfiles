@@ -74,7 +74,6 @@ burnusb ()
     return
   fi
 
-  local input
   local cmd="sudo dd bs=4M if=$iso of=$device status=progress oflag=sync"
 
   echo "\nUsing device $device"
