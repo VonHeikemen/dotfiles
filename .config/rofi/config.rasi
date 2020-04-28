@@ -1,10 +1,12 @@
 configuration {
-	modi: "drun,run";
+	modi: "drun,run,window";
 	lines: 6;
 	theme: "onedark";
 	sort: true;
 	drun-match-fields: "name,exec";
 	drun-display-format: "{name}";
+	kb-row-up: "Up,Control+p,ISO_Left_Tab,Alt+k";
+	kb-row-down: "Down,Control+n,Alt+j";
 /* terminal: "rofi-sensible-terminal"; */
 /*	width: 50;*/
 /*	columns: 1;*/
@@ -93,8 +95,6 @@ configuration {
 /*	kb-mode-previous: "Shift+Left,Control+ISO_Left_Tab";*/
 /*	kb-row-left: "Control+Page_Up";*/
 /*	kb-row-right: "Control+Page_Down";*/
-/*	kb-row-up: "Up,Control+p,ISO_Left_Tab";*/
-/*	kb-row-down: "Down,Control+n";*/
 /*	kb-row-tab: "Tab";*/
 /*	kb-page-prev: "Page_Up";*/
 /*	kb-page-next: "Page_Down";*/
