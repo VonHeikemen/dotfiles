@@ -114,14 +114,18 @@ def float_to_stacked(qtile):
 
 
 def window_list(**kwargs):
-    return extension.WindowList(dmenu_command="rofi -dmenu", dmenu_lines=6, **kwargs)
+    return extension.WindowList(dmenu_command="rofi -dmenu -i", dmenu_lines=6, **kwargs)
 
 
 class BetterLayoutIcon(widget.CurrentLayoutIcon):
     def draw(self):
         if self.current_layout == 'max':
-            self.text = "[%d]" % (len(self.bar.screen.group.windows))
-            widget.base._TextBox.draw(self)
+            clients = len(self.bar.screen.group.windows)
+            if clients > 1:
+                self.text = "[%d]" % (clients)
+                widget.base._TextBox.draw(self)
+            else:
+                super().draw()
         else:
             super().draw()
 
