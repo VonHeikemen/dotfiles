@@ -368,6 +368,7 @@ nnoremap <leader>dd :NnnPicker '%:p:h'<CR>
 nnoremap <Leader>da :NnnPicker<CR>
 
 " Begin search & replace using the selected text
+nnoremap <Leader>r :<C-u>%s///gc<Left><Left><Left><Left>
 xnoremap <Leader>r :s///gc<Left><Left><Left><Left>
 xnoremap <Leader>R :<C-u>GetSelection<CR>:%s/\V<C-R>=@/<CR>//gc<Left><Left><Left>
 
