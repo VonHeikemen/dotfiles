@@ -235,12 +235,12 @@ keys = [
     Key([mod, "shift"], "Print", lazy.spawn('sh -c "i3-scrot -s"')),
 
     # Move mouse
-    Key([caps], "KP_Left", move_mouse(-25, 0)),
-    Key([caps], "KP_Right", move_mouse(25, 0)),
-    Key([caps], "KP_Up", move_mouse(0, -25)),
-    Key([caps], "KP_Begin", move_mouse(0, 25)),
-    Key([caps], "KP_Insert", lazy.spawn(["xdotool", "click", "1"])),
-    Key([caps], "KP_End", lazy.spawn(["xdotool", "click", "3"])),
+    Key([caps], "KP_Left", move_mouse(-15, 0)),
+    Key([caps], "KP_Right", move_mouse(15, 0)),
+    Key([caps], "KP_Up", move_mouse(0, -15)),
+    Key([caps], "KP_Begin", move_mouse(0, 15)),
+    Key([caps], "KP_Insert", lazy.spawn("xdotool click 1")),
+    Key([caps], "KP_End", lazy.spawn("xdotool click 3")),
 
     # Move mouse cursor to a corner
     Key([mod], "x", lazy.spawn("xdotool mousemove 0 1080")),
@@ -287,10 +287,10 @@ screens = [
                     highlight_method="text",
                 ),
                 widget.Prompt(prompt="Run: "),
+                BetterLayoutIcon(scale=0.6),
                 widget.Sep(foreground=Color.black),
                 widget.WindowName(),
                 widget.Clock(format="%A, %B %d | %l:%M %p "),
-                BetterLayoutIcon(scale=0.6),
                 widget.Systray(),
             ],
             24,
@@ -337,9 +337,12 @@ floating_layout = layout.Floating(
         {"wmclass": "ssh-askpass"},  # ssh-askpass
         {"wmclass": "Pamac-manager"},
         {"wmclass": "Galculator"},
-        {"wmclass": "alsamixer"},
+        {"wmname": "alsamixer"},
         {"wmclass": "Nitrogen"},
         {"wmclass": "gcolor2"},
+        {"wmclass": "nm-connection-editor"},
+        {"wmclass": "manjaro-settings-manager"},
+        {"wmclass": "Update"},
     ],
     border_focus=border_focus,
 )
