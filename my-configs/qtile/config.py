@@ -337,7 +337,7 @@ floating_layout = layout.Floating(
         {"wmclass": "ssh-askpass"},  # ssh-askpass
         {"wmclass": "Pamac-manager"},
         {"wmclass": "Galculator"},
-        {"wmname": "alsamixer"},
+        {"wname": "alsamixer"},
         {"wmclass": "Nitrogen"},
         {"wmclass": "gcolor2"},
         {"wmclass": "nm-connection-editor"},
