@@ -1,0 +1,10 @@
+#! /usr/bin/env sh
+
+args="${@:2}"
+
+if [ "$1" = "-e" ];then
+  termite -e "$args"
+else
+  termite "$args"
+fi
+
