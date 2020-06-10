@@ -37,7 +37,7 @@
 
         <TaskList maxwidth="256"/>
 
-        <Clock format="%l:%M %p"><Button mask="123">exec:xclock</Button></Clock>
+        <Clock format="%A, %B %d | %l:%M %p"><Button mask="123">exec:xclock</Button></Clock>
         <Dock/>
         <TrayButton icon="gshutdown.svg">
           exec: powermenu $HOME/my-configs/jwm/powermenu.conf
