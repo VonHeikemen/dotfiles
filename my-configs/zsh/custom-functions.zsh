@@ -81,3 +81,14 @@ burnusb ()
   echo "This is the command you should use"
   echo "$cmd\n"
 }
+
+# Transform the arguments into a valid url querystring
+urlencode() {
+  local args="$@"
+  jq -nr --arg v "$args" '$v|@uri'; 
+}
+
+# Query duckduckgo
+duckduckgo() {
+ lynx -lss=~/.config/lynx/lynx.lss "https://lite.duckduckgo.com/lite/?q=$(urlencode "$@")"
+}
