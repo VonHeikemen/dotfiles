@@ -133,14 +133,14 @@ Plug 'mcchrish/nnn.vim'
 " Language support
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'html', 'html.twig'] }
 Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'html', 'html.twig'] }
-Plug 'othree/html5.vim', { 'for': ['html', 'twig', 'php'] }
+Plug 'othree/html5.vim', { 'for': ['html', 'html.twig', 'php'] }
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
-Plug 'lumiliet/vim-twig', { 'for': 'twig' }
+Plug 'lumiliet/vim-twig', { 'for': 'html.twig' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 
 " Snippets
 Plug 'tpope/vim-commentary'
-Plug 'mattn/emmet-vim', { 'for': ['javascript', 'vue', 'html', 'html.twig', 'php'] }
+Plug 'mattn/emmet-vim'
 Plug 'jiangmiao/auto-pairs'
 
 " Utilities
@@ -158,6 +158,9 @@ call plug#end()
 " ============================================================================ "
 " ===                            PLUGIN CONFIG                             === "
 " ============================================================================ "
+
+" Set grep default grep command with ripgrep
+set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 
 " Floating windows settings
 let g:floating_windows = { "height": 0.6, "width": 0.9 }

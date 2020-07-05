@@ -79,6 +79,7 @@ function! s:writer_mode() abort
   noremap k gk
 
   let g:qs_max_chars = 2000
+  set synmaxcol=2000
 endfunction
 
 " Returns visually selected text
