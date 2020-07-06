@@ -83,12 +83,14 @@ burnusb ()
 }
 
 # Transform the arguments into a valid url querystring
-urlencode() {
+urlencode()
+{
   local args="$@"
   jq -nr --arg v "$args" '$v|@uri'; 
 }
 
 # Query duckduckgo
-duckduckgo() {
- lynx -lss=~/.config/lynx/lynx.lss "https://lite.duckduckgo.com/lite/?q=$(urlencode "$@")"
+duckduckgo()
+{
+  lynx "https://lite.duckduckgo.com/lite/?q=$(urlencode "$@")"
 }
