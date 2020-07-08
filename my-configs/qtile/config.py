@@ -229,6 +229,10 @@ keys = [
     Key([mod], "equal", lazy.spawn("cmus-remote --vol +10%")),
     Key([mod], "minus", lazy.spawn("cmus-remote --vol -10%")),
 
+    # Control volume
+    # Key([mod], "equal", lazy.spawn("amixer set Master 10%+")),
+    # Key([mod], "minus", lazy.spawn("amixer set Master 10%-")),
+
     # Take screenshot
     Key([], "Print", lazy.spawn("i3-scrot")),
     Key([mod], "Print", lazy.spawn("i3-scrot -w")),
