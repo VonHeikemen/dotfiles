@@ -94,3 +94,18 @@ duckduckgo()
 {
   lynx "https://lite.duckduckgo.com/lite/?q=$(urlencode "$@")"
 }
+
+# Interactive scratchpad using neovim
+codi()
+{
+  if [ -z "$1" ];then
+    echo "Must specify a language"
+    return 1;
+  fi
+
+  local syntax="${1}"
+  shift
+  nvim -c \
+    "set bt=nofile ls=0 noru nonu nornu |\
+    Codi $syntax" "$@"
+}
