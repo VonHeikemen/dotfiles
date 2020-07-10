@@ -14,7 +14,6 @@ alias c4='cd ../../../..'
 
 alias cl='clear'
 alias cp='cp -i'
-alias df='df -h'
 
 alias np='pnpm'
 alias npr='pnpm run'
@@ -28,6 +27,7 @@ alias tmus='tmux new-session -A -D -s music "$(which cmus)"'
 
 alias pomd='tmux new-session -A -D -s pomodoro'
 alias pmd-start='pomd gone -e "notify-send -u critical Pomodoro Timeout"'
+alias pomodoro='gone -e "notify-send -u critical Pomodoro Timeout"'
 
 alias tvi='tmux new-session -A -D -s vi'
 alias vi-s='nvim -S Session.vim'
@@ -44,7 +44,4 @@ alias ls='exa'
 alias la='exa --git --header --long --all'
 
 alias yt="youtube-dl -f 'bestvideo[height<=720]+bestaudio/best[height<=720]'"
-alias dot='yadm'
-
-
 
