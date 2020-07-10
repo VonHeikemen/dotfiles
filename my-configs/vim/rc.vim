@@ -138,6 +138,12 @@ Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 Plug 'lumiliet/vim-twig', { 'for': 'html.twig' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 
+" REPL
+Plug 'metakirby5/codi.vim'
+
+" Search tool
+Plug 'pechorin/any-jump.vim'
+
 " Snippets
 Plug 'tpope/vim-commentary'
 Plug 'mattn/emmet-vim'
@@ -222,6 +228,27 @@ let g:nuake_size = 0.30
 
 " Zoom
 let g:zoom#statustext = '[M]'
+
+" Any Jump
+let g:any_jump_search_prefered_engine = 'rg'
+
+let g:any_jump_ignored_files = ['*.tmp', '*.temp', 'node_modules/*', 'dist/*', 'vendor/*']
+let g:any_jump_disable_default_keybindings = 1
+
+let g:any_jump_window_width_ratio  = g:floating_windows.width
+let g:any_jump_window_height_ratio = g:floating_windows.height
+
+let height = float2nr(&lines * g:floating_windows.height)
+let g:any_jump_window_top_offset = height * 0.3
+
+" Auto group results by filename
+let g:any_jump_grouping_enabled = 1
+
+" Codi
+let g:codi#aliases = {
+  \'js': 'javascript',
+  \'py': 'python'
+\ }
 
 " ============================================================================ "
 " ===                             KEY MAPPINGS                             === "
@@ -323,6 +350,18 @@ nnoremap <Leader>fh :History<CR>
 
 " Search in active buffers list
 nnoremap <Leader>bb :Buffers<CR>
+
+" Search symbol under cursor
+nnoremap <leader>fj :AnyJump<CR>
+
+" Search selection
+xnoremap <leader>fj :AnyJumpVisual<CR>
+
+" Open last closed search window again
+nnoremap <leader>fJ :AnyJumpLastResults<CR>
+
+" Go back to previous opened file (after jump)
+nnoremap <leader>fl :AnyJumpBack<CR>
 
 " ============================================================================ "
 " ===                           TOGGLE ELEMENTS                            === "
