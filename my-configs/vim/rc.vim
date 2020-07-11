@@ -158,6 +158,7 @@ Plug 'tpope/vim-surround'
 Plug 'unblevable/quick-scope'
 Plug 'dhruvasagar/vim-zoom'
 Plug 'Lenovsky/nuake'
+Plug 'junegunn/goyo.vim'
 
 call plug#end()
 

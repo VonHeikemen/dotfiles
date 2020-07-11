@@ -28,7 +28,10 @@ command! TabStatus call s:tab_indicator()
 command! -nargs=+ OpenTerm call s:show_term(<f-args>)
 
 " Enter 'writer mode'
-command! WriterMode call s:writer_mode()
+command! WriterMode call feedkeys(':Goyo x100%-1<CR>')
+
+" Run writer_mode when calling Goyo
+autocmd! User GoyoEnter nested call <SID>writer_mode()
 
 " Called when opening a file
 augroup syntaxOverride
