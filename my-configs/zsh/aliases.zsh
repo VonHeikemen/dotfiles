@@ -6,6 +6,11 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob
 export FZF_DEFAULT_OPTS='--layout=reverse --border' 
 export BAT_THEME='base16'
 
+alias -g @noerr="2> /dev/null"
+alias -g @quiet="> /dev/null 2>&1"
+
+alias duh='du -d 1 -h'
+
 alias -- -='cd -'
 alias c1='cd ..'
 alias c2='cd ../..'
@@ -21,17 +26,15 @@ alias npr='pnpm run'
 alias lzg='lazygit'
 
 alias ta='tmux attach -t'
-alias ts='tmux new-session -s'
 alias tl='tmux list-sessions'
-alias tmus='tmux new-session -A -D -s music "$(which cmus)"'
+alias ts='tmux new-session -A -D -s'
+alias tmus='ts music "$(which cmus)"'
 
-alias pomd='tmux new-session -A -D -s pomodoro'
-alias pmd-start='pomd gone -e "notify-send -u critical Pomodoro Timeout"'
-alias pomodoro='gone -e "notify-send -u critical Pomodoro Timeout"'
+alias pmd-start='ts pomodoro gone -e "notify-send -u critical Pomodoro Timeout"'
+alias pomd='gone -e "notify-send -u critical Pomodoro Timeout"'
 
-alias tvi='tmux new-session -A -D -s vi'
+alias tvi='ts vi'
 alias vi-s='nvim -S Session.vim'
-alias vff='nvim $(fzf)'
 
 alias dcc='docker-compose'
 
