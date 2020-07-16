@@ -286,11 +286,6 @@
                 <command>galculator</command>
             </action>
         </keybind>
-        <keybind key='W-F12'>
-            <action name='Execute'>
-                <command>kitty -e tmux new-session -A -D -s music sh -c cmus</command>
-            </action>
-        </keybind>
         <keybind key='W-minus'>
             <action name='Execute'>
                 <command>amixer set Master 10%-</command>
@@ -420,7 +415,7 @@
                 <y>center</y>
             </action>
         </keybind>
-        <keybind key='W-x'>
+        <keybind key='S-W-d'>
             <action name='Execute'>
                 <command>xkill</command>
             </action>
@@ -436,6 +431,56 @@
         </keybind>
         <keybind key='S-W-m'>
             <action name='ToggleAlwaysOnTop'/>
+        </keybind>
+        <keybind key='W-x'>
+            <action name='Execute'>
+                <command>xdotool mousemove 1366 765</command>
+            </action>
+        </keybind>
+        <keybind key='S-W-x'>
+            <action name='Execute'>
+                <command>xdotool mousemove 683 384</command>
+            </action>
+        </keybind>
+        <keybind key='W-grave'>
+            <action name='Execute'>
+                <command>xdotool mousemove 10 768</command>
+            </action>
+        </keybind>
+        <keybind key='W-Up'>
+            <action name='Execute'>
+                <command>xdotool mousemove_relative --sync -- 0 -15</command>
+            </action>
+        </keybind>
+        <keybind key='W-Down'>
+            <action name='Execute'>
+                <command>xdotool mousemove_relative --sync -- 0 15</command>
+            </action>
+        </keybind>
+        <keybind key='W-Left'>
+            <action name='Execute'>
+                <command>xdotool mousemove_relative --sync -- -15 0</command>
+            </action>
+        </keybind>
+        <keybind key='W-Right'>
+            <action name='Execute'>
+                <command>xdotool mousemove_relative --sync -- 15 0</command>
+            </action>
+        </keybind>
+        <keybind key='W-w'>
+            <action name='Execute'>
+                <command>xdotool click 1</command>
+            </action>
+        </keybind>
+        <keybind key='S-W-w'>
+            <action name='Execute'>
+                <command>xdotool click 3</command>
+            </action>
+        </keybind>
+        <keybind key='W-F12'>
+            <action name='Execute'>
+                <command>kitty -e tmux new-session -A -D -s music cmus</command>
+            </action>
         </keybind>
     </keyboard>
     <mouse>
