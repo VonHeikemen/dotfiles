@@ -1,0 +1,120 @@
+#! /usr/bin/env sh
+
+if [ -z "$1" ];then
+  echo 'no arguments provided'
+  exit 1
+fi
+
+cmd=$1; shift
+
+if [ "$cmd" = 'upgrade' ];then
+  echo 'sudo apt update && sudo apt upgrade'
+  sudo apt update && sudo apt upgrade
+  exit 0
+fi
+
+if [ "$cmd" = 'refresh' ];then
+  echo 'sudo apt update'
+  sudo apt update
+  exit 0
+fi
+
+if [ "$cmd" = 'search' ];then
+  echo "apt search $@"
+  apt search $@
+  exit 0
+fi
+
+if [ "$cmd" = 'info' ];then
+  echo "apt show $@"
+  apt show $@
+  exit 0
+fi
+
+if [ "$cmd" = 'install' ];then
+  echo "sudo apt install $@"
+  sudo apt install $@
+  exit 0
+fi
+
+if [ "$cmd" = 'remove' ];then
+  echo "sudo apt purge \"$@\" && sudo apt autoremove"
+  sudo apt purge "$@" && sudo apt autoremove
+  exit 0
+fi
+
+if [ "$cmd" = 'remove-just' ];then
+  echo "sudo apt remove $@"
+  sudo apt remove $@
+  exit 0
+fi
+
+if [ "$cmd" = 'clean-cache' ];then
+  echo "sudo apt-get autoclean"
+  sudo apt-get autoclean
+  exit 0
+fi
+
+if [ "$cmd" = 'destroy-cache' ];then
+  echo "sudo apt-get clean"
+  sudo apt-get clean
+  exit 0
+fi
+
+if [ "$cmd" = '--show-commands' ];then
+  echo "  upgrade          : sudo apt update && sudo apt upgrade
+  refresh          : sudo apt update
+  search           : apt-cache search [args]
+  info             : apt-cache show [args]
+  install          : sudo apt install [args]
+  remove           : sudo apt purge [args] && sudo apt autoremove
+  remove-just      : sudo apt remove [args]
+  clean-cache      : sudo apt-get autoclean
+  destroy-cache    : sudo apt-get clean"
+  exit 0
+fi
+
+if [ "$cmd" = '--help' ];then
+  echo "  pkg-deb - package manager helper.
+
+  USAGE
+    pkg-deb [COMMAND] [ARGS]
+  
+  COMMANDS
+    upgrade:
+      Sync with repositories before upgrading packages.
+
+    refresh:
+      Update and refresh the local package database.
+
+    search:
+      Search for packages in the repositories.
+
+    info:
+      Display information about a package in the repositories.
+
+    install:
+      Install packages from the repositories.
+
+    remove:
+      Remove packages, including its settings and dependencies.
+
+    remove-just:
+      Remove packages, keeping its settings and dependencies.
+
+    clean-cache:
+      Remove all cached versions of uninstalled packages.
+
+    destroy-cache:
+      Completely remove all packages (Whether they are installed or uninstalled) from the cache.
+
+    --help:
+      Display usage information.
+
+    --show-commands
+      Display a list of available commands and their underlying command to be executed."
+  exit 0
+fi
+
+echo 'invalid command'
+exit 1
