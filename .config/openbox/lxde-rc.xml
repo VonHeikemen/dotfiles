@@ -423,10 +423,10 @@
         <keybind key='W-r'>
             <action name='Reconfigure'/>
         </keybind>
-        <keybind key='W-g'>
+        <keybind key='W-a'>
             <action name='Move'/>
         </keybind>
-        <keybind key='S-W-g'>
+        <keybind key='S-W-a'>
             <action name='Resize'/>
         </keybind>
         <keybind key='S-W-m'>
@@ -440,11 +440,6 @@
         <keybind key='S-W-x'>
             <action name='Execute'>
                 <command>xdotool mousemove 683 384</command>
-            </action>
-        </keybind>
-        <keybind key='W-grave'>
-            <action name='Execute'>
-                <command>xdotool mousemove 10 768</command>
             </action>
         </keybind>
         <keybind key='W-Up'>
@@ -480,6 +475,24 @@
         <keybind key='W-F12'>
             <action name='Execute'>
                 <command>kitty -e tmux new-session -A -D -s music cmus</command>
+            </action>
+        </keybind>
+        <keybind key='S-A-F11'>
+            <action name='Undecorate'/>
+            <action name='Maximize'/>
+        </keybind>
+        <keybind key='A-W-F11'>
+            <action name='Decorate'/>
+            <action name='Unmaximize'/>
+        </keybind>
+        <keybind key='W-F7'>
+            <action name='Execute'>
+                <command>~/bin/check-mem</command>
+            </action>
+        </keybind>
+        <keybind key='F8'>
+            <action name='Execute'>
+                <command>~/bin/check-time</command>
             </action>
         </keybind>
     </keyboard>
