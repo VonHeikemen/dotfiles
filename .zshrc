@@ -8,11 +8,8 @@ source ~/my-configs/zsh/key-bindings.zsh
 source ~/my-configs/zsh/theme.zsh
 
 # Good stuff
-source ~/my-configs/zsh/aliases.zsh
-
-# ssh
-source ~/my-configs/zsh/ssh-agent.zsh
+source ~/my-configs/shell/aliases.sh
 
 # custom-functions
-source ~/my-configs/zsh/custom-functions.zsh
+source ~/my-configs/shell/custom-functions.sh
 

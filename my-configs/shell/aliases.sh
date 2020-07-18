@@ -1,11 +1,10 @@
-#!/usr/bin/env bash
-
-export PATH="$HOME/bin:$HOME/.npm-packages/bin:$PATH"
+export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
 export EDITOR='nvim'
 export PYTHONUSERBASE=~/.local
 export TERMINAL='kitty'
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!cache/*" --glob "!node_modules/*"'
 export FZF_DEFAULT_OPTS='--layout=reverse --border' 
+export BAT_THEME='base16'
 
 alias duh='du -d 1 -h'
 

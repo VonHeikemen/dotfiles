@@ -50,8 +50,8 @@ fi
 . ~/my-configs/bash/theme.bash
 
 # The Good Stuff
-. ~/my-configs/bash/aliases.bash
+source ~/my-configs/shell/aliases.sh
 
 # Custom functions
-. ~/my-configs/bash/custom-functions.bash
+source ~/my-configs/shell/custom-functions.sh
 
