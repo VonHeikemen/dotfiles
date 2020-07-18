@@ -64,8 +64,8 @@ fi
 if [ "$cmd" = '--show-commands' ];then
   echo "  upgrade          : sudo apt update && sudo apt upgrade
   refresh          : sudo apt update
-  search           : apt-cache search [args]
-  info             : apt-cache show [args]
+  search           : apt search [args]
+  info             : apt show [args]
   install          : sudo apt install [args]
   remove           : sudo apt purge [args] && sudo apt autoremove
   remove-just      : sudo apt remove [args]
