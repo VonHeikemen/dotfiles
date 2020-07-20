@@ -495,6 +495,22 @@
                 <command>~/bin/check-time</command>
             </action>
         </keybind>
+        <keybind key='W-g'>
+            <action name='GrowToFill'/>
+        </keybind>
+        <keybind key='W-slash'>
+            <action name='AddDesktop'>
+                <where>last</where>
+            </action>
+        </keybind>
+        <keybind key='S-W-question'>
+            <action name='RemoveDesktop'/>
+        </keybind>
+        <keybind key='S-W-p'>
+            <action name='Execute'>
+                <command>kitty -e tmux new-session -A -D -s pomodoro ~/bin/gone -e &quot;notify-send -u critical Pomodoro Timeout&quot;</command>
+            </action>
+        </keybind>
     </keyboard>
     <mouse>
         <dragThreshold>8</dragThreshold>
