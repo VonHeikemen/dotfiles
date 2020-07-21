@@ -1,18 +1,25 @@
 [core]
-	excludesfile = ~/my-configs/gitignore
+  excludesfile = ~/my-configs/gitignore
+  pager = delta
 [user]
-	email = some@example.com
-	name = Some name
+  email = some@example.com
+  name = Some name
 [alias]
-	ss = status
-	st = stash
-	stp = stash pop
-	ch = checkout
-	cm = commit -m
-	up = push origin
-	down = pull origin
-	graph = log --oneline --graph --decorate
+  ss = status
+  st = stash
+  stp = stash pop
+  ch = checkout
+  cm = commit -m
+  up = push origin
+  down = pull origin
+  graph = log --oneline --graph --decorate
   stop-tracking = update-index --assume-unchanged
   track-again = update-index --no-assume-unchanged
   new-branch = checkout -b
   list-alias = config --get-regexp ^alias\\.
+[delta]
+  syntax-theme = base16
+  line-numbers = true
+  line-numbers-minus-style = 210
+  line-numbers-plus-style = 114
+  line-numbers-zero-style = 246
