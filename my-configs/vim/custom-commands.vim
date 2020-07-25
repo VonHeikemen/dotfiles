@@ -208,7 +208,8 @@ function! s:use_tabs() abort
 endfunction
 
 function! s:guess_indent() abort
-  autocmd BufAdd * call feedkeys(":GuessIndent\<CR>", 'n') 
+  " autocmd BufAdd * call feedkeys(":GuessIndent\<CR>", 'n') 
+  autocmd BufAdd * if expand('<afile>') ==# '' | echo "" | else | call feedkeys(":GuessIndent\<CR>", 'n')
 endfunction
 
 " taken from Tim Pope's vim-sleuth
