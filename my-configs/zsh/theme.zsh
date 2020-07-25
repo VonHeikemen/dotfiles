@@ -9,16 +9,15 @@ zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*:*' formats "${_current_dir} %{$fg[green]%}%b"
 zstyle ':vcs_info:*:*' nvcsformats "${_current_dir}" "" ""
 
-# Fastest possible way to check if repo is dirty
+# check if repo is dirty
 git_dirty() {
     # Check if we're in a git repo
     command git rev-parse --is-inside-work-tree &>/dev/null || return
-    # Check if it's dirty
-    command git diff --quiet --ignore-submodules HEAD &>/dev/null;
-    if [ $? -eq 1 ]; then
-      echo "%{$fg[red]%}✗%{$reset_color%}"
-    else
+
+    if [ -z "$(git status -s)" ];then # it's "clean"
       echo "%{$fg[green]%}✔%{$reset_color%}"
+    else
+      echo "%{$fg[red]%}✗%{$reset_color%}"
     fi
 }
 

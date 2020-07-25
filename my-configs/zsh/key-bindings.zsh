@@ -51,21 +51,6 @@ bindkey '^[k' up-line-or-beginning-search
 # [Alt+j] - fuzzy find history backward 
 bindkey '^[j' down-line-or-beginning-search
 
-# [Alt+w] - move forward one word
-bindkey '^[w' forward-word
-
-# [Alt+f] - find next occurrence of char
-bindkey '^[f' vi-find-next-char
-
-# [Alt+g] - find previous occurrence of char
-bindkey '^[g' vi-find-prev-char
-
-# [Alt+u] - repeat character search
-bindkey '^[u' vi-repeat-find
-
-# [Alt+i] - repeat character search (reverse)
-bindkey '^[i' vi-rev-repeat-find
-
 # [Backspace] - delete backward
 bindkey '^?' backward-delete-char
 
@@ -84,12 +69,6 @@ bindkey '^B' backward-char
 # [Ctrl+f] - move forward a character
 bindkey '^F' forward-char
 
-# [Alt+f] - move forward one word
-bindkey '^[f' forward-word
-
-# [Alt+b] - move backward one word
-bindkey '^[b' backward-word
-
 # Unbind Alt
 bindkey -r '^['
 
@@ -104,15 +83,6 @@ bindkey -M viins '^H' backward-delete-char
 
 # [Ctrl+u] - delete line
 bindkey -M viins '^U' backward-kill-line
-
-# [Slash] - search history with fzf
-bindkey -M vicmd '/' fzf-history-widget
-
-# [k] - fuzzy find history forward 
-bindkey -M vicmd 'k' up-line-or-beginning-search
-
-# [j] - fuzzy find history backward 
-bindkey -M vicmd 'j' down-line-or-beginning-search
 
 # Disable delay when changing modes
 export KEYTIMEOUT=1
@@ -131,4 +101,3 @@ zle -N zle-keymap-select
 
 echo -ne "\e[6 q"
 
-source "/usr/share/fzf/key-bindings.zsh"
