@@ -270,17 +270,6 @@
                 <command>lxrandr</command>
             </action>
         </keybind>
-        <keybind key='W-Return'>
-            <action name='Execute'>
-                <command>kitty</command>
-            </action>
-        </keybind>
-        <keybind key='W-F2'>
-            <action name='Execute'>
-                <command>firefox-esr</command>
-                <startupnotify/>
-            </action>
-        </keybind>
         <keybind key='W-F4'>
             <action name='Execute'>
                 <command>galculator</command>
@@ -324,11 +313,6 @@
         </keybind>
         <keybind key='W-m'>
             <action name='ToggleMaximize'/>
-        </keybind>
-        <keybind key='W-p'>
-            <action name='Execute'>
-                <command>kitty -e htop</command>
-            </action>
         </keybind>
         <keybind key='S-W-h'>
             <action name='MoveResizeTo'>
@@ -472,11 +456,6 @@
                 <command>xdotool click 3</command>
             </action>
         </keybind>
-        <keybind key='W-F12'>
-            <action name='Execute'>
-                <command>kitty -e tmux new-session -A -D -s music cmus</command>
-            </action>
-        </keybind>
         <keybind key='S-A-F11'>
             <action name='Undecorate'/>
             <action name='Maximize'/>
@@ -506,9 +485,30 @@
         <keybind key='S-W-question'>
             <action name='RemoveDesktop'/>
         </keybind>
+        <keybind key='W-Return'>
+            <action name='Execute'>
+                <command>x-terminal-emulator</command>
+            </action>
+        </keybind>
+        <keybind key='W-p'>
+            <action name='Execute'>
+                <command>x-terminal-emulator -e htop</command>
+            </action>
+        </keybind>
+        <keybind key='W-F12'>
+            <action name='Execute'>
+                <command>x-terminal-emulator -e tmux new-session -A -D -s music cmus</command>
+            </action>
+        </keybind>
         <keybind key='S-W-p'>
             <action name='Execute'>
-                <command>kitty -e tmux new-session -A -D -s pomodoro ~/bin/gone -e &quot;notify-send -u critical Pomodoro Timeout&quot;</command>
+                <command>x-terminal-emulator -e tmux new-session -A -D -s pomodoro ~/bin/gone -e &quot;notify-send -u critical Pomodoro Timeout&quot;</command>
+            </action>
+        </keybind>
+        <keybind key='W-F2'>
+            <action name='Execute'>
+                <command>x-www-browser</command>
+                <startupnotify/>
             </action>
         </keybind>
     </keyboard>
