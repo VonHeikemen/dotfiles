@@ -177,13 +177,30 @@
 
     <Key mask="4" key="a">root:1</Key>
     <Key mask="4" key="d">exec:rofi -show drun</Key>
-    <Key mask="4" key="F2">exec:firefox-developer-edition</Key>
+    <Key mask="4" key="F2">exec:firefox</Key>
     <Key mask="4" key="F3">exec:pcmanfm</Key>
     <Key mask="4" key="F4">exec:galculator</Key>
     <Key mask="4" key="Return">exec:kitty</Key>
+
     <Key mask="4S" key="q">close</Key>
-    <Key mask="4S" key="F5">restart</Key>
+    <Key mask="4C" key="r">restart</Key>
     <Key mask="4" key="Escape">exec:powermenu $HOME/my-configs/jwm/powermenu.conf</Key>
+
+    <Key mask="4" key="F12">exec:kitty -e tmux new-session -A -D -s music cmus</Key>
+    <Key key="F9">exec:cmus-remote --pause</Key>
+    <Key key="F10">exec:cmus-remote --prev</Key>
+    <Key key="F11">exec:cmus-remote --next</Key>
+    <Key key="equal">exec:amixer set Master 10%+</Key>
+    <Key key="minus">exec:amixer set Master 10%-</Key>
+
+    <Key mask="4" key="x">exec:xdotool mousemove 1366 768</Key>
+    <Key mask="4S" key="x">exec:xdotool mousemove 683 384</Key>
+    <Key mask="4" key="Up">exec:xdotool mousemove_relative --sync -- 0 -15</Key>
+    <Key mask="4" key="Down">exec:xdotool mousemove_relative --sync -- 0 15</Key>
+    <Key mask="4" key="Left">exec:xdotool mousemove_relative --sync -- -15 0</Key>
+    <Key mask="4" key="Right">exec:xdotool mousemove_relative --sync -- 15 0</Key>
+    <Key mask="4" key="w">exec:xdotool click 1</Key>
+    <Key mask="4S" key="w">exec:xdotool click 3</Key>
 
     <StartupCommand>
       ~/my-configs/autostart.sh
