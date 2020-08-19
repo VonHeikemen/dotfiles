@@ -1,0 +1,3 @@
+#! /usr/bin/env sh
+
+notify-send "$(date "+%l:%M %p")"

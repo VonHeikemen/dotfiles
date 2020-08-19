@@ -1,0 +1,31 @@
+#! /usr/bin/env sh
+
+speed="15"
+
+case "$1" in
+  left)
+     xdotool mousemove_relative --sync -- "-$speed" 0
+    ;;
+  right)
+    xdotool mousemove_relative --sync -- "$speed" 0
+    ;;
+  up)
+    xdotool mousemove_relative --sync -- 0 "-$speed"
+    ;;
+  down)
+    xdotool mousemove_relative --sync -- 0 "$speed"
+    ;;
+  click-left)
+    xdotool click 1
+    ;;
+  click-right)
+    xdotool click 3
+    ;;
+  mouse-hide)
+    xdotool mousemove 0 1080
+    ;;
+  mouse-show)
+    xdotool mousemove 960 540
+    ;;
+esac
+
