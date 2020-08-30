@@ -1,0 +1,23 @@
+#! /usr/bin/env sh
+
+# Use in crontab: 
+# run: `sudo vi /etc/anacrontab`
+#
+# days  delay  id         command
+# 15    2      pkg-update /usr/local/bin/try-update
+
+zenity --question --text="¿Desea intentar actualizar su sistema?"
+
+if [ $? -eq 1 ]; then
+  exit 0
+fi
+
+SCRIPT=$(cat <<EOF 
+apt update && 
+apt upgrade && 
+zenity --info --text "Proceso finalizado"
+EOF
+)
+
+x-terminal-emulator -e "$SCRIPT"
+
