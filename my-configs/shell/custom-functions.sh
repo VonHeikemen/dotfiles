@@ -83,29 +83,40 @@ burnusb ()
 }
 
 # Transform the arguments into a valid url querystring
-urlencode()
+urlencode ()
 {
   local args="$@"
   jq -nr --arg v "$args" '$v|@uri'; 
 }
 
 # Query duckduckgo
-duckduckgo()
+duckduckgo ()
 {
   lynx "https://lite.duckduckgo.com/lite/?q=$(urlencode "$@")"
 }
 
-# Interactive scratchpad using neovim
-codi()
+# Update dotfile repo or local config manually
+dots ()
 {
-  if [ -z "$1" ];then
-    echo "Must specify a language"
-    return 1;
+  local DOTS="$HOME/dotfiles"
+
+  if [ "$1" = "-s" ]; then
+    if [ "$PWD" != "$HOME" ]; then
+      echo "you should be in your home directory"
+      return 1
+    fi
+    local file="$2"
+  else
+    local file="$1"
   fi
 
-  local syntax="${1}"
-  shift
-  nvim -c \
-    "set bt=nofile ls=0 noru nonu nornu |\
-    Codi $syntax" "$@"
+  vi "$DOTS/$file" -c "vsplit $2" -c "cd $DOTS"
+}
+
+# Calculator utility
+calc ()
+{
+  bc <<EOF
+$@
+EOF
 }

@@ -37,6 +37,12 @@ if [ "$cmd" = 'install' ];then
   exit 0
 fi
 
+if [ "$cmd" = 'reinstall' ];then
+  echo "sudo apt-get install --reinstall $@"
+  sudo apt-get install --reinstall $@
+  exit 0
+fi
+
 if [ "$cmd" = 'remove' ];then
   echo "sudo apt purge \"$@\" && sudo apt autoremove"
   sudo apt purge "$@" && sudo apt autoremove
@@ -67,6 +73,7 @@ if [ "$cmd" = '--show-commands' ];then
   search           : apt search [args]
   info             : apt show [args]
   install          : sudo apt install [args]
+  reinstall        : sudo apt-get install --reinstall [args]
   remove           : sudo apt purge [args] && sudo apt autoremove
   remove-just      : sudo apt remove [args]
   clean-cache      : sudo apt-get autoclean
@@ -95,6 +102,9 @@ if [ "$cmd" = '--help' ];then
 
     install:
       Install packages from the repositories.
+
+    reinstall:
+      Re-install packages that are already installed and at the newest version.
 
     remove:
       Remove packages, including its settings and dependencies.
