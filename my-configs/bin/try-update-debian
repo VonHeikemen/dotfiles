@@ -1,6 +1,6 @@
 #! /usr/bin/env sh
 
-# Use in crontab: 
+# Use in anacron: 
 # run: `sudo vi /etc/anacrontab`
 #
 # days  delay  id         command
