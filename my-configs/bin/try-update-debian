@@ -2,13 +2,12 @@
 
 # Use in anacron: 
 # run: `sudo vi /etc/anacrontab`
-#
-# days  delay  id         command
-# 15    2      pkg-update runuser -u {user} /home/{user}/bin/try-update
+# add:
+# 15	5	pkg-update	runuser -u {user} /home/{user}/bin/try-update
 
 export DISPLAY=:0
 
-zenity --question --text="¿Desea intentar actualizar su sistema?"
+zenity --width 250 --question --text="¿Desea intentar actualizar su sistema?"
 
 if [ $? -eq 1 ]; then
   exit 0
@@ -17,7 +16,7 @@ fi
 SCRIPT=$(cat <<EOF 
 sudo apt update && 
 sudo apt upgrade && 
-zenity --info --text "Proceso finalizado"
+zenity --width 120 --info --text "Proceso finalizado"
 EOF
 )
 
