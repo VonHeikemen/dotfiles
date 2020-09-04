@@ -145,10 +145,10 @@
     dmenu = /usr/bin/dmenu -p dunst:
     
     # Browser for opening urls in context menu.
-    browser = palemoon
+    browser = firefox
 
     # Align icons left/right/off
-    icon_position = left
+    icon_position = off
 
     # Paths to default icons.
     icon_path = /usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x16/devices/
@@ -288,6 +288,11 @@
      category = weechat.PM
      background = "#D53B84"
      foreground = "#FFFFFF"
+
+[CMUS]
+    appname = cmus-notify
+    set_transient = yes
+    urgency = low
 #
 #[CMUS]
 #    appname = CMUS
