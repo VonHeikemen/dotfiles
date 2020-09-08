@@ -22,7 +22,7 @@
 :autocmd FileType php
   \ :iabbrev <buffer> sw@ switch(z)<CR>{<CR>}<Up><CR>case :<CR><BS>break;<CR><CR>default:<CR><BS><TAB>break;<Esc>vi{>><Esc>kkfzxi
 
-:autocmd FileType javascript,vue
+:autocmd FileType html.twig,html,javascript,vue
   \ :iabbrev <buffer> con@ console.log();<Left><Left>
 
 :autocmd FileType html.twig,html,javascript,vue
@@ -42,6 +42,15 @@
 
 :autocmd FileType php,html.twig,html,javascript,vue
   \ :iabbrev <buffer> fun@ function() {<CR>}<Esc>%F(i
+
+:autocmd FileType php,html.twig,html,javascript,vue
+  \ :iabbrev <buffer> forii@ for(let i = 0; i <z; i++) {<CR><CR><BS>}<Esc><Up><Up>fzxi 
+
+:autocmd FileType php,html.twig,html,javascript,vue
+  \ :iabbrev <buffer> forof@ for(let value ofz) {<CR><CR><BS>}<Esc><Up><Up>fzxi 
+
+:autocmd FileType php,html.twig,html,javascript,vue
+  \ :iabbrev <buffer> iife@ (async function () {z})()<Esc>%Fzxi<CR><CR><Up>
 
 :autocmd FileType markdown,md
   \ :iabbrev <buffer> `@ ```<CR><Up><End><CR>
