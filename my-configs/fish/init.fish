@@ -11,6 +11,7 @@ source ~/my-configs/fish/prompt.fish
 source ~/my-configs/fish/syntax.fish
 source ~/my-configs/fish/aliases.fish
 source ~/my-configs/fish/custom-functions.fish
+source ~/my-configs/fish/key-bindings.fish
 
 if test -e ~/my-configs/fish/extra.fish
   source ~/my-configs/fish/extra.fish

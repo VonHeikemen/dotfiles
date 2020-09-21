@@ -19,7 +19,7 @@ function fish_prompt
       string replace "refs/heads/" ""
     )
 
-    if test -z (git status -s)
+    if test -z "(git status -s)"
       set _git_status "✔"
 
       echo (set_color blue)$short_cwd \
