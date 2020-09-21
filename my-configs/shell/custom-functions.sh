@@ -34,54 +34,6 @@ ll ()
     fi
 }
 
-# Show how to burn an iso into a usb device
-burnusb ()
-{
-  local device="99"
-  local iso="99"
-
-  for arg in "$@"
-  do
-    case "$arg" in
-      -d=*|--device=*)
-        device="${arg#*=}"
-        shift;;
-      -d|--device)
-        device="$2"
-        shift 2;;
-      -i|--iso)
-        iso="$2"
-        shift 2;;
-      -i=*|--iso=*)
-        device="${arg#*=}"
-        shift;;
-      -h|--help)
-        echo "\nUsage: $0 --device /device/path --iso /path/to/iso"
-        echo "Might want to use \`fdisk -l\` or \`lsblk\` to check the available devices"
-        return
-    esac
-  done
-
-  if [ "$device" = "99" ];
-  then
-    echo "\nMust provide a --device/-d parameter"
-    return
-  fi
-
-  if [ "$iso" = "99" ];
-  then
-    echo "\nMust provide a --iso/-i parameter"
-    return
-  fi
-
-  local cmd="sudo dd bs=4M if=$iso of=$device status=progress oflag=sync"
-
-  echo "\nUsing device $device"
-  echo "Using image $iso\n"
-  echo "This is the command you should use"
-  echo "$cmd\n"
-}
-
 # Transform the arguments into a valid url querystring
 urlencode ()
 {
