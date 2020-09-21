@@ -20,7 +20,7 @@ function fish_prompt
     )
 
     set -l changes (git status -s)
-    if test -z $changes
+    if test -z "$changes"
       set _git_status "✔"
 
       echo (set_color blue)$short_cwd \
