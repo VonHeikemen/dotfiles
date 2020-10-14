@@ -1,0 +1,3 @@
+#! /usr/bin/env sh
+
+xsel -o -b | xdotool type --delay 12 --clearmodifiers --file -
