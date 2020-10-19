@@ -1,0 +1,53 @@
+skip_welcome_message = true
+complete_from_path = true
+nonzero_exit_errors = true
+disable_table_indexes = true
+path = ["/home/user/bin", "/usr/local/bin", "/usr/bin", "/bin", "/usr/local/games", "/usr/games", "/home/user/.deno/bin"]
+prompt = "echo [ $(char newline) $(ansi blue) $(short-path $(pwd-segments)) $(ansi reset) $(do -i {git rev-parse --abbrev-ref HEAD } | str trim | echo [ \" \" $(ansi green) $it $(ansi reset) \" \" $(repo-status) ] | str collect) $(char newline) $(ansi purple) \"❯ \"] | str collect"
+startup = [
+  "alias  cl [] { clear }",
+  "alias  la [dir] { ls -l -a $dir }",
+  "alias  ll [dir] { ls -a -l $dir | select name type mode uid size created accessed modified }",
+  "alias  lzg [] { lazygit }",
+  "alias  ps-info [val] { ps | where name =~ $val }",
+  "alias  ps-mem [] { ps | select pid name cpu mem | where mem > 1mb | sort-by mem | reverse }",
+  "alias  ps-top [] { ps | select pid name cpu mem | sort-by mem | reverse | first 10 }",
+  "alias  ps-active [] { ps | select pid name cpu mem | where cpu > 0 | sort-by cpu | reverse }",
+  "alias  sys-net [] { sys | get net }",
+  "alias  sys-uptime [] { sys | get host | get uptime }",
+  "alias  sys-env [] { echo $nu.env | pivot name value }",
+  "alias  np [cmd, arg1, arg2, arg3] { pnpm $cmd $arg1 $arg2 $arg3 }",
+  "alias  npr [cmd, arg1, arg2, arg3] { pnpm run $cmd $arg1 $arg2 $arg3 }",
+  "alias  ta [name] { tmux attach -t $name }",
+  "alias  tl [] { tmux list-sessions }",
+  "alias  ts [name, proc] { tmux new-session -A -D -s $name $proc }",
+  "alias  tmus [] { ts music cmus }",
+  "alias  tvi [] { ts vi }",
+  "alias  pomd [] { ts pomodoro 'gone -e \"notify-send -u critical Pomodoro Timeout\"'}",
+  "alias  doc-start [] { systemctl start docker }",
+  "alias  doc-ls [] { docker ps -a }",
+  "alias  yt [val] { youtube-dl -f 'bestvideo[height<=720]+bestaudio/best[height<=720]' $val }",
+  "alias  pwd-segments [] { pwd | str find-replace $nu.home-dir \"~\" | split row \"/\" }",
+  "alias  short-path [path] { echo $path | count | if $it > 3 { echo $path | reverse | range 0..2 | reverse } { echo $path } | to csv -s \"/\" | str trim }",
+  "alias  repo-status [] { git status -s | count | if $it == 0 { format \"{$(ansi green)}✔\" } { format \"{$(ansi red)}✗\" } | format \"{$it} {$(ansi reset)}\" }",
+]
+
+[line_editor]
+max_history_size=2000
+history_duplicates = "ignoreconsecutive"
+
+[env]
+BAT_THEME = "base16"
+EDITOR = "nvim"
+FZF_DEFAULT_COMMAND = "rg --files --hidden --follow --glob \"!.git/*\" --glob \"!cache/*\" --glob \"!node_modules/*\""
+FZF_DEFAULT_OPTS = "--layout=reverse --border"
+DENO_INSTALL = "/home/user/.deno"
+HOMEBREW_CELLAR = "/home/linuxbrew/.linuxbrew/Cellar"
+HOMEBREW_PREFIX = "/home/linuxbrew/.linuxbrew"
+HOMEBREW_REPOSITORY = "/home/linuxbrew/.linuxbrew/Homebrew"
+INFOPATH = "/home/linuxbrew/.linuxbrew/share/info"
+LYNX_LSS = "/home/user/.config/lynx/lynx.lss"
+LYNX_CFG = "/home/user/.config/lynx/lynx.cfg"
+MANPATH = "/home/linuxbrew/.linuxbrew/share/man"
+PYTHONUSERBASE = "/home/user/.local"
+
