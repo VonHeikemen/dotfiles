@@ -5,9 +5,14 @@ disable_table_indexes = true
 path = ["/home/user/bin", "/usr/local/bin", "/usr/bin", "/bin", "/usr/local/games", "/usr/games", "/home/user/.deno/bin"]
 prompt = "echo [ $(char newline) $(ansi blue) $(short-path $(pwd-segments)) $(ansi reset) $(do -i {git rev-parse --abbrev-ref HEAD } | str trim | echo [ \" \" $(ansi green) $it $(ansi reset) \" \" $(repo-status) ] | str collect) $(char newline) $(ansi purple) \"❯ \"] | str collect"
 startup = [
+  "alias  c1 [] { cd ../ }",
+  "alias  c2 [] { cd ../../ }",
+  "alias  c3 [] { cd ../../../ }",
+  "alias  c4 [] { cd ../../../../ }",
   "alias  cl [] { clear }",
   "alias  la [dir] { ls -l -a $dir }",
   "alias  ll [dir] { ls -a -l $dir | select name type mode uid size created accessed modified }",
+  "alias  fh [] { history | reverse | to csv -s $(char newline) | fzf | str trim | xsel -i -b }",
   "alias  lzg [] { lazygit }",
   "alias  ps-info [val] { ps | where name =~ $val }",
   "alias  ps-mem [] { ps | select pid name cpu mem | where mem > 1mb | sort-by mem | reverse }",
@@ -35,6 +40,7 @@ startup = [
 [line_editor]
 max_history_size=2000
 history_duplicates = "ignoreconsecutive"
+history_ignore_space = true
 
 [env]
 BAT_THEME = "base16"
