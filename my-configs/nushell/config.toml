@@ -56,4 +56,5 @@ LYNX_LSS = "/home/user/.config/lynx/lynx.lss"
 LYNX_CFG = "/home/user/.config/lynx/lynx.cfg"
 MANPATH = "/home/linuxbrew/.linuxbrew/share/man"
 PYTHONUSERBASE = "/home/user/.local"
+NNN_FCOLORS = "c1e20402000506f7c6d6ab09"
 

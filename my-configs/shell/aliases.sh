@@ -5,6 +5,7 @@ export TERMINAL='kitty'
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!cache/*" --glob "!node_modules/*"'
 export FZF_DEFAULT_OPTS='--layout=reverse --border' 
 export BAT_THEME='base16'
+export NNN_FCOLORS='c1e20402000506f7c6d6ab09'
 
 alias duh='du -d 1 -h'
 

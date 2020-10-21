@@ -376,7 +376,7 @@ nnoremap <Leader>B :FindProjectBuffers<CR>
 nnoremap <Leader>dg :ProjectRootLCD<CR>:pwd<CR>
 
 " Open file manager
-nnoremap <leader>dd :NnnPicker '%:p:h'<CR>
+nnoremap <leader>dd :NnnPicker %:p:h<CR>
 nnoremap <Leader>da :NnnPicker<CR>
 
 " Begin search & replace using the selected text

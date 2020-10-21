@@ -4,6 +4,7 @@ set -Ux TERMINAL 'kitty'
 set -Ux FZF_DEFAULT_COMMAND 'rg --files --hidden --follow --glob "!.git/*" --glob "!cache/*" --glob "!node_modules/*"'
 set -Ux FZF_DEFAULT_OPTS '--layout=reverse --border' 
 set -Ux BAT_THEME 'base16'
+set -Ux NNN_FCOLORS 'c1e20402000506f7c6d6ab09'
 
 alias -s duh 'du -d 1 -h'
 
