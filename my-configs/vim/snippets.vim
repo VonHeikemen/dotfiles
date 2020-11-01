@@ -62,10 +62,10 @@
   \ :iabbrev <buffer> vdata@ <Esc>0i<Tab>data() {},<Left><Left><CR><CR><Up><Tab><Tab>return {};
 
 :autocmd FileType vue
-  \ :iabbrev <buffer> vvcomp@ <Esc>bvediimport <Esc>pa from '@/components/<Esc>pa.vue';<Esc>/export default {<CR>o<Tab>components: {},<Left><Left><CR><CR><Up><Tab><Tab><Esc>pa,
+  \ :iabbrev <buffer> vvcomp@ <Esc>bvediimport <Esc>pa from '@/components/<Esc>pa.vue';<Esc>/export default {<CR>o<Tab>components: {},<Left><Left><CR><CR><Up><Tab><Tab><Esc>pa,<Esc><C-o>a
 
 :autocmd FileType vue
-  \ :iabbrev <buffer> vcomp@ <Esc>bvediimport <Esc>pa from '@/components/<Esc>pa.vue';<Esc>/components: {<CR>o<Tab><Esc>pa,
+  \ :iabbrev <buffer> vcomp@ <Esc>bvediimport <Esc>pa from '@/components/<Esc>pa.vue';<Esc>/components: {<CR>o<Tab><Esc>pa,<Esc>ddk$%ko<Esc>Pjdd<C-o><C-o>a
 
 :autocmd FileType vue
   \ :iabbrev <buffer> vimap@ <Esc>bvgUlhvediimport { map<Esc>pa } from 'vuex';
@@ -74,7 +74,10 @@
   \ :iabbrev <buffer> vmap@ <Esc>bvgUlhvedi...map<Esc>pa(['']),<Esc>4ha
 
 :autocmd FileType php,html.twig,html,javascript,typescript,vue
-  \ :iabbrev <buffer> :@ <Esc>bea: {},<Left><Left><CR><CR><Up><Tab>
+  \ :iabbrev <buffer> :O@ <Esc>bea: {},<Left><Left><CR><CR><Up><Esc>
+
+:autocmd FileType php,html.twig,html,javascript,typescript,vue
+  \ :iabbrev <buffer> :F@ <Esc>bea() {},<Left><Left><CR><CR><Up><Esc>
 
 :autocmd FileType markdown,md
   \ :iabbrev <buffer> `@ ```<CR><Up><End><CR>
