@@ -8,16 +8,16 @@
   \ :iabbrev <buffer> vd@ echo var_dump(); die();<Esc>2F)i
 
 :autocmd FileType php
-  \ :iabbrev <buffer> pfun@ public function()<CR>{<CR>}<Esc>%kffwi
+  \ :iabbrev <buffer> pfun@ public function()<CR>{<CR>}<Esc>%kf(i
 
 :autocmd FileType php
-  \ :iabbrev <buffer> prfun@ private function()<CR>{<CR>}<Esc>%kffwi
+  \ :iabbrev <buffer> prfun@ private function()<CR>{<CR>}<Esc>%kf(i
 
 :autocmd FileType php
-  \ :iabbrev <buffer> for@ for($i=0; $i <; $i++) {<CR>}<Esc>%F<a
+  \ :iabbrev <buffer> for@ for($i=0; $i <; $i++) {<CR><CR>}<Esc>%F<a
 
 :autocmd FileType php
-  \ :iabbrev <buffer> fore@ foreach(z as $key => $value) {<CR>}<Esc>%Fzxi
+  \ :iabbrev <buffer> fore@ foreach(z as $key => $value) {<CR><CR>}<Esc>%Fzxi
 
 :autocmd FileType php
   \ :iabbrev <buffer> sw@ switch(z)<CR>{<CR>}<Up><CR>case :<CR><BS>break;<CR><CR>default:<CR><BS><TAB>break;<Esc>vi{>><Esc>kkfzxi
@@ -47,10 +47,10 @@
   \ :iabbrev <buffer> afun@ async function() {<CR>}<Esc>%F(i
 
 :autocmd FileType php,html.twig,html,javascript,typescript,vue
-  \ :iabbrev <buffer> forii@ for(let i = 0; i <z; i++) {<CR><CR><BS>}<Esc><Up><Up>fzxi 
+  \ :iabbrev <buffer> forii@ for(let i = 0; i <z; i++) {<CR><CR>}<Esc><Up><Up>fzxi 
 
 :autocmd FileType php,html.twig,html,javascript,typescript,vue
-  \ :iabbrev <buffer> forof@ for(let value ofz) {<CR><CR><BS>}<Esc><Up><Up>fzxi 
+  \ :iabbrev <buffer> forof@ for(let value ofz) {<CR><CR>}<Esc><Up><Up>fzxi 
 
 :autocmd FileType php,html.twig,html,javascript,typescript,vue
   \ :iabbrev <buffer> iife@ (async function () {z})()<Esc>%Fzxi<CR><CR><Up>
@@ -73,11 +73,20 @@
 :autocmd FileType vue
   \ :iabbrev <buffer> vmap@ <Esc>bvgUlhvedi...map<Esc>pa(['']),<Esc>4ha
 
-:autocmd FileType php,html.twig,html,javascript,typescript,vue
-  \ :iabbrev <buffer> :O@ <Esc>bea: {},<Left><Left><CR><CR><Up><Esc>
+:autocmd FileType vue
+  \ :iabbrev <buffer> vfor@ v-for="item inz" :key=""<Esc>Fzxi
+
+:autocmd FileType vue
+  \ :iabbrev <buffer> vprops@ props: {<CR><TAB>z: {<CR><TAB>type: String,<CR>default: ""<CR><BS>},<CR><BS>},<Esc>?z<CR>xi
+
+:autocmd FileType vue
+  \ :iabbrev <buffer> vprop@ z: {<CR><TAB>type: String,<CR>default: ""<CR><BS>},<Esc>?z<CR>xi
 
 :autocmd FileType php,html.twig,html,javascript,typescript,vue
-  \ :iabbrev <buffer> :F@ <Esc>bea() {},<Left><Left><CR><CR><Up><Esc>
+  \ :iabbrev <buffer> :O@ <Esc>bea: {},<Left><Left><CR><CR><Up>
+
+:autocmd FileType php,html.twig,html,javascript,typescript,vue
+  \ :iabbrev <buffer> :F@ <Esc>bea() {},<Left><Left><CR><CR><Up><Up><Esc>f(a
 
 :autocmd FileType markdown,md
   \ :iabbrev <buffer> `@ ```<CR><Up><End><CR>
