@@ -23,6 +23,9 @@ setopt auto_cd
 setopt multios
 setopt prompt_subst
 
+# Enable comments in interactive shell
+setopt interactivecomments
+
 autoload -U compaudit compinit
 autoload -U colors
 
