@@ -166,6 +166,16 @@ call plug#end()
 " ===                            PLUGIN CONFIG                             === "
 " ============================================================================ "
 
+" Load fzf
+" - Homebrew linux
+" set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
+"
+" - Debian
+" set rtp+=/usr/share/doc/fzf/examples
+"
+" - Arch
+" set rtp+=/usr/share/vim/vimfiles
+
 " Set grep default grep command with ripgrep
 set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 
@@ -376,11 +386,14 @@ nnoremap <Leader>B :FindProjectBuffers<CR>
 nnoremap <Leader>dg :ProjectRootLCD<CR>:pwd<CR>
 
 " Open file manager
-nnoremap <leader>dd :NnnPicker %:p:h<CR>
-nnoremap <Leader>da :NnnPicker<CR>
+nnoremap <leader>dd :Lexplore %:p:h<CR>
+nnoremap <Leader>da :Lexplore<CR>
+
+" nnoremap <leader>dd :NnnPicker %:p:h<CR>
+" nnoremap <Leader>da :NnnPicker<CR>
 
 " Begin search & replace using the selected text
-nnoremap <Leader>r :<C-u>%s///gc<Left><Left><Left><Left>
+nnoremap <Leader>r :%s///gc<Left><Left><Left><Left>
 xnoremap <Leader>r :s///gc<Left><Left><Left><Left>
 xnoremap <Leader>R :<C-u>GetSelection<CR>:%s/\V<C-R>=@/<CR>//gc<Left><Left><Left>
 
