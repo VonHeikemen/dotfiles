@@ -36,8 +36,8 @@ startup = [
   "alias doc-ls = docker ps -a",
   "alias yt = youtube-dl -f 'bestvideo[height<=720]+bestaudio/best[height<=720]'",
   "def pwd-segments [] { pwd | str find-replace $nu.home-dir \"~\" | split row \"/\" }",
-  "def short-path [path] { echo $path | count | if $it > 3 { echo $path | reverse | range 0..2 | reverse } { echo $path } | to csv -s \"/\" | str trim }",
-  "def repo-status [] { git status -s | count | if $it == 0 { format \"{$(ansi green)}✔\" } { format \"{$(ansi red)}✗\" } | format \"{$it} {$(ansi reset)}\" }",
+  "def short-path [path] { echo $path | count | each { if $it > 3 { echo $path | reverse | range 0..2 | reverse } { echo $path } } | to csv -s \"/\" | str trim }",
+  "def repo-status [] { git status -s | count | each { if $it == 0 { format \"{$(ansi green)}✔\" } { format \"{$(ansi red)}✗\" } } | each { format \"{$it} {$(ansi reset)}\" } }",
 ]
 
 [line_editor]
