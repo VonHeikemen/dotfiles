@@ -84,6 +84,18 @@ bindkey -M viins '^H' backward-delete-char
 # [Ctrl+u] - delete line
 bindkey -M viins '^U' backward-kill-line
 
+# [Alt+f] - append fzf to a command
+bindkey -s '\ef' '^e | fzf'
+
+# [Alt+p] - append less to a command
+bindkey -s '\ep' '^e | less'
+
+# [Alt+`] - write double quotes and place cursor in the middle
+bindkey -s '\e`' '""^[[D'
+
+# [Alt+0] - write calc
+bindkey -s '\e0' 'calc ""^[[D'
+
 # Disable delay when changing modes
 export KEYTIMEOUT=1
 
