@@ -1,0 +1,34 @@
+#! /usr/bin/env sh
+
+# Make sure "~/.npmrc" exists
+# with a set prefix
+# `prefix=/home/user/.config/npm/packages`
+
+cmd="$1"; shift;
+
+if [ "$1" = '-g' ] || [ "$1" = '--global' ]; then
+  shift;
+  pnpm "$cmd" --global --prefix "$(npm get prefix)" "$@" 
+  exit 0
+fi
+
+case "$cmd" in
+  i|install)
+    if [ "$1" = '-u' ] || [ "$1" = '--unsafe' ]; then
+      shift;
+      pnpm install --ignore-scripts=false "$@" 
+    else
+      pnpm install "$@"
+    fi
+    ;;
+  init)
+    npm init -y
+    ;;
+  x)
+    pnpx "$@"
+    ;;
+  *)
+    pnpm "$cmd" "$@"
+    ;;
+esac
+
