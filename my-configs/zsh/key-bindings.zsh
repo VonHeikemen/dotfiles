@@ -72,8 +72,8 @@ bindkey '^F' forward-char
 # Unbind Alt
 bindkey -r '^['
 
-# [Ctrl+l] - enter vi-mode
-# bindkey '^l' vi-cmd-mode
+# [Ctrl+x Ctrl+x] - enter vi-mode
+bindkey '^x^x' vi-cmd-mode
 
 # [Ctrl+w] - delete word
 bindkey -M viins '^W' backward-kill-word
@@ -84,11 +84,26 @@ bindkey -M viins '^H' backward-delete-char
 # [Ctrl+u] - delete line
 bindkey -M viins '^U' backward-kill-line
 
-# [Alt+f] - append fzf to a command
-bindkey -s '\ef' '^e | fzf'
+# [iq] - Quote selected region
+bindkey -M visual "iq" quote-region
 
-# [Alt+p] - append less to a command
-bindkey -s '\ep' '^e | less'
+# ['] - Insert quote and quit visual mode
+bindkey -M visual -s "'" "iqa"
+
+# [q] - Quit visual mode
+bindkey -M visual -s "q" "^[a" 
+
+# [Ctrl+x f] - append fzf to a command
+bindkey -s '^xf' '^e | fzf'
+
+# [Ctrl+x p] - append less to a command
+bindkey -s '^xp' '^e | less'
+
+# [Ctrl+x s] - prepend sudo to a command
+bindkey -s '^xs' '^asudo ^e'
+
+# [Ctrl+x h] - Insert the last argument used in the previous command
+bindkey '^xh' 'insert-last-word'
 
 # [Alt+`] - write double quotes and place cursor in the middle
 bindkey -s '\e`' '""^[[D'
