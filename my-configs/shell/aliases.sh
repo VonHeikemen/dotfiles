@@ -1,4 +1,4 @@
-export PATH=$HOME/.npm-packages/bin:$HOME/bin:$PATH
+export PATH=$PATH:$HOME/bin:$HOME/.config/npm/packages/bin
 export EDITOR='nvim'
 export PYTHONUSERBASE=~/.local
 export TERMINAL='kitty'
@@ -18,9 +18,6 @@ alias c4='cd ../../../..'
 alias cl='clear'
 alias cp='cp -i'
 
-alias np='pnpm'
-alias npr='pnpm run'
-
 alias lzg='lazygit'
 
 alias ta='tmux attach -t'
@@ -32,7 +29,6 @@ alias pmd-start='ts pomodoro gone -e "notify-send -u critical Pomodoro Timeout"'
 alias pomd='gone -e "notify-send -u critical Pomodoro Timeout"'
 
 alias tvi='ts vi'
-alias vi-s='nvim -S Session.vim'
 
 alias dcc='docker-compose'
 
