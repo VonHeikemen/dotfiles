@@ -72,3 +72,34 @@ calc ()
 $@
 EOF
 }
+
+# Extend the deno cli
+deno()
+{
+  if [ -z "$1" ];then
+    command deno
+    return
+  fi
+
+  local cmd=$1; shift
+
+  case "$cmd" in
+    x)
+      command deno run --allow-run ./Taskfile.js "$@"
+      ;;
+    start)
+      command deno run --allow-run ./Taskfile.js start "$@"
+      ;;
+    init)
+      cp ~/my-configs/deno/Taskfile.js ./
+      echo "Taskfile.js created"
+      ;;
+    s|script)
+      command deno run --import-map="$HOME/my-configs/deno/import-map.json" "$@"
+      ;;
+    *)
+      command deno "$cmd" "$@"
+      ;;
+  esac
+}
+
