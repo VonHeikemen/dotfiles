@@ -1,7 +1,9 @@
+#! /usr/bin/env sh
+
 # Show how to burn an iso into a usb device
 
-local device="99"
-local iso="99"
+device="99"
+iso="99"
 
 for arg in "$@"
 do
@@ -37,7 +39,7 @@ then
   return
 fi
 
-local cmd="sudo dd bs=4M if=$iso of=$device status=progress oflag=sync"
+cmd="sudo dd bs=4M if=$iso of=$device status=progress oflag=sync"
 
 echo "\nUsing device $device"
 echo "Using image $iso\n"
