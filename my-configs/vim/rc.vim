@@ -5,7 +5,6 @@
 " fzf      - https://github.com/junegunn/fzf
 " ripgrep  - https://github.com/BurntSushi/ripgrep
 " vim-plug - https://github.com/junegunn/vim-plug
-" nnn      - https://github.com/jarun/nnn
 
 " ============================================================================ "
 " ===                           EDITING OPTIONS                            === "
@@ -77,8 +76,8 @@ if !has('nvim')
 endif
 
 " Speed up syntax highlight
-syntax sync minlines=400
-set synmaxcol=300
+syntax sync minlines=10000
+set redrawtime=10000
 
 " Preserve state (undo, marks, etc) in non visible buffers
 set hidden
@@ -93,7 +92,7 @@ set expandtab
 set mouse=a
 
 " Look for a tag file in the git folder
-:set tags^=./.git/tags;
+set tags^=./.git/tags;
 
 " Statusline
 set statusline=
@@ -133,9 +132,6 @@ Plug 'maxboisvert/vim-simple-complete'
 " Clipboard support
 Plug 'christoomey/vim-system-copy'
 
-" File manager
-Plug 'mcchrish/nnn.vim'
-
 " Language support
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'html', 'html.twig'] }
 Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'html', 'html.twig'] }
@@ -149,6 +145,13 @@ Plug 'tpope/vim-commentary'
 Plug 'mattn/emmet-vim'
 Plug 'jiangmiao/auto-pairs'
 
+" Editor config
+Plug 'editorconfig/editorconfig-vim'
+
+" Enhanced quickfix
+Plug 'romainl/vim-qf'
+Plug 'stefandtw/quickfix-reflector.vim'
+
 " Utilities
 Plug 'wellle/targets.vim'
 Plug 'moll/vim-bbye'
@@ -159,6 +162,7 @@ Plug 'unblevable/quick-scope'
 Plug 'dhruvasagar/vim-zoom'
 Plug 'Lenovsky/nuake'
 Plug 'junegunn/goyo.vim'
+Plug 'tpope/vim-abolish'
 
 call plug#end()
 
@@ -178,6 +182,7 @@ call plug#end()
 
 " Set grep default grep command with ripgrep
 set grepprg=rg\ --vimgrep\ --smart-case\ --follow
+set errorformat+=%f:%l:%c%p%m
 
 " Floating windows settings
 let g:floating_windows = { "height": 0.6, "width": 0.9 }
@@ -205,7 +210,7 @@ let g:tablineclosebutton = 1
 
 " Quick-scope
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-let g:qs_max_chars = 200
+let g:qs_max_chars = 250
 
 " Sneak
 let g:sneak#label = 1
@@ -213,27 +218,6 @@ let g:sneak#s_next = 1
 
 " Theme
 colorscheme rubber-enhanced
-
-" NNN - File manager
-
-" Disable default mappings
-let g:nnn#set_default_mappings = 0
-
-if has('nvim-0.4')
-  let g:nnn#layout = { 
-    \ 'window': {
-      \ 'width': g:floating_windows.width,
-      \ 'height': g:floating_windows.height,
-      \ 'highlight': 'Debug' 
-      \} 
-    \}
-endif
-
-let g:nnn#action = {
-  \ '<c-t>': 'tab split',
-  \ '<c-x>': 'split',
-  \ '<c-v>': 'vsplit',
-  \ '<c-j>': 'edit' }
 
 " Nuake
 let g:nuake_position = 'bottom'
@@ -260,7 +244,8 @@ tnoremap <C-L> <C-\><C-n>
 nnoremap <Leader>a ggvGg_
 
 " Go to matching pair
-noremap <Leader>e %
+nmap <Leader>e %
+vmap <Leader>e %
 
 " Go to first character in line
 noremap <Leader>h ^
@@ -375,6 +360,9 @@ nnoremap ]or :set norelativenumber<CR>
 " ===                            MISCELLANEOUS                             === "
 " ============================================================================ "
 
+" Navigate to previous 'zoomed' buffer
+nmap <Leader>bu <C-w>m<C-w>w<C-w>m
+
 " Find pattern in directory
 nnoremap <Leader>F :Rg<Space>
 xnoremap <Leader>F :<C-u>GetSelection<CR>:Rg<Space><C-R>/
@@ -388,9 +376,6 @@ nnoremap <Leader>dg :ProjectRootLCD<CR>:pwd<CR>
 " Open file manager
 nnoremap <leader>dd :Lexplore %:p:h<CR>
 nnoremap <Leader>da :Lexplore<CR>
-
-" nnoremap <leader>dd :NnnPicker %:p:h<CR>
-" nnoremap <Leader>da :NnnPicker<CR>
 
 " Begin search & replace using the selected text
 nnoremap <Leader>r :%s///gc<Left><Left><Left><Left>
@@ -413,6 +398,7 @@ tnoremap <M-v> tmux new-session -A -D -s vi<CR>
 
 " Put selected text in register '/'
 vnoremap <Leader>y :<C-u>GetSelection<CR>gv
+vnoremap <Leader>Y :<C-u>GetSelection<CR>:set hlsearch<CR>
 
 " Close buffer while preserving the layout
 nnoremap <Leader>bc :Bdelete<CR>
@@ -424,4 +410,24 @@ xmap <M-;> <Plug>Sneak_;
 nmap <M-,> <Plug>Sneak_,
 omap <M-,> <Plug>Sneak_,
 xmap <M-,> <Plug>Sneak_,
+
+" Manage the quickfix list
+nmap [q <Plug>(qf_qf_previous)zz
+nmap ]q <Plug>(qf_qf_next)zz
+nmap <Leader>cc <Plug>(qf_qf_toggle)
+
+function! QuickfixMapping()
+  " Go to location under the cursor
+  nnoremap <buffer> gl <CR>
+  
+  " Go to next location and stay in the quickfix window
+  nmap <buffer> K <Plug>(qf_qf_previous)zz<C-w>w
+
+  " Go to previous location and stay in the quickfix window
+  nmap <buffer> J <Plug>(qf_qf_next)zz<C-w>w
+endfunction
+augroup quickfix_mapping
+    autocmd!
+    autocmd filetype qf call QuickfixMapping()
+augroup END
 
