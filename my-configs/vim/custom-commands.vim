@@ -1,3 +1,8 @@
+" Handle plugins
+command! PackUpdate call Plug() | call minpac#update()
+command! PackClean  call Plug() | call minpac#clean()
+command! PackStatus call Plug() | call minpac#status()
+
 " Show syntax id
 command! SyntaxQuery call s:syntax_query()
 

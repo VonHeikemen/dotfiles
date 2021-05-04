@@ -4,7 +4,7 @@
 
 " fzf      - https://github.com/junegunn/fzf
 " ripgrep  - https://github.com/BurntSushi/ripgrep
-" vim-plug - https://github.com/junegunn/vim-plug
+" minpac  - https://github.com/k-takata/minpac
 
 " ============================================================================ "
 " ===                           EDITING OPTIONS                            === "
@@ -49,8 +49,8 @@ set incsearch
 " Enable cursorline
 set cursorline
 
-" Disable status bar
-" set laststatus=0
+" Enable status bar
+set laststatus=2
 
 " Enable syntax highlight
 syntax enable
@@ -112,59 +112,64 @@ set statusline+=\
 " ===                               PLUGINS                                === "
 " ============================================================================ "
 
-call plug#begin('~/.vim/plugged')
+function! Plug() abort
+  " Initialize plugin manager
+  packadd minpac
+  call minpac#init()
 
-" Fuzzy finder
-Plug 'junegunn/fzf.vim'
+  " Plugin manager
+  call minpac#add('k-takata/minpac', {'type': 'opt'})
 
-" Better tabline
-Plug 'VonHeikemen/tabline.vim'
+  " Fuzzy finder
+  call minpac#add('junegunn/fzf.vim')
 
-" Theme
-Plug 'VonHeikemen/rubber-themes.vim'
+  " Better tabline
+  call minpac#add('VonHeikemen/tabline.vim')
 
-" Session manager
-Plug 'tpope/vim-obsession'
+  " Theme
+  call minpac#add('VonHeikemen/rubber-themes.vim')
 
-" Autocomplete
-Plug 'maxboisvert/vim-simple-complete'
+  " Session manager
+  call minpac#add('tpope/vim-obsession')
 
-" Clipboard support
-Plug 'christoomey/vim-system-copy'
+  " Autocomplete
+  call minpac#add('maxboisvert/vim-simple-complete')
 
-" Language support
-Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'html', 'html.twig'] }
-Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'html', 'html.twig'] }
-Plug 'othree/html5.vim', { 'for': ['html', 'html.twig', 'php'] }
-Plug 'StanAngeloff/php.vim', { 'for': 'php' }
-Plug 'lumiliet/vim-twig', { 'for': 'html.twig' }
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+  " Clipboard support
+  call minpac#add('christoomey/vim-system-copy')
 
-" Snippets
-Plug 'tpope/vim-commentary'
-Plug 'mattn/emmet-vim'
-Plug 'jiangmiao/auto-pairs'
+  " Language support
+  call minpac#add('pangloss/vim-javascript')
+  call minpac#add('maxmellon/vim-jsx-pretty')
+  call minpac#add('othree/html5.vim')
+  call minpac#add('StanAngeloff/php.vim')
+  call minpac#add('lumiliet/vim-twig')
+  call minpac#add('rust-lang/rust.vim', {'type': 'opt'})
 
-" Editor config
-Plug 'editorconfig/editorconfig-vim'
+  " Snippets
+  call minpac#add('tpope/vim-commentary')
+  call minpac#add('mattn/emmet-vim')
+  call minpac#add('jiangmiao/auto-pairs')
 
-" Enhanced quickfix
-Plug 'romainl/vim-qf'
-Plug 'stefandtw/quickfix-reflector.vim'
+  " Editor config
+  call minpac#add('editorconfig/editorconfig-vim')
 
-" Utilities
-Plug 'wellle/targets.vim'
-Plug 'moll/vim-bbye'
-Plug 'justinmk/vim-sneak'
-Plug 'dbakker/vim-projectroot'
-Plug 'tpope/vim-surround'
-Plug 'unblevable/quick-scope'
-Plug 'dhruvasagar/vim-zoom'
-Plug 'Lenovsky/nuake'
-Plug 'junegunn/goyo.vim'
-Plug 'tpope/vim-abolish'
+  " Enhanced quickfix
+  call minpac#add('romainl/vim-qf')
+  call minpac#add('stefandtw/quickfix-reflector.vim')
 
-call plug#end()
+  " Utilities
+  call minpac#add('wellle/targets.vim')
+  call minpac#add('moll/vim-bbye')
+  call minpac#add('justinmk/vim-sneak')
+  call minpac#add('dbakker/vim-projectroot')
+  call minpac#add('tpope/vim-surround')
+  call minpac#add('unblevable/quick-scope')
+  call minpac#add('dhruvasagar/vim-zoom')
+  call minpac#add('Lenovsky/nuake')
+  call minpac#add('junegunn/goyo.vim')
+  call minpac#add('tpope/vim-abolish')
+endfunction
 
 " ============================================================================ "
 " ===                            PLUGIN CONFIG                             === "
@@ -369,9 +374,6 @@ xnoremap <Leader>F :<C-u>GetSelection<CR>:Rg<Space><C-R>/
 
 " Find buffer under project root
 nnoremap <Leader>B :FindProjectBuffers<CR>
-
-" Switch working directory to project root
-nnoremap <Leader>dg :ProjectRootLCD<CR>:pwd<CR>
 
 " Open file manager
 nnoremap <leader>dd :Lexplore %:p:h<CR>
