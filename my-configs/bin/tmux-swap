@@ -5,10 +5,18 @@ if [ -z "$TMUX" ]; then
   exit 1
 fi
 
+current_pane=$(tmux display-message -p '#I.#P')
+
+if [ "$1" = "--last" ]; then
+  target=$(tmux display-message -p '#{@lastswapped}')
+
+  tmux swap-pane -s $current_pane -t $target
+  exit 0
+fi
+
 pane_format="#I.#P #{pane_current_command}"
 mark_current="#{?window_active,#{?pane_active,*, }, }"
 
-current_pane=$(tmux display-message -p '#I.#P')
 selected=$(tmux list-panes -sF "$pane_format$mark_current" | rofi -dmenu | cut -d " " -f 1)
 
 if [ $? -ne 0 ]; then
@@ -20,6 +28,8 @@ if [ -z "$selected" ]; then
   echo "Process aborted by user" >&2
   exit 0
 fi
+
+tmux set @lastswapped "$selected"
 
 tmux swap-pane -s $current_pane -t $selected
 
