@@ -4,7 +4,7 @@
 
 " fzf      - https://github.com/junegunn/fzf
 " ripgrep  - https://github.com/BurntSushi/ripgrep
-" minpac  - https://github.com/k-takata/minpac
+" minpac   - https://github.com/k-takata/minpac
 
 " ============================================================================ "
 " ===                           EDITING OPTIONS                            === "
@@ -169,6 +169,7 @@ function! Plug() abort
   call minpac#add('Lenovsky/nuake')
   call minpac#add('junegunn/goyo.vim')
   call minpac#add('tpope/vim-abolish')
+  call minpac#add('tpope/vim-repeat')
 endfunction
 
 " ============================================================================ "
