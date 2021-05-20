@@ -136,3 +136,20 @@ play()
   mpv $profile "$vid"
 }
 
+# Jump to frecuently visited directories
+z () {
+  if [ -z "$1" ]; then
+    cd ~
+    return
+  fi
+
+  local dest=$(jq -r ".[\"$1\"]" "$HOME/my-configs/dirs.json")
+
+  if [ "$dest" = "null" ]; then
+    echo "Can't find '$1'"
+    return
+  fi
+
+  cd $dest
+}
+
