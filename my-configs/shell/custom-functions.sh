@@ -44,7 +44,7 @@ EOF
 }
 
 # Extend the deno cli
-deno()
+deno ()
 {
   if [ -z "$1" ];then
     command deno
@@ -74,7 +74,7 @@ deno()
 }
 
 # Docker wrapper
-doc()
+doc ()
 {
   case "$1" in
     up)
@@ -108,7 +108,7 @@ doc()
 }
 
 # mpv wrapper
-play()
+play ()
 {
   local profile=''
   case $1 in
@@ -137,7 +137,8 @@ play()
 }
 
 # Jump to frecuently visited directories
-z () {
+z () 
+{
   if [ -z "$1" ]; then
     cd ~
     return
