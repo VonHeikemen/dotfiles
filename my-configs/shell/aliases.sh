@@ -19,6 +19,8 @@ alias c4='cd ../../../..'
 
 alias cl='clear'
 alias cp='cp -i'
+alias rmd='rm -r'
+alias rmf='rm -rf'
 
 alias lzg='lazygit'
 
@@ -27,6 +29,11 @@ alias tl='tmux list-sessions'
 alias ts='tmux new-session -A -D -s'
 alias tmus='ts music "$(which cmus)"'
 
+alias p='play'
+alias w='play low'
+alias ww='play mid'
+alias listen='play audio'
+
 alias pmd-start='ts pomodoro gone -e "notify-send -u critical Pomodoro Timeout"'
 alias pomd='gone -e "notify-send -u critical Pomodoro Timeout"'
 
@@ -34,13 +41,17 @@ alias tvi='ts vi'
 
 alias dcc='docker-compose'
 
-alias doc-start='systemctl start docker'
-alias doc-ls='docker ps -a'
-
 # alias ls='ls --color=auto'
 # alias la='ls -lAh'
 alias ls='exa'
 alias la='exa --git --header --long --all'
 
+alias see='bat'
+
 alias yt="youtube-dl -f 'bestvideo[height<=720]+bestaudio/best[height<=720]'"
+
+alias psl='ps ax --format pid,user,args'
+alias psg='psl | rg'
+
+alias localip="ip route | awk '/^192.168.*/ { print \$9 }'"
 

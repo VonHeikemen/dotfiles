@@ -1,37 +1,7 @@
 # Make directory then cd into it
 newdir () 
 {
-  mkdir $1
-  cd $1
-}
-
-# Give nnn the ability to cd into a directory
-ll ()
-{
-    # Block nesting of nnn in subshells
-    if [ -n $NNNLVL ] && [ "${NNNLVL:-0}" -ge 1 ]; then
-        echo "nnn is already running"
-        return
-    fi
-
-    # The default behaviour is to cd on quit (nnn checks if NNN_TMPFILE is set)
-    # To cd on quit only on ^G, remove the "export" as in:
-    #     NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-    # NOTE: NNN_TMPFILE is fixed, should not be modified
-    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-
-    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
-    # stty start undef
-    # stty stop undef
-    # stty lwrap undef
-    # stty lnext undef
-
-    nnn "$@"
-
-    if [ -f "$NNN_TMPFILE" ]; then
-            . "$NNN_TMPFILE"
-            rm -f "$NNN_TMPFILE" > /dev/null
-    fi
+  mkdir $1 && cd $1
 }
 
 # Transform the arguments into a valid url querystring
@@ -101,5 +71,68 @@ deno()
       command deno "$cmd" "$@"
       ;;
   esac
+}
+
+# Docker wrapper
+doc()
+{
+  case "$1" in
+    up)
+      systemctl start docker
+      ;;
+    down)
+      systemctl stop docker
+      ;;
+    start)
+      shift;
+      docker container start $@
+      ;;
+    stop)
+      shift;
+      docker container stop $@
+      ;;
+    ls)
+      docker ps -a
+      ;;
+    li)
+      docker images
+      ;;
+    x|exec)
+      shift;
+      docker exec $@
+      ;;
+    a|attach)
+      docker container attach $2
+      ;;
+  esac
+}
+
+# mpv wrapper
+play()
+{
+  local profile=''
+  case $1 in
+    l|low)
+      shift;
+      profile='--profile=low'
+    ;;
+    m|mid)
+      shift;
+      profile='--profile=mid'
+    ;;
+    a|audio)
+      shift;
+      profile='--vid=no'
+    ;;
+  esac
+
+  local vid=''
+  if [ -z "$1" ]; then
+    vid="$(xsel -b --output)"
+  else
+    vid="$1"
+  fi
+
+  mpv $profile "$vid"
 }
 
