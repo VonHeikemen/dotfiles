@@ -11,23 +11,21 @@
 		"node_modules",
 		"vendor"
 	],
-	"font_size": 13,
+	"font_size": 12,
 	"highlight_line": true,
 	"ignored_packages":
 	[
-		"GitGutter",
-		"NvMode",
-		"Rust",
 		"Rust Enhanced",
-		"Vintage"
+		"Vintage",
 	],
 	"line_numbers": false,
 	"mini_diff": false,
 	"nv_change_caret_style_in_command_mode": true,
 	"nv_toggle_hightlight_line_on_command_mode": false,
-	"relative_line_numbers_clear_timeout": 3000,
 	"tab_size": 2,
 	"theme": "Adaptive.sublime-theme",
 	"translate_tabs_to_spaces": true,
-	"word_wrap": false
+	"margin": 1,
+	"word_wrap": false,
+	"scroll_context_lines": 2,
 }

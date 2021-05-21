@@ -20,3 +20,13 @@ class TogglePackage(sublime_plugin.ApplicationCommand):
     sublime.save_settings('Preferences.sublime-settings')
 
     sublime.status_message('{} Package {}'.format(name, status))
+
+
+class UiHideAll(sublime_plugin.ApplicationCommand):
+  def run(self):
+    for w in sublime.windows():
+      w.set_menu_visible(False)
+      w.set_tabs_visible(False)
+      w.set_status_bar_visible(False)
+      w.set_sidebar_visible(False)
+

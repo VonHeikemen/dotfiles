@@ -11,8 +11,6 @@
 		"Dockerfile Syntax Highlighting",
 		"DotENV",
 		"FileManager",
-		"GitGutter",
-		"i3 wm",
 		"Laravel Blade Highlighter",
 		"Night Owl",
 		"NvMode",
@@ -21,14 +19,12 @@
 		"PHP-Twig",
 		"rubber-scheme",
 		"Rust Enhanced",
-		"Simple JSX",
 		"VimL",
-		"Vue Syntax Highlight"
+		"Vue Syntax Highlight",
 	],
 	"repositories":
 	[
-		"https://github.com/francescarpi/RelativeLineNumbers.git",
 		"https://github.com/VonHeikemen/NvMode",
-		"https://github.com/VonHeikemen/rubber-scheme"
-	]
+		"https://github.com/VonHeikemen/rubber-scheme",
+	],
 }
