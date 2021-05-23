@@ -136,7 +136,7 @@ play ()
   mpv $profile "$vid"
 }
 
-# Jump to frecuently visited directories
+# Jump to frequently visited directories
 z () 
 {
   if [ -z "$1" ]; then
@@ -144,9 +144,10 @@ z ()
     return
   fi
 
-  local dest=$(jq -r ".[\"$1\"]" "$HOME/my-configs/dirs.json")
+  local dirs="$HOME/my-configs/dirs.json"
+  local dest=$(awk -F'"' "/^\\s*\"$1\":/ { print \$4 }" "$dirs")
 
-  if [ "$dest" = "null" ]; then
+  if [ -z "$dest" ]; then
     echo "Can't find '$1'"
     return
   fi
