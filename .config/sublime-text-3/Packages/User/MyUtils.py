@@ -30,6 +30,7 @@ class UiHideAll(sublime_plugin.ApplicationCommand):
       w.set_status_bar_visible(False)
       w.set_sidebar_visible(False)
 
+
 class ChangeSurroundings(sublime_plugin.TextCommand):
   def run(self, edit, **kwargs):
     surround = [kwargs.get('begin'), kwargs.get('end')]
@@ -103,13 +104,17 @@ class DeleteSurrounded(sublime_plugin.TextCommand):
       }
     )
 
+
 class DeleteWord(sublime_plugin.TextCommand):
   def run(self, edit, **kwargs):
     goto_insert_mode = kwargs.get('replace', False)
-    self.view.run_command('move', {"by": "word_ends", "forward": True, "extend": True})
+
+    word = self.view.word(self.view.sel()[0].begin())
+
+    self.view.sel().clear()
+    self.view.sel().add(word)
     self.view.run_command('cut')
 
     if goto_insert_mode:
       self.view.run_command('nv_enter_insert_mode')
-
 
