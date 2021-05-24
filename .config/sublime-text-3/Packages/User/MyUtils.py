@@ -1,4 +1,4 @@
-import os
+import subprocess
 
 import sublime
 import sublime_plugin
@@ -117,4 +117,16 @@ class DeleteWord(sublime_plugin.TextCommand):
 
     if goto_insert_mode:
       self.view.run_command('nv_enter_insert_mode')
+
+
+class ThenGoBackToNormalMode(sublime_plugin.TextCommand):
+  def run(self, edit, **kwargs):
+    command = kwargs.get('exec', 'noop')
+    self.view.run_command(command)
+    self.view.run_command('nv_enter_normal_mode')
+
+
+class EnterKey(sublime_plugin.TextCommand):
+  def run(self, edit, **kwargs):
+    subprocess.run(['xdotool', 'key', '--clearmodifiers', 'Return'])
 

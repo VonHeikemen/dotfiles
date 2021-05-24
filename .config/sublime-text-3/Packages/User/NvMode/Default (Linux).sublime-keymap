@@ -14,11 +14,6 @@
     "context": [ {"key": "setting.command_mode", "operand": true} ]
   },
   {
-    "keys": [" ", "o"],
-    "command": "prompt_open_file",
-    "context": [ {"key": "setting.command_mode", "operand": true} ]
-  },
-  {
     "keys": ["ctrl+k"],
     "command": "swap_line_up",
     "context": [ {"key": "setting.command_mode", "operand": true} ]
@@ -48,10 +43,18 @@
     "keys": ["ctrl+l"],
     "command": "nv_enter_normal_mode",
     "context": [
-      {"key": "setting.visual_mode", "operand": true },
+      {"key": "setting.visual_mode", "operand": true},
       {"key": "setting.is_widget", "operand": false}
     ]
   },
+  {
+    "keys": ["ctrl+l"],
+    "command": "then_go_back_to_normal_mode",
+    "args": {"exec": "single_selection"},
+    "context": [
+      {"key": "num_selections", "operator": "not_equal", "operand": 1},
+    ]
+	},
   {
     "keys": [" ", "e"],
     "command": "move_to",
@@ -160,6 +163,11 @@
     "context": [ {"key": "setting.command_mode"} ]
   },
   {
+    "keys": [" ", "b", "c"],
+    "command": "close",
+    "context": [ {"key": "setting.command_mode"} ]
+  },
+  {
     "keys": [" ", "y"],
     "command": "slurp_find_string",
     "context": [ {"key": "setting.command_mode"} ]
@@ -192,6 +200,13 @@
     "context":[
       { "key": "auto_complete_visible" },
       { "key": "setting.auto_complete_commit_on_tab", "operand": false }
+    ]
+  },
+  {
+    "keys": ["ctrl+m"],
+    "command": "enter_key",
+    "context":[
+      { "key": "panel_has_focus", "operand": true }
     ]
   },
   {
@@ -251,6 +266,30 @@
       {"key": "setting.visual_mode", "operand": false}
     ]
   },
+  {
+    "keys": ["y"],
+    "command": "then_go_back_to_normal_mode",
+    "args": {"exec": "copy"},
+    "context": [
+      {"key": "setting.visual_mode", "operand": true}
+    ]
+  },
+  {
+    "keys": ["d"],
+    "command": "then_go_back_to_normal_mode",
+    "args": {"exec": "cut"},
+    "context": [
+      {"key": "setting.visual_mode", "operand": true}
+    ]
+  },
+  {
+    "keys": ["x"],
+    "command": "then_go_back_to_normal_mode",
+    "args": {"exec": "right_delete"},
+    "context": [
+      {"key": "setting.visual_mode", "operand": true}
+    ]
+  },
 
   // Plugin: AceJump
   {
@@ -282,6 +321,34 @@
     "keys": ["D"],
     "command": "ace_jump_add_cursor",
     "context": [ {"key": "setting.command_mode"} ]
+  },
+
+  // Plugin: File Manager
+  {
+    "keys": ["c", "enter"],
+    "command": "show_overlay",
+    "args": {"overlay": "command_palette", "text": "File Manager "},
+    "context": [
+      {"key": "setting.command_mode", "operand": true},
+      {"key": "setting.visual_mode", "operand": false}
+    ]
+  },
+  {
+    "keys": ["c", "p"],
+    "command": "show_overlay",
+    "args": {"overlay": "command_palette", "text": "File Manager Copy "},
+    "context": [
+      {"key": "setting.command_mode", "operand": true},
+      {"key": "setting.visual_mode", "operand": false}
+    ]
+  },
+  {
+    "keys": ["c", "n"],
+    "command": "fm_create",
+    "context": [
+      {"key": "setting.command_mode", "operand": true},
+      {"key": "setting.visual_mode", "operand": false}
+    ]
   },
 
   // Plugin: BracketHighlighter
@@ -444,4 +511,3 @@
     ]
   },
 ]
-
