@@ -54,4 +54,8 @@ alias psl='ps ax --format pid,user,args'
 alias psg='psl | rg'
 
 alias localip="ip route | awk '/^192.168.*/ { print \$9 }'"
+alias '?'='duckduckgo'
+alias 'hi?'='ping -q -W 5 -c 5 github.com'
+
+alias share='miniserve --port 5000 --color-scheme "archlinux" --dirs-first --enable-tar --upload-files'
 
