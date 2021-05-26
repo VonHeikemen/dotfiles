@@ -9,8 +9,19 @@
     "context": [ {"key": "setting.command_mode", "operand": true} ]
   },
   {
-    "keys": [" ", "q", "q"],
+    "keys": [" ", "Q"],
     "command": "nv_disable_and_exit",
+    "context": [ {"key": "setting.command_mode", "operand": true} ]
+  },
+  {
+    "keys": [" ", "q", "q"],
+    "command": "close",
+    "context": [ {"key": "setting.command_mode", "operand": true} ]
+  },
+  {
+    "keys": [" ", "w"],
+    "command": "save",
+    "args": {"async": true},
     "context": [ {"key": "setting.command_mode", "operand": true} ]
   },
   {
@@ -120,6 +131,12 @@
     "context": [ {"key": "setting.command_mode"} ]
   },
   {
+    "keys": [" ", "F"],
+    "command": "show_panel",
+    "args": {"panel": "find_in_files"},
+    "context": [ {"key": "setting.command_mode"} ]
+  },
+  {
     "keys": [" ", "f", "f"],
     "command": "show_overlay",
     "args": {"overlay": "goto", "show_files": true},
@@ -145,6 +162,15 @@
     "keys": ["g", "D"],
     "command": "goto_reference",
     "context": [ {"key": "setting.command_mode"} ]
+  },
+  {
+    "keys": ["g", "c"],
+    "command": "then_go_back_to_normal_mode",
+    "args": {"exec": "toggle_comment"},
+    "context": [
+      {"key": "setting.command_mode", "operand": true},
+      {"key": "setting.visual_mode", "operand": true}
+    ]
   },
   {
     "keys": [" ", "r"],
