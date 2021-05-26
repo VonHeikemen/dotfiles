@@ -130,3 +130,27 @@ class EnterKey(sublime_plugin.TextCommand):
   def run(self, edit, **kwargs):
     subprocess.run(['xdotool', 'key', '--clearmodifiers', 'Return'])
 
+
+class FileStatus(sublime_plugin.EventListener):
+  def __init__(self):
+    # format reference: 
+    # https://github.com/maliayas/SublimeText_PluginStandards#status-bar-items
+    self.index = ').0.file_status'
+
+  def on_modified(self, view):
+    self.show_status(view)
+
+  def on_activated(self, view):
+    self.show_status(view)
+
+  def on_post_save(self, view):
+    view.erase_status(self.index)
+
+  def show_status(self, view):
+    if view.is_dirty():
+      status = "✗"
+    else:
+      status = ""
+
+    view.set_status(self.index, status)
+
