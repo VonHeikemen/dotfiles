@@ -14,7 +14,16 @@ urlencode ()
 # Query duckduckgo
 duckduckgo ()
 {
-  lynx "https://lite.duckduckgo.com/lite/?q=$(urlencode "$@")"
+  w3m "https://lite.duckduckgo.com/lite/?q=$(urlencode "$@")"
+}
+
+# Read song lyrics from azlyrics.com
+lyrics ()
+{
+  local artist=$(echo $1 | sed -e "s/\s//g" | tr '[:upper:]' '[:lower:]')
+  local song=$(echo $2 | sed -e "s/\s//g" | tr '[:upper:]' '[:lower:]')
+  local site='https://www.azlyrics.com/lyrics'
+  w3m "$site/$artist/$song.html"
 }
 
 # Update dotfile repo or local config manually
