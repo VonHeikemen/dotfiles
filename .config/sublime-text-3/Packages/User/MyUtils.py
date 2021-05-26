@@ -87,8 +87,12 @@ class ChangeSurroundings(sublime_plugin.TextCommand):
 class DeleteSurrounded(sublime_plugin.TextCommand):
   def run(self, edit, **kwargs):
     all = kwargs.get('all', False)
+    replace = kwargs.get('replace', False)
     self.select_content(all)
     self.view.run_command('cut')
+
+    if replace:
+      self.view.run_command('nv_enter_insert_mode')
 
   def select_content(self, all):
     self.view.run_command(
@@ -108,11 +112,16 @@ class DeleteSurrounded(sublime_plugin.TextCommand):
 class DeleteWord(sublime_plugin.TextCommand):
   def run(self, edit, **kwargs):
     goto_insert_mode = kwargs.get('replace', False)
+    scope = kwargs.get('scope', 'word_end')
 
-    word = self.view.word(self.view.sel()[0].begin())
+    if scope == 'inner':
+      word = self.view.word(self.view.sel()[0].begin())
 
-    self.view.sel().clear()
-    self.view.sel().add(word)
+      self.view.sel().clear()
+      self.view.sel().add(word)
+    elif scope == 'word_end':
+      self.view.run_command('move', {"by": "word_ends", "forward": True, "extend": True})
+
     self.view.run_command('cut')
 
     if goto_insert_mode:
@@ -124,6 +133,21 @@ class ThenGoBackToNormalMode(sublime_plugin.TextCommand):
     command = kwargs.get('exec', 'noop')
     self.view.run_command(command)
     self.view.run_command('nv_enter_normal_mode')
+
+
+class MoveVisualModeStartingPoint(sublime_plugin.TextCommand):
+  def run(self, edit):
+    self.view.run_command('nv_enter_normal_mode')
+    self.view.run_command('move', {"by": "characters", "forward": True})
+    self.view.run_command('nv_enter_visual_mode')
+    self.view.run_command('move', {"by": "characters", "forward": False, "extend": True})
+    self.view.run_command('move', {"by": "characters", "forward": False, "extend": True})
+
+
+class ReplaceSelection(sublime_plugin.TextCommand):
+  def run(self, edit):
+    self.view.run_command('cut')
+    self.view.run_command('nv_enter_insert_mode')
 
 
 class EnterKey(sublime_plugin.TextCommand):

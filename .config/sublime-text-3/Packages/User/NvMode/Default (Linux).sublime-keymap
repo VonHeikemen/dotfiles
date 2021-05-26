@@ -1,6 +1,15 @@
 [
   // Plugin: NvMode
   {
+    "keys": ["h"],
+    "command": "move_visual_mode_starting_point",
+    "context": [
+      {"key": "setting.command_mode", "operand": true},
+      {"key": "setting.visual_mode", "operand": true},
+      {"key": "selection_empty", "operator": "equal", "operand": true, "match_all": true }
+    ]
+  },
+  {
     "keys": [" ", ","],
     "command": "edit_settings", 
     "args": {
@@ -131,6 +140,16 @@
     "context": [ {"key": "setting.command_mode"} ]
   },
   {
+    "keys": ["[", "q"],
+    "command": "prev_result",
+    "context": [ {"key": "setting.command_mode"} ]
+  },
+  {
+    "keys": ["]", "q"],
+    "command": "next_result",
+    "context": [ {"key": "setting.command_mode"} ]
+  },
+  {
     "keys": [" ", "F"],
     "command": "show_panel",
     "args": {"panel": "find_in_files"},
@@ -152,6 +171,14 @@
     "keys": [" ", "f", "S"],
     "command": "goto_symbol_in_project",
     "context": [ {"key": "setting.command_mode"} ]
+  },
+  {
+    "keys": ["c", "c"],
+    "command": "replace_selection",
+    "context": [
+      {"key": "setting.command_mode", "operand": true},
+      {"key": "setting.visual_mode", "operand": true},
+    ]
   },
   {
     "keys": ["g", "d"],
@@ -212,6 +239,14 @@
     "command": "show_panel",
     "args": {"panel": "find_in_files"},
     "context": [ {"key": "setting.command_mode"} ]
+  },
+  {
+    "keys": ["ctrl+c"],
+    "command": "hide_overlay",
+    "context": [
+      {"key": "overlay_visible", "operator": "equal", "operand": true},
+      {"key": "panel_has_focus", "operator": "equal", "operand": false}
+    ]
   },
   {
     "keys": ["ctrl+m"],
@@ -278,6 +313,16 @@
   {
     "keys": ["d", "w"],
     "command": "delete_word",
+    "args": {"scope": "word_end"},
+    "context": [
+      {"key": "setting.command_mode", "operand": true},
+      {"key": "setting.visual_mode", "operand": false}
+    ]
+  },
+  {
+    "keys": ["d", "i", "w"],
+    "command": "delete_word",
+    "args": {"scope": "inner"},
     "context": [
       {"key": "setting.command_mode", "operand": true},
       {"key": "setting.visual_mode", "operand": false}
@@ -286,7 +331,16 @@
   {
     "keys": ["c", "w"],
     "command": "delete_word",
-    "args": {"replace": true},
+    "args": {"replace": true, "scope": "word_end"},
+    "context": [
+      {"key": "setting.command_mode", "operand": true},
+      {"key": "setting.visual_mode", "operand": false}
+    ]
+  },
+  {
+    "keys": ["c", "i" ,"w"],
+    "command": "delete_word",
+    "args": {"replace": true, "scope": "inner"},
     "context": [
       {"key": "setting.command_mode", "operand": true},
       {"key": "setting.visual_mode", "operand": false}
@@ -397,7 +451,7 @@
     ]
   },
   {
-    "keys": ["d", "s", "i"],
+    "keys": ["d", "i", "s"],
     "command": "delete_surrounded",
     "context": [
       {"key": "setting.command_mode", "operand": true},
@@ -405,9 +459,27 @@
     ]
   },
   {
-    "keys": ["d", "s", "a"],
+    "keys": ["d", "a", "s"],
     "command": "delete_surrounded",
     "args": {"all": true},
+    "context": [
+      {"key": "setting.command_mode", "operand": true},
+      {"key": "setting.visual_mode", "operand": false}
+    ]
+  },
+  {
+    "keys": ["c", "i", "s"],
+    "command": "delete_surrounded",
+    "args": {"replace": true},
+    "context": [
+      {"key": "setting.command_mode", "operand": true},
+      {"key": "setting.visual_mode", "operand": false}
+    ]
+  },
+  {
+    "keys": ["c", "a", "s"],
+    "command": "delete_surrounded",
+    "args": {"all": true, "replace": true},
     "context": [
       {"key": "setting.command_mode", "operand": true},
       {"key": "setting.visual_mode", "operand": false}
