@@ -1,0 +1,240 @@
+#! /usr/bin/env sh
+
+err ()
+{
+  echo "$1" >&2
+  exit 1
+}
+
+get ()
+{
+  jq -r --arg key "$1" '.[$key]' "$db"
+}
+
+query ()
+{
+  local value=$(get "$1")
+  
+  if [ "$value" = "null" ]; then
+    err "Can't find '$1'"
+  fi
+
+  echo "$value"
+}
+
+replace_db ()
+{
+  rm "$db"
+  mv "$db.new" "$db"
+}
+
+update_db ()
+{
+  jq -r --arg key "$1" --arg val "$2" '.[$key] = $val' "$db" > "$db.new"
+
+  replace_db
+}
+
+choose ()
+{
+  local key=$(jq -r 'keys[]' "$db" | fzf)
+
+  if [ -z "$key" ]; then
+    err ""
+  fi
+
+  get "$key"
+}
+
+add ()
+{
+  local value=$(get "$1")
+
+  if [ "$value" != "null" ]; then
+    err "'$1' already exists"
+  fi
+
+  update_db "$1" "$2"
+
+  echo "Added"
+  echo "$1: $2"
+}
+
+update ()
+{
+  local value=$(query "$1")
+
+  if [ -z "$value"  ]; then
+    exit 1
+  fi
+
+  update_db "$1" "$2"
+
+  echo "'$1' updated"
+  echo "* from: $value"
+  echo "* to: $2"
+}
+
+remove ()
+{
+  local value=$(query "$1")
+
+  if [ -z "$value"  ]; then
+    exit 1
+  fi
+
+  jq -r --arg key "$1" 'del(.[$key])' "$db" > "$db.new"
+
+  replace_db
+
+  echo "Deleted"
+  echo "$2: $value"
+}
+
+help ()
+{
+  echo "  store-json - key/value pair database for your shell functions.
+
+  And by \"database\" I mean a plain json file in a directory somewhere in your system.
+  This is basically a helper script that does some CRUD operations to a json file.
+
+  USAGE
+    store-json [DOCUMENT] [COMMAND] [ARGS]
+
+  COMMANDS
+    create:
+      creates an empty json file in your \"data folder.\"
+
+    query:
+      extract the value of an entry.
+
+    list:
+      show all the entries of a document.
+
+    choose:
+      shows all the entries of a document and lets you choose one interactively with \`fzf\`.
+
+    add:
+      creates a new entry in the document.
+
+    update:
+      change the value of an entry.
+
+    remove:
+      deletes an entry from the document.
+
+    location:
+      show the file path to the document.
+
+    --help:
+      shows this message.
+
+  ENVIRONMENT
+    STORE_JSON_FOLDER:
+      Specify the path to the \"data folder\" where documents will be saved.
+
+  EXAMPLES
+
+    All this examples use a document called \`bookmark\` but this of course could be 
+    anything you want.
+    
+    create a document:
+        store-json bookmark create
+
+    add an entry to a document:
+        store-json bookmark add ddg \"https://duckduckgo.com/\"
+
+    extract the value of an entry:
+        store-json bookmark query ddg
+
+    list all entries in a document:
+        store-json bookmark list
+
+    choose an entry interactively (requires fzf):
+        store-json bookmark choose 
+
+    change the value of an entry:
+        store-json bookmark update ddg \"https://lite.duckduckgo.com/lite/\"
+
+    delete an entry from a document:
+        store-json bookmark remove ddg
+
+    show path to the document:
+        store-json bookmark location"
+}
+
+
+id="$1"
+shift;
+
+db=""
+
+if [ ! -z "$STORE_JSON_FOLDER" ]; then
+  db="$STORE_JSON_FOLDER/$id.json"
+fi
+
+if [ -z "$db" ]; then
+  err "It looks like you haven't setup your \"data folder.\" 
+
+Create one and set the env variable STORE_JSON_FOLDER with the path (with no trailing slash)"
+fi
+
+if [ ! -f "$db" ]; then
+
+  case "$id" in
+    -h|--help|help)
+      help
+      exit 0
+      ;;
+  esac
+
+  if [ "$1" = "create" ]; then
+    echo "{}" > "$db"
+    echo "'$id' created"
+    exit 0
+  fi
+
+  err "Invalid storage location"
+fi
+
+cmd="$1"
+shift;
+
+case $cmd in
+  query)
+    query "$1"
+    ;;
+
+  list)
+    jq -r 'keys[]' "$db"
+    ;;
+
+  location)
+    echo "$db"
+    ;;
+
+  choose)
+    choose
+    ;;
+
+  add)
+    add "$1" "$2"
+    ;;
+
+  update)
+    update "$1" "$2"
+    ;;
+
+  remove)
+    remove "$1"
+    ;;
+
+  -h|--help|help)
+    help
+    ;;
+
+  *)
+    err "Invalid command"
+    ;;
+esac
+
