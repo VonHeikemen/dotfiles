@@ -88,7 +88,7 @@ remove ()
   replace_db
 
   echo "Deleted"
-  echo "$2: $value"
+  echo "$1: $value"
 }
 
 help ()
