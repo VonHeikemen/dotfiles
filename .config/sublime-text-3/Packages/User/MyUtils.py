@@ -178,3 +178,9 @@ class FileStatus(sublime_plugin.EventListener):
 
     view.set_status(self.index, status)
 
+
+class SaferQuit(sublime_plugin.TextCommand):
+  def run(self, edit):
+    self.view.window().run_command('close_workspace')
+    sublime.run_command('exit')
+

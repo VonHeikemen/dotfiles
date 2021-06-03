@@ -24,7 +24,7 @@
   },
   {
     "keys": [" ", "q", "q"],
-    "command": "close",
+    "command": "safer_quit",
     "context": [ {"key": "setting.command_mode", "operand": true} ]
   },
   {
