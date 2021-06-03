@@ -1,6 +1,8 @@
 {
 	"block_caret": true,
 	"caret_style": "solid",
+	"caret_extra_top": 1,
+	"caret_extra_bottom": 1,
 	"color_scheme": "Packages/rubber-scheme/Rubber-enhanced.sublime-color-scheme",
 	"folder_exclude_patterns":
 	[
@@ -11,7 +13,7 @@
 		"node_modules",
 		"vendor"
 	],
-	"font_size": 12,
+	"font_size": 11,
 	"highlight_line": true,
 	"ignored_packages":
 	[
@@ -28,4 +30,6 @@
 	"margin": 1,
 	"word_wrap": false,
 	"scroll_context_lines": 2,
+	"remember_workspace": false,
+	"hot_exit": "disabled",
 }
