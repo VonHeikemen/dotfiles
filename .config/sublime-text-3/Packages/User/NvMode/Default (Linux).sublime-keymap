@@ -3,10 +3,29 @@
   {
     "keys": ["h"],
     "command": "move_visual_mode_starting_point",
+    "args": {"by": "characters"},
     "context": [
       {"key": "setting.command_mode", "operand": true},
       {"key": "setting.visual_mode", "operand": true},
-      {"key": "selection_empty", "operator": "equal", "operand": true, "match_all": true }
+      {"key": "selection_empty", "operator": "equal", "operand": true, "match_all": true}
+    ]
+  },
+  {
+    "keys": ["k"],
+    "command": "move_visual_mode_starting_point",
+    "args": {"by": "lines"},
+    "context": [
+      {"key": "setting.command_mode", "operand": true},
+      {"key": "setting.visual_mode", "operand": true},
+      {"key": "selection_empty", "operator": "equal", "operand": true, "match_all": true}
+    ]
+  },
+  {
+    "keys": ["a"],
+    "command": "better_a",
+    "context": [
+      {"key": "setting.command_mode", "operand": true},
+      {"key": "selection_empty", "operator": "equal", "operand": true, "match_all": true}
     ]
   },
   {

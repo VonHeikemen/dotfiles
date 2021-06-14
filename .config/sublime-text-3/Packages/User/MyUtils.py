@@ -136,12 +136,13 @@ class ThenGoBackToNormalMode(sublime_plugin.TextCommand):
 
 
 class MoveVisualModeStartingPoint(sublime_plugin.TextCommand):
-  def run(self, edit):
+  def run(self, edit, **kwargs):
+    move = kwargs.get('by', 'characters')
     self.view.run_command('nv_enter_normal_mode')
     self.view.run_command('move', {"by": "characters", "forward": True})
     self.view.run_command('nv_enter_visual_mode')
     self.view.run_command('move', {"by": "characters", "forward": False, "extend": True})
-    self.view.run_command('move', {"by": "characters", "forward": False, "extend": True})
+    self.view.run_command('move', {"by": move, "forward": False, "extend": True})
 
 
 class ReplaceSelection(sublime_plugin.TextCommand):
@@ -183,4 +184,13 @@ class SaferQuit(sublime_plugin.TextCommand):
   def run(self, edit):
     self.view.window().run_command('close_workspace')
     sublime.run_command('exit')
+
+
+class BetterA(sublime_plugin.TextCommand):
+  def run(self, edit):
+    for sel in self.view.sel():
+      cursor_pos = sel.b
+      character = self.view.substr(cursor_pos)
+      after = character != '\n'
+      self.view.run_command('nv_enter_insert_mode', {"after": after})
 
