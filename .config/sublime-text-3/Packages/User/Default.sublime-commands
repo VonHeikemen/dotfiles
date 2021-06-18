@@ -1,0 +1,10 @@
+[
+  {
+    "caption": "NvMode: Update key bindings",
+    "command": "spk_key_binding",
+    "args": {
+      "bindings": "$packages/User/NvMode/keybindings.py",
+      "destination": "$packages/User/NvMode/Default ($platform).sublime-keymap"
+    }
+  }
+]
