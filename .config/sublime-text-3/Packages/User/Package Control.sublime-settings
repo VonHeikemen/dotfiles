@@ -15,6 +15,7 @@
 		"Laravel Blade Highlighter",
 		"Night Owl",
 		"NvMode",
+		"OpenTabList",
 		"Origami",
 		"Package Control",
 		"PHP-Twig",
@@ -27,5 +28,6 @@
 	[
 		"https://github.com/VonHeikemen/NvMode",
 		"https://github.com/VonHeikemen/rubber-scheme",
-	],
+		"https://github.com/VonHeikemen/OpenTabList",
+ 	],
 }

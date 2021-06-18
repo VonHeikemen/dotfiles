@@ -194,3 +194,25 @@ class BetterA(sublime_plugin.TextCommand):
       after = character != '\n'
       self.view.run_command('nv_enter_insert_mode', {"after": after})
 
+
+class HackyCtrlO(sublime_plugin.TextCommand):
+  def run(self, edit):
+    self.view.run_command('nv_enter_normal_mode')
+    sublime.set_timeout_async(self.go_back, 1000)
+
+  def go_back(self):
+    self.view.run_command('nv_enter_insert_mode', {"after": False})
+
+
+class UseSidebar(sublime_plugin.ApplicationCommand):
+  def run(self):
+    window = sublime.active_window()
+    sidebar_visible = window.is_sidebar_visible()
+
+    if sidebar_visible:
+      window.run_command('focus_group', {"group": window.active_group()})
+      window.run_command('toggle_side_bar')
+    else:
+      window.run_command('toggle_side_bar')
+      window.run_command('focus_side_bar')
+
