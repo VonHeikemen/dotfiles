@@ -13,7 +13,7 @@ def keybinding(bind, **kwargs):
   bind(["ctrl+o"], "hacky_ctrl_o", insert_mode, context['selection_empty'])
 
   # App commands
-  bind([leader, ","], "edit_settings", command_mode[0], base_file="${packages}/User/NvMode/Default ($platform).sublime-keymap")
+  bind([leader, ","], "edit_settings", command_mode[0], base_file="$packages/User/NvMode/keybindings.py")
   bind([leader, "Q"], "nv_disable_and_exit", command_mode[0])
   bind([leader, "q", "q"], "safer_quit", command_mode[0])
   bind([leader, "w"], "save", command_mode[0], **{"async": True})
@@ -28,8 +28,10 @@ def keybinding(bind, **kwargs):
   bind([leader, "b", "l"], "next_view_in_stack", command_mode[0])
   bind([leader, "b", "c"], "close", command_mode[0])
 
-  # Sidebar
+
+ # Sidebar
   bind([leader, "d", "d"], "use_sidebar", command_mode[0])
+  bind([leader, "d", "d"], "use_sidebar", context['sidebar_focused'])
   bind(["h"], "move", context['sidebar_focused'], by="characters", forward=False)
   bind(["l"], "move", context['sidebar_focused'], by="characters", forward=True)
   bind(["k"], "move", context['sidebar_focused'], by="lines", forward=False)
@@ -45,20 +47,23 @@ def keybinding(bind, **kwargs):
 
   bind([leader, "r"], "show_panel", command_mode[0], panel="replace", reverse=False)
 
+  bind([leader, "y"], "slurp_find_string", command_mode[0])
+
+  bind(["n"], "find_under_expand", visual_mode)
+  bind(["N"], "find_under_expand_skip", visual_mode)
+
   bind(["g", "d"], "goto_definition", command_mode)
   bind(["g", "D"], "goto_reference", command_mode)
-
-  bind([leader, "y"], "slurp_find_string", command_mode[0])
 
   # Modes
   bind(["ctrl+l"], "nv_enter_normal_mode", insert_mode[0], context['no_widget'])
   bind(["ctrl+l"], "noop", command_mode)
   bind(["ctrl+l"], "nv_enter_normal_mode", visual_mode)
-  bind(["ctrl+l"], "then_go_back_to_normal_mode", context['non_empty_selection'], exec="single_selection")
+  bind(["ctrl+l"], "then_go_back_to_normal_mode", context['multiple_selections'], exec="single_selection")
 
   bind(["ctrl+c"], "hide_overlay", context['in_overlay'])
   bind(["ctrl+m"], "select", context['overlay_focus'])
-  bind(["ctrl+m"], "commit_selection", context['auto_complete'])
+  bind(["ctrl+m"], "commit_completion", insert_mode, context['auto_complete'])
   bind(["ctrl+m"], "enter_key", context['panel_focus'])
 
   # Text commands
@@ -70,7 +75,9 @@ def keybinding(bind, **kwargs):
 
   bind(["ctrl+h"], "left_delete", insert_mode)
   bind(["ctrl+h"], "left_delete", context['overlay_focus'])
-  bind(["ctrl+j"], "insert", insert_mode, characters="\n")
+  bind(["ctrl+j"], "insert", insert_mode, context['auto_complete_hidden'], characters="\n")
+
+  bind(["ctrl+shift+h"], [command("move_to", to="bol", extend=True), command("left_delete")], command_mode)
 
   bind(["d", "w"], "delete_word", command_mode)
   bind(["d", "i", "w"], "delete_word", command_mode, scope="inner")
@@ -92,12 +99,20 @@ def keybinding(bind, **kwargs):
   bind([leader, "l"], "nv_move_to_last_char_in_line", command_mode, extend=False)
   bind([leader, "l"], "nv_move_to_last_char_in_line", visual_mode, extend=True)
 
+  # Move between overlay options
+  bind(["ctrl+k"], "move", context['overlay_focus'], by="lines", forward=False)
+  bind(["ctrl+j"], "move", context['overlay_focus'], by="lines", forward=True)
+
+  # Move between autocomplete options
+  bind(["ctrl+k"], "move", insert_mode, context['auto_complete'], by="lines", forward=False)
+  bind(["ctrl+j"], "move", insert_mode, context['auto_complete'], by="lines", forward=True)
+
   # Plugin: AceJump
-  bind(["f"], "ace_jump_within_line", command_mode)
-  bind(["F"], "ace_jump_line", command_mode)
-  bind(["s"], "ace_jump_word", command_mode)
-  bind(["S"], "ace_jump_char", command_mode)
-  bind(["V"], "ace_jump_select", command_mode)
+  bind(["f"], "ace_jump_within_line", command_mode[0])
+  bind(["F"], "ace_jump_line", command_mode[0])
+  bind(["s"], "ace_jump_word", command_mode, context['single_selection'])
+  bind(["S"], "ace_jump_char", command_mode[0])
+  bind(["V"], [command("nv_enter_visual_mode"), command("ace_jump_select")], command_mode[0])
   bind(["D"], "ace_jump_add_cursor", command_mode)
 
   # Plugin: File Manager
@@ -190,7 +205,13 @@ context['no_widget'] = {
   "operand": False
 }
 
-context['non_empty_selection'] = {
+context['single_selection'] = {
+  "key": "num_selections",
+  "operator": "equal",
+  "operand": 1
+}
+
+context['multiple_selections'] = {
   "key": "num_selections",
   "operator": "not_equal",
   "operand": 1
@@ -207,18 +228,28 @@ context['overlay_focus'] = {
   "operand": True
 }
 
+context['overlay_hidden'] = {
+  "key": "overlay_visible",
+  "operator": "equal",
+  "operand": False
+}
+
 context['panel_focus'] = {
   "key": "panel_has_focus",
   "operand": True
 }
 
-context['auto_complete'] = [
-  { "key": "auto_complete_visible" },
-  { "key": "setting.auto_complete_commit_on_tab", "operand": False }
-]
+context['auto_complete'] = {
+  "key": "auto_complete_visible"
+}
+
+context['auto_complete_hidden'] = {
+  "key": "auto_complete_visible",
+  "operator": "equal",
+  "operand": True
+}
 
 context['sidebar_focused'] = {
   "key": "control",
   "operand": "sidebar_tree"
 }
-

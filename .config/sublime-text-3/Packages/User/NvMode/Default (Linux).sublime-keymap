@@ -100,7 +100,7 @@
     ],
     "command": "edit_settings",
     "args": {
-      "base_file": "${packages}/User/NvMode/Default ($platform).sublime-keymap"
+      "base_file": "$packages/User/NvMode/keybindings.py"
     },
     "context": [
       {
@@ -257,6 +257,20 @@
       {
         "key": "setting.command_mode",
         "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      " ",
+      "d",
+      "d"
+    ],
+    "command": "use_sidebar",
+    "context": [
+      {
+        "key": "control",
+        "operand": "sidebar_tree"
       }
     ]
   },
@@ -424,6 +438,51 @@
   },
   {
     "keys": [
+      " ",
+      "y"
+    ],
+    "command": "slurp_find_string",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "n"
+    ],
+    "command": "find_under_expand",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "N"
+    ],
+    "command": "find_under_expand_skip",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
       "g",
       "d"
     ],
@@ -453,19 +512,6 @@
       {
         "key": "setting.visual_mode",
         "operand": false
-      }
-    ]
-  },
-  {
-    "keys": [
-      " ",
-      "y"
-    ],
-    "command": "slurp_find_string",
-    "context": [
-      {
-        "key": "setting.command_mode",
-        "operand": true
       }
     ]
   },
@@ -568,14 +614,18 @@
     "keys": [
       "ctrl+m"
     ],
-    "command": "commit_selection",
+    "command": "commit_completion",
     "context": [
       {
-        "key": "auto_complete_visible"
+        "key": "setting.command_mode",
+        "operand": false
       },
       {
-        "key": "setting.auto_complete_commit_on_tab",
+        "key": "setting.visual_mode",
         "operand": false
+      },
+      {
+        "key": "auto_complete_visible"
       }
     ]
   },
@@ -693,6 +743,41 @@
       {
         "key": "setting.command_mode",
         "operand": false
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      },
+      {
+        "key": "auto_complete_visible",
+        "operator": "equal",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "ctrl+shift+h"
+    ],
+    "command": "spk_multi_cmd",
+    "args": {
+      "commands": [
+        {
+          "command": "move_to",
+          "args": {
+            "to": "bol",
+            "extend": true
+          }
+        },
+        {
+          "command": "left_delete"
+        }
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
       },
       {
         "key": "setting.visual_mode",
@@ -962,6 +1047,86 @@
   },
   {
     "keys": [
+      "ctrl+k"
+    ],
+    "command": "move",
+    "args": {
+      "by": "lines",
+      "forward": false
+    },
+    "context": [
+      {
+        "key": "overlay_has_focus",
+        "operator": "equal",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "ctrl+j"
+    ],
+    "command": "move",
+    "args": {
+      "by": "lines",
+      "forward": true
+    },
+    "context": [
+      {
+        "key": "overlay_has_focus",
+        "operator": "equal",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "ctrl+k"
+    ],
+    "command": "move",
+    "args": {
+      "by": "lines",
+      "forward": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": false
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      },
+      {
+        "key": "auto_complete_visible"
+      }
+    ]
+  },
+  {
+    "keys": [
+      "ctrl+j"
+    ],
+    "command": "move",
+    "args": {
+      "by": "lines",
+      "forward": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": false
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      },
+      {
+        "key": "auto_complete_visible"
+      }
+    ]
+  },
+  {
+    "keys": [
       "f"
     ],
     "command": "ace_jump_within_line",
@@ -969,10 +1134,6 @@
       {
         "key": "setting.command_mode",
         "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
       }
     ]
   },
@@ -985,10 +1146,6 @@
       {
         "key": "setting.command_mode",
         "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
       }
     ]
   },
@@ -1005,6 +1162,11 @@
       {
         "key": "setting.visual_mode",
         "operand": false
+      },
+      {
+        "key": "num_selections",
+        "operator": "equal",
+        "operand": 1
       }
     ]
   },
@@ -1017,10 +1179,6 @@
       {
         "key": "setting.command_mode",
         "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
       }
     ]
   },
@@ -1028,15 +1186,21 @@
     "keys": [
       "V"
     ],
-    "command": "ace_jump_select",
+    "command": "spk_multi_cmd",
+    "args": {
+      "commands": [
+        {
+          "command": "nv_enter_visual_mode"
+        },
+        {
+          "command": "ace_jump_select"
+        }
+      ]
+    },
     "context": [
       {
         "key": "setting.command_mode",
         "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
       }
     ]
   },
@@ -1489,4 +1653,3 @@
     ]
   }
 ]
-
