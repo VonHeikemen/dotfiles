@@ -28,8 +28,7 @@ def keybinding(bind, **kwargs):
   bind([leader, "b", "l"], "next_view_in_stack", command_mode[0])
   bind([leader, "b", "c"], "close", command_mode[0])
 
-
- # Sidebar
+  # Sidebar
   bind([leader, "d", "d"], "use_sidebar", command_mode[0])
   bind([leader, "d", "d"], "use_sidebar", context['sidebar_focused'])
   bind(["h"], "move", context['sidebar_focused'], by="characters", forward=False)
@@ -119,6 +118,9 @@ def keybinding(bind, **kwargs):
   bind(["c", "enter"], "show_overlay", command_mode[0], overlay="command_palette", text="File Manager ")
   bind(["c", "p"], "show_overlay", command_mode[0], overlay="command_palette", text="File Manager Copy ")
   bind(["c", "n"], "fm_create", command_mode[0])
+  bind(["c", "f"], "create_from_current_file", command_mode)
+  bind(["alt+i"], "create_from_current_file", insert_mode)
+  bind(["alt+i"], "insert_input", {"key": "panel", "operand": "input"}, context['panel_focus'])
 
   # Plugin: BracketHighlighter
   bind(
@@ -242,6 +244,7 @@ context['panel_focus'] = {
 context['auto_complete'] = {
   "key": "auto_complete_visible"
 }
+
 
 context['auto_complete_hidden'] = {
   "key": "auto_complete_visible",

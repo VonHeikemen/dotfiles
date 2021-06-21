@@ -1270,6 +1270,55 @@
   {
     "keys": [
       "c",
+      "f"
+    ],
+    "command": "create_from_current_file",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "alt+i"
+    ],
+    "command": "create_from_current_file",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": false
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "alt+i"
+    ],
+    "command": "insert_input",
+    "context": [
+      {
+        "key": "panel",
+        "operand": "input"
+      },
+      {
+        "key": "panel_has_focus",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
       "s",
       "q"
     ],
