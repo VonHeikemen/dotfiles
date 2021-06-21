@@ -35,24 +35,31 @@ class ChangeSurroundings(sublime_plugin.TextCommand):
   def run(self, edit, **kwargs):
     surround = [kwargs.get('begin'), kwargs.get('end')]
     start = self.view.sel()[0]
+    bracket_beginning = []
+    starting_point = []
+
+    for sel in self.view.sel():
+      starting_point.append(sel)
 
     # Gather content data
     self.select_content()
-    sel = self.view.sel()[0]
-    end = sel.end() + 1
 
-    # Insert replacements
-    self.view.insert(edit, sel.begin(), surround[0])
-    self.view.insert(edit, end, surround[1])
+    for sel in self.view.sel():
+      end = sel.end() + 1
+
+      # Insert replacements
+      self.view.insert(edit, sel.begin(), surround[0])
+      self.view.insert(edit, end, surround[1])
+      bracket_beginning.append(sublime.Region(sel.begin(), sel.begin()))
 
     # Delete old surroundings
     self.view.sel().clear()
-    self.view.sel().add(sublime.Region(sel.begin(), sel.begin()))
+    self.view.sel().add_all(bracket_beginning)
     self.delete_brackets()
 
     # restore starting point
     self.view.sel().clear()
-    self.view.sel().add(start)
+    self.view.sel().add_all(starting_point)
 
   def select_content(self):
     self.view.run_command(
@@ -115,10 +122,11 @@ class DeleteWord(sublime_plugin.TextCommand):
     scope = kwargs.get('scope', 'word_end')
 
     if scope == 'inner':
-      word = self.view.word(self.view.sel()[0].begin())
+      for sel in self.view.sel():
+        word = self.view.word(sel.begin())
+        self.view.sel().subtract(sel)
+        self.view.sel().add(word)
 
-      self.view.sel().clear()
-      self.view.sel().add(word)
     elif scope == 'word_end':
       self.view.run_command('move', {"by": "word_ends", "forward": True, "extend": True})
 
@@ -215,4 +223,22 @@ class UseSidebar(sublime_plugin.ApplicationCommand):
     else:
       window.run_command('toggle_side_bar')
       window.run_command('focus_side_bar')
+
+
+class CreateFromCurrentFile(sublime_plugin.TextCommand):
+  def run(self, edit):
+    path = self.view.file_name()
+
+    if path is None:
+      return
+
+    self.view.window().run_command('fm_create', {'paths': [path]})
+
+
+class InsertInput(sublime_plugin.TextCommand):
+  def run(self, edit):
+    self.view.run_command('select_all')
+    input = self.view.substr(self.view.sel()[0])
+    self.view.window().run_command('hide_panel', {'cancel': True})
+    sublime.active_window().run_command('insert', {'characters': input})
 
