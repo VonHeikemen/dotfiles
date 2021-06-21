@@ -787,6 +787,23 @@
   },
   {
     "keys": [
+      "s",
+      "w"
+    ],
+    "command": "select_inner_word",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
       "d",
       "w"
     ],

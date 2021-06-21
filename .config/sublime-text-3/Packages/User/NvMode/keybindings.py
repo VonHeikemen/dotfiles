@@ -78,6 +78,8 @@ def keybinding(bind, **kwargs):
 
   bind(["ctrl+shift+h"], [command("move_to", to="bol", extend=True), command("left_delete")], command_mode)
 
+  bind(["s", "w"], "select_inner_word", visual_mode)
+
   bind(["d", "w"], "delete_word", command_mode)
   bind(["d", "i", "w"], "delete_word", command_mode, scope="inner")
 
