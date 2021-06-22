@@ -60,10 +60,6 @@
         "operand": true
       },
       {
-        "key": "setting.visual_mode",
-        "operand": false
-      },
-      {
         "key": "selection_empty",
         "operator": "equal",
         "operand": true,
@@ -197,6 +193,58 @@
       "q"
     ],
     "command": "next_result",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "[",
+      "f"
+    ],
+    "command": "focus_to_left",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "]",
+      "f"
+    ],
+    "command": "focus_to_right",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "[",
+      "F"
+    ],
+    "command": "unselect_to_left",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "]",
+      "F"
+    ],
+    "command": "unselect_to_right",
     "context": [
       {
         "key": "setting.command_mode",
@@ -517,6 +565,48 @@
   },
   {
     "keys": [
+      "g",
+      "l"
+    ],
+    "command": "goto_definition",
+    "args": {
+      "side_by_side": true,
+      "clear_to_right": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "g",
+      "L"
+    ],
+    "command": "goto_reference",
+    "args": {
+      "side_by_side": true,
+      "clear_to_right": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
       "ctrl+l"
     ],
     "command": "nv_enter_normal_mode",
@@ -778,10 +868,6 @@
       {
         "key": "setting.command_mode",
         "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
       }
     ]
   },
@@ -1330,6 +1416,102 @@
       {
         "key": "panel_has_focus",
         "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "r",
+      "s"
+    ],
+    "command": "convert_to_snake",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "r",
+      "S"
+    ],
+    "command": "convert_to_screaming_snake",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "r",
+      "c"
+    ],
+    "command": "convert_to_camel",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "r",
+      "d"
+    ],
+    "command": "convert_to_dash",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "alt+k"
+    ],
+    "command": "column_select",
+    "args": {
+      "by": "lines",
+      "forward": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "alt+j"
+    ],
+    "command": "column_select",
+    "args": {
+      "by": "lines",
+      "forward": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
       }
     ]
   },
