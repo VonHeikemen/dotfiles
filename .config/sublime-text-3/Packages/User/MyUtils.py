@@ -1,4 +1,5 @@
 import subprocess
+import os
 
 import sublime
 import sublime_plugin
@@ -134,6 +135,14 @@ class DeleteWord(sublime_plugin.TextCommand):
 
     if goto_insert_mode:
       self.view.run_command('nv_enter_insert_mode')
+
+
+class SelectInnerWord(sublime_plugin.TextCommand):
+  def run(self, edit):
+    for sel in self.view.sel():
+      word = self.view.word(sel.begin())
+      self.view.sel().subtract(sel)
+      self.view.sel().add(word)
 
 
 class ThenGoBackToNormalMode(sublime_plugin.TextCommand):
