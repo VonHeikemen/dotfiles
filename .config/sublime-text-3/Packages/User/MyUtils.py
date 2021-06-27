@@ -250,3 +250,36 @@ class InsertInput(sublime_plugin.TextCommand):
     self.view.window().run_command('hide_panel', {'cancel': True})
     sublime.active_window().run_command('insert', {'characters': input})
 
+
+class JumpToPreviousSelection(sublime_plugin.TextCommand):
+  def run(self, edit):
+    iteration_limit = 120
+    initial_state = []
+
+    for sel in self.view.sel():
+      initial_state.append([sel.a, sel.b])
+
+    found = self.find_non_empty_selection(iteration_limit)
+
+    if found:
+      # Add starting point to history
+      # So we can go back to it with the 'jump_back' command
+      self.view.run_command('add_jump_record', {"selection": initial_state})
+    else:
+      self.restore(iteration_limit)
+      sublime.status_message('No selections found')
+
+  def find_non_empty_selection(self, steps):
+    for i in range(steps):
+      self.view.run_command("jump_back")
+
+      for sel in self.view.sel():
+        if not sel.empty():
+          return True
+
+    return False
+
+  def restore(self, steps):
+    for i in range(steps):
+      self.view.run_command("jump_forward")
+
