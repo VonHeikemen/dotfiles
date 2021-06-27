@@ -841,7 +841,7 @@
       {
         "key": "auto_complete_visible",
         "operator": "equal",
-        "operand": true
+        "operand": false
       }
     ]
   },
@@ -1023,6 +1023,65 @@
       {
         "key": "setting.visual_mode",
         "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "F"
+    ],
+    "command": "create_from_current_file",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "f"
+    ],
+    "command": "insert_path_based_on_current_file",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "f"
+    ],
+    "command": "complete_selected_path",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "alt+i"
+    ],
+    "command": "insert_path_based_on_current_file",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": false
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
       }
     ]
   },
@@ -1367,39 +1426,6 @@
       {
         "key": "setting.command_mode",
         "operand": true
-      }
-    ]
-  },
-  {
-    "keys": [
-      "c",
-      "f"
-    ],
-    "command": "create_from_current_file",
-    "context": [
-      {
-        "key": "setting.command_mode",
-        "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
-      }
-    ]
-  },
-  {
-    "keys": [
-      "alt+i"
-    ],
-    "command": "create_from_current_file",
-    "context": [
-      {
-        "key": "setting.command_mode",
-        "operand": false
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
       }
     ]
   },

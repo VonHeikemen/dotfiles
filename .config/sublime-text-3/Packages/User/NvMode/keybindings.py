@@ -100,6 +100,11 @@ def keybinding(bind, **kwargs):
   bind(["d"], "then_go_back_to_normal_mode", visual_mode, exec="cut")
   bind(["x"], "then_go_back_to_normal_mode", visual_mode, exec="right_delete")
 
+  bind(["c", "F"], "create_from_current_file", nv_mode_enabled)
+  bind(["c", "f"], "insert_path_based_on_current_file", nv_mode_enabled)
+  bind(["c", "f"], "complete_selected_path", visual_mode)
+  bind(["alt+i"], "insert_path_based_on_current_file", insert_mode)
+
   # Moves
   bind([leader, "e"], "move_to", normal_mode, to="brackets", extend=False)
   bind([leader, "e"], "move_to", visual_mode, to="brackets", extend=True)
@@ -130,8 +135,8 @@ def keybinding(bind, **kwargs):
   bind(["c", "enter"], "show_overlay", nv_mode_enabled, overlay="command_palette", text="File Manager ")
   bind(["c", "p"], "show_overlay", nv_mode_enabled, overlay="command_palette", text="File Manager Copy ")
   bind(["c", "n"], "fm_create", nv_mode_enabled)
-  bind(["c", "f"], "create_from_current_file", normal_mode)
-  bind(["alt+i"], "create_from_current_file", insert_mode)
+  # bind(["c", "f"], "create_from_current_file", normal_mode)
+  # bind(["alt+i"], "create_from_current_file", insert_mode)
   bind(["alt+i"], "insert_input", {"key": "panel", "operand": "input"}, context['panel_focus'])
 
   # Plugin: Case Conversion
@@ -270,7 +275,7 @@ context['auto_complete'] = {
 context['auto_complete_hidden'] = {
   "key": "auto_complete_visible",
   "operator": "equal",
-  "operand": True
+  "operand": False
 }
 
 context['sidebar_focused'] = {
