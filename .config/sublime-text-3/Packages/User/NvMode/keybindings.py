@@ -100,6 +100,9 @@ def keybinding(bind, **kwargs):
   bind(["d"], "then_go_back_to_normal_mode", visual_mode, exec="cut")
   bind(["x"], "then_go_back_to_normal_mode", visual_mode, exec="right_delete")
 
+  bind(["g", "v"], [command("jump_to_previous_selection"), command("nv_enter_visual_mode")], normal_mode)
+  bind(["g", "v"], "jump_to_previous_selection", visual_mode)
+
   bind(["c", "F"], "create_from_current_file", nv_mode_enabled)
   bind(["c", "f"], "insert_path_based_on_current_file", nv_mode_enabled)
   bind(["c", "f"], "complete_selected_path", visual_mode)

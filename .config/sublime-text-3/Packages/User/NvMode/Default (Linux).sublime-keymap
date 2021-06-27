@@ -1028,6 +1028,50 @@
   },
   {
     "keys": [
+      "g",
+      "v"
+    ],
+    "command": "spk_multi_cmd",
+    "args": {
+      "commands": [
+        {
+          "command": "jump_to_previous_selection"
+        },
+        {
+          "command": "nv_enter_visual_mode"
+        }
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "g",
+      "v"
+    ],
+    "command": "jump_to_previous_selection",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
       "c",
       "F"
     ],
