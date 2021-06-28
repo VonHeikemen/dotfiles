@@ -2037,6 +2037,10 @@
       {
         "key": "setting.command_mode",
         "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
       }
     ]
   },
@@ -2056,6 +2060,10 @@
     "context": [
       {
         "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
         "operand": true
       }
     ]
@@ -2077,6 +2085,10 @@
       {
         "key": "setting.command_mode",
         "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
       }
     ]
   },
@@ -2096,6 +2108,10 @@
     "context": [
       {
         "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
         "operand": true
       }
     ]
@@ -2556,6 +2572,10 @@
       {
         "key": "setting.command_mode",
         "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
       }
     ]
   },
@@ -2575,6 +2595,10 @@
     "context": [
       {
         "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
         "operand": true
       }
     ]
@@ -2596,6 +2620,10 @@
       {
         "key": "setting.command_mode",
         "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
       }
     ]
   },
@@ -2615,6 +2643,10 @@
     "context": [
       {
         "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
         "operand": true
       }
     ]
@@ -3075,6 +3107,10 @@
       {
         "key": "setting.command_mode",
         "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
       }
     ]
   },
@@ -3094,6 +3130,10 @@
     "context": [
       {
         "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
         "operand": true
       }
     ]
@@ -3115,6 +3155,10 @@
       {
         "key": "setting.command_mode",
         "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
       }
     ]
   },
@@ -3134,6 +3178,10 @@
     "context": [
       {
         "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
         "operand": true
       }
     ]
@@ -3519,6 +3567,10 @@
       {
         "key": "setting.command_mode",
         "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
       }
     ]
   },
@@ -3538,6 +3590,10 @@
     "context": [
       {
         "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
         "operand": true
       }
     ]
@@ -3819,6 +3875,10 @@
       {
         "key": "setting.command_mode",
         "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
       }
     ]
   },
@@ -3838,6 +3898,10 @@
     "context": [
       {
         "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
         "operand": true
       }
     ]
@@ -4119,6 +4183,10 @@
       {
         "key": "setting.command_mode",
         "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
       }
     ]
   },
@@ -4138,6 +4206,10 @@
     "context": [
       {
         "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
         "operand": true
       }
     ]
