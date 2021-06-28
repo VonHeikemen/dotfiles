@@ -84,6 +84,10 @@ def keybinding(bind, **kwargs):
   bind(["c", "c"], "replace_selection", visual_mode)
   bind(["g", "c"], "then_go_back_to_normal_mode", visual_mode, exec="toggle_comment")
 
+  bind(["g", "u"], "convert_char_case", normal_mode, context['selection_empty'], to="lower")
+  bind(["g", "U"], "convert_char_case", normal_mode, context['selection_empty'], to="upper")
+  bind(["~"], "convert_char_case", normal_mode, context['selection_empty'], to="toggle")
+
   bind(["ctrl+h"], "left_delete", insert_mode)
   bind(["ctrl+h"], "left_delete", context['overlay_focus'])
   bind(["ctrl+j"], "insert", insert_mode, context['auto_complete_hidden'], characters="\n")

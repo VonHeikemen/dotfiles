@@ -811,6 +811,83 @@
   },
   {
     "keys": [
+      "g",
+      "u"
+    ],
+    "command": "convert_char_case",
+    "args": {
+      "to": "lower"
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      },
+      {
+        "key": "selection_empty",
+        "operator": "equal",
+        "operand": true,
+        "match_all": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "g",
+      "U"
+    ],
+    "command": "convert_char_case",
+    "args": {
+      "to": "upper"
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      },
+      {
+        "key": "selection_empty",
+        "operator": "equal",
+        "operand": true,
+        "match_all": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "~"
+    ],
+    "command": "convert_char_case",
+    "args": {
+      "to": "toggle"
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      },
+      {
+        "key": "selection_empty",
+        "operator": "equal",
+        "operand": true,
+        "match_all": true
+      }
+    ]
+  },
+  {
+    "keys": [
       "ctrl+h"
     ],
     "command": "left_delete",
