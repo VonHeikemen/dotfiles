@@ -70,6 +70,8 @@ def keybinding(bind, **kwargs):
   bind(["ctrl+l"], "nv_enter_normal_mode", visual_mode)
   bind(["ctrl+l"], "then_go_back_to_normal_mode", context['multiple_selections'], exec="single_selection")
 
+  bind(["i", "i"], "nv_enter_insert_mode", visual_mode)
+
   bind(["ctrl+c"], "hide_overlay", context['in_overlay'])
   bind(["ctrl+m"], "select", context['overlay_focus'])
   bind(["ctrl+m"], "commit_completion", insert_mode, context['auto_complete'])
@@ -88,7 +90,7 @@ def keybinding(bind, **kwargs):
 
   bind(["ctrl+shift+h"], [command("move_to", to="bol", extend=True), command("left_delete")], nv_mode_enabled)
 
-  bind(["s", "w"], "select_inner_word", visual_mode)
+  bind(["i", "w"], "select_inner_word", visual_mode)
 
   bind(["d", "w"], "delete_word", normal_mode)
   bind(["d", "i", "w"], "delete_word", normal_mode, scope="inner")
@@ -138,8 +140,6 @@ def keybinding(bind, **kwargs):
   bind(["c", "enter"], "show_overlay", nv_mode_enabled, overlay="command_palette", text="File Manager ")
   bind(["c", "p"], "show_overlay", nv_mode_enabled, overlay="command_palette", text="File Manager Copy ")
   bind(["c", "n"], "fm_create", nv_mode_enabled)
-  # bind(["c", "f"], "create_from_current_file", normal_mode)
-  # bind(["alt+i"], "create_from_current_file", insert_mode)
   bind(["alt+i"], "insert_input", {"key": "panel", "operand": "input"}, context['panel_focus'])
 
   # Plugin: Case Conversion
@@ -171,23 +171,100 @@ def keybinding(bind, **kwargs):
   bind(["c", "i", "s"], "delete_surrounded", normal_mode, replace=True)
   bind(["c", "a", "s"], "delete_surrounded", normal_mode, replace=True, all=True)
 
-  cs_prefix = ["c", "s"]
-  change_surroundings(bind, cs_prefix, "{", "}")
-  change_surroundings(bind, cs_prefix, "[", "]")
-  change_surroundings(bind, cs_prefix, "(", ")")
-  change_surroundings(bind, cs_prefix, "'", "'")
-  change_surroundings(bind, cs_prefix, "\"", "\"")
-  change_surroundings(bind, cs_prefix, "`", "`")
+  bracket_select(bind, ["i", "s"])
+  bracket_select(bind, ["a", "s"], all=True)
 
-  bracket_select(bind, ["s", "i"])
-  bracket_select(bind, ["s", "a"], all=True)
+  all_pairs = [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+    ["'", "'"],
+    ["\"", "\""],
+    ["`", "`"],
+  ]
+
+  for index, pair in enumerate(all_pairs):
+    change_surroundings(bind, ["c", "s"], pair, index, all_pairs)
+    change_closest_surroundings(bind, ["C"], pair[0], pair[1])
+
+    select_surroundings(bind, ["i"], pair)
+    select_surroundings(bind, ["a"], pair, all=True)
+
+    delete_surroundings(bind, ["d", "i"], pair)
+    delete_surroundings(bind, ["d", "a"], pair, all=True)
+
+    delete_surroundings(bind, ["c", "i"], pair, replace=True)
+    delete_surroundings(bind, ["c", "a"], pair, all=True, replace=True)
 
 
-def change_surroundings(bind, prefix, begin, ending):
-  bind(prefix + [begin], "change_surroundings", context['command_mode'], begin=begin, end=ending)
+def change_surroundings(bind, prefix, replace, index, pairs):
+  begin = replace[0]
+  end = replace[1]
+
+  for i, val in enumerate(pairs):
+    if i == index:
+      continue
+
+    bind(
+      prefix + [val[0], begin],
+      "change_surroundings",
+      context['command_mode'],
+      begin=begin,
+      end=end,
+      find=val
+    )
+
+    if begin != end and val[0] != val[1]:
+      bind(
+        prefix + [val[1], end],
+        "change_surroundings",
+        context['command_mode'],
+        begin=begin,
+        end=end,
+        find=val
+      )
+
+def change_closest_surroundings(bind, prefix, begin, ending):
+  bind(
+    prefix + [begin],
+    "change_surroundings",
+    context['command_mode'],
+    begin=begin,
+    end=ending
+  )
 
   if begin != ending:
-    bind(prefix + [ending], "change_surroundings", context['command_mode'], begin=begin, end=ending)
+    bind(
+      prefix + [ending],
+      "change_surroundings",
+      context['command_mode'],
+      begin=begin,
+      end=ending
+    )
+
+
+def select_surroundings(bind, prefix, pair, **kwargs):
+  begin = pair[0]
+  end = pair[1]
+  select_all = kwargs.get('all', False)
+
+  bind(
+    prefix + [begin],
+    "select_surrounded_content",
+    context['command_mode'][0],
+    find=pair,
+    all=select_all
+  )
+
+  if begin != end:
+    bind(
+      prefix + [end],
+      "select_surrounded_content",
+      context['command_mode'][0],
+      find=pair,
+      all=select_all
+    )
+
 
 def bracket_select(bind, keys, **kwargs):
   plugin = {
@@ -207,6 +284,29 @@ def bracket_select(bind, keys, **kwargs):
     no_outside_adj=None,
     plugin=plugin
   )
+
+def delete_surroundings(bind, prefix, pair, **kwargs):
+  begin = pair[0]
+  end = pair[1]
+
+  bind(
+    prefix + [begin],
+    "delete_surrounded",
+    context['command_mode'],
+    find=pair,
+    all=kwargs.get('all', False),
+    replace=kwargs.get('replace', False)
+  )
+
+  if begin != end:
+    bind(
+      prefix + [end],
+      "delete_surrounded",
+      context['command_mode'],
+      find=pair,
+      all=kwargs.get('all', False),
+      replace=kwargs.get('replace', False)
+    )
 
 context = {}
 

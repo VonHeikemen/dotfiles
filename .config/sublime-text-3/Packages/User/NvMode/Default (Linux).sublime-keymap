@@ -671,6 +671,23 @@
   },
   {
     "keys": [
+      "i",
+      "i"
+    ],
+    "command": "nv_enter_insert_mode",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
       "ctrl+c"
     ],
     "command": "hide_overlay",
@@ -873,7 +890,7 @@
   },
   {
     "keys": [
-      "s",
+      "i",
       "w"
     ],
     "command": "select_inner_word",
@@ -1717,206 +1734,8 @@
   },
   {
     "keys": [
-      "c",
-      "s",
-      "{"
-    ],
-    "command": "change_surroundings",
-    "args": {
-      "begin": "{",
-      "end": "}"
-    },
-    "context": [
-      {
-        "key": "setting.command_mode",
-        "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
-      }
-    ]
-  },
-  {
-    "keys": [
-      "c",
-      "s",
-      "}"
-    ],
-    "command": "change_surroundings",
-    "args": {
-      "begin": "{",
-      "end": "}"
-    },
-    "context": [
-      {
-        "key": "setting.command_mode",
-        "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
-      }
-    ]
-  },
-  {
-    "keys": [
-      "c",
-      "s",
-      "["
-    ],
-    "command": "change_surroundings",
-    "args": {
-      "begin": "[",
-      "end": "]"
-    },
-    "context": [
-      {
-        "key": "setting.command_mode",
-        "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
-      }
-    ]
-  },
-  {
-    "keys": [
-      "c",
-      "s",
-      "]"
-    ],
-    "command": "change_surroundings",
-    "args": {
-      "begin": "[",
-      "end": "]"
-    },
-    "context": [
-      {
-        "key": "setting.command_mode",
-        "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
-      }
-    ]
-  },
-  {
-    "keys": [
-      "c",
-      "s",
-      "("
-    ],
-    "command": "change_surroundings",
-    "args": {
-      "begin": "(",
-      "end": ")"
-    },
-    "context": [
-      {
-        "key": "setting.command_mode",
-        "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
-      }
-    ]
-  },
-  {
-    "keys": [
-      "c",
-      "s",
-      ")"
-    ],
-    "command": "change_surroundings",
-    "args": {
-      "begin": "(",
-      "end": ")"
-    },
-    "context": [
-      {
-        "key": "setting.command_mode",
-        "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
-      }
-    ]
-  },
-  {
-    "keys": [
-      "c",
-      "s",
-      "'"
-    ],
-    "command": "change_surroundings",
-    "args": {
-      "begin": "'",
-      "end": "'"
-    },
-    "context": [
-      {
-        "key": "setting.command_mode",
-        "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
-      }
-    ]
-  },
-  {
-    "keys": [
-      "c",
-      "s",
-      "\""
-    ],
-    "command": "change_surroundings",
-    "args": {
-      "begin": "\"",
-      "end": "\""
-    },
-    "context": [
-      {
-        "key": "setting.command_mode",
-        "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
-      }
-    ]
-  },
-  {
-    "keys": [
-      "c",
-      "s",
-      "`"
-    ],
-    "command": "change_surroundings",
-    "args": {
-      "begin": "`",
-      "end": "`"
-    },
-    "context": [
-      {
-        "key": "setting.command_mode",
-        "operand": true
-      },
-      {
-        "key": "setting.visual_mode",
-        "operand": false
-      }
-    ]
-  },
-  {
-    "keys": [
-      "s",
-      "i"
+      "i",
+      "s"
     ],
     "command": "bh_key",
     "args": {
@@ -1942,8 +1761,8 @@
   },
   {
     "keys": [
-      "s",
-      "a"
+      "a",
+      "s"
     ],
     "command": "bh_key",
     "args": {
@@ -1967,6 +1786,2463 @@
       {
         "key": "setting.visual_mode",
         "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "[",
+      "{"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "{",
+      "end": "}",
+      "find": [
+        "[",
+        "]"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "]",
+      "}"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "{",
+      "end": "}",
+      "find": [
+        "[",
+        "]"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "(",
+      "{"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "{",
+      "end": "}",
+      "find": [
+        "(",
+        ")"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      ")",
+      "}"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "{",
+      "end": "}",
+      "find": [
+        "(",
+        ")"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "'",
+      "{"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "{",
+      "end": "}",
+      "find": [
+        "'",
+        "'"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "\"",
+      "{"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "{",
+      "end": "}",
+      "find": [
+        "\"",
+        "\""
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "`",
+      "{"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "{",
+      "end": "}",
+      "find": [
+        "`",
+        "`"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "C",
+      "{"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "{",
+      "end": "}"
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "C",
+      "}"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "{",
+      "end": "}"
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "i",
+      "{"
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "{",
+        "}"
+      ],
+      "all": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "i",
+      "}"
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "{",
+        "}"
+      ],
+      "all": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "a",
+      "{"
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "{",
+        "}"
+      ],
+      "all": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "a",
+      "}"
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "{",
+        "}"
+      ],
+      "all": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "i",
+      "{"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "{",
+        "}"
+      ],
+      "all": false,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "i",
+      "}"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "{",
+        "}"
+      ],
+      "all": false,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "a",
+      "{"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "{",
+        "}"
+      ],
+      "all": true,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "a",
+      "}"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "{",
+        "}"
+      ],
+      "all": true,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "i",
+      "{"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "{",
+        "}"
+      ],
+      "all": false,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "i",
+      "}"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "{",
+        "}"
+      ],
+      "all": false,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "a",
+      "{"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "{",
+        "}"
+      ],
+      "all": true,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "a",
+      "}"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "{",
+        "}"
+      ],
+      "all": true,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "{",
+      "["
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "[",
+      "end": "]",
+      "find": [
+        "{",
+        "}"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "}",
+      "]"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "[",
+      "end": "]",
+      "find": [
+        "{",
+        "}"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "(",
+      "["
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "[",
+      "end": "]",
+      "find": [
+        "(",
+        ")"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      ")",
+      "]"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "[",
+      "end": "]",
+      "find": [
+        "(",
+        ")"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "'",
+      "["
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "[",
+      "end": "]",
+      "find": [
+        "'",
+        "'"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "\"",
+      "["
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "[",
+      "end": "]",
+      "find": [
+        "\"",
+        "\""
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "`",
+      "["
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "[",
+      "end": "]",
+      "find": [
+        "`",
+        "`"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "C",
+      "["
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "[",
+      "end": "]"
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "C",
+      "]"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "[",
+      "end": "]"
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "i",
+      "["
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "[",
+        "]"
+      ],
+      "all": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "i",
+      "]"
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "[",
+        "]"
+      ],
+      "all": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "a",
+      "["
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "[",
+        "]"
+      ],
+      "all": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "a",
+      "]"
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "[",
+        "]"
+      ],
+      "all": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "i",
+      "["
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "[",
+        "]"
+      ],
+      "all": false,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "i",
+      "]"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "[",
+        "]"
+      ],
+      "all": false,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "a",
+      "["
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "[",
+        "]"
+      ],
+      "all": true,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "a",
+      "]"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "[",
+        "]"
+      ],
+      "all": true,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "i",
+      "["
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "[",
+        "]"
+      ],
+      "all": false,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "i",
+      "]"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "[",
+        "]"
+      ],
+      "all": false,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "a",
+      "["
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "[",
+        "]"
+      ],
+      "all": true,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "a",
+      "]"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "[",
+        "]"
+      ],
+      "all": true,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "{",
+      "("
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "(",
+      "end": ")",
+      "find": [
+        "{",
+        "}"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "}",
+      ")"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "(",
+      "end": ")",
+      "find": [
+        "{",
+        "}"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "[",
+      "("
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "(",
+      "end": ")",
+      "find": [
+        "[",
+        "]"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "]",
+      ")"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "(",
+      "end": ")",
+      "find": [
+        "[",
+        "]"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "'",
+      "("
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "(",
+      "end": ")",
+      "find": [
+        "'",
+        "'"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "\"",
+      "("
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "(",
+      "end": ")",
+      "find": [
+        "\"",
+        "\""
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "`",
+      "("
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "(",
+      "end": ")",
+      "find": [
+        "`",
+        "`"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "C",
+      "("
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "(",
+      "end": ")"
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "C",
+      ")"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "(",
+      "end": ")"
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "i",
+      "("
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "(",
+        ")"
+      ],
+      "all": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "i",
+      ")"
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "(",
+        ")"
+      ],
+      "all": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "a",
+      "("
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "(",
+        ")"
+      ],
+      "all": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "a",
+      ")"
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "(",
+        ")"
+      ],
+      "all": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "i",
+      "("
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "(",
+        ")"
+      ],
+      "all": false,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "i",
+      ")"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "(",
+        ")"
+      ],
+      "all": false,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "a",
+      "("
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "(",
+        ")"
+      ],
+      "all": true,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "a",
+      ")"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "(",
+        ")"
+      ],
+      "all": true,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "i",
+      "("
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "(",
+        ")"
+      ],
+      "all": false,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "i",
+      ")"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "(",
+        ")"
+      ],
+      "all": false,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "a",
+      "("
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "(",
+        ")"
+      ],
+      "all": true,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "a",
+      ")"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "(",
+        ")"
+      ],
+      "all": true,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "{",
+      "'"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "'",
+      "end": "'",
+      "find": [
+        "{",
+        "}"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "[",
+      "'"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "'",
+      "end": "'",
+      "find": [
+        "[",
+        "]"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "(",
+      "'"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "'",
+      "end": "'",
+      "find": [
+        "(",
+        ")"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "\"",
+      "'"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "'",
+      "end": "'",
+      "find": [
+        "\"",
+        "\""
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "`",
+      "'"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "'",
+      "end": "'",
+      "find": [
+        "`",
+        "`"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "C",
+      "'"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "'",
+      "end": "'"
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "i",
+      "'"
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "'",
+        "'"
+      ],
+      "all": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "a",
+      "'"
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "'",
+        "'"
+      ],
+      "all": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "i",
+      "'"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "'",
+        "'"
+      ],
+      "all": false,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "a",
+      "'"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "'",
+        "'"
+      ],
+      "all": true,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "i",
+      "'"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "'",
+        "'"
+      ],
+      "all": false,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "a",
+      "'"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "'",
+        "'"
+      ],
+      "all": true,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "{",
+      "\""
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "\"",
+      "end": "\"",
+      "find": [
+        "{",
+        "}"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "[",
+      "\""
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "\"",
+      "end": "\"",
+      "find": [
+        "[",
+        "]"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "(",
+      "\""
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "\"",
+      "end": "\"",
+      "find": [
+        "(",
+        ")"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "'",
+      "\""
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "\"",
+      "end": "\"",
+      "find": [
+        "'",
+        "'"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "`",
+      "\""
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "\"",
+      "end": "\"",
+      "find": [
+        "`",
+        "`"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "C",
+      "\""
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "\"",
+      "end": "\""
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "i",
+      "\""
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "\"",
+        "\""
+      ],
+      "all": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "a",
+      "\""
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "\"",
+        "\""
+      ],
+      "all": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "i",
+      "\""
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "\"",
+        "\""
+      ],
+      "all": false,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "a",
+      "\""
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "\"",
+        "\""
+      ],
+      "all": true,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "i",
+      "\""
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "\"",
+        "\""
+      ],
+      "all": false,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "a",
+      "\""
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "\"",
+        "\""
+      ],
+      "all": true,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "{",
+      "`"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "`",
+      "end": "`",
+      "find": [
+        "{",
+        "}"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "[",
+      "`"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "`",
+      "end": "`",
+      "find": [
+        "[",
+        "]"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "(",
+      "`"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "`",
+      "end": "`",
+      "find": [
+        "(",
+        ")"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "'",
+      "`"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "`",
+      "end": "`",
+      "find": [
+        "'",
+        "'"
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "s",
+      "\"",
+      "`"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "`",
+      "end": "`",
+      "find": [
+        "\"",
+        "\""
+      ]
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "C",
+      "`"
+    ],
+    "command": "change_surroundings",
+    "args": {
+      "begin": "`",
+      "end": "`"
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "i",
+      "`"
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "`",
+        "`"
+      ],
+      "all": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "a",
+      "`"
+    ],
+    "command": "select_surrounded_content",
+    "args": {
+      "find": [
+        "`",
+        "`"
+      ],
+      "all": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "i",
+      "`"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "`",
+        "`"
+      ],
+      "all": false,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "d",
+      "a",
+      "`"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "`",
+        "`"
+      ],
+      "all": true,
+      "replace": false
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "i",
+      "`"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "`",
+        "`"
+      ],
+      "all": false,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      }
+    ]
+  },
+  {
+    "keys": [
+      "c",
+      "a",
+      "`"
+    ],
+    "command": "delete_surrounded",
+    "args": {
+      "find": [
+        "`",
+        "`"
+      ],
+      "all": true,
+      "replace": true
+    },
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
       }
     ]
   }
