@@ -232,3 +232,21 @@ class JumpToPreviousSelection(sublime_plugin.TextCommand):
     for i in range(steps):
       self.view.run_command("jump_forward")
 
+
+class DeleteTillBeginningOfLineIfEmpty(sublime_plugin.TextCommand):
+  def run(self, edit):
+
+    for sel in self.view.sel():
+      if not sel.empty():
+        continue
+
+      cursor = sel.b
+
+      if self.view.classify(cursor) != sublime.CLASS_LINE_END:
+        continue
+
+      line = self.view.line(cursor)
+      line_val = self.view.substr(line)
+
+      if len(line_val.strip()) == 0:
+        self.view.replace(edit, line, '')
