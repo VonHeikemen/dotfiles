@@ -59,6 +59,40 @@ class SelectInnerWord(sublime_plugin.TextCommand):
       self.view.sel().add(word)
 
 
+class ConvertCharCase(sublime_plugin.TextCommand):
+  def run(self, edit, **kwargs):
+    block = self.view.settings().get('inverse_caret_state')
+    new_case = kwargs.get('to', 'upper')
+
+    if block:
+      get_char = self.char_to_the_right
+    else:
+      get_char = self.char_under_cursor
+
+    for sel in self.view.sel():
+      char_pos = get_char(sel)
+      char_val = self.view.substr(char_pos)
+
+      self.view.replace(edit, char_pos, self.convert(new_case, char_val))
+
+  def char_under_cursor(self, sel):
+    return sublime.Region(sel.begin() - 1, sel.begin())
+
+  def char_to_the_right(self, sel):
+    return sublime.Region(sel.begin(), sel.begin() + 1)
+
+  def convert(self, to, char):
+    if to == 'upper':
+      return char.upper()
+
+    elif to == 'lower':
+      return char.lower()
+
+    elif to == 'toggle':
+      target = 'lower' if char.isupper() else 'upper'
+      return self.convert(target, char)
+
+
 class ThenGoBackToNormalMode(sublime_plugin.TextCommand):
   def run(self, edit, **kwargs):
     command = kwargs.get('exec', 'noop')
