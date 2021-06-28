@@ -609,7 +609,17 @@
     "keys": [
       "ctrl+l"
     ],
-    "command": "nv_enter_normal_mode",
+    "command": "spk_multi_cmd",
+    "args": {
+      "commands": [
+        {
+          "command": "nv_enter_normal_mode"
+        },
+        {
+          "command": "delete_till_beginning_of_line_if_empty"
+        }
+      ]
+    },
     "context": [
       {
         "key": "setting.command_mode",
@@ -936,32 +946,6 @@
         "key": "auto_complete_visible",
         "operator": "equal",
         "operand": false
-      }
-    ]
-  },
-  {
-    "keys": [
-      "ctrl+shift+h"
-    ],
-    "command": "spk_multi_cmd",
-    "args": {
-      "commands": [
-        {
-          "command": "move_to",
-          "args": {
-            "to": "bol",
-            "extend": true
-          }
-        },
-        {
-          "command": "left_delete"
-        }
-      ]
-    },
-    "context": [
-      {
-        "key": "setting.command_mode",
-        "operand": true
       }
     ]
   },

@@ -65,7 +65,15 @@ def keybinding(bind, **kwargs):
   bind(["g", "L"], "goto_reference", normal_mode, side_by_side=True, clear_to_right=True)
 
   # Modes
-  bind(["ctrl+l"], "nv_enter_normal_mode", insert_mode[0], context['no_widget'])
+  bind(
+    ["ctrl+l"],
+    [
+      command("nv_enter_normal_mode"),
+      command("delete_till_beginning_of_line_if_empty")
+    ], 
+    insert_mode[0],
+    context['no_widget']
+  )
   bind(["ctrl+l"], "noop", normal_mode)
   bind(["ctrl+l"], "nv_enter_normal_mode", visual_mode)
   bind(["ctrl+l"], "then_go_back_to_normal_mode", context['multiple_selections'], exec="single_selection")
@@ -91,8 +99,6 @@ def keybinding(bind, **kwargs):
   bind(["ctrl+h"], "left_delete", insert_mode)
   bind(["ctrl+h"], "left_delete", context['overlay_focus'])
   bind(["ctrl+j"], "insert", insert_mode, context['auto_complete_hidden'], characters="\n")
-
-  bind(["ctrl+shift+h"], [command("move_to", to="bol", extend=True), command("left_delete")], nv_mode_enabled)
 
   bind(["i", "w"], "select_inner_word", visual_mode)
 
