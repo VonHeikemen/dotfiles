@@ -251,7 +251,7 @@ def select_surroundings(bind, prefix, pair, **kwargs):
   bind(
     prefix + [begin],
     "select_surrounded_content",
-    context['command_mode'][0],
+    context['visual_mode'],
     find=pair,
     all=select_all
   )
@@ -260,7 +260,7 @@ def select_surroundings(bind, prefix, pair, **kwargs):
     bind(
       prefix + [end],
       "select_surrounded_content",
-      context['command_mode'][0],
+      context['visual_mode'],
       find=pair,
       all=select_all
     )
