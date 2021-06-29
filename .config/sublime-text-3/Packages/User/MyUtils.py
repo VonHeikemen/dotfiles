@@ -31,7 +31,7 @@ class UiHideAll(sublime_plugin.ApplicationCommand):
       w.set_sidebar_visible(False)
 
 
-class DeleteWord(sublime_plugin.TextCommand):
+class CustomDeleteWord(sublime_plugin.TextCommand):
   def run(self, edit, **kwargs):
     goto_insert_mode = kwargs.get('replace', False)
     scope = kwargs.get('scope', 'word_end')
@@ -44,6 +44,9 @@ class DeleteWord(sublime_plugin.TextCommand):
 
     elif scope == 'word_end':
       self.view.run_command('move', {"by": "word_ends", "forward": True, "extend": True})
+
+    elif scope == 'word_start':
+      self.view.run_command('move', {"by": "words", "forward": False, "extend": True})
 
     self.view.run_command('cut')
 
