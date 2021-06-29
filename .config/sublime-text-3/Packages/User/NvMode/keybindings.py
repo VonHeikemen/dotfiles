@@ -96,17 +96,27 @@ def keybinding(bind, **kwargs):
   bind(["g", "U"], "convert_char_case", normal_mode, context['selection_empty'], to="upper")
   bind(["~"], "convert_char_case", normal_mode, context['selection_empty'], to="toggle")
 
-  bind(["ctrl+h"], "left_delete", insert_mode)
-  bind(["ctrl+h"], "left_delete", context['overlay_focus'])
+  backspace(bind, ["ctrl+h"])
   bind(["ctrl+j"], "insert", insert_mode, context['auto_complete_hidden'], characters="\n")
 
   bind(["i", "w"], "select_inner_word", visual_mode)
 
-  bind(["d", "w"], "delete_word", normal_mode)
-  bind(["d", "i", "w"], "delete_word", normal_mode, scope="inner")
+  bind(["d", "w"], "custom_delete_word", normal_mode)
+  bind(["d", "i", "w"], "custom_delete_word", normal_mode, scope="inner")
 
-  bind(["c", "w"], "delete_word", normal_mode, replace=True, scope="word_end")
-  bind(["c", "i", "w"], "delete_word", normal_mode, replace=True, scope="inner")
+  bind(["d", "b"], "custom_delete_word", normal_mode, scope="word_start")
+  bind(["c", "b"], "custom_delete_word", normal_mode, scope="word_start", replace=True)
+
+  bind(["c", "w"], "custom_delete_word", normal_mode, replace=True, scope="word_end")
+  bind(["c", "i", "w"], "custom_delete_word", normal_mode, replace=True, scope="inner")
+
+  delete_move = create_delete_move(bind, command, delete_key=["d"], replace_key=["c"])
+
+  delete_move(["0"], [command("move_to", to="bol", extend=True), command("move_to", to="bol", extend=True)])
+  delete_move(["$"], [command("move_to", to="eol", extend=True)])
+
+  delete_move([leader, "h"], [command("nv_move_to_first_char_in_line", extend=True)])
+  delete_move([leader, "l"], [command("nv_move_to_last_char_in_line", extend=True)])
 
   bind(["y"], "then_go_back_to_normal_mode", visual_mode, exec="copy")
   bind(["d"], "then_go_back_to_normal_mode", visual_mode, exec="cut")
@@ -115,7 +125,7 @@ def keybinding(bind, **kwargs):
   bind(["g", "v"], [command("jump_to_previous_selection"), command("nv_enter_visual_mode")], normal_mode)
   bind(["g", "v"], "jump_to_previous_selection", visual_mode)
 
-  bind(["c", "F"], "create_from_current_file", nv_mode_enabled)
+  bind(["c", "o"], "create_from_current_file", nv_mode_enabled)
   bind(["c", "f"], "insert_path_based_on_current_file", nv_mode_enabled)
   bind(["c", "f"], "complete_selected_path", visual_mode)
   bind(["alt+i"], "insert_path_based_on_current_file", insert_mode)
@@ -316,6 +326,66 @@ def delete_surroundings(bind, prefix, pair, **kwargs):
       find=pair,
       all=kwargs.get('all', False),
       replace=kwargs.get('replace', False)
+    )
+
+def create_delete_move(bind, command, delete_key=None, replace_key=None):
+  def move(keys, cmds):
+    delete_command = cmds + [command("cut")]
+    replace_command = cmds + [command("cut"), command("nv_enter_insert_mode")]
+
+    bind(delete_key + keys, delete_command, context['command_mode'])
+    bind(replace_key + keys, replace_command, context['command_mode'])
+
+  return move
+
+def backspace(bind, key):
+  bind(key, "left_delete", context['insert_mode'])
+  bind(key, "left_delete", context['overlay_focus'])
+
+  extra_context = [
+    [
+      { "key": "setting.auto_match_enabled", "operator": "equal", "operand": True },
+      { "key": "selection_empty", "operator": "equal", "operand": True, "match_all": True },
+      { "key": "preceding_text", "operator": "regex_contains", "operand": "\"$", "match_all": True },
+      { "key": "following_text", "operator": "regex_contains", "operand": "^\"", "match_all": True },
+      { "key": "selector", "operator": "not_equal", "operand": "punctuation.definition.string.begin", "match_all": True },
+      { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.double - punctuation.definition.string.end", "match_all": True },
+    ],
+    [
+      { "key": "setting.auto_match_enabled", "operator": "equal", "operand": True },
+      { "key": "selection_empty", "operator": "equal", "operand": True, "match_all": True },
+      { "key": "preceding_text", "operator": "regex_contains", "operand": "'$", "match_all": True },
+      { "key": "following_text", "operator": "regex_contains", "operand": "^'", "match_all": True },
+      { "key": "selector", "operator": "not_equal", "operand": "punctuation.definition.string.begin", "match_all": True },
+      { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.single - punctuation.definition.string.end", "match_all": True },
+    ],
+    [
+      { "key": "setting.auto_match_enabled", "operator": "equal", "operand": True },
+      { "key": "selection_empty", "operator": "equal", "operand": True, "match_all": True },
+      { "key": "preceding_text", "operator": "regex_contains", "operand": "\\($", "match_all": True },
+      { "key": "following_text", "operator": "regex_contains", "operand": "^\\)", "match_all": True }
+    ],
+    [
+      { "key": "setting.auto_match_enabled", "operator": "equal", "operand": True },
+      { "key": "selection_empty", "operator": "equal", "operand": True, "match_all": True },
+      { "key": "preceding_text", "operator": "regex_contains", "operand": "\\[$", "match_all": True },
+      { "key": "following_text", "operator": "regex_contains", "operand": "^\\]", "match_all": True }
+    ],
+    [
+      { "key": "setting.auto_match_enabled", "operator": "equal", "operand": True },
+      { "key": "selection_empty", "operator": "equal", "operand": True, "match_all": True },
+      { "key": "preceding_text", "operator": "regex_contains", "operand": "\\{$", "match_all": True },
+      { "key": "following_text", "operator": "regex_contains", "operand": "^\\}", "match_all": True }
+    ]
+  ]
+
+  for ctx in extra_context:
+    bind(
+      key,
+      "run_macro_file",
+      context['insert_mode'],
+      ctx,
+      file="res://Packages/Default/Delete Left Right.sublime-macro"
     )
 
 context = {}
