@@ -667,11 +667,16 @@
     "keys": [
       "ctrl+l"
     ],
-    "command": "then_go_back_to_normal_mode",
-    "args": {
-      "exec": "single_selection"
-    },
+    "command": "single_selection",
     "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": true
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      },
       {
         "key": "num_selections",
         "operator": "not_equal",

@@ -70,13 +70,13 @@ def keybinding(bind, **kwargs):
     [
       command("nv_enter_normal_mode"),
       command("delete_till_beginning_of_line_if_empty")
-    ], 
+    ],
     insert_mode[0],
     context['no_widget']
   )
   bind(["ctrl+l"], "noop", normal_mode)
   bind(["ctrl+l"], "nv_enter_normal_mode", visual_mode)
-  bind(["ctrl+l"], "then_go_back_to_normal_mode", context['multiple_selections'], exec="single_selection")
+  bind(["ctrl+l"], "single_selection", normal_mode, context['multiple_selections'])
 
   bind(["i", "i"], "nv_enter_insert_mode", visual_mode)
 
