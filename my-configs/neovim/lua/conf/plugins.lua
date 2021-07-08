@@ -1,5 +1,6 @@
 local env = require 'conf.env'
 local load = require 'conf.functions'.load_module
+local group_command = require 'bridge'.group_command
 
 -- ========================================================================== --
 -- ==                               PLUGINS                                == --
@@ -15,6 +16,9 @@ require 'paq' {
   -- Fuzzy finder
   {'junegunn/fzf.vim'},
   {'zackhsi/fzf-tags'},
+
+  -- Theme
+  {'VonHeikemen/rubber-themes.vim', opt = true},
 
   -- Session manager
   {'tpope/vim-obsession'},
@@ -77,6 +81,22 @@ vim.g.fzf_layout = {
     width = 0.9
   }
 }
+
+-- vim-qf
+--
+group_command(
+  'quickfix_cmds',
+  {'filetype', 'qf'},
+  function()
+    -- lazy load quickfix related plugins
+    if vim.g.loaded_qf ~= 1 then
+      vim.cmd [[
+        packadd vim-qf
+        packadd quickfix-reflector.vim
+      ]]
+    end
+  end
+)
 
 -- kommentary
 --

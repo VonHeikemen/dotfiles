@@ -180,13 +180,6 @@ group_command(
   'quickfix_cmds',
   {'filetype', 'qf'},
   function() 
-    if vim.g.loaded_qf ~= 1 then
-      vim.cmd [[
-        packadd vim-qf 
-        packadd quickfix-reflector.vim
-      ]]
-    end
-
     -- Go to location under the cursor
     k.nnoremap {buffer = true, 'gl', '<CR>'}
     
