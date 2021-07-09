@@ -55,10 +55,10 @@ require 'paq' {
   {'wellle/targets.vim'},
   {'tpope/vim-surround'},
   {'tpope/vim-repeat'},
-  {'tpope/vim-abolish', opt = true},
+  {'tpope/vim-abolish'},
   {'ggandor/lightspeed.nvim'},
-  {'romainl/vim-qf', opt = true},
-  {'stefandtw/quickfix-reflector.vim', opt = true},
+  {'romainl/vim-qf'},
+  {'stefandtw/quickfix-reflector.vim'},
   {'nvim-treesitter/playground', opt = true},
   {'nvim-treesitter/nvim-treesitter-textobjects'},
   {'nvim-lua/plenary.nvim'},
@@ -81,22 +81,6 @@ vim.g.fzf_layout = {
     width = 0.9
   }
 }
-
--- vim-qf
---
-group_command(
-  'quickfix_cmds',
-  {'filetype', 'qf'},
-  function()
-    -- lazy load quickfix related plugins
-    if vim.g.loaded_qf ~= 1 then
-      vim.cmd [[
-        packadd vim-qf
-        packadd quickfix-reflector.vim
-      ]]
-    end
-  end
-)
 
 -- kommentary
 --
