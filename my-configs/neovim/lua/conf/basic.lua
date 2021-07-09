@@ -2,8 +2,7 @@ local env = require('conf.env')
 local cwd = vim.fn.getcwd()
 local f = string.format
 
-local set = vim.o
-local opt = vim.opt
+local set = vim.opt
 
 -- Temp files directory
 set.backupdir = env.tempdir
@@ -60,23 +59,23 @@ set.mouse = 'a'
 
 -- Look for a tag file in the git folder
 -- I shouldn't have to use `cwd` but here we are
-opt.tags:prepend(f('%s/.git/tags', cwd))
+set.tags:prepend(f('%s/.git/tags', cwd))
 
 -- Insert mode completion setting
-opt.completeopt = {'menuone', 'noselect'}
+set.completeopt = {'menuone', 'noselect'}
 
 -- Theme
 vim.cmd [[ colorscheme rubber-enhanced ]]
 
 -- Set grep default grep command with ripgrep
 set.grepprg = 'rg --vimgrep --follow'
-opt.errorformat:append '%f:%l:%c%p%m'
+set.errorformat:append '%f:%l:%c%p%m'
 
 -- Status line
 set.statusline = '%=%r%m %l:%c %p%% %y '
 
 if vim.env.TMUX then
   local dirname = vim.fn.fnamemodify(cwd, ':t')
-  opt.statusline:append(f('[%s] ', dirname))
+  set.statusline:append(f('[%s] ', dirname))
 end
 
