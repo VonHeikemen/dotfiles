@@ -33,7 +33,7 @@ require 'paq' {
 
   -- Snippets
   {'L3MON4D3/LuaSnip', opt = true},
-  {'rafamadriz/friendly-snippets', opt = true},
+  {'rafamadriz/friendly-snippets'},
   {'windwp/nvim-autopairs', opt = true},
   {'b3nj5m1n/kommentary', opt = true},
   {'mattn/emmet-vim', opt = true},
@@ -102,6 +102,7 @@ end)
 --
 load('luasnip/loaders/from_vscode', function(luasnip)
   luasnip.lazy_load()
+  luasnip.load({ include = { vim.bo.filetype } })
 end)
 
 -- nvim-compe

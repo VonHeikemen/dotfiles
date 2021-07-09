@@ -1,5 +1,4 @@
 local plugins = {
-  'friendly-snippets',
   'fzf-tags',
   'fzf.vim',
   'kommentary',
@@ -27,6 +26,11 @@ local lazy_loading = function()
   end
 
   vim.cmd(cmd)
+  vim.cmd [[
+    runtime OPT ftdetect/*.vim
+    runtime OPT after/ftdetect/*.vim
+    runtime OPT after/plugin/*.vim
+  ]]
 
   require 'conf.functions'.try_load_again()
 end
@@ -34,4 +38,3 @@ end
 return function()
   vim.defer_fn(lazy_loading, 50)
 end
-
