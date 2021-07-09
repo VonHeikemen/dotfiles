@@ -74,16 +74,20 @@ M.group_command = function(group, event, command)
 
   local add_cmd = [[
     augroup %s
-      autocmd %s %s %s
+      autocmd %s %s%s%s
     augroup END
   ]]
 
   local pattern = '*'
   local evt = event
+  local once = ' '
 
   if type(event) == 'table' then
     evt = event[1]
     pattern = event[2] or '*'
+    if event.once then
+      once = ' ++once '
+    end
   end
 
   local user_cmd = command
@@ -92,7 +96,7 @@ M.group_command = function(group, event, command)
     user_cmd = M.lua_cmd(command)
   end
 
-  vim.cmd(add_cmd:format(group, evt, pattern, user_cmd))
+  vim.cmd(add_cmd:format(group, evt, pattern, once, user_cmd))
 end
 
 return M

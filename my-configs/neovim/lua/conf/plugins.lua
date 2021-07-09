@@ -1,6 +1,5 @@
 local env = require 'conf.env'
 local load = require 'conf.functions'.load_module
-local group_command = require 'bridge'.group_command
 
 -- ========================================================================== --
 -- ==                               PLUGINS                                == --
@@ -14,29 +13,29 @@ require 'paq' {
   {'tjdevries/astronauta.nvim'},
 
   -- Fuzzy finder
-  {'junegunn/fzf.vim'},
-  {'zackhsi/fzf-tags'},
+  {'junegunn/fzf.vim', opt = true},
+  {'zackhsi/fzf-tags', opt = true},
 
   -- Theme
   {'VonHeikemen/rubber-themes.vim', opt = true},
 
   -- Session manager
-  {'tpope/vim-obsession'},
+  {'tpope/vim-obsession', opt = true},
 
   -- Better clipboard support
   {'christoomey/vim-system-copy'},
 
   -- Editor config
-  {'editorconfig/editorconfig-vim'},
+  {'editorconfig/editorconfig-vim', opt = true},
 
   -- Autocompletion
-  {'hrsh7th/nvim-compe'},
+  {'hrsh7th/nvim-compe', opt = true},
 
   -- Snippets
-  {'L3MON4D3/LuaSnip'},
-  {'rafamadriz/friendly-snippets'},
-  {'windwp/nvim-autopairs'},
-  {'b3nj5m1n/kommentary'},
+  {'L3MON4D3/LuaSnip', opt = true},
+  {'rafamadriz/friendly-snippets', opt = true},
+  {'windwp/nvim-autopairs', opt = true},
+  {'b3nj5m1n/kommentary', opt = true},
   {'mattn/emmet-vim', opt = true},
 
   -- Syntax highlight
@@ -45,22 +44,23 @@ require 'paq' {
   {'lumiliet/vim-twig'},
   {
     'nvim-treesitter/nvim-treesitter',
+    opt = true,
     run = function()
       vim.cmd('TSUpdate')
     end
   },
 
   --  Utilities
-  {'moll/vim-bbye'},
-  {'wellle/targets.vim'},
-  {'tpope/vim-surround'},
-  {'tpope/vim-repeat'},
-  {'tpope/vim-abolish'},
-  {'ggandor/lightspeed.nvim'},
-  {'romainl/vim-qf'},
-  {'stefandtw/quickfix-reflector.vim'},
+  {'moll/vim-bbye', opt = true},
+  {'wellle/targets.vim', opt = true},
+  {'tpope/vim-surround', opt = true},
+  {'tpope/vim-repeat', opt = true},
+  {'tpope/vim-abolish', opt = true},
+  {'ggandor/lightspeed.nvim', opt = true},
+  {'romainl/vim-qf', opt = true},
+  {'stefandtw/quickfix-reflector.vim', opt = true},
   {'nvim-treesitter/playground', opt = true},
-  {'nvim-treesitter/nvim-treesitter-textobjects'},
+  {'nvim-treesitter/nvim-treesitter-textobjects', opt = true},
   {'nvim-lua/plenary.nvim'},
 }
 
