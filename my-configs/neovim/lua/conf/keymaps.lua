@@ -1,4 +1,10 @@
-local k = require 'astronauta.keymap'
+-- astronauta might not be installed yet
+local status, k = pcall(require, 'astronauta.keymap')
+
+if not status then
+  return
+end
+
 local fns = require 'conf.functions'
 local t = fns.t
 
@@ -163,8 +169,8 @@ k.imap {expr = true, '<S-Tab>', lua_expr(fns.s_tab_complete)}
 k.inoremap {expr = true, '<C-Space>', lua_expr(fns.toggle_completion)}
 k.inoremap {expr = true, '<C-k>', lua_expr(fns.completion_up(t'<C-k>'))}
 k.inoremap {expr = true, '<C-j>', lua_expr(fns.completion_down(t'<C-j>'))}
-k.inoremap {expr = true, '<M-k>', "compe#scroll({ 'delta': +4 })"}
-k.inoremap {expr = true, '<M-j>', "compe#scroll({ 'delta': -4 })"}
+k.inoremap {expr = true, '<M-k>', "compe#scroll({ 'delta': -4 })"}
+k.inoremap {expr = true, '<M-j>', "compe#scroll({ 'delta': +4 })"}
 
 -- use built-in `f` and `F` while recording a macro
 k.nmap {expr = true, 'f', lua_expr(fns.lightspeed('f'))}
