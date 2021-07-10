@@ -1,6 +1,6 @@
 local bridge = require 'bridge'
+
 local M = {}
-local not_loaded = {}
 
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -100,33 +100,6 @@ M.get_selection = function()
     let @/ = substitute(escape(@s, '\/'), '\n', '\\n', 'g')
     let @s = temp
   ]]
-end
-
-M.load_module = function(module, fn)
-  local status, lib = pcall(require, module)
-
-  if not status then
-    not_loaded[module] = fn
-    return
-  end
-
-  return fn(lib)
-end
-
-M.try_load_again = function()
-  local success = {}
-
-  for m, config in pairs(not_loaded) do
-    local status, lib = pcall(require, m)
-    if status then
-      config(lib)
-      success[m] = m
-    end
-  end
-
-  for m in pairs(success) do
-    not_loaded[m] = nil
-  end
 end
 
 M.lightspeed = function (char)

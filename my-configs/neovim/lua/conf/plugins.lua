@@ -1,67 +1,67 @@
 local env = require 'conf.env'
-local load = require 'conf.functions'.load_module
+local load = require 'plug'.load_module
+local init = require 'plug'.init_plugins
 
 -- ========================================================================== --
 -- ==                               PLUGINS                                == --
 -- ========================================================================== --
 
-require 'paq' {
+init {
   -- Plugin manager
-  {'savq/paq-nvim'},
+  {'savq/paq-nvim', type = 'start'},
 
   -- keymap DSL
-  {'tjdevries/astronauta.nvim'},
+  {'tjdevries/astronauta.nvim', type = 'start'},
 
   -- Fuzzy finder
-  {'junegunn/fzf.vim', opt = true},
-  {'zackhsi/fzf-tags', opt = true},
+  {'junegunn/fzf.vim'},
+  {'zackhsi/fzf-tags'},
 
   -- Theme
-  {'VonHeikemen/rubber-themes.vim', opt = true},
+  {'VonHeikemen/rubber-themes.vim', type = 'opt'},
 
   -- Session manager
-  {'tpope/vim-obsession', opt = true},
+  {'tpope/vim-obsession'},
 
   -- Better clipboard support
-  {'christoomey/vim-system-copy'},
+  {'christoomey/vim-system-copy', type = 'start'},
 
   -- Editor config
-  {'editorconfig/editorconfig-vim', opt = true},
+  {'editorconfig/editorconfig-vim', type= 'opt'},
 
   -- Autocompletion
-  {'hrsh7th/nvim-compe', opt = true},
+  {'hrsh7th/nvim-compe'},
 
   -- Snippets
-  {'L3MON4D3/LuaSnip', opt = true},
+  {'L3MON4D3/LuaSnip'},
   {'rafamadriz/friendly-snippets'},
-  {'windwp/nvim-autopairs', opt = true},
-  {'b3nj5m1n/kommentary', opt = true},
-  {'mattn/emmet-vim', opt = true},
+  {'windwp/nvim-autopairs'},
+  {'b3nj5m1n/kommentary'},
+  {'mattn/emmet-vim', type= 'opt'},
 
   -- Syntax highlight
-  {'othree/html5.vim'},
-  {'pangloss/vim-javascript'},
-  {'lumiliet/vim-twig'},
+  {'othree/html5.vim', type = 'start'},
+  {'pangloss/vim-javascript', type = 'start'},
+  {'lumiliet/vim-twig', type = 'start'},
   {
     'nvim-treesitter/nvim-treesitter',
-    opt = true,
     run = function()
       vim.cmd('TSUpdate')
     end
   },
 
   --  Utilities
-  {'moll/vim-bbye', opt = true},
-  {'wellle/targets.vim', opt = true},
-  {'tpope/vim-surround', opt = true},
-  {'tpope/vim-repeat', opt = true},
-  {'tpope/vim-abolish', opt = true},
-  {'ggandor/lightspeed.nvim', opt = true},
-  {'romainl/vim-qf', opt = true},
-  {'stefandtw/quickfix-reflector.vim', opt = true},
-  {'nvim-treesitter/playground', opt = true},
-  {'nvim-treesitter/nvim-treesitter-textobjects', opt = true},
-  {'nvim-lua/plenary.nvim'},
+  {'moll/vim-bbye'},
+  {'wellle/targets.vim'},
+  {'tpope/vim-surround'},
+  {'tpope/vim-repeat'},
+  {'tpope/vim-abolish'},
+  {'ggandor/lightspeed.nvim'},
+  {'romainl/vim-qf'},
+  {'stefandtw/quickfix-reflector.vim'},
+  {'nvim-treesitter/playground', type= 'opt'},
+  {'nvim-treesitter/nvim-treesitter-textobjects'},
+  {'nvim-lua/plenary.nvim', type = 'start'},
 }
 
 -- ========================================================================== --
