@@ -29,17 +29,19 @@ M.init_plugins = function(plugins)
   paq(plugins)
 
   -- Thing that actually loads plugins
-  local lazy_loading = function()
-    vim.defer_fn(p.load_plugins(deferred), 50)
-  end
+  local lazy_loading = p.load_plugins(deferred)
 
   -- Figure out when to load the plugins
   if vim.fn.argc() == 0 then
     autocmd({'CmdlineEnter', once = true}, lazy_loading)
     autocmd({'InsertEnter', once = true}, lazy_loading)
-  else
-    autocmd('VimEnter', lazy_loading)
+    return
   end
+
+  autocmd('VimEnter', function()
+    vim.defer_fn(lazy_loading, 20)
+  end)
+
 end
 
 p.load_plugins = function(plugins)
