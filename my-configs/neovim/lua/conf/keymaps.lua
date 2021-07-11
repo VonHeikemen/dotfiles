@@ -180,7 +180,6 @@ k.nmap {expr = true, 'F', lua_expr(fns.lightspeed('F'))}
 k.nmap {'[q', '<Plug>(qf_qf_previous)zz'}
 k.nmap {']q', '<Plug>(qf_qf_next)zz'}
 k.nmap {'<Leader>cc', '<Plug>(qf_qf_toggle)'}
-k.noremap {'<Leader>co', ':copen<CR>'}
 
 group_command(
   'quickfix_cmds',
