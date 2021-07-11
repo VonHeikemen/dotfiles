@@ -104,10 +104,10 @@ M.paq_download = function()
   local install_path = vim.fn.stdpath 'data' .. '/site/pack/paqs/start/paq-nvim'
 
   if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    local gitclone = "!git clone https://github.com/savq/paq-nvim.git %s"
+    local gitclone = '!git clone https://github.com/savq/paq-nvim.git %s'
 
     vim.cmd(gitclone:format(install_path))
-    vim.cmd "packadd paq-nvim"
+    vim.cmd 'packadd paq-nvim'
   end
 end
 
