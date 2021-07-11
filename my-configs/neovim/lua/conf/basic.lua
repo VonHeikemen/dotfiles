@@ -1,4 +1,4 @@
-local env = require('conf.env')
+local env = require 'conf.env'
 local cwd = vim.fn.getcwd()
 local f = string.format
 

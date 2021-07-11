@@ -27,7 +27,7 @@ init {
   {'christoomey/vim-system-copy', type = 'start'},
 
   -- Editor config
-  {'editorconfig/editorconfig-vim', type= 'opt'},
+  {'editorconfig/editorconfig-vim', type = 'opt'},
 
   -- Autocompletion
   {'hrsh7th/nvim-compe'},
@@ -37,7 +37,7 @@ init {
   {'rafamadriz/friendly-snippets'},
   {'windwp/nvim-autopairs'},
   {'b3nj5m1n/kommentary'},
-  {'mattn/emmet-vim', type= 'opt'},
+  {'mattn/emmet-vim', type = 'opt'},
 
   -- Syntax highlight
   {'othree/html5.vim', type = 'start'},
@@ -59,7 +59,7 @@ init {
   {'ggandor/lightspeed.nvim'},
   {'romainl/vim-qf'},
   {'stefandtw/quickfix-reflector.vim'},
-  {'nvim-treesitter/playground', type= 'opt'},
+  {'nvim-treesitter/playground', type = 'opt'},
   {'nvim-treesitter/nvim-treesitter-textobjects'},
   {'nvim-lua/plenary.nvim', type = 'start'},
 }
@@ -90,7 +90,7 @@ load('kommentary.config', function(kommentary)
   })
 end)
 
---nvim-autopairs
+-- nvim-autopairs
 --
 load('nvim-autopairs', function(npairs)
   npairs.setup {
