@@ -156,12 +156,11 @@ k.xnoremap {'<Leader>R', ':<C-u>GetSelection<CR>:%s/\\V<C-R>=@/<CR>//gc<Left><Le
 k.vnoremap {'<Leader>y', ':<C-u>GetSelection<CR>gv'}
 k.vnoremap {'<Leader>Y', ':<C-u>GetSelection<CR>:set hlsearch<CR>'}
 
--- Open file manager
-k.nnoremap {'<leader>dd', ':Lexplore %:p:h<CR>'}
-k.nnoremap {'<Leader>da', ':Lexplore<CR>'}
-
 -- Close buffer while preserving the layout
 k.nnoremap {'<Leader>bc', ':Bdelete<CR>'}
+
+-- Toggle zen-mode
+k.nnoremap {'<Leader>uz', ':ZenMode<CR>'}
 
 -- Insert mode completions
 k.imap {expr = true, '<Tab>', lua_expr(fns.tab_complete)}
@@ -182,7 +181,7 @@ k.nmap {']q', '<Plug>(qf_qf_next)zz'}
 k.nmap {'<Leader>cc', '<Plug>(qf_qf_toggle)'}
 
 group_command(
-  'quickfix_cmds',
+  'mapping_cmds',
   {'filetype', 'qf'},
   function() 
     -- Go to location under the cursor
@@ -195,3 +194,23 @@ group_command(
     k.nmap {buffer = true, 'J', '<Plug>(qf_qf_next)zz<C-w>w'}
   end
 )
+
+-- Open file manager
+k.nnoremap {'<leader>dd', ':Vaffle %:p:h<CR>'}
+k.nnoremap {'<leader>da', ':Vaffle<CR>'}
+
+group_command(
+  'mapping_cmds',
+  {'filetype', 'vaffle'},
+  function ()
+    k.nmap {buffer = true, '<CR>', ':'}
+
+    k.nmap {buffer = true, 'e', '<Plug>(vaffle-open-selected)'}
+    k.nmap {buffer = true, 's', '<Plug>(vaffle-open-selected-split)'}
+    k.nmap {buffer = true, 'v', '<Plug>(vaffle-open-selected-vsplit)'}
+
+    k.nmap {buffer = true, '<Leader>dd', 'quit'}
+    k.nmap {buffer = true, '<Leader>da', 'quit'}
+  end
+)
+

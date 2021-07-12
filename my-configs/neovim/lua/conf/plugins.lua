@@ -23,6 +23,12 @@ init {
   -- Session manager
   {'tpope/vim-obsession'},
 
+  -- Distraction free mode
+  {'folke/zen-mode.nvim', type = 'start'},
+
+  -- File explorer
+  {'cocopon/vaffle.vim'},
+
   -- Better clipboard support
   {'christoomey/vim-system-copy', type = 'start'},
 
@@ -34,21 +40,20 @@ init {
 
   -- Snippets
   {'L3MON4D3/LuaSnip'},
-  {'rafamadriz/friendly-snippets'},
+  {'rafamadriz/friendly-snippets', type = 'start'},
   {'windwp/nvim-autopairs'},
   {'b3nj5m1n/kommentary'},
   {'mattn/emmet-vim', type = 'opt'},
 
-  -- Syntax highlight
+  -- Language support
   {'othree/html5.vim', type = 'start'},
   {'pangloss/vim-javascript', type = 'start'},
   {'lumiliet/vim-twig', type = 'start'},
   {
     'nvim-treesitter/nvim-treesitter',
-    run = function()
-      vim.cmd('TSUpdate')
-    end
+    run = function() vim.cmd 'TSUpdate' end
   },
+  {'nvim-treesitter/nvim-treesitter-textobjects'},
 
   --  Utilities
   {'moll/vim-bbye'},
@@ -60,7 +65,6 @@ init {
   {'romainl/vim-qf'},
   {'stefandtw/quickfix-reflector.vim'},
   {'nvim-treesitter/playground', type = 'opt'},
-  {'nvim-treesitter/nvim-treesitter-textobjects'},
   {'nvim-lua/plenary.nvim', type = 'start'},
 }
 
@@ -157,6 +161,22 @@ load('nvim-treesitter.configs', function(ts)
       'lua',
       'python',
     },
+  }
+end)
+
+-- zen-mode.nvim
+--
+load('zen-mode', function(zen)
+  zen.setup {
+    window = {
+      width = 0.60,
+      height = 1
+    },
+    on_open = function(win)
+      vim.opt.wrap = true
+      vim.keymap.noremap {buffer = true, 'k', 'gk'}
+      vim.keymap.noremap {buffer = true, 'j', 'gj'}
+    end
   }
 end)
 
