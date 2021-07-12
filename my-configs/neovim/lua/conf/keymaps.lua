@@ -9,7 +9,8 @@ local fns = require 'conf.functions'
 local t = fns.t
 
 local lua_expr = require 'bridge'.lua_expr
-local group_command = require 'bridge'.group_command
+local augroup = require 'bridge'.augroup
+local autocmd = augroup 'mapping_cmds'
 
 -- Leader
 vim.g.mapleader = ' '
@@ -180,37 +181,29 @@ k.nmap {'[q', '<Plug>(qf_qf_previous)zz'}
 k.nmap {']q', '<Plug>(qf_qf_next)zz'}
 k.nmap {'<Leader>cc', '<Plug>(qf_qf_toggle)'}
 
-group_command(
-  'mapping_cmds',
-  {'filetype', 'qf'},
-  function() 
-    -- Go to location under the cursor
-    k.nnoremap {buffer = true, 'gl', '<CR>'}
-    
-    -- Go to next location and stay in the quickfix window
-    k.nmap {buffer = true, 'K', '<Plug>(qf_qf_previous)zz<C-w>w'}
+autocmd({'filetype', 'qf'}, function()
+  -- Go to location under the cursor
+  k.nnoremap {buffer = true, 'gl', '<CR>'}
 
-    -- Go to previous location and stay in the quickfix window
-    k.nmap {buffer = true, 'J', '<Plug>(qf_qf_next)zz<C-w>w'}
-  end
-)
+  -- Go to next location and stay in the quickfix window
+  k.nmap {buffer = true, 'K', '<Plug>(qf_qf_previous)zz<C-w>w'}
+
+  -- Go to previous location and stay in the quickfix window
+  k.nmap {buffer = true, 'J', '<Plug>(qf_qf_next)zz<C-w>w'}
+end)
 
 -- Open file manager
 k.nnoremap {'<leader>dd', ':Vaffle %:p:h<CR>'}
 k.nnoremap {'<leader>da', ':Vaffle<CR>'}
 
-group_command(
-  'mapping_cmds',
-  {'filetype', 'vaffle'},
-  function ()
-    k.nmap {buffer = true, '<CR>', ':'}
+autocmd({'filetype', 'vaffle'}, function ()
+  k.nmap {buffer = true, '<CR>', ':'}
 
-    k.nmap {buffer = true, 'e', '<Plug>(vaffle-open-selected)'}
-    k.nmap {buffer = true, 's', '<Plug>(vaffle-open-selected-split)'}
-    k.nmap {buffer = true, 'v', '<Plug>(vaffle-open-selected-vsplit)'}
+  k.nmap {buffer = true, 'e', '<Plug>(vaffle-open-selected)'}
+  k.nmap {buffer = true, 's', '<Plug>(vaffle-open-selected-split)'}
+  k.nmap {buffer = true, 'v', '<Plug>(vaffle-open-selected-vsplit)'}
 
-    k.nmap {buffer = true, '<Leader>dd', 'quit'}
-    k.nmap {buffer = true, '<Leader>da', 'quit'}
-  end
-)
+  k.nmap {buffer = true, '<Leader>dd', 'quit'}
+  k.nmap {buffer = true, '<Leader>da', 'quit'}
+end)
 

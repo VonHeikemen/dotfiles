@@ -1,8 +1,9 @@
 local M = {}
+__User_fns = __User_fns or {}
 
 local module_name = 'bridge'
 local id = 0
-local fns = {}
+local fns = __User_fns
 local augroups = {}
 
 M.apply = function(name)
@@ -97,6 +98,14 @@ M.group_command = function(group, event, command)
   end
 
   vim.cmd(add_cmd:format(group, evt, pattern, once, user_cmd))
+end
+
+M.augroup = function(group)
+  M.register_augroups {group}
+
+  return function(event, command)
+    return M.group_command(group, event, command)
+  end
 end
 
 return M

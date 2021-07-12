@@ -1,4 +1,4 @@
-local autocmd = require 'conf.functions'.autocmd
+local autocmd = require 'bridge'.augroup 'plug_init'
 
 local M = {}
 local p = {} -- I hate this
@@ -37,11 +37,11 @@ M.init_plugins = function(plugins)
   if vim.fn.argc() == 0 then
     autocmd({'CmdlineEnter', once = true}, lazy_loading)
     autocmd({'InsertEnter', once = true}, lazy_loading)
+    autocmd({'SessionLoadPost', once = true}, lazy_loading)
     return
   end
 
   autocmd('VimEnter', lazy_loading)
-
 end
 
 p.load_plugins = function(plugins)
