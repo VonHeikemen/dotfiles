@@ -67,10 +67,6 @@ M.toggle_completion = function()
   end
 end
 
-M.autocmd = function(event, fn)
-  bridge.group_command('user_cmds', event, fn)
-end
-
 M.toggle_opt = function(prop, scope, on, off)
   if on == nil then
     on = true
