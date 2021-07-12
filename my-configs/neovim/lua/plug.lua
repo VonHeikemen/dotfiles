@@ -29,7 +29,9 @@ M.init_plugins = function(plugins)
   paq(plugins)
 
   -- Thing that actually loads plugins
-  local lazy_loading = p.load_plugins(deferred)
+  local lazy_loading = function()
+    vim.defer_fn(p.load_plugins(deferred), 20)
+  end
 
   -- Figure out when to load the plugins
   if vim.fn.argc() == 0 then
@@ -38,9 +40,7 @@ M.init_plugins = function(plugins)
     return
   end
 
-  autocmd('VimEnter', function()
-    vim.defer_fn(lazy_loading, 20)
-  end)
+  autocmd('VimEnter', lazy_loading)
 
 end
 
@@ -62,9 +62,9 @@ p.load_plugins = function(plugins)
     end
 
     cmd = cmd .. [[
-      runtime OPT ftdetect/*.vim
-      runtime OPT after/ftdetect/*.vim
-      runtime OPT after/plugin/*.vim
+      runtime! OPT ftdetect/*.vim
+      runtime! OPT after/ftdetect/*.vim
+      runtime! OPT after/plugin/*.vim
     ]]
 
     vim.cmd(cmd)
