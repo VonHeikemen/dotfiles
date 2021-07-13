@@ -1,5 +1,3 @@
-local bridge = require 'bridge'
-
 local M = {}
 
 local t = function(str)

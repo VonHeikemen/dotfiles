@@ -9,8 +9,7 @@ local fns = require 'conf.functions'
 local t = fns.t
 
 local lua_expr = require 'bridge'.lua_expr
-local augroup = require 'bridge'.augroup
-local autocmd = augroup 'mapping_cmds'
+local autocmd = require 'bridge'.augroup 'mapping_cmds'
 
 -- Leader
 vim.g.mapleader = ' '
