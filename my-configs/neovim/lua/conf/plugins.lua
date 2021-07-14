@@ -1,6 +1,7 @@
 local env = require 'conf.env'
 local load = require 'plug'.load_module
 local init = require 'plug'.init_plugins
+local lua_expr = require 'bridge'.lua_expr
 
 -- ========================================================================== --
 -- ==                               PLUGINS                                == --
@@ -100,6 +101,8 @@ load('nvim-autopairs', function(npairs)
   npairs.setup {
     fast_wrap = {}
   }
+
+  vim.keymap.inoremap {expr = true, '<CR>', lua_expr(npairs.autopairs_cr)}
 end)
 
 -- LuaSnip
