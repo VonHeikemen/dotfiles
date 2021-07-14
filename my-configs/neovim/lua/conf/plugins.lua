@@ -177,6 +177,7 @@ load('zen-mode', function(zen)
     },
     on_open = function(win)
       vim.opt.wrap = true
+      vim.opt.linebreak = true
       vim.keymap.noremap {buffer = true, 'k', 'gk'}
       vim.keymap.noremap {buffer = true, 'j', 'gj'}
     end
