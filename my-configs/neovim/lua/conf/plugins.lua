@@ -28,7 +28,7 @@ init {
   {'folke/zen-mode.nvim', type = 'start'},
 
   -- File explorer
-  {'cocopon/vaffle.vim'},
+  {'cocopon/vaffle.vim', type = 'start'},
 
   -- Better clipboard support
   {'christoomey/vim-system-copy', type = 'start'},

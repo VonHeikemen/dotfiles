@@ -199,7 +199,7 @@ autocmd({'filetype', 'vaffle'}, function ()
   k.nmap {buffer = true, '<CR>', ':'}
 
   k.nmap {buffer = true, 'e', '<Plug>(vaffle-open-selected)'}
-  k.nmap {buffer = true, 's', '<Plug>(vaffle-open-selected-split)'}
+  k.nmap {buffer = true, 'u', '<Plug>(vaffle-open-selected-split)'}
   k.nmap {buffer = true, 'v', '<Plug>(vaffle-open-selected-vsplit)'}
 
   k.nmap {buffer = true, '<Leader>dd', 'quit'}
