@@ -134,9 +134,6 @@ load('nvim-treesitter.configs', function(ts)
     highlight = {
       enable = true,
     },
-    indent = {
-      enable = true
-    },
     textobjects = {
       select = {
         enable = true,
