@@ -90,8 +90,11 @@ vim.g.fzf_layout = {
 -- kommentary
 --
 load('kommentary.config', function(kommentary) 
-  kommentary.configure_language("default", {
+  kommentary.configure_language('default', {
     prefer_single_line_comments = true,
+  })
+  kommentary.configure_language('php', {
+    single_line_comment_string = '//'
   })
 end)
 
