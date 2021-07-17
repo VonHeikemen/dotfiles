@@ -130,6 +130,23 @@ load('compe', function(compe)
   }
 end)
 
+-- zen-mode.nvim
+--
+load('zen-mode', function(zen)
+  zen.setup {
+    window = {
+      width = 0.60,
+      height = 1
+    },
+    on_open = function(win)
+      vim.opt.wrap = true
+      vim.opt.linebreak = true
+      vim.keymap.noremap {buffer = true, 'k', 'gk'}
+      vim.keymap.noremap {buffer = true, 'j', 'gj'}
+    end
+  }
+end)
+
 -- Treesitter
 --
 load('nvim-treesitter.configs', function(ts)
@@ -167,23 +184,6 @@ load('nvim-treesitter.configs', function(ts)
       'lua',
       'python',
     },
-  }
-end)
-
--- zen-mode.nvim
---
-load('zen-mode', function(zen)
-  zen.setup {
-    window = {
-      width = 0.60,
-      height = 1
-    },
-    on_open = function(win)
-      vim.opt.wrap = true
-      vim.opt.linebreak = true
-      vim.keymap.noremap {buffer = true, 'k', 'gk'}
-      vim.keymap.noremap {buffer = true, 'j', 'gj'}
-    end
   }
 end)
 
