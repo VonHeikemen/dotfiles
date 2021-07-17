@@ -121,15 +121,20 @@ k.nnoremap {'<Leader>ur', fns.toggle_opt('relativenumber')}
 k.nnoremap {'<Leader>?', ':Maps<CR>'}
 
 -- Search pattern
-k.nnoremap {'<Leader>F', ':Rg<Space>'}
-k.xnoremap {'<Leader>F', ':<C-u>GetSelection<CR>:Rg<Space><C-R>/'}
+k.nnoremap {'<Leader>F', ':TGrep '}
+k.xnoremap {'<Leader>F', ':<C-u>GetSelection<CR>:TGrep <C-R>/'}
 
 -- Find files by name
-k.nnoremap {'<Leader>f', ':FZF<Space>'}
-k.nnoremap {'<Leader>ff', ':FZF<CR>'}
+k.nnoremap {'<Leader>ff', ':Telescope find_files<CR>'}
+
+-- Find files by name
+k.nnoremap {'<Leader>fe', ':Telescope file_browser<CR>'}
+k.nnoremap {'<Leader>fc', function()
+  require 'telescope.builtin'.file_browser({cwd = vim.fn.expand('%:p:h')})
+end}
 
 -- Search symbols in buffer
-k.nnoremap {'<Leader>fs', ':BTags<CR>'}
+k.nnoremap {'<Leader>fs', ':Telescope treesitter<CR>'}
 
 -- Search symbols in workspace
 k.nnoremap {'<Leader>fS', ':Tags<CR>'}
@@ -138,10 +143,10 @@ k.nnoremap {'<Leader>fS', ':Tags<CR>'}
 k.nnoremap {'gd', ':FZFTags<CR>'}
 
 -- Search in files history
-k.nnoremap {'<Leader>fh', ':History<CR>'}
+k.nnoremap {'<Leader>fh', ':Telescope oldfiles<CR>'}
 
 -- Search in active buffers list
-k.nnoremap {'<Leader>bb', ':Buffers<CR>'}
+k.nnoremap {'<Leader>bb', ':Telescope buffers<CR>'}
 
 -- ========================================================================== --
 -- ==                            MISCELLANEOUS                             == --

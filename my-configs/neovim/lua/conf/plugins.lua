@@ -2,6 +2,7 @@ local env = require 'conf.env'
 local load = require 'plug'.load_module
 local init = require 'plug'.init_plugins
 local lua_expr = require 'bridge'.lua_expr
+local create_excmd = require 'bridge'.create_excmd
 
 -- ========================================================================== --
 -- ==                               PLUGINS                                == --
@@ -17,6 +18,8 @@ init {
   -- Fuzzy finder
   {'junegunn/fzf.vim'},
   {'zackhsi/fzf-tags'},
+  {'nvim-telescope/telescope.nvim'},
+  {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
 
   -- Theme
   {'VonHeikemen/rubber-themes.vim', type = 'opt'},
@@ -67,6 +70,7 @@ init {
   {'stefandtw/quickfix-reflector.vim'},
   {'nvim-treesitter/playground', type = 'opt'},
   {'nvim-lua/plenary.nvim', type = 'start'},
+  {'nvim-lua/popup.nvim', type = 'start'},
 }
 
 -- ========================================================================== --
@@ -185,5 +189,86 @@ load('nvim-treesitter.configs', function(ts)
       'python',
     },
   }
+end)
+
+-- telescope.nvim
+--
+load('telescope', function(telescope)
+  local actions = require 'telescope.actions'
+
+  vim.cmd [[
+    hi! link TelescopeMatching Boolean
+    hi! link TelescopeSelection CursorLine
+    hi! TelescopeSelectionCaret guifg=#FC8680 guibg=#242830
+  ]]
+
+  create_excmd('TGrep', {user_input = true, function(input)
+    require 'telescope.builtin'.grep_string({search = input})
+  end})
+
+  telescope.setup {
+    defaults = {
+      prompt_prefix = ' ',
+      selection_caret = '❯ ',
+      mappings = {
+        i = {
+          ['<esc>'] = actions.close,
+          ['<C-k>'] = actions.move_selection_previous,
+          ['<C-j>'] = actions.move_selection_next,
+        }
+      }
+    },
+    pickers = {
+      buffers = {
+        previewer = false,
+        theme = 'dropdown'
+      },
+      find_files = {
+        previewer = false,
+        theme = 'dropdown'
+      },
+      file_browser = {
+        previewer = false,
+        theme = 'dropdown'
+      },
+      grep_string = {
+        prompt_title = 'Search',
+        sorting_strategy = 'ascending',
+        layout_config = {
+          prompt_position = 'top'
+        }
+      },
+      treesitter = {
+        prompt_title = 'Buffer Symbols',
+        sorting_strategy = 'ascending',
+        layout_config = {
+          prompt_position = 'top'
+        }
+      },
+      oldfiles = {
+        prompt_title = 'History',
+        previewer = false,
+        theme = 'dropdown'
+      },
+      file_browser = {
+        disable_devicons = true,
+        previewer = false,
+        theme = 'dropdown'
+      },
+      commands = {
+        theme = 'dropdown'
+      },
+      keymaps = {
+        theme = 'dropdown'
+      }
+    },
+    extension = {
+      fuzzy = false,
+      override_generic_sorter = true,
+      override_file_sorter = true,
+    }
+  }
+
+  telescope.load_extension('fzf')
 end)
 
