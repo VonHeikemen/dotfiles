@@ -6,9 +6,9 @@ local id = 0
 local fns = __User_fns
 local augroups = {}
 
-M.apply = function(name)
+M.apply = function(name, arg)
   if fns[name] then
-    return fns[name]()
+    return fns[name](arg)
   end
 end
 
@@ -44,10 +44,28 @@ M.lua_map = function(fn)
 end
 
 M.create_excmd = function(cmd_name, fn)
-  M.register(cmd_name, fn)
+  opts = {}
+  local user_fn = fn
 
-  local cmd = [[ command! %s %s ]]
-  vim.cmd(cmd:format(cmd_name, M.lua_call(cmd_name)))
+  if type(user_fn) == 'table' then
+    user_fn = fn[1]
+    for i, v in pairs(fn) do
+      if type(i) == 'string' then opts[i] = v end
+    end
+  end
+
+  M.register(cmd_name, user_fn)
+
+  if not opts.user_input then
+    local cmd = [[ command! %s %s ]]
+    vim.cmd(cmd:format(cmd_name, M.lua_call(cmd_name)))
+    return
+  end
+
+  local cmd = [[ command! -nargs=1 %s %s]]
+  local call = ("lua require('%s').apply('%s', <q-args>)"):format(module_name, cmd_name)
+
+  vim.cmd(cmd:format(cmd_name, call))
 end
 
 M.register_augroups = function(groups)
