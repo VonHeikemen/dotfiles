@@ -2,6 +2,7 @@ local autocmd = require 'bridge'.augroup 'plug_init'
 
 local M = {}
 local p = {} -- I hate this
+local _plugins = {}
 
 local not_loaded = {}
 local done = false
@@ -11,22 +12,13 @@ M.init_plugins = function(plugins)
   for i, plug in pairs(plugins) do
     if plug.type == nil or plug.type == 'deferred' then
       table.insert(deferred, plug)
+      plug.type = 'opt'
     end
-
-    plug.opt = plug.type ~= 'start'
-    plug.type = nil
   end
 
-  -- Do we even have paq installed?
-  local status, paq = pcall(require, 'paq')
-
-  if not status then
-    print('paq-nvim is not loaded. Use the command PaqDownload to clone it from github')
-    return
-  end
-
-  -- let paq know about the plugins
-  paq(plugins)
+  -- setup minpac
+  _plugins = plugins
+  p.setup_commands()
 
   -- Thing that actually loads plugins
   local lazy_loading = function()
@@ -102,14 +94,39 @@ M.load_module = function(module, fn)
   return fn(lib)
 end
 
-M.paq_download = function()
-  local install_path = vim.fn.stdpath 'data' .. '/site/pack/paqs/start/paq-nvim'
+M.minpac = function()
+  vim.cmd [[ packadd minpac ]]
+  vim.call('minpac#init', {dir = vim.fn.stdpath 'data' .. '/site'})
+
+  for i, plug in pairs(_plugins) do
+    local opts = {}
+    for i, v in pairs(plug) do
+      if type(i) == 'string' then opts[i] = v end
+    end
+
+    opts['do'] = opts.run
+    opts.run = nil
+    vim.call('minpac#add', plug[1], opts)
+  end
+end
+
+p.setup_commands = function()
+  vim.cmd [[
+    command! PackManDownload lua require 'plug'.minpac_download()
+    command! PackUpdate lua require 'plug'.minpac(); vim.call 'minpac#update'
+    command! PackClean  lua require 'plug'.minpac(); vim.call 'minpac#clean'
+    command! PackStatus lua require 'plug'.minpac(); vim.call 'minpac#status'
+  ]]
+end
+
+M.minpac_download = function()
+  local install_path = vim.fn.stdpath 'data' .. '/site/pack/minpac/opt/minpac'
 
   if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    local gitclone = '!git clone https://github.com/savq/paq-nvim.git %s'
+    local gitclone = '!git clone https://github.com/k-takata/minpac.git %s'
 
     vim.cmd(gitclone:format(install_path))
-    vim.cmd 'packadd paq-nvim'
+    p.setup_commands()
   end
 end
 

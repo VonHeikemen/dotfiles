@@ -10,7 +10,7 @@ local create_excmd = require 'bridge'.create_excmd
 
 init {
   -- Plugin manager
-  {'savq/paq-nvim', type = 'start'},
+  {'k-takata/minpac', type = 'opt'},
 
   -- keymap DSL
   {'tjdevries/astronauta.nvim', type = 'start'},
@@ -19,7 +19,7 @@ init {
   {'junegunn/fzf.vim'},
   {'zackhsi/fzf-tags'},
   {'nvim-telescope/telescope.nvim'},
-  {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
+  {'nvim-telescope/telescope-fzf-native.nvim', run = 'silent! !make'},
 
   -- Theme
   {'VonHeikemen/rubber-themes.vim', type = 'opt'},
@@ -55,7 +55,7 @@ init {
   {'lumiliet/vim-twig', type = 'start'},
   {
     'nvim-treesitter/nvim-treesitter',
-    run = function() vim.cmd 'TSUpdate' end
+    run = function() pcall(vim.cmd, 'TSUpdate') end
   },
   {'nvim-treesitter/nvim-treesitter-textobjects'},
 
