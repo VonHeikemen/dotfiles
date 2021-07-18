@@ -4,7 +4,7 @@
 
 -- fzf      - https://github.com/junegunn/fzf
 -- ripgrep  - https://github.com/BurntSushi/ripgrep
--- paq      - https://github.com/savq/paq-nvim
+-- minpac   - https://github.com/k-takata/minpac
 
 -- Basic editor options
 require 'conf.basic'
