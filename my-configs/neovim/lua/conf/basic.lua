@@ -65,7 +65,7 @@ set.tags:prepend(f('%s/.git/tags', cwd))
 set.completeopt = {'menuone', 'noselect'}
 
 -- Theme
-vim.cmd [[ colorscheme rubber-enhanced ]]
+pcall(vim.cmd, 'colorscheme rubber-enhanced')
 
 -- Set grep default grep command with ripgrep
 set.grepprg = 'rg --vimgrep --follow'
