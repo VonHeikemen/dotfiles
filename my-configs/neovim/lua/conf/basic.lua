@@ -41,7 +41,7 @@ set.foldcolumn = '1'
 set.splitright = true
 set.splitbelow = true
 
-if vim.fn.has('termguicolors') then
+if vim.fn.has('termguicolors') == 1 then
   set.termguicolors = true
 end
 
