@@ -139,5 +139,11 @@ M.use_fzf = function()
   k.nnoremap {'<Leader>bb', ':Buffers<CR>'}
 end
 
+M.job_output = function(cid, data, name)
+  for i, val in pairs(data) do
+    print(val)
+  end
+end
+
 return M
 

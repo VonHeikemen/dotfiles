@@ -19,7 +19,11 @@ init {
   {'junegunn/fzf.vim'},
   {'zackhsi/fzf-tags'},
   {'nvim-telescope/telescope.nvim'},
-  {'nvim-telescope/telescope-fzf-native.nvim', run = 'silent! !make'},
+  {'nvim-telescope/telescope-fzf-native.nvim',
+    run = function()
+      vim.fn.jobstart({'make'}, {on_stdout = fns.job_output})
+    end
+  },
 
   -- Theme
   {'VonHeikemen/rubber-themes.vim', type = 'opt'},
