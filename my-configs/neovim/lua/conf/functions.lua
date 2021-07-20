@@ -88,12 +88,13 @@ M.toggle_opt = function(prop, scope, on, off)
 end
 
 M.get_selection = function()
-  vim.cmd [[
-    let temp = @s
-    normal! gv"sy
-    let @/ = substitute(escape(@s, '\/'), '\n', '\\n', 'g')
-    let @s = temp
-  ]]
+  local f = vim.fn
+  local temp = f.getreg('s')
+  vim.cmd('normal! gv"sy')
+
+  f.setreg('/', f.escape(f.getreg('s'), '/'):gsub('\n', '\\n'))
+
+  f.setreg('s', temp)
 end
 
 M.lightspeed = function (char)
