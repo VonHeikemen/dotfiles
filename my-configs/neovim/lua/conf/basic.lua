@@ -4,9 +4,15 @@ local f = string.format
 
 local set = vim.opt
 
--- Temp files directory
-set.backupdir = env.tempdir
-set.directory = env.tempdir
+if env.tempdir then
+   -- Temp files directory
+  set.backupdir = env.tempdir
+  set.directory = env.tempdir
+else
+  -- Don't use temp files
+  set.swapfile = false
+  set.backup = false
+end
 
 -- Ignore the case when the search pattern is all lowercase
 set.smartcase = true

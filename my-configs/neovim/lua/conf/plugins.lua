@@ -83,7 +83,9 @@ init {
 
 -- FZF
 --
-vim.opt.runtimepath:append(env.fzf_path)
+if env.fzf_path then
+  vim.opt.runtimepath:append(env.fzf_path)
+end
 
 vim.env.FZF_DEFAULT_OPTS = '--layout=reverse'
 
