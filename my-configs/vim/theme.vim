@@ -13,6 +13,20 @@ function! MyHighlights() abort
     hi! link ErrorMsg Error
     hi! link Question String
     hi! link NonText LineNr
+
+    hi! link netrwMarkFile Search
+
+    hi! link TSConstructor Normal
+    hi! link TSVariableBuiltin Normal
+    hi! link TSConstBuiltin Number
+    hi! link TSFuncBuiltin Function
+    hi! link luaTSPunctBracket Normal
+
+    hi! link TelescopeMatching Boolean
+    hi! link TelescopeSelection CursorLine
+    hi! TelescopeSelectionCaret guifg=#FC8680 guibg=#242830
+
+    hi default link BqfPreviewRange CursorLine
 endfunction
 
 augroup MyColors
