@@ -1,6 +1,8 @@
 local env = require 'conf.env'
-local load = require 'plug'.load_module
-local init = require 'plug'.init_plugins
+local fns = require 'conf.functions'
+local plug = require 'plug'
+
+local load = plug.load_module
 local lua_expr = require 'bridge'.lua_expr
 local create_excmd = require 'bridge'.create_excmd
 
@@ -8,7 +10,7 @@ local create_excmd = require 'bridge'.create_excmd
 -- ==                               PLUGINS                                == --
 -- ========================================================================== --
 
-init {
+plug.init {
   -- Plugin manager
   {'k-takata/minpac', type = 'opt'},
 
