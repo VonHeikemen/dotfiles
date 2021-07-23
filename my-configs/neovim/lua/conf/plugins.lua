@@ -202,12 +202,6 @@ end)
 load('telescope', function(telescope)
   local actions = require 'telescope.actions'
 
-  vim.cmd [[
-    hi! link TelescopeMatching Boolean
-    hi! link TelescopeSelection CursorLine
-    hi! TelescopeSelectionCaret guifg=#FC8680 guibg=#242830
-  ]]
-
   create_excmd('TGrep', {user_input = true, function(input)
     require 'telescope.builtin'.grep_string({search = input})
   end})
@@ -247,8 +241,10 @@ load('telescope', function(telescope)
       treesitter = {
         prompt_title = 'Buffer Symbols',
         sorting_strategy = 'ascending',
+        layout_strategy = 'vertical',
         layout_config = {
-          prompt_position = 'top'
+          preview_cutoff = 20,
+          mirror = true
         }
       },
       oldfiles = {
@@ -261,17 +257,16 @@ load('telescope', function(telescope)
         previewer = false,
         theme = 'dropdown'
       },
-      commands = {
-        theme = 'dropdown'
-      },
       keymaps = {
         theme = 'dropdown'
       }
     },
     extension = {
-      fuzzy = false,
-      override_generic_sorter = true,
-      override_file_sorter = true,
+      fzf = {
+        fuzzy = false,
+        override_generic_sorter = true,
+        override_file_sorter = true,
+      }
     }
   }
 
