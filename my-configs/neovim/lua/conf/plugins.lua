@@ -19,9 +19,13 @@ init {
   {'junegunn/fzf.vim'},
   {'zackhsi/fzf-tags'},
   {'nvim-telescope/telescope.nvim'},
-  {'nvim-telescope/telescope-fzf-native.nvim',
+  {'nvim-telescope/telescope-fzy-native.nvim',
+    depth = 2,
     run = function()
-      vim.fn.jobstart({'make'}, {on_stdout = fns.job_output})
+      vim.fn.jobstart({'make'}, {
+        cwd = vim.fn.getcwd() .. '/deps/fzy-lua-native',
+        on_stdout = fns.job_output,
+      })
     end
   },
 
@@ -262,14 +266,13 @@ load('telescope', function(telescope)
       }
     },
     extension = {
-      fzf = {
-        fuzzy = false,
+      fzy_native = {
         override_generic_sorter = true,
-        override_file_sorter = true,
-      }
+        override_file_sorter = true
+      },
     }
   }
 
-  telescope.load_extension('fzf')
+  telescope.load_extension('fzy_native')
 end)
 
