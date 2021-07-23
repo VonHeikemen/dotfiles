@@ -20,8 +20,9 @@ plug.init {
   -- Fuzzy finder
   {'junegunn/fzf.vim'},
   {'zackhsi/fzf-tags'},
-  {'nvim-telescope/telescope.nvim'},
+  {'nvim-telescope/telescope.nvim', type = 'start'},
   {'nvim-telescope/telescope-fzy-native.nvim',
+    type = 'start',
     depth = 2,
     run = function()
       vim.fn.jobstart({'make'}, {
@@ -205,7 +206,8 @@ end)
 
 -- telescope.nvim
 --
-load('telescope', function(telescope)
+plug.on_enter(function()
+  local telescope = require 'telescope'
   local actions = require 'telescope.actions'
 
   create_excmd('TGrep', {user_input = true, function(input)
