@@ -98,6 +98,7 @@ p.run_startup_config = function()
   for i, config in pairs(p.startup_config) do
     config()
   end
+  p.startup_config = {}
 end
 
 M.load_module = function(module, fn)
