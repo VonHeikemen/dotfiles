@@ -6,6 +6,11 @@ end
 
 M.t = t
 
+M.not_ok = function(module)
+  local ok = pcall(require, module)
+  return not ok
+end
+
 local check_back_space = function()
   local col = vim.fn.col "." - 1
   if col == 0 or vim.fn.getline("."):sub(col, col):match "%s" then
