@@ -67,9 +67,13 @@ plug.init {
   {
     'nvim-treesitter/nvim-treesitter',
     type = 'lazy',
+    branch = '0.5-compat',
     run = function() pcall(vim.cmd, 'TSUpdate') end
   },
-  {'nvim-treesitter/nvim-treesitter-textobjects', type = 'lazy'},
+  {'nvim-treesitter/nvim-treesitter-textobjects',
+    type = 'lazy',
+    branch = '0.5-compat'
+  },
 
   --  Utilities
   {'moll/vim-bbye'},
