@@ -66,9 +66,10 @@ plug.init {
   {'lumiliet/vim-twig', type = 'start'},
   {
     'nvim-treesitter/nvim-treesitter',
+    type = 'lazy',
     run = function() pcall(vim.cmd, 'TSUpdate') end
   },
-  {'nvim-treesitter/nvim-treesitter-textobjects'},
+  {'nvim-treesitter/nvim-treesitter-textobjects', type = 'lazy'},
 
   --  Utilities
   {'moll/vim-bbye'},
