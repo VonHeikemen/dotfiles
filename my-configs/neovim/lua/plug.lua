@@ -6,7 +6,6 @@ local nofiles = vim.fn.argc() == 0
 
 local p = {} -- I hate it less now
 p.minpac_plugins = {}
-p.startup_config = {}
 p.not_loaded = {}
 p.lazy = {}
 
@@ -53,17 +52,11 @@ M.init = function(plugins)
     autocmd({'CmdlineEnter', once = true}, lazy_loading)
     autocmd({'InsertEnter', once = true}, lazy_loading)
     autocmd({'SessionLoadPost', once = true}, lazy_loading)
-    autocmd({'VimEnter', once = true}, defer_fn(p.run_startup_config))
     return
   end
 
-  local load_all = function()
-    p.run_startup_config()
-    load_deferred()
-  end
-
   p.load_lazy()
-  autocmd('VimEnter', defer_fn(load_all))
+  autocmd('VimEnter', defer_fn(load_deferred))
 end
 
 p.load_plugins = function(plugins)
@@ -120,13 +113,6 @@ p.config_plugins = function()
   end
 end
 
-p.run_startup_config = function()
-  for i, config in pairs(p.startup_config) do
-    config()
-  end
-  p.startup_config = {}
-end
-
 M.load_module = function(module, fn)
   local status, lib = pcall(require, module)
 
@@ -136,10 +122,6 @@ M.load_module = function(module, fn)
   end
 
   return fn(lib)
-end
-
-M.on_enter = function(fn)
-  table.insert(p.startup_config, fn)
 end
 
 M.minpac = function()

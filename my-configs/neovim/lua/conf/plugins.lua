@@ -207,7 +207,7 @@ end)
 
 -- telescope.nvim
 --
-plug.on_enter(function()
+fns.ready(function()
   if fns.not_ok('telescope') then
     print('telescope was not found')
     return
