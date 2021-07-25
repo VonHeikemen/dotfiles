@@ -147,6 +147,7 @@ k.nnoremap {'<Leader>fh', ':Telescope oldfiles<CR>'}
 
 -- Search in active buffers list
 k.nnoremap {'<Leader>bb', ':Telescope buffers<CR>'}
+k.nnoremap {'<Leader>B', ':Telescope buffers only_cwd=true<CR>'}
 
 -- ========================================================================== --
 -- ==                            MISCELLANEOUS                             == --
