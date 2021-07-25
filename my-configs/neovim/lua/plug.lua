@@ -2,11 +2,13 @@ local autocmd = require 'bridge'.augroup 'plug_init'
 
 local M = {}
 local done = false
+local nofiles = vim.fn.argc() == 0
 
 local p = {} -- I hate it less now
 p.minpac_plugins = {}
 p.startup_config = {}
 p.not_loaded = {}
+p.lazy = {}
 
 local defer_fn = function(fn)
   return function()
@@ -14,11 +16,26 @@ local defer_fn = function(fn)
   end
 end
 
+local plug_name = function(plug)
+  local name = plug.as
+  if name == nil then
+    name = plug[1]:match("^[%w-]+/([%w-_.]+)$")
+  end
+
+  return name
+end
+
 M.init = function(plugins)
   local deferred = {}
+
   for i, plug in pairs(plugins) do
     if plug.type == nil or plug.type == 'deferred' then
       table.insert(deferred, plug)
+      plug.type = 'opt'
+    end
+
+    if plug.type == 'lazy' then
+      table.insert(p.lazy, plug)
       plug.type = 'opt'
     end
   end
@@ -30,7 +47,7 @@ M.init = function(plugins)
   local load_deferred = p.load_plugins(deferred)
 
   -- Figure out when to load the plugins
-  if vim.fn.argc() == 0 then
+  if nofiles then
     local lazy_loading = defer_fn(load_deferred)
 
     autocmd({'CmdlineEnter', once = true}, lazy_loading)
@@ -45,6 +62,7 @@ M.init = function(plugins)
     load_deferred()
   end
 
+  p.load_lazy()
   autocmd('VimEnter', defer_fn(load_all))
 end
 
@@ -57,25 +75,33 @@ p.load_plugins = function(plugins)
     local cmd = ''
     local add = 'packadd %s\n'
     for i, plug in pairs(plugins) do
-      local name = plug.as
-      if name == nil then
-        name = plug[1]:match("^[%w-]+/([%w-_.]+)$")
-      end
-
-      cmd = cmd .. add:format(name)
+      cmd = cmd .. add:format(plug_name(plug))
     end
 
     cmd = cmd .. [[
-      runtime! OPT ftdetect/*.vim
-      runtime! OPT after/ftdetect/*.vim
       runtime! OPT after/plugin/*.vim
     ]]
 
     vim.cmd(cmd)
 
+    if nofiles then
+      p.load_lazy()
+    end
+
     p.config_plugins()
     done = true
   end
+end
+
+p.load_lazy = function()
+  local cmd = ''
+  local add = 'packadd %s\n'
+
+  for i, plug in pairs(p.lazy) do
+    cmd = cmd .. add:format(plug_name(plug))
+  end
+
+  vim.cmd(cmd)
 end
 
 p.config_plugins = function()
