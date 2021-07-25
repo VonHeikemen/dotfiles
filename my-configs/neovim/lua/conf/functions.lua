@@ -150,7 +150,7 @@ M.job_output = function(cid, data, name)
   end
 end
 
-M.ready = function(fn)
+M.nvim_ready = function(fn)
   local b = require 'bridge'
   b.group_command('user_cmds', {'VimEnter', once = true}, function()
     vim.defer_fn(fn ,15)
