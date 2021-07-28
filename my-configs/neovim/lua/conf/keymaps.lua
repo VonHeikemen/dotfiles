@@ -49,6 +49,10 @@ k.nnoremap {'N', 'Nzzzv'}
 k.nnoremap {'#', '#zz'}
 k.nnoremap {'*', '*zz'}
 
+-- Better ctrl+h
+k.snoremap {'<C-h>', '<Space><BS>'}
+k.imap {'<C-h>', '<BS>'}
+
 -- ========================================================================== --
 -- ==                           COMMAND MAPPINGS                           == --
 -- ========================================================================== --
@@ -176,6 +180,10 @@ k.inoremap {expr = true, '<C-k>', lua_expr(fns.completion_up(t'<C-k>'))}
 k.inoremap {expr = true, '<C-j>', lua_expr(fns.completion_down(t'<C-j>'))}
 k.inoremap {expr = true, '<M-k>', "compe#scroll({ 'delta': -4 })"}
 k.inoremap {expr = true, '<M-j>', "compe#scroll({ 'delta': +4 })"}
+
+-- Navigate through snippet placeholders
+k.snoremap {'<Tab>', "<cmd>lua require 'luasnip'.jump(1)<CR>"}
+k.snoremap {'<S-Tab>', "<cmd>lua require 'luasnip'.jump(-1)<CR>"}
 
 -- use built-in `f` and `F` while recording a macro
 k.nmap {expr = true, 'f', lua_expr(fns.lightspeed('f'))}
