@@ -189,6 +189,11 @@ k.snoremap {'<S-Tab>', "<cmd>lua require 'luasnip'.jump(-1)<CR>"}
 k.nmap {expr = true, 'f', lua_expr(fns.lightspeed('f'))}
 k.nmap {expr = true, 'F', lua_expr(fns.lightspeed('F'))}
 
+-- restore lightspeed's default keybinding
+autocmd({'User', 'PluginsLoaded'}, function()
+  k.xmap {'S', '<Plug>Lightspeed_S'}
+end)
+
 -- Manage the quickfix list
 k.nmap {'[q', '<Plug>(qf_qf_previous)zz'}
 k.nmap {']q', '<Plug>(qf_qf_next)zz'}

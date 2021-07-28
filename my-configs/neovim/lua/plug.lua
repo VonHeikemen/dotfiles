@@ -82,6 +82,7 @@ p.load_plugins = function(plugins)
     end
 
     p.config_plugins()
+    vim.cmd 'doautocmd User PluginsLoaded'
     done = true
   end
 end
