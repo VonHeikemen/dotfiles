@@ -211,17 +211,8 @@ autocmd({'filetype', 'qf'}, function()
 end)
 
 -- Open file manager
-k.nnoremap {'<leader>dd', ':Vaffle %:p:h<CR>'}
-k.nnoremap {'<leader>da', ':Vaffle<CR>'}
-
-autocmd({'filetype', 'vaffle'}, function ()
-  k.nmap {buffer = true, '<CR>', ':'}
-
-  k.nmap {buffer = true, 'e', '<Plug>(vaffle-open-selected)'}
-  k.nmap {buffer = true, 'u', '<Plug>(vaffle-open-selected-split)'}
-  k.nmap {buffer = true, 'v', '<Plug>(vaffle-open-selected-vsplit)'}
-
-  k.nmap {buffer = true, '<Leader>dd', 'quit'}
-  k.nmap {buffer = true, '<Leader>da', 'quit'}
-end)
+k.nnoremap {silent = true, '<leader>dd', ":lua require 'lir.float'.toggle()<CR>"}
+k.nnoremap {silent = true, '<leader>da', ":lua require 'lir.float'.toggle(vim.fn.getcwd())<CR>"}
+k.nnoremap {silent = true, '-', ":exe 'edit' expand('%:p:h')<CR>"}
+k.nnoremap {silent = true, '_', ":exe 'edit' getcwd()<CR>"}
 
