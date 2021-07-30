@@ -208,6 +208,10 @@ autocmd({'filetype', 'qf'}, function()
 
   -- Go to previous location and stay in the quickfix window
   k.nmap {buffer = true, 'J', '<Plug>(qf_qf_next)zz<C-w>w'}
+
+  -- Toggle nvim-bqf
+  k.nmap {buffer = true, 'p', ':BqfEnable<CR>'}
+  k.nmap {buffer = true, 'P', ':BqfDisable<CR>'}
 end)
 
 -- Open file manager

@@ -84,6 +84,7 @@ plug.init {
   {'ggandor/lightspeed.nvim'},
   {'romainl/vim-qf'},
   {'stefandtw/quickfix-reflector.vim'},
+  {'kevinhwang91/nvim-bqf'},
   {'nvim-treesitter/playground', type = 'opt'},
   {'nvim-lua/plenary.nvim', type = 'start'},
   {'nvim-lua/popup.nvim', type = 'start'},
@@ -166,6 +167,14 @@ load('zen-mode', function(zen)
       vim.keymap.noremap {buffer = true, 'k', 'gk'}
       vim.keymap.noremap {buffer = true, 'j', 'gj'}
     end
+  }
+end)
+
+-- nvim-bqf
+--
+load('bqf', function(bqf)
+  bqf.setup {
+    auto_enable = false,
   }
 end)
 
