@@ -15,6 +15,17 @@ local term = function(cmd)
   return terminal .. ' -e ' .. cmd
 end
 
+local alt_tab = function()
+  local cf = require 'cyclefocus'
+  cf.cycle({
+    display_notifications = false,
+    move_mouse_pointer = false,
+    modifier = 'Alt_L',
+    cycle_filters = {cf.filters.common_tag},
+    keys = {'Tab', 'ISO_Left_Tab'}
+  })
+end
+
 local mod = modkey
 local shift = 'Shift'
 local ctrl = 'Control'
@@ -92,14 +103,12 @@ M.global = join(
     {description = 'focus next by index', group = 'client'}
   ),
   key(
-    {alt}, 'Tab',
-    function()
-      awful.client.focus.history.previous()
-      if client.focus then
-        client.focus:raise()
-      end
-    end,
-    {description = 'go back', group = 'client'}
+    {alt}, 'Tab', alt_tab,
+    {description = 'change focus', group = 'client'}
+  ),
+  key(
+    {alt, shift}, 'Tab', alt_tab,
+    {description = 'change focus (opposite direction)', group = 'client'}
   ),
 
   -- Move windows
