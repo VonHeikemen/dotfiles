@@ -271,6 +271,13 @@ M.client = join(
     {mod}, 'e', function(c) c.minimized = true end,
     {description = 'minimize', group = 'client'}
   ),
+  key(
+    {mod}, 'c',
+    function(c)
+      awful.placement.align(c, {position = 'centered'})
+    end,
+    {description = 'center client on screen', group = 'client'}
+  ),
 
   key(
     {mod}, 'm',
