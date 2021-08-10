@@ -2,7 +2,11 @@
 -- ==                            DEPENDENCIES                              == --
 -- ========================================================================== --
 
--- lain - https://github.com/lcpz/lain
+-- freedesktop - https://github.com/lcpz/awesome-freedesktop
+-- cyclefocus  - https://github.com/blueyed/awesome-cyclefocus
+-- lain        - https://github.com/lcpz/lain
+
+-- Note: freedesktop and cyclefocus are installed automatically on debian
 
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
