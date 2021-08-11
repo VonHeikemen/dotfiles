@@ -15,7 +15,7 @@ awful.rules.rules = {
       keys = keymaps.client,
       buttons = keymaps.titlebar_buttons,
       screen = awful.screen.preferred,
-      placement = awful.placement.no_overlap + awful.placement.no_offscreen,
+      placement = awful.placement.no_offscreen,
    }
   },
 
