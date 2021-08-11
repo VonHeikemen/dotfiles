@@ -3,6 +3,7 @@ local beautiful = require 'beautiful'
 local join = require 'gears'.table.join
 local hotkeys_popup = require 'awful.hotkeys_popup'
 local menu  = require 'statusbar.widgets'.main_menu
+local cyclefocus = require 'cyclefocus'
 
 local M = {}
 local key = awful.key
@@ -16,12 +17,11 @@ local term = function(cmd)
 end
 
 local alt_tab = function()
-  local cf = require 'cyclefocus'
-  cf.cycle({
+  cyclefocus.cycle({
     display_notifications = false,
     move_mouse_pointer = false,
     modifier = 'Alt_L',
-    cycle_filters = {cf.filters.common_tag},
+    cycle_filters = {cyclefocus.filters.common_tag},
     keys = {'Tab', 'ISO_Left_Tab'}
   })
 end
