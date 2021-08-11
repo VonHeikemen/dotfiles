@@ -4,6 +4,7 @@ local join = require 'gears'.table.join
 local hotkeys_popup = require 'awful.hotkeys_popup'
 local menu  = require 'statusbar.widgets'.main_menu
 local cyclefocus = require 'cyclefocus'
+local lain = require 'lain'
 
 local M = {}
 local key = awful.key
@@ -15,6 +16,18 @@ end
 local term = function(cmd)
   return terminal .. ' -e ' .. cmd
 end
+
+local dropdown_terminal = lain.util.quake({
+  app = terminal,
+  argname = '--name %s',
+  followtag = true,
+  width = 0.8,
+  height = 0.4,
+  horiz = 'center',
+  settings = function(c)
+    awful.titlebar.hide(c)
+  end
+})
 
 local alt_tab = function()
   cyclefocus.cycle({
@@ -45,6 +58,10 @@ M.global = join(
   key(
     {mod}, 'Return', spawn(App.terminal),
     {description = 'open a terminal', group = 'launcher'}
+  ),
+  key(
+    {}, 'F1', function() dropdown_terminal:toggle() end,
+    {description = 'toggle dropdown terminal', group = 'launcher'}
   ),
   key(
     {mod}, 'F2', spawn(App.browser),
