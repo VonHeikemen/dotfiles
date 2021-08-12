@@ -39,6 +39,11 @@ local alt_tab = function()
   })
 end
 
+local move_mouse = function(x, y)
+  local cmd = 'xdotool mousemove_relative --sync -- %s %s'
+  return spawn(cmd:format(x, y))
+end
+
 local mod = modkey
 local shift = 'Shift'
 local ctrl = 'Control'
@@ -201,6 +206,48 @@ M.global = join(
   key(
     {mod}, 'minus', spawn('amixer set Master 10%-'),
     {description = 'volume down', group = 'music'}
+  ),
+
+  -- Move mouse
+  key(
+    {mod}, 'KP_Left', move_mouse('-15', '0'),
+    {description = 'move mouse to the left', group = 'mouse'}
+  ),
+  key(
+    {mod}, 'KP_Right', move_mouse('15', '0'),
+    {description = 'move mouse to the right', group = 'mouse'}
+  ),
+  key(
+    {mod}, 'KP_Up', move_mouse('0', '-15'),
+    {description = 'move mouse up', group = 'mouse'}
+  ),
+  key(
+    {mod}, 'KP_Begin', move_mouse('0', '15'),
+    {description = 'move mouse down', group = 'mouse'}
+  ),
+  key(
+    {mod}, 'KP_Insert', spawn('xdotool click 1'),
+    {description = 'left click', group = 'mouse'}
+  ),
+  key(
+    {mod}, 'KP_End', spawn('xdotool click 3'),
+    {description = 'right click', group = 'mouse'}
+  ),
+  key(
+    {mod}, 'Page_Up', spawn('xdotool click 4'),
+    {description = 'wheel up', group = 'mouse'}
+  ),
+  key(
+    {mod}, 'Page_Down', spawn('xdotool click 5'),
+    {description = 'wheel down', group = 'mouse'}
+  ),
+  key(
+    {mod}, 'x', spawn('xdotool mousemove 0 1080'),
+    {description = 'move mouse to a corner', group = 'mouse'}
+  ),
+  key(
+    {mod, shift}, 'x', spawn('xdotool mousemove 960 540'),
+    {description = 'move mouse to the center of the screen', group = 'mouse'}
   )
 )
 
