@@ -376,6 +376,39 @@ M.client = join(
       c:raise()
     end,
     {description = 'toggle maximized and titlebar', group = 'client'}
+  ),
+
+  key(
+    {mod}, 'Left', function(c) c:relative_move(0, 0, -15, 0) end,
+    {description = 'decrease window width', group = 'client'}
+  ),
+  key(
+    {mod}, 'Right', function(c) c:relative_move(0, 0, 15, 0) end,
+    {description = 'increase window width', group = 'client'}
+  ),
+  key(
+    {mod}, 'Up', function(c) c:relative_move(0, 0, 0, -15) end,
+    {description = 'decrease window height', group = 'client'}
+  ),
+  key(
+    {mod}, 'Down', function(c) c:relative_move(0, 0, 0, 15) end,
+    {description = 'increase window height', group = 'client'}
+  ),
+  key(
+    {mod, shift}, 'Left', function(c) c:relative_move(-15, 0, 0, 0) end,
+    {description = 'move window to the left', group = 'client'}
+  ),
+  key(
+    {mod, shift}, 'Right', function(c) c:relative_move(15, 0, 0, 0) end,
+    {description = 'move window to the right', group = 'client'}
+  ),
+  key(
+    {mod, shift}, 'Up', function(c) c:relative_move(0, -15, 0, 0) end,
+    {description = 'move window up', group = 'client'}
+  ),
+  key(
+    {mod, shift}, 'Down', function(c) c:relative_move(0, 15, 0, 0) end,
+    {description = 'move window down', group = 'client'}
   )
 )
 
