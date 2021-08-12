@@ -208,6 +208,12 @@ M.global = join(
     {description = 'volume down', group = 'music'}
   ),
 
+  -- Take screenshots
+  key(
+    {}, 'Print', spawn('gnome-screenshot -i'),
+    {description = 'take screenshot', group = 'client'}
+  ),
+
   -- Move mouse
   key(
     {mod}, 'KP_Left', move_mouse('-15', '0'),
