@@ -62,13 +62,15 @@ M.create_excmd = function(cmd_name, fn)
     return
   end
 
-  local cmd = [[ command! -nargs=1 %s %s]]
+  local cmd = [[ command! -nargs=1 %s %s ]]
   local call = ("lua require('%s').apply('%s', <q-args>)"):format(module_name, cmd_name)
 
   vim.cmd(cmd:format(cmd_name, call))
 end
 
-M.register_augroups = function(groups)
+M.register_augroups = function(groups, force_reset)
+  force_reset = force_reset or false
+
   local reset_group = [[
     if exists('#%s')
       augroup %s
@@ -79,7 +81,7 @@ M.register_augroups = function(groups)
   ]]
 
   for i, group in ipairs(groups) do
-    if not augroups[group] then
+    if force_reset or not augroups[group] then
       augroups[group] = true
       vim.cmd(reset_group:format(group, group, group))
     end
@@ -119,7 +121,7 @@ M.group_command = function(group, event, command)
 end
 
 M.augroup = function(group)
-  M.register_augroups {group}
+  M.register_augroups({group}, true)
 
   return function(event, command)
     return M.group_command(group, event, command)
