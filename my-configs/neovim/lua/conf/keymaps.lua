@@ -186,8 +186,8 @@ k.snoremap {'<Tab>', "<cmd>lua require 'luasnip'.jump(1)<CR>"}
 k.snoremap {'<S-Tab>', "<cmd>lua require 'luasnip'.jump(-1)<CR>"}
 
 -- use built-in `f` and `F` while recording a macro
-k.nmap {expr = true, 'f', lua_expr(fns.lightspeed('f'))}
-k.nmap {expr = true, 'F', lua_expr(fns.lightspeed('F'))}
+-- k.nmap {expr = true, 'f', lua_expr(fns.lightspeed('f'))}
+-- k.nmap {expr = true, 'F', lua_expr(fns.lightspeed('F'))}
 
 -- restore lightspeed's default keybinding
 autocmd({'User', 'PluginsLoaded'}, function()
