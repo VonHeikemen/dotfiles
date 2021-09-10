@@ -1,6 +1,9 @@
 [core]
   excludesfile = ~/my-configs/gitignore
   pager = delta
+[user]
+  email = $USER_EMAIL
+  name = $USER_NAME
 [alias]
   ss = status
   st = stash
@@ -20,5 +23,5 @@
   line-numbers-minus-style = 210
   line-numbers-plus-style = 114
   line-numbers-zero-style = 246
-[includeIf "gitdir:~/work/"]
-  path = ~/work/gitconfig
+[includeIf "gitdir:$WORK_FOLDER"]
+  path = $WORK_FOLDER/gitconfig
