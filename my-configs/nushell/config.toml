@@ -2,7 +2,7 @@ skip_welcome_message = true
 complete_from_path = true
 nonzero_exit_errors = true
 disable_table_indexes = true
-path = ["/home/user/bin", "/usr/local/bin", "/usr/bin", "/bin", "/usr/local/games", "/usr/games", "/home/user/.deno/bin"]
+path = ["$HOME/bin", "/usr/local/bin", "/usr/bin", "/bin", "/usr/local/games", "/usr/games", "$HOME/.deno/bin"]
 prompt = "echo [ $(char newline) $(ansi blue) $(short-path $(pwd-segments)) $(ansi reset) $(do -i {git rev-parse --abbrev-ref HEAD } | str trim | each { echo [ \" \" $(ansi green) $it $(ansi reset) \" \" $(repo-status) ] } | str collect) $(char newline) $(ansi purple) \"❯ \"] | str collect"
 
 startup = [
@@ -50,14 +50,14 @@ BAT_THEME = "base16"
 EDITOR = "nvim"
 FZF_DEFAULT_COMMAND = "rg --files --hidden --follow --glob \"!.git/*\" --glob \"!cache/*\" --glob \"!node_modules/*\""
 FZF_DEFAULT_OPTS = "--layout=reverse --border"
-DENO_INSTALL = "/home/user/.deno"
+DENO_INSTALL = "$HOME/.deno"
 HOMEBREW_CELLAR = "/home/linuxbrew/.linuxbrew/Cellar"
 HOMEBREW_PREFIX = "/home/linuxbrew/.linuxbrew"
 HOMEBREW_REPOSITORY = "/home/linuxbrew/.linuxbrew/Homebrew"
 INFOPATH = "/home/linuxbrew/.linuxbrew/share/info"
-LYNX_LSS = "/home/user/.config/lynx/lynx.lss"
-LYNX_CFG = "/home/user/.config/lynx/lynx.cfg"
+LYNX_LSS = "$HOME/.config/lynx/lynx.lss"
+LYNX_CFG = "$HOME/.config/lynx/lynx.cfg"
 MANPATH = "/home/linuxbrew/.linuxbrew/share/man"
-PYTHONUSERBASE = "/home/user/.local"
+PYTHONUSERBASE = "$HOME/.local"
 NNN_FCOLORS = "c1e20402000506f7c6d6ab09"
 
