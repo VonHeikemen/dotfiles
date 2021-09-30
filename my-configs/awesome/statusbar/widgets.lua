@@ -27,7 +27,7 @@ else
   local debian_menu = nil
 
   if is_debian then
-    debian_menu = { 'Debian', debian.menu.Debian_menu.Debian },
+    debian_menu = { 'Debian', debian.menu.Debian_menu.Debian }
   end
 
   local menu_awesome = { 'awesome', my_awesome_menu }
