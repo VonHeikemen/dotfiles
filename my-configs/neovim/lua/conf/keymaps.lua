@@ -53,6 +53,9 @@ k.nnoremap {'*', '*zz'}
 k.snoremap {'<C-h>', '<Space><BS>'}
 k.imap {'<C-h>', '<BS>'}
 
+-- Better Y
+k.nnoremap {'Y', 'y$'}
+
 -- ========================================================================== --
 -- ==                           COMMAND MAPPINGS                           == --
 -- ========================================================================== --
@@ -185,15 +188,6 @@ k.inoremap {expr = true, '<M-j>', "compe#scroll({ 'delta': +4 })"}
 k.snoremap {'<Tab>', "<cmd>lua require 'luasnip'.jump(1)<CR>"}
 k.snoremap {'<S-Tab>', "<cmd>lua require 'luasnip'.jump(-1)<CR>"}
 
--- use built-in `f` and `F` while recording a macro
--- k.nmap {expr = true, 'f', lua_expr(fns.lightspeed('f'))}
--- k.nmap {expr = true, 'F', lua_expr(fns.lightspeed('F'))}
-
--- restore lightspeed's default keybinding
-autocmd({'User', 'PluginsLoaded'}, function()
-  k.xmap {'S', '<Plug>Lightspeed_S'}
-end)
-
 -- Manage the quickfix list
 k.nmap {'[q', '<Plug>(qf_qf_previous)zz'}
 k.nmap {']q', '<Plug>(qf_qf_next)zz'}
@@ -219,4 +213,10 @@ k.nnoremap {silent = true, '<leader>dd', ":lua require 'lir.float'.toggle()<CR>"
 k.nnoremap {silent = true, '<leader>da', ":lua require 'lir.float'.toggle(vim.fn.getcwd())<CR>"}
 k.nnoremap {silent = true, '-', ":exe 'edit' expand('%:p:h')<CR>"}
 k.nnoremap {silent = true, '_', ":exe 'edit' getcwd()<CR>"}
+
+-- Undo break points
+local break_points = {',', '.', '?', '='}
+for _, char in ipairs(break_points) do
+  k.inoremap {char, char .. '<C-g>u'}
+end
 
