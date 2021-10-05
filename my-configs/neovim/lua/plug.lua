@@ -4,10 +4,13 @@ local M = {}
 local done = false
 local nofiles = vim.fn.argc() == 0
 
-local p = {} -- I hate it less now
+local p = {} -- still hate it
 p.minpac_plugins = {}
-p.not_loaded = {}
 p.lazy = {}
+p.configs = {
+  lazy = {},
+  start = {}
+}
 
 local defer_fn = function(fn)
   return function()
@@ -37,26 +40,29 @@ M.init = function(plugins)
       table.insert(p.lazy, plug)
       plug.type = 'opt'
     end
+
+    if plug.type == 'start' and type(plug.config) == 'function' then
+      p.configs.start[plug_name(plug)] = plug.config
+    end
   end
 
   -- setup minpac
   p.minpac_plugins = plugins
   p.setup_commands()
 
-  local load_deferred = p.load_plugins(deferred)
+  local lazy_loading = defer_fn(p.load_plugins(deferred))
+  p.apply_start_config()
 
   -- Figure out when to load the plugins
   if nofiles then
-    local lazy_loading = defer_fn(load_deferred)
-
     autocmd({'CmdlineEnter', once = true}, lazy_loading)
     autocmd({'InsertEnter', once = true}, lazy_loading)
     autocmd({'SessionLoadPost', once = true}, lazy_loading)
     return
   end
 
-  p.load_lazy()
-  autocmd('VimEnter', defer_fn(load_deferred))
+  p.packadd(p.lazy)
+  autocmd('VimEnter', defer_fn(lazy_loading))
 end
 
 p.load_plugins = function(plugins)
@@ -65,64 +71,49 @@ p.load_plugins = function(plugins)
       return
     end
 
-    local cmd = ''
-    local add = 'packadd %s\n'
-    for i, plug in pairs(plugins) do
-      cmd = cmd .. add:format(plug_name(plug))
-    end
+    p.packadd(plugins)
 
-    cmd = cmd .. [[
-      runtime! OPT after/plugin/*.vim
-    ]]
-
-    vim.cmd(cmd)
+    vim.cmd([[ runtime! OPT after/plugin/*.vim ]])
 
     if nofiles then
-      p.load_lazy()
+      p.packadd(p.lazy)
     end
 
-    p.config_plugins()
     vim.cmd 'doautocmd User PluginsLoaded'
     done = true
   end
 end
 
-p.load_lazy = function()
+p.packadd = function(plugins)
   local cmd = ''
-  local add = 'packadd %s\n'
+  local add = 'packadd %s | lua require("plug").apply_lazy_config("%s")\n'
 
-  for i, plug in pairs(p.lazy) do
-    cmd = cmd .. add:format(plug_name(plug))
+  for i, plug in pairs(plugins) do
+    local name = plug_name(plug)
+    cmd = cmd .. add:format(name, name)
+
+    if type(plug.config) == 'function' then
+      p.configs.lazy[name] = plug.config
+    end
   end
 
   vim.cmd(cmd)
 end
 
-p.config_plugins = function()
-  local success = {}
-
-  for m, config in pairs(p.not_loaded) do
-    local status, lib = pcall(require, m)
-    if status then
-      config(lib)
-      success[m] = m
-    end
-  end
-
-  for m in pairs(success) do
-    p.not_loaded[m] = nil
+p.apply_start_config = function()
+  for i, config in pairs(p.configs.start) do
+    config()
   end
 end
 
-M.load_module = function(module, fn)
-  local status, lib = pcall(require, module)
+M.apply_lazy_config = function(plugin)
+  local config = p.configs.lazy[plugin]
 
-  if not status then
-    p.not_loaded[module] = fn
-    return
+  if type(config) == 'function' then
+    config()
   end
 
-  return fn(lib)
+  p.configs[plugin] = nil
 end
 
 M.minpac = function()
@@ -137,6 +128,7 @@ M.minpac = function()
 
     opts['do'] = opts.run
     opts.run = nil
+    opts.config = nil
     vim.call('minpac#add', plug[1], opts)
   end
 end
