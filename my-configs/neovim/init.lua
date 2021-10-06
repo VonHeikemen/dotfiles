@@ -6,7 +6,7 @@
 -- ripgrep  - https://github.com/BurntSushi/ripgrep
 -- minpac   - https://github.com/k-takata/minpac
 
--- tweak colorscheme
+-- Try to load "env" file
 local ok, env = pcall(require, 'conf.env')
 
 if not ok then
@@ -14,10 +14,13 @@ if not ok then
   return
 end
 
-
+-- tweak colorscheme
 if env.theme_tweaks then
   vim.cmd('source ' .. env.theme_tweaks)
 end
+
+-- Install plugins if necessary
+require('conf.plugins.install')
 
 -- Basic editor options
 require('conf.basic')

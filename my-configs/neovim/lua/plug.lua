@@ -1,10 +1,16 @@
 local autocmd = require('bridge').augroup('plug_init')
 
-local M = {}
+local M = {
+  skip_config = false
+}
+
 local done = false
 local nofiles = vim.fn.argc() == 0
 
 local p = {} -- still hate it
+p.packpath = vim.fn.stdpath('data') .. '/site'
+p.minpac_path = vim.fn.stdpath('data') .. '/site/pack/minpac/opt/minpac'
+
 p.minpac_plugins = {}
 p.lazy = {}
 p.configs = {
@@ -84,11 +90,16 @@ end
 
 p.packadd = function(plugins)
   local cmd = ''
-  local add = 'packadd %s | lua require("plug").apply_lazy_config("%s")\n'
+  local add = 'packadd %s'
+  local apply_config = not M.skip_config
+
+  if apply_config then
+    add = add .. ' | lua require("plug").apply_lazy_config("%s")'
+  end
 
   for i, plug in pairs(plugins) do
     local name = plug_name(plug)
-    cmd = cmd .. add:format(name, name)
+    cmd = cmd .. add:format(name, name) .. '\n'
 
     if type(plug.config) == 'function' then
       p.configs.lazy[name] = plug.config
@@ -99,6 +110,8 @@ p.packadd = function(plugins)
 end
 
 p.apply_start_config = function()
+  if M.skip_config then return end
+
   for i, config in pairs(p.configs.start) do
     config()
   end
@@ -111,7 +124,7 @@ end
 
 M.minpac = function()
   vim.cmd('packadd minpac')
-  vim.call('minpac#init', {dir = vim.fn.stdpath('data') .. '/site'})
+  vim.call('minpac#init', {dir = p.packpath})
 
   for i, plug in pairs(p.minpac_plugins) do
     local opts = {}
@@ -135,15 +148,16 @@ p.setup_commands = function()
   ]])
 end
 
+M.has_minpac = function()
+  local empty = vim.fn.empty(vim.fn.glob(p.minpac_path)) > 0
+  return not empty
+end
+
 M.minpac_download = function()
-  local install_path = vim.fn.stdpath('data') .. '/site/pack/minpac/opt/minpac'
+  local gitclone = '!git clone https://github.com/k-takata/minpac.git %s'
 
-  if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    local gitclone = '!git clone https://github.com/k-takata/minpac.git %s'
-
-    vim.cmd(gitclone:format(install_path))
-    p.setup_commands()
-  end
+  vim.cmd(gitclone:format(p.minpac_path))
+  p.setup_commands()
 end
 
 return M
