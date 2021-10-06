@@ -7,7 +7,13 @@
 -- minpac   - https://github.com/k-takata/minpac
 
 -- tweak colorscheme
-local env = require 'conf.env'
+local ok, env = pcall(require, 'conf.env')
+
+if not ok then
+  vim.cmd 'echoerr "lua/conf/env.lua not found. You should probably rename env.sample"'
+  return
+end
+
 
 if env.theme_tweaks then
   vim.cmd('source ' .. env.theme_tweaks)
