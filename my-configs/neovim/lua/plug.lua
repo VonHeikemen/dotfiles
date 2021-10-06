@@ -89,24 +89,27 @@ p.load_plugins = function(plugins)
 end
 
 p.packadd = function(plugins)
-  local cmd = ''
-  local add = 'packadd %s'
-  local apply_config = not M.skip_config
-
-  if apply_config then
-    add = add .. ' | lua require("plug").apply_lazy_config("%s")'
-  end
+  local add = 'packadd %s\n'
+  local add_cmd = ''
 
   for i, plug in pairs(plugins) do
     local name = plug_name(plug)
-    cmd = cmd .. add:format(name, name) .. '\n'
+    add_cmd = add_cmd .. add:format(name)
 
     if type(plug.config) == 'function' then
       p.configs.lazy[name] = plug.config
     end
   end
 
-  vim.cmd(cmd)
+  vim.cmd(add_cmd)
+
+  if M.skip_config then
+    return
+  end
+
+  for i, config in pairs(p.configs.lazy) do
+    config()
+  end
 end
 
 p.apply_start_config = function()
