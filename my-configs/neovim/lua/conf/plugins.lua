@@ -19,6 +19,8 @@ plug.init {
   {
     'junegunn/fzf.vim',
     config = function()
+      if not env.fzf_path then return end
+
       vim.opt.runtimepath:append(env.fzf_path)
 
       vim.env.FZF_DEFAULT_OPTS = '--layout=reverse'
@@ -113,19 +115,20 @@ plug.init {
       local luasnip = require 'luasnip/loaders/from_vscode'
 
       luasnip.lazy_load()
-      luasnip.load({ include = { vim.bo.filetype } })
+      luasnip.load({include = {vim.bo.filetype}})
     end
   },
   {
     'windwp/nvim-autopairs',
     config = function()
       local npairs = require 'nvim-autopairs'
+      npairs.setup {fast_wrap = {}}
 
-      npairs.setup {
-        fast_wrap = {}
+      vim.keymap.inoremap {
+        expr = true,
+        '<CR>',
+        lua_expr(npairs.autopairs_cr)
       }
-
-      vim.keymap.inoremap {expr = true, '<CR>', lua_expr(npairs.autopairs_cr)}
     end
   },
   {
@@ -174,9 +177,7 @@ plug.init {
   {
     'kevinhwang91/nvim-bqf',
     config = function()
-      require 'bqf'.setup {
-        auto_enable = false,
-      }
+      require 'bqf'.setup {auto_enable = false}
     end
   },
   {'nvim-treesitter/playground', type = 'opt'},
