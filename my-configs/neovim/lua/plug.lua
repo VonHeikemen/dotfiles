@@ -109,11 +109,7 @@ end
 M.apply_lazy_config = function(plugin)
   local config = p.configs.lazy[plugin]
 
-  if type(config) == 'function' then
-    config()
-  end
-
-  p.configs[plugin] = nil
+  if type(config) == 'function' then config() end
 end
 
 M.minpac = function()
