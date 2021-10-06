@@ -1,13 +1,13 @@
-local create_excmd = require 'bridge'.create_excmd
+local create_excmd = require('bridge').create_excmd
 
-local telescope = require 'telescope'
-local actions = require 'telescope.actions'
+local telescope = require('telescope')
+local actions = require('telescope.actions')
 
 create_excmd('TGrep', {user_input = true, function(input)
-  require 'telescope.builtin'.grep_string({search = input})
+  require('telescope.builtin').grep_string({search = input})
 end})
 
-telescope.setup {
+telescope.setup({
   defaults = {
     prompt_prefix = ' ',
     selection_caret = '❯ ',
@@ -68,7 +68,7 @@ telescope.setup {
       override_file_sorter = true
     },
   }
-}
+})
 
 telescope.load_extension('fzy_native')
 

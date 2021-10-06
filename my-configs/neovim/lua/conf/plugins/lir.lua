@@ -1,18 +1,18 @@
-local lir = require 'lir'
+local lir = require('lir')
 
 -- disable netrw
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-local autocmd = require 'bridge'.augroup 'lir_settings'
+local autocmd = require('bridge').augroup('lir_settings')
 
-local actions = require 'lir.actions'
-local marks = require 'lir.mark.actions'
-local clipboard = require 'lir.clipboard.actions'
+local actions = require('lir.actions')
+local marks = require('lir.mark.actions')
+local clipboard = require('lir.clipboard.actions')
 
 autocmd({'filetype', 'lir'}, function()
   local k = vim.keymap
-  local mark = ":<C-u>lua require 'lir.mark.actions'.toggle_mark('v')<CR>gv<C-c>"
+  local mark = ":<C-u>lua require('lir.mark.actions').toggle_mark('v')<CR>gv<C-c>"
 
   k.nnoremap {buffer = true, 'v', 'V'}
   k.xnoremap {buffer = true, 'q', '<Esc>'}
@@ -24,7 +24,7 @@ autocmd({'filetype', 'lir'}, function()
   k.nmap {buffer = true, silent = true, '<S-Tab>', 'gv<Tab>'}
 end)
 
-lir.setup {
+lir.setup({
   mappings = {
     ['l']  = actions.edit,
     ['es'] = actions.split,
@@ -55,5 +55,5 @@ lir.setup {
       }
     end
   }
-}
+})
 

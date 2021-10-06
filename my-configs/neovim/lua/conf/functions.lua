@@ -12,8 +12,8 @@ M.not_ok = function(module)
 end
 
 local check_back_space = function()
-  local col = vim.fn.col "." - 1
-  if col == 0 or vim.fn.getline("."):sub(col, col):match "%s" then
+  local col = vim.fn.col('.') - 1
+  if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
     return true
   else
     return false
@@ -23,19 +23,19 @@ end
 M.tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t'<C-n>'
-  elseif require 'luasnip'.expand_or_jumpable() then
+  elseif require('luasnip').expand_or_jumpable() then
     return t'<Plug>luasnip-expand-or-jump'
   elseif check_back_space() then
     return t'<Tab>'
   else
-    return vim.fn["compe#complete"]()
+    return vim.call('compe#complete')
   end
 end
 
 M.s_tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t'<C-p>'
-  elseif require 'luasnip'.jumpable(-1) then
+  elseif require('luasnip').jumpable(-1) then
     return t'<Plug>luasnip-jump-prev'
   else
     return t'<S-Tab>'
@@ -64,9 +64,9 @@ end
 
 M.toggle_completion = function() 
   if vim.fn.pumvisible() == 1 then
-    return vim.fn['compe#confirm'](t'<Space>')
+    return vim.call('compe#confirm', t'<Space>')
   else
-    return vim.fn['compe#complete']()
+    return vim.call('compe#complete')
   end
 end
 

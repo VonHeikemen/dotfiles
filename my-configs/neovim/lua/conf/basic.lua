@@ -1,4 +1,4 @@
-local env = require 'conf.env'
+local env = require('conf.env')
 local cwd = vim.fn.getcwd()
 local f = string.format
 
@@ -38,7 +38,7 @@ set.incsearch = true
 set.cursorline = true
 
 -- Enable syntax highlight
-vim.cmd [[ syntax enable ]]
+vim.cmd('syntax enable')
 
 -- Add a bit extra margin to the left
 set.foldcolumn = '1'

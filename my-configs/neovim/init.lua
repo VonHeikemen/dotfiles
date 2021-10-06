@@ -10,7 +10,7 @@
 local ok, env = pcall(require, 'conf.env')
 
 if not ok then
-  vim.cmd 'echoerr "lua/conf/env.lua not found. You should probably rename env.sample"'
+  vim.cmd('echoerr "lua/conf/env.lua not found. You should probably rename env.sample"')
   return
 end
 
@@ -20,14 +20,14 @@ if env.theme_tweaks then
 end
 
 -- Basic editor options
-require 'conf.basic'
+require('conf.basic')
 
 -- User defined commands
-require 'conf.commands'
+require('conf.commands')
 
 -- Plugin management and config
-require 'conf.plugins'
+require('conf.plugins')
 
--- You know
-require 'conf.keymaps'
+-- Keybindings
+require('conf.keymaps')
 

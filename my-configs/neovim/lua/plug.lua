@@ -1,4 +1,4 @@
-local autocmd = require 'bridge'.augroup 'plug_init'
+local autocmd = require('bridge').augroup('plug_init')
 
 local M = {}
 local done = false
@@ -21,7 +21,7 @@ end
 local plug_name = function(plug)
   local name = plug.as
   if name == nil then
-    name = plug[1]:match("^[%w-]+/([%w-_.]+)$")
+    name = plug[1]:match('^[%w-]+/([%w-_.]+)$')
   end
 
   return name
@@ -67,19 +67,17 @@ end
 
 p.load_plugins = function(plugins)
   return function()
-    if done then
-      return
-    end
+    if done then return end
 
     p.packadd(plugins)
 
-    vim.cmd([[ runtime! OPT after/plugin/*.vim ]])
+    vim.cmd('runtime! OPT after/plugin/*.vim')
 
     if nofiles then
       p.packadd(p.lazy)
     end
 
-    vim.cmd 'doautocmd User PluginsLoaded'
+    vim.cmd('doautocmd User PluginsLoaded')
     done = true
   end
 end
@@ -108,13 +106,12 @@ end
 
 M.apply_lazy_config = function(plugin)
   local config = p.configs.lazy[plugin]
-
   if type(config) == 'function' then config() end
 end
 
 M.minpac = function()
-  vim.cmd [[ packadd minpac ]]
-  vim.call('minpac#init', {dir = vim.fn.stdpath 'data' .. '/site'})
+  vim.cmd('packadd minpac')
+  vim.call('minpac#init', {dir = vim.fn.stdpath('data') .. '/site'})
 
   for i, plug in pairs(p.minpac_plugins) do
     local opts = {}
@@ -130,16 +127,16 @@ M.minpac = function()
 end
 
 p.setup_commands = function()
-  vim.cmd [[
-    command! PackManDownload lua require 'plug'.minpac_download()
-    command! PackUpdate lua require 'plug'.minpac(); vim.call 'minpac#update'
-    command! PackClean  lua require 'plug'.minpac(); vim.call 'minpac#clean'
-    command! PackStatus lua require 'plug'.minpac(); vim.call 'minpac#status'
-  ]]
+  vim.cmd([[
+    command! PackManDownload lua require('plug').minpac_download()
+    command! PackUpdate lua require('plug').minpac(); vim.call('minpac#update')
+    command! PackClean  lua require('plug').minpac(); vim.call('minpac#clean')
+    command! PackStatus lua require('plug').minpac(); vim.call('minpac#status')
+  ]])
 end
 
 M.minpac_download = function()
-  local install_path = vim.fn.stdpath 'data' .. '/site/pack/minpac/opt/minpac'
+  local install_path = vim.fn.stdpath('data') .. '/site/pack/minpac/opt/minpac'
 
   if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
     local gitclone = '!git clone https://github.com/k-takata/minpac.git %s'

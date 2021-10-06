@@ -5,11 +5,11 @@ if not status then
   return
 end
 
-local fns = require 'conf.functions'
+local fns = require('conf.functions')
 local t = fns.t
 
-local lua_expr = require 'bridge'.lua_expr
-local autocmd = require 'bridge'.augroup 'mapping_cmds'
+local lua_expr = require('bridge').lua_expr
+local autocmd = require('bridge').augroup('mapping_cmds')
 
 -- Leader
 vim.g.mapleader = ' '
@@ -137,7 +137,7 @@ k.nnoremap {'<Leader>ff', ':Telescope find_files<CR>'}
 -- Find files by name
 k.nnoremap {'<Leader>fe', ':Telescope file_browser<CR>'}
 k.nnoremap {'<Leader>fc', function()
-  require 'telescope.builtin'.file_browser({cwd = vim.fn.expand('%:p:h')})
+  require('telescope.builtin').file_browser({cwd = vim.fn.expand('%:p:h')})
 end}
 
 -- Search symbols in buffer
@@ -185,8 +185,8 @@ k.inoremap {expr = true, '<M-k>', "compe#scroll({ 'delta': -4 })"}
 k.inoremap {expr = true, '<M-j>', "compe#scroll({ 'delta': +4 })"}
 
 -- Navigate through snippet placeholders
-k.snoremap {'<Tab>', "<cmd>lua require 'luasnip'.jump(1)<CR>"}
-k.snoremap {'<S-Tab>', "<cmd>lua require 'luasnip'.jump(-1)<CR>"}
+k.snoremap {'<Tab>', "<cmd>lua require('luasnip').jump(1)<CR>"}
+k.snoremap {'<S-Tab>', "<cmd>lua require('luasnip').jump(-1)<CR>"}
 
 -- Manage the quickfix list
 k.nmap {'[q', '<Plug>(qf_qf_previous)zz'}
@@ -209,8 +209,8 @@ autocmd({'filetype', 'qf'}, function()
 end)
 
 -- Open file manager
-k.nnoremap {silent = true, '<leader>dd', ":lua require 'lir.float'.toggle()<CR>"}
-k.nnoremap {silent = true, '<leader>da', ":lua require 'lir.float'.toggle(vim.fn.getcwd())<CR>"}
+k.nnoremap {silent = true, '<leader>dd', ":lua require('lir.float').toggle()<CR>"}
+k.nnoremap {silent = true, '<leader>da', ":lua require('lir.float').toggle(vim.fn.getcwd())<CR>"}
 k.nnoremap {silent = true, '-', ":exe 'edit' expand('%:p:h')<CR>"}
 k.nnoremap {silent = true, '_', ":exe 'edit' getcwd()<CR>"}
 

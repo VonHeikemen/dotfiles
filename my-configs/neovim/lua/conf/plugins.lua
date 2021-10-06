@@ -1,14 +1,14 @@
-local env = require 'conf.env'
-local fns = require 'conf.functions'
-local plug = require 'plug'
+local env = require('conf.env')
+local fns = require('conf.functions')
+local plug = require('plug')
 
-local lua_expr = require 'bridge'.lua_expr
+local lua_expr = require('bridge').lua_expr
 
 -- ========================================================================== --
 -- ==                               PLUGINS                                == --
 -- ========================================================================== --
 
-plug.init {
+plug.init({
   -- Plugin manager
   {'k-takata/minpac', type = 'opt'},
 
@@ -62,7 +62,7 @@ plug.init {
   {
     'folke/zen-mode.nvim',
     config = function()
-      require 'zen-mode'.setup {
+      require('zen-mode').setup({
         window = {
           width = 0.60,
           height = 0.98
@@ -73,7 +73,7 @@ plug.init {
           vim.keymap.nnoremap {buffer = true, 'k', 'gk'}
           vim.keymap.nnoremap {buffer = true, 'j', 'gj'}
         end
-      }
+      })
     end
   },
 
@@ -81,7 +81,7 @@ plug.init {
   {
     'tamago324/lir.nvim',
     type = 'start',
-    config = function() require 'conf.plugins.lir' end
+    config = function() require('conf.plugins.lir') end
   },
 
   -- Better clipboard support
@@ -94,7 +94,7 @@ plug.init {
   {
     'hrsh7th/nvim-compe',
     config = function()
-      require 'compe'.setup {
+      require('compe').setup({
         enable = true,
         autocomplete = false,
         source = {
@@ -102,7 +102,7 @@ plug.init {
           buffer = {priority = 2},
           luasnip = {priority = 1},
         }
-      }
+      })
     end
   },
 
@@ -112,7 +112,7 @@ plug.init {
   {
     'L3MON4D3/LuaSnip',
     config = function()
-      local luasnip = require 'luasnip/loaders/from_vscode'
+      local luasnip = require('luasnip/loaders/from_vscode')
 
       luasnip.lazy_load()
       luasnip.load({include = {vim.bo.filetype}})
@@ -121,8 +121,8 @@ plug.init {
   {
     'windwp/nvim-autopairs',
     config = function()
-      local npairs = require 'nvim-autopairs'
-      npairs.setup {fast_wrap = {}}
+      local npairs = require('nvim-autopairs')
+      npairs.setup({fast_wrap = {}})
 
       vim.keymap.inoremap {
         expr = true,
@@ -134,7 +134,7 @@ plug.init {
   {
     'b3nj5m1n/kommentary',
     config = function()
-      local cfg = require 'kommentary.config'
+      local cfg = require('kommentary.config')
 
       cfg.configure_language('default', {
         prefer_single_line_comments = true,
@@ -157,7 +157,7 @@ plug.init {
     type = 'lazy',
     branch = '0.5-compat',
     run = function() pcall(vim.cmd, 'TSUpdate') end,
-    config = function() require 'conf.plugins.treesitter' end
+    config = function() require('conf.plugins.treesitter') end
   },
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
@@ -177,11 +177,11 @@ plug.init {
   {
     'kevinhwang91/nvim-bqf',
     config = function()
-      require 'bqf'.setup {auto_enable = false}
+      require('bqf').setup({auto_enable = false})
     end
   },
   {'nvim-treesitter/playground', type = 'opt'},
   {'nvim-lua/plenary.nvim', type = 'start'},
   {'nvim-lua/popup.nvim', type = 'start'},
-}
+})
 
