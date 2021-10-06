@@ -27,7 +27,7 @@ k.inoremap {'<C-L>', '<Esc>'}
 k.tnoremap {'<C-L>', '<C-\\><C-n>'}
 
 -- Select all text in current buffer
-k.nnoremap {'<Leader>a', 'ggvGg_'}
+k.nnoremap {'<Leader>a', 'ggVG'}
 
 -- Go to matching pair
 k.nmap {'<Leader>e', '%'}
