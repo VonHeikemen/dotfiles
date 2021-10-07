@@ -13,10 +13,7 @@ p.minpac_path = vim.fn.stdpath('data') .. '/site/pack/minpac/opt/minpac'
 
 p.minpac_plugins = {}
 p.lazy = {}
-p.configs = {
-  lazy = {},
-  start = {}
-}
+p.configs = {opts = {}}
 
 local defer_fn = function(fn)
   return function()
@@ -35,8 +32,17 @@ end
 
 M.init = function(plugins)
   local deferred = {}
+  local config_fns = {}
 
   for i, plug in pairs(plugins) do
+    if plug.type == 'start' and type(plug.config) == 'function' then
+      config_fns[plug_name(plug)] = plug.config
+    end
+
+    if plug.type == 'opt' and type(plug.config) == 'function' then
+      p.configs.opts[plug_name(plug)] = plug.config
+    end
+
     if plug.type == nil or plug.type == 'deferred' then
       table.insert(deferred, plug)
       plug.type = 'opt'
@@ -46,10 +52,6 @@ M.init = function(plugins)
       table.insert(p.lazy, plug)
       plug.type = 'opt'
     end
-
-    if plug.type == 'start' and type(plug.config) == 'function' then
-      p.configs.start[plug_name(plug)] = plug.config
-    end
   end
 
   -- setup minpac
@@ -57,7 +59,7 @@ M.init = function(plugins)
   p.setup_commands()
 
   local lazy_loading = defer_fn(p.load_plugins(deferred))
-  p.apply_start_config()
+  p.apply_start_config(config_fns)
 
   -- Figure out when to load the plugins
   if nofiles then
@@ -91,13 +93,14 @@ end
 p.packadd = function(plugins)
   local add = 'packadd %s\n'
   local add_cmd = ''
+  local config_fns = {}
 
   for i, plug in pairs(plugins) do
     local name = plug_name(plug)
     add_cmd = add_cmd .. add:format(name)
 
     if type(plug.config) == 'function' then
-      p.configs.lazy[name] = plug.config
+      config_fns[name] = plug.config
     end
   end
 
@@ -107,22 +110,25 @@ p.packadd = function(plugins)
     return
   end
 
-  for i, config in pairs(p.configs.lazy) do
+  for i, config in pairs(config_fns) do
     config()
   end
 end
 
-p.apply_start_config = function()
+p.apply_start_config = function(fns)
   if M.skip_config then return end
 
-  for i, config in pairs(p.configs.start) do
+  for i, config in pairs(fns) do
     config()
   end
 end
 
-M.apply_lazy_config = function(plugin)
-  local config = p.configs.lazy[plugin]
-  if type(config) == 'function' then config() end
+M.apply_opt_config = function(plugin)
+  vim.cmd('packadd ' .. plugin)
+  local config = p.configs.opts[plugin]
+  if type(config) == 'function' then
+    config()
+  end
 end
 
 M.minpac = function()
@@ -148,6 +154,7 @@ p.setup_commands = function()
     command! PackUpdate lua require('plug').minpac(); vim.call('minpac#update')
     command! PackClean  lua require('plug').minpac(); vim.call('minpac#clean')
     command! PackStatus lua require('plug').minpac(); vim.call('minpac#status')
+    command! -nargs=1 -complete=packadd PackAdd lua require('plug').apply_opt_config(<q-args>)
   ]])
 end
 
@@ -158,9 +165,7 @@ end
 
 M.minpac_download = function()
   local gitclone = '!git clone https://github.com/k-takata/minpac.git %s'
-
   vim.cmd(gitclone:format(p.minpac_path))
-  p.setup_commands()
 end
 
 return M
