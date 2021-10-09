@@ -1,14 +1,15 @@
 {
   "imports": {
-    "@std/": "https://deno.land/std@0.89.0/",
-    "@npm/": "https://jspm.dev/",
+    "!std/": "https://deno.land/std@0.110.0/",
+    "!npm/": "https://jspm.dev/",
 
     "ansi-colors": "https://jspm.dev/ansi-colors@4.1.1",
-    "arg": "https://jspm.dev/arg@5.0.0",
-    "cheerio": "https://jspm.dev/cheerio@1.0.0-rc.5",
+    "arg": "https://jspm.dev/arg@5.0.1",
+    "cheerio": "https://jspm.dev/cheerio@1.0.0-rc.10",
     "exec": "https://deno.land/x/exec@0.0.5/mod.ts",
     "ramda": "https://jspm.dev/ramda@0.27.1",
+    "ky": "https://jspm.dev/ky@0.23.0",
 
-    "@utils/": "/home/user/my-configs/deno/utils/"
+    "@utils/": "/home/hec/my-configs/deno/utils/"
   }
 }

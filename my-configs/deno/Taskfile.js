@@ -2,20 +2,40 @@ const entrypoint = "./src/main.js";
 
 run(Deno.args, {
   start(...args) {
-    exec(["deno", "run", entrypoint, ...args]);
+    sh`deno run ${entrypoint} ${args}`;
   },
   format() {
-    exec(["deno", "fmt", entrypoint]);
+    sh`deno fmt ${entrypoint}`;
   },
   list() {
+    console.log('Available tasks: ');
     Object.keys(this).forEach((k) => console.log(k));
   },
 });
 
 function run([name, ...args], tasks) {
-  name in tasks
-    ? tasks[name](...args)
-    : console.log(`Task "${name}" not found`);
+  if(tasks[name]) {
+    tasks[name](...args);
+  } else {
+    console.log(`Task "${name}" not found\n`);
+    tasks.list();
+  }
+}
+
+function sh(pieces, ...args) {
+  let cmd = pieces[0].split(' '); 
+  let i = 0;
+  while (i < args.length) {
+    if(Array.isArray(args[i])) {
+      cmd.push(...args[i]);
+      cmd.push(pieces[++i]);
+    } else {
+      cmd.push(args[i], pieces[++i]);
+    }
+  }
+
+  const non_empty = arg => arg.trim() != '';
+  return exec(cmd.filter(non_empty));
 }
 
 async function exec(args) {
@@ -27,3 +47,4 @@ async function exec(args) {
 
   return proc;
 }
+
