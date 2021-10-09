@@ -70,7 +70,7 @@ M.init = function(plugins)
   end
 
   p.packadd(p.lazy)
-  autocmd('VimEnter', defer_fn(lazy_loading))
+  autocmd('VimEnter', lazy_loading)
 end
 
 p.load_plugins = function(plugins)
