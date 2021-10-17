@@ -114,36 +114,6 @@ M.lightspeed = function (char)
   end
 end
 
-M.use_fzf = function()
-  local k = vim.keymap
-
-  -- Show key bindings list
-  k.nnoremap {'<Leader>?', ':Maps<CR>'}
-
-  -- Search pattern
-  k.nnoremap {'<Leader>F', ':Rg<Space>'}
-  k.xnoremap {'<Leader>F', ':<C-u>GetSelection<CR>:Rg<Space><C-R>/'}
-
-  -- Find files by name
-  k.nnoremap {'<Leader>f', ':FZF<Space>'}
-  k.nnoremap {'<Leader>ff', ':FZF<CR>'}
-
-  -- Search symbols in buffer
-  k.nnoremap {'<Leader>fs', ':BTags<CR>'}
-
-  -- Search symbols in workspace
-  k.nnoremap {'<Leader>fS', ':Tags<CR>'}
-
-  -- Go to definition (using tags)
-  k.nnoremap {'gd', ':FZFTags<CR>'}
-
-  -- Search in files history
-  k.nnoremap {'<Leader>fh', ':History<CR>'}
-
-  -- Search in active buffers list
-  k.nnoremap {'<Leader>bb', ':Buffers<CR>'}
-end
-
 M.job_output = function(cid, data, name)
   for i, val in pairs(data) do
     print(val)

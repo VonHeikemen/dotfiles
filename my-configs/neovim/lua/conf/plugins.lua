@@ -1,4 +1,3 @@
-local env = require('conf.env')
 local fns = require('conf.functions')
 local plug = require('plug')
 
@@ -16,25 +15,6 @@ plug.init({
   {'tjdevries/astronauta.nvim', type = 'start'},
 
   -- Fuzzy finder
-  {
-    'junegunn/fzf.vim',
-    config = function()
-      if not env.fzf_path then return end
-
-      vim.opt.runtimepath:append(env.fzf_path)
-
-      vim.env.FZF_DEFAULT_OPTS = '--layout=reverse'
-
-      vim.g.fzf_preview_window = {}
-      vim.g.fzf_layout = {
-        window = {
-          height = 0.6,
-          width = 0.9
-        }
-      }
-    end
-  },
-  {'zackhsi/fzf-tags'},
   {
     'nvim-telescope/telescope.nvim',
     type = 'start',

@@ -1,7 +1,7 @@
 -- astronauta might not be installed yet
-local status, k = pcall(require, 'astronauta.keymap')
+local ok, k = pcall(require, 'astronauta.keymap')
 
-if not status then
+if not ok then
   return
 end
 
@@ -125,7 +125,7 @@ k.nnoremap {'<Leader>ur', fns.toggle_opt('relativenumber')}
 -- ========================================================================== --
 
 -- Show key bindings list
-k.nnoremap {'<Leader>?', ':Maps<CR>'}
+k.nnoremap {'<Leader>?', ':Telescope keymaps<CR>'}
 
 -- Search pattern
 k.nnoremap {'<Leader>F', ':TGrep '}
@@ -145,9 +145,6 @@ k.nnoremap {'<Leader>fs', ':Telescope treesitter<CR>'}
 
 -- Search symbols in workspace
 k.nnoremap {'<Leader>fS', ':Tags<CR>'}
-
--- Go to definition (using tags)
-k.nnoremap {'gd', ':FZFTags<CR>'}
 
 -- Search in files history
 k.nnoremap {'<Leader>fh', ':Telescope oldfiles<CR>'}

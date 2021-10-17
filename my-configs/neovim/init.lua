@@ -2,7 +2,6 @@
 -- ==                            DEPENDENCIES                              == --
 -- ========================================================================== --
 
--- fzf      - https://github.com/junegunn/fzf
 -- ripgrep  - https://github.com/BurntSushi/ripgrep
 -- minpac   - https://github.com/k-takata/minpac
 
