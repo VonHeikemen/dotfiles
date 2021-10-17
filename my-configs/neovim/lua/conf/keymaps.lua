@@ -215,7 +215,7 @@ k.nnoremap {silent = true, '-', ":exe 'edit' expand('%:p:h')<CR>"}
 k.nnoremap {silent = true, '_', ":exe 'edit' getcwd()<CR>"}
 
 -- Undo break points
-local break_points = {',', '.', '?', '='}
+local break_points = {'<Space>', '-', '_', ':', '.', '/'}
 for _, char in ipairs(break_points) do
   k.inoremap {char, char .. '<C-g>u'}
 end
