@@ -1,8 +1,6 @@
 local fns = require('conf.functions')
 local plug = require('plug')
 
-local lua_expr = require('bridge').lua_expr
-
 -- ========================================================================== --
 -- ==                               PLUGINS                                == --
 -- ========================================================================== --
@@ -72,19 +70,12 @@ plug.init({
 
   -- Autocompletion
   {
-    'hrsh7th/nvim-compe',
-    config = function()
-      require('compe').setup({
-        enable = true,
-        autocomplete = false,
-        source = {
-          path = {priority = 3},
-          buffer = {priority = 2},
-          luasnip = {priority = 1},
-        }
-      })
-    end
+    'hrsh7th/nvim-cmp',
+    config = function() require('conf.plugins.nvim-cmp') end
   },
+  {'hrsh7th/cmp-buffer'},
+  {'hrsh7th/cmp-path'},
+  {'saadparwaiz1/cmp_luasnip'},
 
   -- Snippets
   {'VonHeikemen/the-good-snippets', type = 'start'},
@@ -103,12 +94,6 @@ plug.init({
     config = function()
       local npairs = require('nvim-autopairs')
       npairs.setup({fast_wrap = {}})
-
-      vim.keymap.inoremap {
-        expr = true,
-        '<CR>',
-        lua_expr(npairs.autopairs_cr)
-      }
     end
   },
   {

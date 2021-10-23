@@ -6,9 +6,6 @@ if not ok then
 end
 
 local fns = require('conf.functions')
-local t = fns.t
-
-local lua_expr = require('bridge').lua_expr
 local autocmd = require('bridge').augroup('mapping_cmds')
 
 -- Leader
@@ -143,9 +140,6 @@ end}
 -- Search symbols in buffer
 k.nnoremap {'<Leader>fs', ':Telescope treesitter<CR>'}
 
--- Search symbols in workspace
-k.nnoremap {'<Leader>fS', ':Tags<CR>'}
-
 -- Search in files history
 k.nnoremap {'<Leader>fh', ':Telescope oldfiles<CR>'}
 
@@ -171,19 +165,6 @@ k.nnoremap {'<Leader>bc', ':Bdelete<CR>'}
 
 -- Toggle zen-mode
 k.nnoremap {'<Leader>uz', ':ZenMode<CR>'}
-
--- Insert mode completions
-k.imap {expr = true, '<Tab>', lua_expr(fns.tab_complete)}
-k.imap {expr = true, '<S-Tab>', lua_expr(fns.s_tab_complete)}
-k.inoremap {expr = true, '<C-Space>', lua_expr(fns.toggle_completion)}
-k.inoremap {expr = true, '<C-k>', lua_expr(fns.completion_up(t'<C-k>'))}
-k.inoremap {expr = true, '<C-j>', lua_expr(fns.completion_down(t'<C-j>'))}
-k.inoremap {expr = true, '<M-k>', "compe#scroll({ 'delta': -4 })"}
-k.inoremap {expr = true, '<M-j>', "compe#scroll({ 'delta': +4 })"}
-
--- Navigate through snippet placeholders
-k.snoremap {'<Tab>', "<cmd>lua require('luasnip').jump(1)<CR>"}
-k.snoremap {'<S-Tab>', "<cmd>lua require('luasnip').jump(-1)<CR>"}
 
 -- Manage the quickfix list
 k.nmap {'[q', '<Plug>(qf_qf_previous)zz'}
