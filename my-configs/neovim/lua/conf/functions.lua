@@ -102,18 +102,6 @@ M.get_selection = function()
   f.setreg('s', temp)
 end
 
-M.lightspeed = function (char)
-  return function()
-    local reg = vim.fn.reg_recording() .. vim.fn.reg_executing()
-    if reg == '' then
-      local plug = '<Plug>Lightspeed_' .. char
-      return t(plug)
-    else
-      return char
-    end
-  end
-end
-
 M.job_output = function(cid, data, name)
   for i, val in pairs(data) do
     print(val)
