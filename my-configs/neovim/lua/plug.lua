@@ -79,7 +79,10 @@ p.load_plugins = function(plugins)
 
     p.packadd(plugins)
 
-    vim.cmd('runtime! OPT after/plugin/*.vim')
+    vim.cmd([[
+      runtime! OPT after/plugin/*.vim 
+      runtime! OPT after/plugin/*.lua 
+    ]])
 
     if nofiles then
       p.packadd(p.lazy)
