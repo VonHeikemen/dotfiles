@@ -12,25 +12,6 @@ local check_back_space = function()
   end
 end
 
-local scroll_or_jump = function(direction)
-  local opts = {}
-  if direction == 'up' then
-    opts = {scroll = 5, jump = 1}
-  elseif direction == 'down' then
-    opts = {scroll = -5, jump = -1}
-  end
-
-  return function(fallback)
-    if cmp.visible() then
-      cmp.scroll_docs(opts.scroll)
-    elseif luasnip.jumpable(opts.jump) then
-      luasnip.jump(opts.jump)
-    else
-      fallback()
-    end
-  end
-end
-
 cmp.setup({
   completion = {
     autocomplete = false
@@ -42,43 +23,43 @@ cmp.setup({
   },
   documentation = {
     maxheight = 15,
-    maxwidth = 50
+    maxwidth = 50,
+    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
   },
   mapping = {
-    ['<CR>'] = cmp.mapping.confirm({select = true}),
-    ['<C-e>'] = cmp.mapping.close(),
+    ['<Up>'] = cmp.mapping.select_prev_item(select_opts),
+    ['<Down>'] = cmp.mapping.select_next_item(select_opts),
 
-    ['<C-j>'] = cmp.mapping.select_next_item(select_opts),
-    ['<C-k>'] = cmp.mapping.select_prev_item(select_opts),
+    ['<M-k>'] = cmp.mapping.select_prev_item(select_opts),
+    ['<M-j>'] = cmp.mapping.select_next_item(select_opts),
 
-    ['<C-d>'] = cmp.mapping(scroll_or_jump('up'), {'i', 's'}),
-    ['<C-u>'] = cmp.mapping(scroll_or_jump('down'), {'i', 's'}),
+    ['<C-d>'] = cmp.mapping.scroll_docs(5),
+    ['<C-u>'] = cmp.mapping.scroll_docs(-5),
 
-    ['<C-Space>'] = function()
+    ['<C-e>'] = function()
       if cmp.visible() then
-        cmp.confirm({select = true})
+        cmp.close()
       else
         cmp.complete()
       end
     end,
 
-    ['<Tab>'] = function(fallback)
+    ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.select_next_item(select_opts)
-      elseif luasnip.expandable() then
-        luasnip.expand()
+        cmp.confirm({select = true})
+      elseif luasnip.jumpable(1) then
+        luasnip.jump(1)
       elseif check_back_space() then
         fallback()
       else
         cmp.complete()
       end
-    end,
+    end, {'i', 's'}),
 
-    ['<S-Tab>'] = function()
-      if cmp.visible() then
-        cmp.select_prev_item(select_opts)
-      end
-    end,
+    ['<S-Tab>'] = cmp.mapping(function() luasnip.jump(-1) end, {'i', 's'}),
   }
 })
+
+-- Make autopairs and cmp play nice when pressing <CR>
+require('nvim-autopairs.completion.cmp').setup()
 
