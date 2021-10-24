@@ -83,10 +83,13 @@ plug.init({
   {
     'L3MON4D3/LuaSnip',
     config = function()
-      local luasnip = require('luasnip/loaders/from_vscode')
+      local luasnip = require('luasnip')
+      local snippets = require('luasnip.loaders.from_vscode')
 
-      luasnip.lazy_load()
-      luasnip.load({include = {vim.bo.filetype}})
+      luasnip.config.set_config({region_check_events = 'InsertEnter'})
+
+      snippets.lazy_load()
+      snippets.load({include = {vim.bo.filetype}})
     end
   },
   {
