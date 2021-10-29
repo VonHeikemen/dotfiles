@@ -14,7 +14,8 @@ end
 
 cmp.setup({
   completion = {
-    autocomplete = false
+    autocomplete = false,
+    completeopt = 'menu,menuone,noinsert'
   },
   sources = {
     {name = 'path'},
@@ -27,6 +28,7 @@ cmp.setup({
     border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
   },
   mapping = {
+    ['<CR>'] = cmp.mapping.confirm({select = true}),
     ['<Up>'] = cmp.mapping.select_prev_item(select_opts),
     ['<Down>'] = cmp.mapping.select_next_item(select_opts),
 
@@ -59,7 +61,4 @@ cmp.setup({
     ['<S-Tab>'] = cmp.mapping(function() luasnip.jump(-1) end, {'i', 's'}),
   }
 })
-
--- Make autopairs and cmp play nice when pressing <CR>
-require('nvim-autopairs.completion.cmp').setup()
 
