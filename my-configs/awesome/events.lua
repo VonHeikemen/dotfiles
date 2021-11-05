@@ -17,6 +17,12 @@ local toggle_tasklist = function(screen)
   end
 end
 
+local update_tag_state = function(screen)
+  local next = screen.selected_tag.index
+  local last = State.recent_tags.current
+  State.recent_tags = {last = last, current = next}
+end
+
 -- Signal function to execute when a new client appears.
 client.connect_signal('manage', function(c)
   -- Set the windows at the slave,
@@ -48,7 +54,9 @@ client.connect_signal('unmanage', function(c)
 end)
 
 screen.connect_signal('tag::history::update', function()
-  toggle_tasklist(awful.screen.focused())
+  local screen = awful.screen.focused()
+  update_tag_state(screen)
+  toggle_tasklist(screen)
 end)
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.

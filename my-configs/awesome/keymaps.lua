@@ -185,6 +185,16 @@ M.global = join(
     {mod, shift}, 'F4', function() awful.layout.set(awful.layout.suit.tile.bottom) end,
     {description = 'select tile bottom layout', group = 'layout'}
   ),
+  key(
+    {mod}, 'Tab', function()
+      local screen = awful.screen.focused()
+      local tag = screen.tags[State.recent_tags.last]
+      if tag then
+        tag:view_only()
+      end
+    end,
+    {description = 'go to last visited tag', group = 'tag'}
+  ),
 
   -- control cmus
   key(

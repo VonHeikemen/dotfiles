@@ -11,6 +11,10 @@ User = {
 
 User.editor_cmd = User.terminal .. ' -e ' .. User.editor
 
+State = {
+  recent_tags = {last = 1, current = 1}
+}
+
 -- Menubar configuration
 menubar.utils.terminal = User.terminal -- Set the terminal for applications that require it
 
