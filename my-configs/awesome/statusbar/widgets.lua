@@ -4,7 +4,7 @@ local beautiful = require 'beautiful'
 local wibox = require 'wibox'
 local hotkeys_popup = require 'awful.hotkeys_popup'
 local lain = require 'lain'
-local mod = modkey
+local mod = User.modkey
 
 -- Load Debian menu entries
 local is_debian, debian = pcall(require, 'debian.menu')
@@ -18,8 +18,8 @@ if has_fdo then
 else
   local my_awesome_menu = {
     { 'hotkeys', function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
-    { 'manual', terminal .. ' -e man awesome' },
-    { 'edit config', editor_cmd .. ' ' .. awesome.conffile },
+    { 'manual', User.terminal .. ' -e man awesome' },
+    { 'edit config', User.editor_cmd .. ' ' .. awesome.conffile },
     { 'restart', awesome.restart },
     { 'quit', function() awesome.quit() end },
   }

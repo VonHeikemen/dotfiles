@@ -1,15 +1,18 @@
 local awful = require 'awful'
 local menubar = require 'menubar'
 
-terminal = 'x-terminal-emulator'
-editor = os.getenv('EDITOR') or 'nvim'
-editor_cmd = terminal .. ' -e ' .. editor
-modkey = 'Mod4'
-
 os.setlocale(os.getenv('LANG'))
 
+User = {
+  terminal = 'x-terminal-emulator',
+  editor = os.getenv('EDITOR') or 'nvim',
+  modkey = 'Mod4'
+}
+
+User.editor_cmd = User.terminal .. ' -e ' .. User.editor
+
 -- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
+menubar.utils.terminal = User.terminal -- Set the terminal for applications that require it
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {

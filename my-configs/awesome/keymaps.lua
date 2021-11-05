@@ -14,11 +14,11 @@ local spawn = function(cmd)
 end
 
 local term = function(cmd)
-  return terminal .. ' -e ' .. cmd
+  return User.terminal .. ' -e ' .. cmd
 end
 
 local dropdown_terminal = lain.util.quake({
-  app = terminal,
+  app = User.terminal,
   argname = '--name %s',
   followtag = true,
   width = 0.8,
@@ -44,13 +44,13 @@ local move_mouse = function(x, y)
   return spawn(cmd:format(x, y))
 end
 
-local mod = modkey
+local mod = User.modkey
 local shift = 'Shift'
 local ctrl = 'Control'
 local alt = 'Mod1'
 
 local App = {
-  terminal = terminal,
+  terminal = User.terminal,
   launcher = 'rofi -show drun',
   browser = 'x-www-browser',
   filemanager = 'pcmanfm',
