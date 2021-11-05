@@ -4,8 +4,17 @@ local wibox = require 'wibox'
 local beautiful = require 'beautiful'
 
 local toggle_tasklist = function(screen)
-  local tag_clients = screen.selected_tag:clients() or {}
-  screen.mytasklist.visible = #tag_clients > 1
+  local tag_clients = screen.selected_tag:clients() or 99
+
+  if tag_clients == 99 then
+    return
+  end
+
+  if #tag_clients > 1 then
+   screen.mytasklist.visible = true
+  else
+    screen.mytasklist.visible = tag_clients[1].minimized
+  end
 end
 
 -- Signal function to execute when a new client appears.
@@ -23,7 +32,15 @@ client.connect_signal('manage', function(c)
       awful.placement.no_offscreen(c)
   end
 
-  toggle_tasklist(c.screen)
+  if c.instance == 'QuakeDD' then
+    local clients = c.screen.selected_tag:clients()
+    if #clients <= 2 then
+      c.screen.mytasklist.visible = false
+    end
+    awful.placement.top(c, {margins = {top = c.screen.mywibox.height}})
+  else
+    toggle_tasklist(c.screen)
+  end
 end)
 
 client.connect_signal('unmanage', function(c)
