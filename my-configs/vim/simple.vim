@@ -56,7 +56,12 @@ noremap <C-u> <C-u>M
 noremap <C-d> <C-d>M
 nmap <Leader>e %
 vmap <Leader>e %
-nnoremap <Leader>a ggvGg_
+nnoremap <Leader>a ggVG
+
+if has('clipboard')
+  noremap cp "+y
+  noremap cv "+p
+endif
 
 " Moving lines and preserving indentation
 nnoremap <C-j> :move .+1<CR>==
