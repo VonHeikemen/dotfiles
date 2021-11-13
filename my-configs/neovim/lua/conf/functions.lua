@@ -41,6 +41,27 @@ M.get_selection = function()
   f.setreg('s', temp)
 end
 
+M.trailspace_trim = function()
+  -- Save cursor position to later restore
+  local curpos = vim.api.nvim_win_get_cursor(0)
+
+  -- Search and replace trailing whitespace
+  vim.cmd([[keeppatterns %s/\s\+$//e]])
+  vim.api.nvim_win_set_cursor(0, curpos)
+end
+
+M.smart_buffer_picker = function()
+  local k = vim.keymap
+
+  k.nnoremap {'<Leader>bb', function()
+    require('telescope.builtin').buffers { only_cwd = vim.fn.haslocaldir() == 1 }
+  end}
+
+  k.nnoremap {'<Leader>B', function()
+    require('telescope.builtin').buffers {only_cwd = false}
+  end}
+end
+
 M.job_output = function(cid, data, name)
   for i, val in pairs(data) do
     print(val)
