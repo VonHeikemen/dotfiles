@@ -133,13 +133,7 @@ plug.init({
     branch = '0.5-compat'
   },
 
-  --  Utilities
-  {'moll/vim-bbye'},
-  {'wellle/targets.vim'},
-  {'tpope/vim-surround'},
-  {'tpope/vim-repeat'},
-  {'tpope/vim-abolish'},
-  {'ggandor/lightspeed.nvim'},
+  -- Enhance quickfix list
   {'romainl/vim-qf'},
   {'stefandtw/quickfix-reflector.vim'},
   {
@@ -148,8 +142,25 @@ plug.init({
       require('bqf').setup({auto_enable = false})
     end
   },
+
+  --  Utilities
+  {'moll/vim-bbye'},
+  {'wellle/targets.vim'},
+  {'tpope/vim-surround'},
+  {'tpope/vim-repeat'},
+  {'tpope/vim-abolish'},
   {'nvim-treesitter/playground', type = 'opt'},
   {'nvim-lua/plenary.nvim', type = 'start'},
   {'nvim-lua/popup.nvim', type = 'start'},
+  {
+    'ggandor/lightspeed.nvim',
+    config = function()
+      require('lightspeed').setup({
+        limit_ft_matches = 0,
+        jump_to_first_match = false,
+        highlight_unique_chars = false
+      })
+    end
+  },
 })
 
