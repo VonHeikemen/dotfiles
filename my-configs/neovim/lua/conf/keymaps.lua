@@ -50,8 +50,16 @@ k.nnoremap {'*', '*zz'}
 k.snoremap {'<C-h>', '<Space><BS>'}
 k.imap {'<C-h>', '<BS>'}
 
--- Better Y
-k.nnoremap {'Y', 'y$'}
+-- Yank, delete and paste will use the x register
+k.nnoremap {'y', '"xy'}
+k.vnoremap {'y', '"xy'}
+k.nnoremap {'Y', '"xy$'}
+k.nnoremap {'d', '"xd'}
+k.vnoremap {'d', '"xd'}
+k.nnoremap {'D', '"xD'}
+k.nnoremap {'p', '"xp'}
+k.vnoremap {'p', '"xp'}
+k.nnoremap {'P', '"xP'}
 
 -- ========================================================================== --
 -- ==                           COMMAND MAPPINGS                           == --
