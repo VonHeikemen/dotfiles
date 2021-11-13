@@ -70,10 +70,12 @@ end
 
 M.nvim_ready = function(fn)
   local b = require 'bridge'
-  local exec = function() vim.defer_fn(fn ,10) end
+  local delay = 10
+  local exec = function() vim.defer_fn(fn , delay) end
 
   if type(fn) == 'string' then
-    exec = function() require(fn) end
+    local get_module = function() require(fn) end
+    exec = function() vim.defer_fn(get_module, delay) end
   end
 
   b.group_command('user_cmds', {'VimEnter', once = true}, exec)
