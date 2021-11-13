@@ -68,14 +68,14 @@ set.mouse = 'a'
 set.tags:prepend(f('%s/.git/tags', cwd))
 
 -- Insert mode completion setting
-set.completeopt = {'menuone', 'noselect'}
+set.completeopt = {'menu', 'menuone', 'noselect'}
 
 -- Theme
 pcall(vim.cmd, 'colorscheme rubber-enhanced')
 
 -- Set grep default grep command with ripgrep
 set.grepprg = 'rg --vimgrep --follow'
-set.errorformat:append '%f:%l:%c%p%m'
+set.errorformat:append('%f:%l:%c%p%m')
 
 -- Status line
 set.statusline = '%=%r%m %l:%c %p%% %y '

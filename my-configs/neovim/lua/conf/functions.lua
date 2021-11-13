@@ -1,10 +1,8 @@
 local M = {}
 
-local t = function(str)
+M.t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
-
-M.t = t
 
 M.not_ok = function(module)
   local ok = pcall(require, module)
