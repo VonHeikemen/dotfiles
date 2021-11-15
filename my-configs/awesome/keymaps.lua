@@ -20,6 +20,7 @@ end
 local dropdown_terminal = lain.util.quake({
   app = User.terminal,
   argname = '--name %s',
+  extra = 'tmux new -A -D -s main',
   followtag = true,
   width = 0.8,
   height = 0.4,
