@@ -52,13 +52,13 @@ k.imap {'<C-h>', '<BS>'}
 
 -- Yank, delete and paste will use the x register
 k.nnoremap {'y', '"xy'}
-k.vnoremap {'y', '"xy'}
+k.xnoremap {'y', '"xy'}
 k.nnoremap {'Y', '"xy$'}
 k.nnoremap {'d', '"xd'}
-k.vnoremap {'d', '"xd'}
+k.xnoremap {'d', '"xd'}
 k.nnoremap {'D', '"xD'}
 k.nnoremap {'p', '"xp'}
-k.vnoremap {'p', '"xp'}
+k.xnoremap {'p', '"xp'}
 k.nnoremap {'P', '"xP'}
 
 -- ========================================================================== --
