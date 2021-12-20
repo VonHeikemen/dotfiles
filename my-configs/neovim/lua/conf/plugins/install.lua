@@ -5,8 +5,6 @@ if plug.has_minpac() then
 end
 
 plug.skip_config = true
-require('conf.commands')
-require('conf.plugins')
 
 plug.minpac_download()
 plug.minpac()

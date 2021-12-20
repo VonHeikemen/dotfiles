@@ -46,15 +46,17 @@ plug.init({
           height = 0.98
         },
         on_open = function(win)
-          local k = vim.keymap
+          local bufmap = function(lhs, rhs)
+            vim.api.nvim_buf_set_keymap(0, 'n', lhs, rhs, {noremap = true})
+          end
           vim.opt.wrap = true
           vim.opt.linebreak = true
 
-          k.nnoremap {buffer = true, 'k', 'gk'}
-          k.nnoremap {buffer = true, 'j', 'gj'}
-          k.xnoremap {buffer = true, 'k', 'gk'}
-          k.xnoremap {buffer = true, 'j', 'gj'}
-          k.nnoremap {buffer = true, 'O', 'O<Enter><Up>'}
+          bufmap('n', 'k', 'gk')
+          bufmap('n', 'j', 'gj')
+          bufmap('x', 'k', 'gk')
+          bufmap('x', 'j', 'gj')
+          bufmap('n', 'O', 'O<Enter><Up>')
         end
       })
     end

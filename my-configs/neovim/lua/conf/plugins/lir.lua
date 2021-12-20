@@ -9,19 +9,24 @@ local autocmd = require('bridge').augroup('lir_settings')
 local actions = require('lir.actions')
 local marks = require('lir.mark.actions')
 local clipboard = require('lir.clipboard.actions')
+local bufmap = function(mode, lhs, rhs, opts)
+  vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, opts)
+end
 
 autocmd({'filetype', 'lir'}, function()
-  local k = vim.keymap
+  local noremap = {noremap = true, silent = true}
+  local remap = {noremap = false, silent = true}
+
   local mark = ":<C-u>lua require('lir.mark.actions').toggle_mark('v')<CR>gv<C-c>"
 
-  k.nnoremap {buffer = true, 'v', 'V'}
-  k.xnoremap {buffer = true, 'q', '<Esc>'}
+  bufmap {'n', 'v', 'V', noremap}
+  bufmap {'x', 'q', '<Esc>', noremap}
 
-  k.xnoremap {buffer = true, silent = true, '<Tab>', mark}
-  k.xmap {buffer = true, silent = true, 'cc', mark .. 'cc'}
-  k.xmap {buffer = true, silent = true, 'cx', mark .. 'cx'}
+  bufmap {'x', '<Tab>', mark, noremap}
+  bufmap {'x', 'cc', mark .. 'cc', remap}
+  bufmap {'x', 'cx', mark .. 'cx', remap}
 
-  k.nmap {buffer = true, silent = true, '<S-Tab>', 'gv<Tab>'}
+  bufmap {'n', '<S-Tab>', 'gv<Tab>'}
 end)
 
 lir.setup({

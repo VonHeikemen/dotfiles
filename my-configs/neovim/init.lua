@@ -18,18 +18,18 @@ if env.theme_tweaks then
   vim.cmd('source ' .. env.theme_tweaks)
 end
 
--- Install plugins if necessary
-require('conf.plugins.install')
-
 -- Basic editor options
 require('conf.basic')
 
 -- User defined commands
 require('conf.commands')
 
+-- Keybindings
+require('conf.keymaps')
+
 -- Plugin management and config
 require('conf.plugins')
 
--- Keybindings
-require('conf.keymaps')
+-- Install plugins if necessary
+require('conf.plugins.install')
 
