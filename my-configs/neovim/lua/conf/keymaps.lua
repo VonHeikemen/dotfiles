@@ -2,15 +2,19 @@ local fns = require('conf.functions')
 local autocmd = require('bridge').augroup('mapping_cmds')
 local luafn = require('bridge').lua_map
 
+local bind = vim.api.nvim_set_keymap
 local noremap = function(mode, lhs, rhs)
-  vim.api.nvim_set_keymap(mode, lhs, rhs, {noremap = true})
+  bind(mode, lhs, rhs, {noremap = true})
 end
 local remap = function(mode, lhs, rhs)
-  vim.api.nvim_set_keymap(mode, lhs, rhs, {noremap = false})
+  bind(mode, lhs, rhs, {noremap = false})
 end
 local bufmap = function(mode, lhs, rhs, opts)
-  vim.api.nvim_set_keymap(0, mode, lhs, rhs, opts)
+  vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, opts)
 end
+
+-- Bind opts
+local noremap_s = {noremap = true, silent = true}
 
 -- Leader
 vim.g.mapleader = ' '
@@ -198,8 +202,8 @@ autocmd({'filetype', 'qf'}, function()
 end)
 
 -- Open file manager
-noremap('n', '<leader>dd', ":lua require('lir.float').toggle()<CR>")
-noremap('n', '<leader>da', ":lua require('lir.float').toggle(vim.fn.getcwd())<CR>")
+bind('n', '<leader>dd', ":lua require('lir.float').toggle()<CR>", noremap_s)
+bind('n', '<leader>da', ":lua require('lir.float').toggle(vim.fn.getcwd())<CR>", noremap_s)
 noremap('n', '-', ":exe 'edit' expand('%:p:h')<CR>")
 noremap('n', '_', ":exe 'edit' getcwd()<CR>")
 

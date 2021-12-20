@@ -19,14 +19,14 @@ autocmd({'filetype', 'lir'}, function()
 
   local mark = ":<C-u>lua require('lir.mark.actions').toggle_mark('v')<CR>gv<C-c>"
 
-  bufmap {'n', 'v', 'V', noremap}
-  bufmap {'x', 'q', '<Esc>', noremap}
+  bufmap('n', 'v', 'V', noremap)
+  bufmap('x', 'q', '<Esc>', noremap)
 
-  bufmap {'x', '<Tab>', mark, noremap}
-  bufmap {'x', 'cc', mark .. 'cc', remap}
-  bufmap {'x', 'cx', mark .. 'cx', remap}
+  bufmap('x', '<Tab>', mark, noremap)
+  bufmap('x', 'cc', mark .. 'cc', remap)
+  bufmap('x', 'cx', mark .. 'cx', remap)
 
-  bufmap {'n', '<S-Tab>', 'gv<Tab>'}
+  bufmap('n', '<S-Tab>', 'gv<Tab>', remap)
 end)
 
 lir.setup({
