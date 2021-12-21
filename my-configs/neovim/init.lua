@@ -3,7 +3,6 @@
 -- ========================================================================== --
 
 -- ripgrep  - https://github.com/BurntSushi/ripgrep
--- minpac   - https://github.com/k-takata/minpac
 
 -- Try to load "env" file
 local ok, env = pcall(require, 'conf.env')
@@ -24,12 +23,12 @@ require('conf.basic')
 -- User defined commands
 require('conf.commands')
 
--- Keybindings
-require('conf.keymaps')
+-- Install plugins if necessary
+if require('conf.plugins.install') then return end
 
 -- Plugin management and config
 require('conf.plugins')
 
--- Install plugins if necessary
-require('conf.plugins.install')
+-- Keybindings
+require('conf.keymaps')
 
