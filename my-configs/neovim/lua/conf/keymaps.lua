@@ -1,20 +1,15 @@
 local fns = require('conf.functions')
+
 local autocmd = require('bridge').augroup('mapping_cmds')
 local luafn = require('bridge').lua_map
-
 local bind = vim.api.nvim_set_keymap
-local noremap = function(mode, lhs, rhs)
-  bind(mode, lhs, rhs, {noremap = true})
-end
-local remap = function(mode, lhs, rhs)
-  bind(mode, lhs, rhs, {noremap = false})
-end
-local bufmap = function(mode, lhs, rhs, opts)
-  vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, opts)
-end
 
--- Bind opts
+-- Bind options
 local noremap_s = {noremap = true, silent = true}
+
+local remap = function(m, lhs, rhs) bind(m, lhs, rhs, {noremap = false}) end
+local noremap = function(m, lhs, rhs) bind(m, lhs, rhs, {noremap = true}) end
+local bufmap = function(...) vim.api.nvim_buf_set_keymap(0, ...) end
 
 -- Leader
 vim.g.mapleader = ' '
@@ -204,8 +199,8 @@ end)
 -- Open file manager
 bind('n', '<leader>dd', ":lua require('lir.float').toggle()<CR>", noremap_s)
 bind('n', '<leader>da', ":lua require('lir.float').toggle(vim.fn.getcwd())<CR>", noremap_s)
-noremap('n', '-', ":exe 'edit' expand('%:p:h')<CR>")
-noremap('n', '_', ":exe 'edit' getcwd()<CR>")
+noremap('n', '-', ":edit <C-r>=expand('%:p:h')<CR><CR>")
+noremap('n', '_', ':edit <C-r>=getcwd()<CR><CR>')
 
 -- Undo break points
 local break_points = {'<Space>', '-', '_', ':', '.', '/'}
