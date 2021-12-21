@@ -150,6 +150,22 @@ plug.init({
     end
   },
 
+  -- UI components
+  {'MunifTanjim/nui.nvim', type = 'start'},
+  {'VonHeikemen/fine-cmdline.nvim', type = 'start'},
+  {'VonHeikemen/searchbox.nvim'},
+  {
+    'rcarriga/nvim-notify',
+    config = function()
+      vim.notify = require('notify')
+      vim.notify.setup({
+        stages = 'slide',
+        background_colour = vim.g.terminal_color_background,
+        minimum_width = 15
+      })
+    end
+  },
+
   --  Utilities
   {'moll/vim-bbye'},
   {'wellle/targets.vim'},

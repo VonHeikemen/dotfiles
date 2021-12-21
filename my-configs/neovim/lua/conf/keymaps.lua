@@ -18,8 +18,8 @@ vim.g.mapleader = ' '
 -- ==                             KEY MAPPINGS                             == --
 -- ========================================================================== --
 
--- Enter command mode
-noremap('n', '<CR>', ':')
+-- Enter commands
+noremap('n', '<CR>', ':FineCmdline<CR>')
 
 -- Escape to normal mode
 noremap('', '<C-L>', '<Esc>')
@@ -137,7 +137,7 @@ noremap('n', '<Leader>ur', luafn(fns.toggle_opt('relativenumber')))
 noremap('n', '<Leader>?', ':Telescope keymaps<CR>')
 
 -- Search pattern
-noremap('n', '<Leader>F', ':TGrep ')
+noremap('n', '<leader>F', ':FineCmdline TGrep <CR>')
 noremap('x', '<Leader>F', ':<C-u>GetSelection<CR>:TGrep <C-R>/<CR>')
 noremap('n', '<Leader>fw', ":TGrep <C-r>=expand('<cword>')<CR><CR>")
 
@@ -154,24 +154,36 @@ noremap('n', '<Leader>fh', ':Telescope oldfiles<CR>')
 noremap('n', '<Leader>bb', ':Telescope buffers<CR>')
 noremap('n', '<Leader>B', ':Telescope buffers only_cwd=true<CR>')
 
--- ========================================================================== --
--- ==                            MISCELLANEOUS                             == --
--- ========================================================================== --
-
--- Begin search & replace using the selected text
-noremap('n', '<Leader>r', ':%s///gc<Left><Left><Left><Left>')
-noremap('x', '<Leader>r', ':s///gc<Left><Left><Left><Left>')
-noremap('x', '<Leader>R', ':<C-u>GetSelection<CR>:%s/\\V<C-R>=@/<CR>//gc<Left><Left><Left>')
-
 -- Put selected text in register '/'
 noremap('v', '<Leader>y', ':<C-u>GetSelection<CR>gv')
 noremap('v', '<Leader>Y', ':<C-u>GetSelection<CR>:set hlsearch<CR>')
+
+-- Nice buffer local search
+noremap('n', '<leader>s', ":lua require('searchbox').incsearch()<CR>")
+noremap('x', '<leader>s', "<Esc>:lua require('searchbox').incsearch({visual_mode = true})<CR>")
+noremap('n', '<leader>S', ":lua require('searchbox').match_all({title = ' Match '})<CR>")
+noremap('x', '<leader>S', "<Esc>:lua require('searchbox').match_all({title = ' Match ', visual_mode = true})<CR>")
+
+-- Begin search & replace using the selected text
+noremap('n', '<leader>r', ":lua require('searchbox').replace({confirm = 'menu'})<CR>")
+noremap('x', '<leader>r', "<Esc>:lua require('searchbox').replace({confirm = 'menu', visual_mode = true})<CR>")
+noremap('n', '<leader>R', ":lua require('searchbox').replace({default_value = vim.fn.expand('<cword>', confirm = 'menu')})<CR>")
+noremap('x', '<leader>R', "y:lua require('searchbox').replace({default_value = vim.fn.getreg('\"'), confirm = 'menu'})<CR>")
+
+-- ========================================================================== --
+-- ==                            MISCELLANEOUS                             == --
+-- ========================================================================== --
 
 -- Close buffer while preserving the layout
 noremap('n', '<Leader>bc', ':Bdelete<CR>')
 
 -- Toggle zen-mode
 noremap('n', '<Leader>uz', ':ZenMode<CR>')
+
+-- Override some `cv` bindings from `vim-system-copy`.
+remap('n', 'cvv', 'ax<Esc><plug>SystemPastel')
+remap('n', 'cvk', 'Ox<Esc><Plug>SystemPastel')
+remap('n', 'cvj', 'ox<Esc><Plug>SystemPastel')
 
 -- Manage the quickfix list
 remap('n', '[q', '<Plug>(qf_qf_previous)zz')
