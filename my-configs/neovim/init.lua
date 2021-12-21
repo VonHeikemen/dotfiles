@@ -8,7 +8,10 @@
 local ok, env = pcall(require, 'conf.env')
 
 if not ok then
-  vim.cmd('echoerr "lua/conf/env.lua not found. You should probably rename env.sample"')
+  vim.notify(
+    'lua/conf/env.lua not found. You should probably rename env.sample',
+    vim.log.levels.ERROR
+  )
   return
 end
 
