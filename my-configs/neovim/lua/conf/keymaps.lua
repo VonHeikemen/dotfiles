@@ -138,8 +138,9 @@ noremap('n', '<Leader>?', ':Telescope keymaps<CR>')
 
 -- Search pattern
 noremap('n', '<leader>F', ':FineCmdline TGrep <CR>')
-noremap('x', '<Leader>F', ':<C-u>GetSelection<CR>:TGrep <C-R>/<CR>')
+noremap('x', '<Leader>F', ':<C-u>GetSelection<CR>:TGrep <C-r>/<CR>')
 noremap('n', '<Leader>fw', ":TGrep <C-r>=expand('<cword>')<CR><CR>")
+noremap('n', '<leader>fg', ':Telescope live_grep<CR>')
 
 -- Find files by name
 noremap('n', '<Leader>ff', ':Telescope find_files<CR>')

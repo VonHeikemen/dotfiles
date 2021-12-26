@@ -7,60 +7,57 @@ create_excmd('TGrep', {user_input = true, function(input)
   require('telescope.builtin').grep_string({search = input})
 end})
 
+local defaults = function(title)
+  return {
+    prompt_title = title,
+    results_title = false
+  }
+end
+
+local dropdown = function(title, previewer)
+  return {
+    prompt_title = title,
+    previewer = previewer or false,
+    theme = 'dropdown'
+  }
+end
+
 telescope.setup({
   defaults = {
-    prompt_prefix = ' ',
-    selection_caret = '❯ ',
     mappings = {
       i = {
         ['<esc>'] = actions.close,
         ['<C-k>'] = actions.move_selection_previous,
         ['<C-j>'] = actions.move_selection_next,
       }
-    }
+    },
+
+    -- Default layout options
+    prompt_prefix = ' ',
+    selection_caret = '❯ ',
+    layout_strategy = 'vertical',
+    sorting_strategy = 'ascending',
+    layout_config = {
+      preview_cutoff = 25,
+      mirror = true,
+      prompt_position = 'top'
+    },
   },
   pickers = {
-    buffers = {
-      previewer = false,
-      theme = 'dropdown'
-    },
-    find_files = {
-      previewer = false,
-      theme = 'dropdown'
-    },
-    file_browser = {
-      previewer = false,
-      theme = 'dropdown'
-    },
-    grep_string = {
-      prompt_title = 'Search',
-      sorting_strategy = 'ascending',
-      layout_config = {
-        prompt_position = 'top'
-      }
-    },
-    treesitter = {
-      prompt_title = 'Buffer Symbols',
-      sorting_strategy = 'ascending',
-      layout_strategy = 'vertical',
-      layout_config = {
-        preview_cutoff = 20,
-        mirror = true
-      }
-    },
-    oldfiles = {
-      prompt_title = 'History',
-      previewer = false,
-      theme = 'dropdown'
-    },
-    file_browser = {
-      disable_devicons = true,
-      previewer = false,
-      theme = 'dropdown'
-    },
-    keymaps = {
-      theme = 'dropdown'
-    }
+    buffers = dropdown(),
+    find_files = dropdown(),
+    oldfiles = dropdown('History'),
+    keymaps = dropdown(),
+    command_history = dropdown(),
+    colorscheme = dropdown(),
+
+    grep_string = defaults('Search'),
+    treesitter = defaults('Buffer Symbols'),
+    current_buffer_fuzzy_find = defaults('Lines'),
+    live_grep = defaults('Grep'),
+
+    commands = defaults(),
+    help_tags = defaults(),
   },
   extension = {
     fzy_native = {
