@@ -164,11 +164,11 @@ noremap('x', '<leader>s', "<Esc>:lua require('searchbox').incsearch({visual_mode
 noremap('n', '<leader>S', ":lua require('searchbox').match_all({title = ' Match '})<CR>")
 noremap('x', '<leader>S', "<Esc>:lua require('searchbox').match_all({title = ' Match ', visual_mode = true})<CR>")
 
--- Begin search & replace using the selected text
+-- Buffer local search and replace
 noremap('n', '<leader>r', ":lua require('searchbox').replace({confirm = 'menu'})<CR>")
 noremap('x', '<leader>r', "<Esc>:lua require('searchbox').replace({confirm = 'menu', visual_mode = true})<CR>")
-noremap('n', '<leader>R', ":lua require('searchbox').replace({default_value = vim.fn.expand('<cword>', confirm = 'menu')})<CR>")
-noremap('x', '<leader>R', "y:lua require('searchbox').replace({default_value = vim.fn.getreg('\"'), confirm = 'menu'})<CR>")
+noremap('n', '<leader>R', ":lua require('searchbox').replace({default_value = vim.fn.expand('<cword>'), confirm = 'menu'})<CR>")
+noremap('x', '<leader>R', ":<C-u>GetSelection<CR>:lua require('searchbox').replace({confirm = 'menu'})<CR><C-r>/")
 
 -- ========================================================================== --
 -- ==                            MISCELLANEOUS                             == --
