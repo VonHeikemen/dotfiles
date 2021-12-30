@@ -5,8 +5,6 @@ local luafn = require('bridge').lua_map
 local bind = vim.api.nvim_set_keymap
 
 -- Bind options
-local noremap_s = {noremap = true, silent = true}
-
 local remap = function(m, lhs, rhs) bind(m, lhs, rhs, {noremap = false}) end
 local noremap = function(m, lhs, rhs) bind(m, lhs, rhs, {noremap = true}) end
 local bufmap = function(...) vim.api.nvim_buf_set_keymap(0, ...) end
@@ -112,7 +110,7 @@ noremap('n', '<Leader>cd', ':lcd %:p:h<CR>:pwd<CR>')
 -- ========================================================================== --
 
 -- Search result highlight
-noremap('n', '<Leader>uh', luafn(fns.toggle_opt('hlsearch')))
+noremap('n', '<Leader>uh', '<cmd>set invhlsearch<CR>')
 
 -- Tabline
 noremap('n', '<Leader>ut', luafn(fns.toggle_opt('showtabline', 'o', 1, 0)))
@@ -121,13 +119,13 @@ noremap('n', '<Leader>ut', luafn(fns.toggle_opt('showtabline', 'o', 1, 0)))
 noremap('n', '<Leader>ul', luafn(fns.toggle_opt('colorcolumn', 'wo', '81', '0')))
 
 -- Cursorline highlight
-noremap('n', '<Leader>uc', luafn(fns.toggle_opt('cursorline')))
+noremap('n', '<Leader>uc', '<cmd>set invcursorline<CR>')
 
 -- Line numbers
-noremap('n', '<Leader>un', luafn(fns.toggle_opt('number')))
+noremap('n', '<Leader>un', '<cmd>set invnumber<CR>')
 
 -- Relative line numbers
-noremap('n', '<Leader>ur', luafn(fns.toggle_opt('relativenumber')))
+noremap('n', '<Leader>ur', '<cmd>set invrelativenumber<CR>')
 
 -- ========================================================================== --
 -- ==                           SEARCH COMMANDS                            == --
@@ -179,7 +177,7 @@ noremap('x', '<leader>R', ":<C-u>GetSelection<CR>:lua require('searchbox').repla
 noremap('n', '<Leader>bc', ':Bdelete<CR>')
 
 -- Toggle zen-mode
-noremap('n', '<Leader>uz', ':ZenMode<CR>')
+noremap('n', '<Leader>uz', '<cmd>ZenMode<CR>')
 
 -- Override some `cv` bindings from `vim-system-copy`.
 remap('n', 'cvv', 'ax<Esc><plug>SystemPastel')
@@ -210,10 +208,10 @@ autocmd({'filetype', 'qf'}, function()
 end)
 
 -- Open file manager
-bind('n', '<leader>dd', ":lua require('lir.float').toggle()<CR>", noremap_s)
-bind('n', '<leader>da', ":lua require('lir.float').toggle(vim.fn.getcwd())<CR>", noremap_s)
-noremap('n', '-', ":edit <C-r>=expand('%:p:h')<CR><CR>")
-noremap('n', '_', ':edit <C-r>=getcwd()<CR><CR>')
+noremap('n', '<leader>dd', "<cmd>lua require('lir.float').toggle()<CR>")
+noremap('n', '<leader>da', "<cmd>lua require('lir.float').toggle(vim.fn.getcwd())<CR>")
+noremap('n', '-', "<cmd>exe 'edit' getcwd()<CR>")
+noremap('n', '_', "<cmd>exe 'edit' expand('%:p:h')<CR>")
 
 -- Undo break points
 local break_points = {'<Space>', '-', '_', ':', '.', '/'}
