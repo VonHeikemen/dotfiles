@@ -9,7 +9,7 @@ M.apply = function(name, arg)
 end
 
 M.apply_expr = function(name)
-  return vim.api.nvim_replace_termcodes(fns[name](arg), true, true, true)
+  return vim.api.nvim_replace_termcodes(fns[name](), true, true, true)
 end
 
 M.register = function(name, fn)
