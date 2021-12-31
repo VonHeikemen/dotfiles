@@ -1,18 +1,16 @@
 local M = {}
-__User_fns = __User_fns or {}
 
 local module_name = 'bridge'
 local id = 0
-local fns = __User_fns
-local augroups = {}
+local fns = {}
 
 M.apply = function(name, arg)
-  if fns[name] then
-    return fns[name](arg)
-  end
+  fns[name](arg)
 end
 
-_G._apply_user_fn = M.apply
+M.apply_expr = function(name)
+  return vim.api.nvim_replace_termcodes(fns[name](arg), true, true, true)
+end
 
 M.register = function(name, fn)
   fns[name] = fn
@@ -33,7 +31,7 @@ M.lua_expr = function(fn)
   id = id + 1
   local name = 'expr_' .. id
   M.register(name, fn)
-  return string.format("v:lua._apply_user_fn('%s')", name)
+  return string.format("v:lua.require'%s'.apply_expr('%s')", module_name, name)
 end
 
 M.lua_map = function(fn)
@@ -63,14 +61,16 @@ M.create_excmd = function(cmd_name, fn)
   end
 
   local cmd = [[ command! -nargs=1 %s %s ]]
-  local call = ("lua require('%s').apply('%s', <q-args>)"):format(module_name, cmd_name)
+  local call = string.format(
+    "lua require('%s').apply('%s', <q-args>)",
+    module_name,
+    cmd_name
+  )
 
   vim.cmd(cmd:format(cmd_name, call))
 end
 
-M.register_augroups = function(groups, force_reset)
-  force_reset = force_reset or false
-
+M.reset_augroups = function(groups)
   local reset_group = [[
     if exists('#%s')
       augroup %s
@@ -81,18 +81,11 @@ M.register_augroups = function(groups, force_reset)
   ]]
 
   for i, group in ipairs(groups) do
-    if force_reset or not augroups[group] then
-      augroups[group] = true
-      vim.cmd(reset_group:format(group, group, group))
-    end
+    vim.cmd(reset_group:format(group, group, group))
   end
 end
 
 M.group_command = function(group, event, command)
-  if not augroups[group] then
-    error(('You need to register the augroup "%s"'):format(group))
-  end
-
   local add_cmd = [[
     augroup %s
       autocmd %s %s%s%s
@@ -121,11 +114,15 @@ M.group_command = function(group, event, command)
 end
 
 M.augroup = function(group)
-  M.register_augroups({group}, true)
+  M.reset_augroups({group})
 
   return function(event, command)
     return M.group_command(group, event, command)
   end
+end
+
+M.autocmd = function(event, command)
+  return M.group_command('user_cmds', event, command)
 end
 
 return M

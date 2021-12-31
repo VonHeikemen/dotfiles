@@ -70,7 +70,7 @@ M.job_output = function(cid, data, name)
 end
 
 M.nvim_ready = function(fn)
-  local b = require 'bridge'
+  local autocmd = require('bridge').autocmd
   local delay = 10
   local exec = function() vim.defer_fn(fn , delay) end
 
@@ -79,7 +79,7 @@ M.nvim_ready = function(fn)
     exec = function() vim.defer_fn(get_module, delay) end
   end
 
-  b.group_command('user_cmds', {'VimEnter', once = true}, exec)
+  autocmd({'VimEnter', once = true}, exec)
 end
 
 return M
