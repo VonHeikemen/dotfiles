@@ -4,16 +4,12 @@ local lir = require('lir')
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-local autocmd = require('bridge').augroup('lir_settings')
-
 local actions = require('lir.actions')
 local marks = require('lir.mark.actions')
 local clipboard = require('lir.clipboard.actions')
-local bufmap = function(mode, lhs, rhs, opts)
-  vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, opts)
-end
+local bufmap = function(...) vim.api.nvim_buf_set_keymap(0, ...) end
 
-autocmd({'filetype', 'lir'}, function()
+local on_init = function()
   local noremap = {noremap = true, silent = true}
   local remap = {noremap = false, silent = true}
 
@@ -27,9 +23,10 @@ autocmd({'filetype', 'lir'}, function()
   bufmap('x', 'cx', mark .. 'cx', remap)
 
   bufmap('n', '<S-Tab>', 'gv<Tab>', remap)
-end)
+end
 
 lir.setup({
+  on_init = on_init,
   mappings = {
     ['l']  = actions.edit,
     ['es'] = actions.split,
