@@ -55,11 +55,11 @@ M.smart_buffer_picker = function()
   local opts = {noremap = true}
 
   vim.api.nvim_set_keymap('n','<Leader>bb', luafn(function()
-    require('telescope.builtin').buffers { only_cwd = vim.fn.haslocaldir() == 1 }
+    require('telescope.builtin').buffers({only_cwd = vim.fn.haslocaldir() == 1})
   end, opts))
 
   vim.api.nvim_set_keymap('n','<Leader>B', luafn(function()
-    require('telescope.builtin').buffers {only_cwd = false}
+    require('telescope.builtin').buffers({only_cwd = false})
   end, opts))
 end
 
