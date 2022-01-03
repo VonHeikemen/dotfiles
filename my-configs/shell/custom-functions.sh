@@ -164,3 +164,13 @@ z ()
   cd $dest
 }
 
+# use file explorer (vifm) to change current working directory
+ll ()
+{
+  local dest=$(vifm --choose-dir - "$@")
+
+  if [ $? -eq 0 ]; then
+    cd "$dest"
+  fi
+}
+
