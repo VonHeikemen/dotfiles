@@ -1,0 +1,43 @@
+highlight clear
+
+highlight Win cterm=none ctermfg=white ctermbg=-1
+
+highlight Directory cterm=none ctermfg=blue ctermbg=default
+highlight Link cterm=none ctermfg=yellow ctermbg=default
+highlight HardLink cterm=bold ctermfg=yellow ctermbg=default
+highlight BrokenLink cterm=bold ctermfg=8 ctermbg=default
+highlight Socket cterm=none ctermfg=39 ctermbg=default
+highlight Device cterm=none ctermfg=red ctermbg=default
+highlight Fifo cterm=none ctermfg=cyan ctermbg=default
+highlight Executable cterm=none ctermfg=green ctermbg=default
+
+highlight Selected cterm=none ctermfg=yellow ctermbg=8
+highlight CurrLine cterm=none ctermfg=none ctermbg=8
+highlight TopLine cterm=none ctermfg=blue ctermbg=default
+highlight TopLineSel cterm=bold ctermfg=blue ctermbg=default
+highlight StatusLine cterm=none ctermfg=white ctermbg=12
+highlight WildMenu cterm=underline ctermfg=black ctermbg=white
+highlight CmdLine cterm=none ctermfg=white ctermbg=black
+highlight ErrorMsg cterm=none ctermfg=red ctermbg=black
+highlight Border cterm=none ctermfg=black ctermbg=default
+highlight OtherLine ctermfg=default ctermbg=default
+highlight JobLine cterm=bold,reverse ctermfg=black ctermbg=white
+highlight SuggestBox cterm=bold ctermfg=default ctermbg=default
+highlight CmpMismatch cterm=bold ctermfg=white ctermbg=red
+highlight AuxWin ctermfg=default ctermbg=default
+highlight TabLine cterm=none ctermfg=244 ctermbg=black
+highlight TabLineSel cterm=bold ctermfg=white ctermbg=black
+
+highlight User1 ctermfg=default ctermbg=default
+highlight User2 ctermfg=default ctermbg=default
+highlight User3 ctermfg=default ctermbg=default
+highlight User4 ctermfg=default ctermbg=default
+highlight User5 ctermfg=default ctermbg=default
+highlight User6 ctermfg=default ctermbg=default
+highlight User7 ctermfg=default ctermbg=default
+highlight User8 ctermfg=default ctermbg=default
+highlight User9 ctermfg=default ctermbg=default
+
+highlight OtherWin ctermfg=default ctermbg=default
+highlight LineNr ctermfg=default ctermbg=default
+highlight OddLine ctermfg=default ctermbg=default
