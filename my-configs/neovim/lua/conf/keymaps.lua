@@ -48,20 +48,21 @@ noremap('n', 'N', 'Nzzzv')
 noremap('n', '#', '#zz')
 noremap('n', '*', '*zz')
 
--- Better ctrl+h
-noremap('s', '<C-h>', '<Space><BS>')
+-- Delete in select mode
+noremap('s', '<BS>', '<C-g>"_c')
+remap('s', '<C-h>', '<BS>')
+
+-- Because of reasons
 remap('i', '<C-h>', '<BS>')
 
--- Yank, delete and paste will use the x register
-noremap('n', 'y', '"xy')
-noremap('x', 'y', '"xy')
-noremap('n', 'Y', '"xy$')
-noremap('n', 'd', '"xd')
-noremap('x', 'd', '"xd')
-noremap('n', 'D', '"xD')
-noremap('n', 'p', '"xp')
-noremap('x', 'p', '"xp')
-noremap('n', 'P', '"xP')
+-- Whatever you delete, make it go away
+noremap('n', 'c','"_c')
+noremap('n', 'C','"_C')
+noremap('x', 'c','"_c')
+noremap('x', 'C','"_C')
+
+noremap('n', 'x','"_x')
+noremap('x', 'x','"_x')
 
 -- ========================================================================== --
 -- ==                           COMMAND MAPPINGS                           == --
