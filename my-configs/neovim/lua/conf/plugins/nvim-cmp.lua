@@ -1,26 +1,23 @@
+local autocmd = require('bridge').augroup('compe_cmds')
+local lua_cmd = require('bridge').lua_cmd
+
 local cmp = require('cmp')
 local luasnip = require('luasnip')
+local user = {}
 
 local select_opts = {behavior = cmp.SelectBehavior.Select}
 
-local check_back_space = function()
-  local col = vim.fn.col('.') - 1
-  if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-    return true
-  else
-    return false
-  end
-end
-
-cmp.setup({
+user.config = {
   completion = {
-    autocomplete = false,
-    completeopt = 'menu,menuone,noinsert'
+    completeopt = 'menu,menuone,noinsert',
+
+    -- setting it to `nil` enables automatic completion
+    autocomplete = nil,
   },
   sources = {
     {name = 'path'},
-    {name = 'buffer'},
-    {name = 'luasnip'}
+    {name = 'buffer', keyword_length = 3},
+    {name = 'luasnip', keyword_length = 2},
   },
   documentation = {
     maxheight = 15,
@@ -38,20 +35,25 @@ cmp.setup({
     ['<C-d>'] = cmp.mapping.scroll_docs(5),
     ['<C-u>'] = cmp.mapping.scroll_docs(-5),
 
-    ['<C-e>'] = function()
+    ['<C-e>'] = function(fallback)
       if cmp.visible() then
         cmp.close()
+        user.set_autocomplete(false)
+        fallback()
       else
         cmp.complete()
+        user.set_autocomplete(true)
       end
     end,
 
     ['<Tab>'] = cmp.mapping(function(fallback)
+      user.set_autocomplete(true)
+
       if cmp.visible() then
         cmp.confirm({select = true})
       elseif luasnip.jumpable(1) then
         luasnip.jump(1)
-      elseif check_back_space() then
+      elseif user.check_back_space() then
         fallback()
       else
         cmp.complete()
@@ -60,5 +62,54 @@ cmp.setup({
 
     ['<S-Tab>'] = cmp.mapping(function() luasnip.jump(-1) end, {'i', 's'}),
   }
-})
+}
+
+user.set_autocomplete = function(value)
+  -- `nil` means autocomplete is enabled
+  local new_value = nil
+
+  if value == false then
+    new_value = false
+  end
+
+  if new_value == user.config.completion.autocomplete then
+    return
+  end
+
+  if new_value == false then
+    -- restore autocomplete in the next word
+    local keymap = '<cmd>%s<CR><Space>'
+    vim.api.nvim_buf_set_keymap(
+      0,
+      'i',
+      '<Space>',
+      keymap:format(user.enable_cmd),
+      {noremap = true}
+    )
+
+    -- restore when leaving insert mode
+    autocmd({'InsertLeave', once = true}, user.enable_cmd)
+  end
+
+  user.config.completion.autocomplete = new_value
+  cmp.setup.buffer(user.config)
+end
+
+user.check_back_space = function()
+  local col = vim.fn.col('.') - 1
+  if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+    return true
+  else
+    return false
+  end
+end
+
+user.enable_cmd = lua_cmd(function()
+  if user.config.completion.autocomplete == nil then return end
+
+  pcall(vim.api.nvim_buf_del_keymap, 0, 'i', '<Space>')
+  user.set_autocomplete(true)
+end)
+
+cmp.setup(user.config)
 
