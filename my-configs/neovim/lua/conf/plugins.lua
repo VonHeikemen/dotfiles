@@ -151,9 +151,13 @@ plug.init({
   },
 
   -- UI components
-  {'MunifTanjim/nui.nvim', type = 'start'},
   {'VonHeikemen/fine-cmdline.nvim', type = 'start'},
   {'VonHeikemen/searchbox.nvim'},
+  {
+    'MunifTanjim/nui.nvim',
+    type = 'start',
+    config = function() fns.nvim_ready('conf.plugins.vim-ui') end
+  },
   {
     'rcarriga/nvim-notify',
     config = function()
