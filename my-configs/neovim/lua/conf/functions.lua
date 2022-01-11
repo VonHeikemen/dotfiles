@@ -85,21 +85,21 @@ end
 M.edit_macro = function()
   local register = 'i'
 
-  local opts = {
-    prompt = 'Macro',
-    default = vim.g.edit_macro_last or ''
-  }
+  local opts = {default = vim.g.edit_macro_last or ''}
+
+  if opts.default == '' then
+    opts.prompt = 'Create Macro'
+  else
+    opts.prompt = 'Edit Macro'
+  end
 
   vim.ui.input(opts, function(value)
     if value == nil then return end
-    last_macro = value
 
     local macro = vim.fn.escape(value, '"')
-    local ok, err = pcall(vim.cmd, string.format('let @%s="%s"', register, macro))
+    vim.cmd(string.format('let @%s="%s"', register, macro))
 
-    if not ok then vim.notify(err, vim.log.levels.ERROR) end
-
-    vim.g.edit_macro_last = macro
+    vim.g.edit_macro_last = value
   end)
 end
 
