@@ -159,16 +159,17 @@ noremap('v', '<Leader>y', ':<C-u>GetSelection<CR>gv')
 noremap('v', '<Leader>Y', ':<C-u>GetSelection<CR>:set hlsearch<CR>')
 
 -- Nice buffer local search
-noremap('n', '<leader>s', ":lua require('searchbox').incsearch()<CR>")
-noremap('x', '<leader>s', "<Esc>:lua require('searchbox').incsearch({visual_mode = true})<CR>")
-noremap('n', '<leader>S', ":lua require('searchbox').match_all({title = ' Match '})<CR>")
-noremap('x', '<leader>S', "<Esc>:lua require('searchbox').match_all({title = ' Match ', visual_mode = true})<CR>")
+noremap('n', '<leader>s', ':SearchBoxIncSearch<CR>')
+noremap('x', '<leader>s', ':SearchBoxIncSearch visual_mode=true<CR>')
+noremap('n', '<leader>S', ":SearchBoxMatchAll title=' Match '<CR>")
+noremap('x', '<leader>S', ":SearchBoxMatchAll title=' Match ' visual_mode=true<CR>")
+noremap('n', '<leader>;', '<cmd>SearchBoxClear<CR>')
 
--- Buffer local search and replace
-noremap('n', '<leader>r', ":lua require('searchbox').replace({confirm = 'menu'})<CR>")
-noremap('x', '<leader>r', "<Esc>:lua require('searchbox').replace({confirm = 'menu', visual_mode = true})<CR>")
-noremap('n', '<leader>R', ":lua require('searchbox').replace({default_value = vim.fn.expand('<cword>'), confirm = 'menu'})<CR>")
-noremap('x', '<leader>R', ":<C-u>GetSelection<CR>:lua require('searchbox').replace({confirm = 'menu'})<CR><C-r>/")
+-- Begin search & replace
+noremap('n', '<leader>r', ":SearchBoxReplace confirm=menu<CR>")
+noremap('x', '<leader>r', ":SearchBoxReplace confirm=menu visual_mode=true<CR>")
+noremap('n', '<leader>R', ":SearchBoxReplace confirm=menu -- <C-r>=expand('<cword>')<CR><CR>")
+noremap('x', '<leader>R', ":<C-u>GetSelection<CR>:SearchBoxReplace confirm=menu<CR><C-r>/")
 
 -- ========================================================================== --
 -- ==                            MISCELLANEOUS                             == --
