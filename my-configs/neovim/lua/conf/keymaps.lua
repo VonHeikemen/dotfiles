@@ -201,10 +201,6 @@ autocmd({'filetype', 'qf'}, function()
   -- Go to previous location and stay in the quickfix window
   bufmap('n', 'J', '<Plug>(qf_qf_next)zz<C-w>w', opts)
 
-  -- Toggle nvim-bqf
-  bufmap('n', 'p', ':BqfEnable<CR>', opts)
-  bufmap('n', 'P', ':BqfDisable<CR>', opts)
-
   bufmap('n', '<leader>r', ':%s///g<Left><Left>', opts)
 end)
 

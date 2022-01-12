@@ -9,9 +9,6 @@ plug.init({
   -- Plugin manager
   {'k-takata/minpac', type = 'opt'},
 
-  -- keymap DSL
-  {'tjdevries/astronauta.nvim', type = 'start'},
-
   -- Fuzzy finder
   {
     'nvim-telescope/telescope.nvim',
@@ -143,12 +140,6 @@ plug.init({
   -- Enhance quickfix list
   {'romainl/vim-qf'},
   {'stefandtw/quickfix-reflector.vim'},
-  {
-    'kevinhwang91/nvim-bqf',
-    config = function()
-      require('bqf').setup({auto_enable = false})
-    end
-  },
 
   -- UI components
   {'VonHeikemen/fine-cmdline.nvim', type = 'start'},
