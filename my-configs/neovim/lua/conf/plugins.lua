@@ -95,10 +95,17 @@ plug.init({
       local luasnip = require('luasnip')
       local snippets = require('luasnip.loaders.from_vscode')
 
-      luasnip.config.set_config({region_check_events = 'InsertEnter'})
+      luasnip.config.set_config({
+        region_check_events = 'InsertEnter',
+        delete_check_events = 'InsertLeave'
+      })
 
       snippets.lazy_load()
-      snippets.load({include = {vim.bo.filetype}})
+
+      local ft = vim.bo.filetype
+      if ft ~= nil and luasnip.snippets[ft] == nil then
+        snippets.load({include = {ft}})
+      end
     end
   },
   {
