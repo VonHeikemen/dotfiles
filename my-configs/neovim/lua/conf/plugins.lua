@@ -1,6 +1,9 @@
 local fns = require('conf.functions')
 local plug = require('plug')
 
+local nvim_ready = function(arg) return function() fns.nvim_ready(arg) end end
+local use = function(mod) return function() require(mod) end end
+
 -- ========================================================================== --
 -- ==                               PLUGINS                                == --
 -- ========================================================================== --
@@ -13,13 +16,15 @@ plug.init({
   {
     'nvim-telescope/telescope.nvim',
     type = 'start',
-    config = function() fns.nvim_ready('conf.plugins.telescope') end
+    config = nvim_ready('conf.plugins.telescope')
   },
   {
     'nvim-telescope/telescope-fzy-native.nvim',
     type = 'start',
     depth = 2,
     run = function()
+      if vim.fn.executable('make') == 0 then return end
+
       vim.fn.jobstart({'make'}, {
         cwd = vim.fn.getcwd() .. '/deps/fzy-lua-native',
         on_stdout = fns.job_output,
@@ -63,7 +68,7 @@ plug.init({
   {
     'tamago324/lir.nvim',
     type = 'start',
-    config = function() require('conf.plugins.lir') end
+    config = use('conf.plugins.lir')
   },
 
   -- Better clipboard support
@@ -75,7 +80,7 @@ plug.init({
   -- Autocompletion
   {
     'hrsh7th/nvim-cmp',
-    config = function() require('conf.plugins.nvim-cmp') end
+    config = use('conf.plugins.nvim-cmp')
   },
   {'hrsh7th/cmp-buffer'},
   {'hrsh7th/cmp-path'},
@@ -129,7 +134,7 @@ plug.init({
     type = 'lazy',
     branch = '0.5-compat',
     run = function() pcall(vim.cmd, 'TSUpdate') end,
-    config = function() require('conf.plugins.treesitter') end
+    config = use('conf.plugins.treesitter')
   },
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
@@ -142,12 +147,34 @@ plug.init({
   {'stefandtw/quickfix-reflector.vim'},
 
   -- UI components
-  {'VonHeikemen/fine-cmdline.nvim', type = 'start'},
-  {'VonHeikemen/searchbox.nvim'},
   {
     'MunifTanjim/nui.nvim',
     type = 'start',
-    config = function() fns.nvim_ready('conf.plugins.vim-ui') end
+    config = nvim_ready('conf.plugins.vim-ui')
+  },
+  {
+    'VonHeikemen/fine-cmdline.nvim',
+    type = 'start',
+    config = nvim_ready(function()
+      require('fine-cmdline').setup({
+        cmdline = {
+          prompt = ' '
+        }
+      })
+    end)
+  },
+  {
+    'VonHeikemen/searchbox.nvim',
+    config = function()
+      require('searchbox').setup({
+        hooks = {
+          on_done = function(value)
+            if value == nil then return end
+            vim.fn.setreg('s', value)
+          end
+        }
+      })
+    end
   },
   {
     'rcarriga/nvim-notify',
@@ -175,7 +202,7 @@ plug.init({
     config = function()
       require('lightspeed').setup({
         limit_ft_matches = 0,
-        highlight_unique_chars = false,
+        jump_to_unique_chars = false,
         exit_after_idle_msecs = {labeled = nil, unlabeled = 600},
         safe_labels = {},
         labels = {
