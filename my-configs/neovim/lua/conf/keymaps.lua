@@ -206,10 +206,8 @@ autocmd({'filetype', 'qf'}, function()
 end)
 
 -- Open file manager
-noremap('n', '<leader>dd', "<cmd>lua require('lir.float').toggle()<CR>")
-noremap('n', '<leader>da', "<cmd>lua require('lir.float').toggle(vim.fn.getcwd())<CR>")
-noremap('n', '-', "<cmd>exe 'edit' getcwd()<CR>")
-noremap('n', '_', "<cmd>exe 'edit' expand('%:p:h')<CR>")
+noremap('n', '<leader>dd', luafn(fns.file_explorer))
+noremap('n', '<leader>da', luafn(function() fns.file_explorer(vim.fn.getcwd()) end))
 
 -- Undo break points
 local break_points = {'<Space>', '-', '_', ':', '.', '/'}
