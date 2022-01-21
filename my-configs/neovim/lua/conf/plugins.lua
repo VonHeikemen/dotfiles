@@ -100,12 +100,7 @@ plug.init({
         delete_check_events = 'InsertLeave'
       })
 
-      snippets.lazy_load()
-
-      local ft = vim.bo.filetype
-      if ft ~= nil and luasnip.snippets[ft] == nil then
-        snippets.load({include = {ft}})
-      end
+      snippets.load()
     end
   },
   {
