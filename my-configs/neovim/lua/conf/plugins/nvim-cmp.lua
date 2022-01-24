@@ -25,7 +25,6 @@ user.config = {
     border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
   },
   mapping = {
-    ['<CR>'] = cmp.mapping.confirm({select = true}),
     ['<Up>'] = cmp.mapping.select_prev_item(select_opts),
     ['<Down>'] = cmp.mapping.select_next_item(select_opts),
 
