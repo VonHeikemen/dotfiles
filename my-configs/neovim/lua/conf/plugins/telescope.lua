@@ -3,9 +3,9 @@ local create_excmd = require('bridge').create_excmd
 local telescope = require('telescope')
 local actions = require('telescope.actions')
 
-create_excmd('TGrep', {user_input = true, function(input)
+create_excmd({'TGrep', qargs = true}, function(input)
   require('telescope.builtin').grep_string({search = input})
-end})
+end)
 
 local defaults = function(title)
   return {

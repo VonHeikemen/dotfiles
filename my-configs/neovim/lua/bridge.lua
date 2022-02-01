@@ -43,18 +43,17 @@ end
 
 M.create_excmd = function(cmd_name, fn)
   opts = {}
-  local user_fn = fn
 
-  if type(user_fn) == 'table' then
-    user_fn = fn[1]
-    for i, v in pairs(fn) do
+  if type(cmd_name) == 'table' then
+    for i, v in pairs(cmd_name) do
       if type(i) == 'string' then opts[i] = v end
     end
+    cmd_name = cmd_name[1]
   end
 
-  M.register(cmd_name, user_fn)
+  M.register(cmd_name, fn)
 
-  if not opts.user_input then
+  if not opts.qargs then
     local cmd = [[ command! %s %s ]]
     vim.cmd(cmd:format(cmd_name, M.lua_call(cmd_name)))
     return
