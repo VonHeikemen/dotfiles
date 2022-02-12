@@ -2,6 +2,14 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
+-- Setup autocomplete for nvim's lua api
+require('cmp').setup.filetype('lua', {
+  sources = {
+    {name = 'nvim_lua'}
+  }
+})
+
+-- Options for sumneko_lua
 return {
   settings = {
     Lua = {
