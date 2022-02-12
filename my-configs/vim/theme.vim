@@ -12,6 +12,11 @@ function! MyHighlights() abort
   hi! link SneakLabel Search
   highlight SneakLabelMask cterm=NONE ctermbg=NONE ctermfg=NONE  gui=NONE guibg=NONE guifg=NONE
 
+  hi! link SignColumn Normal
+  hi! link DiagnosticSignError Comment
+  hi! link FidgetTask Normal
+  hi! link FidgetTitle Normal
+
   hi! link WarningMsg Comment
   hi! link ErrorMsg Error
   hi! link Question String
