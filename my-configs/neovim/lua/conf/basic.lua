@@ -40,8 +40,8 @@ set.cursorline = true
 -- Enable syntax highlight
 vim.cmd('syntax enable')
 
--- Add a bit extra margin to the left
-set.foldcolumn = '1'
+-- Always display signcolumn (for diagnostic related stuff)
+set.signcolumn = 'yes'
 
 -- When opening a window put it right or below the current one
 set.splitright = true
