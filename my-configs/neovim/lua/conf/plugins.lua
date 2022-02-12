@@ -36,7 +36,11 @@ plug.init({
   {'VonHeikemen/rubber-themes.vim', type = 'opt'},
 
   -- Session manager
-  {'tpope/vim-obsession'},
+  {
+    'folke/persistence.nvim',
+    type = 'start',
+    config = use('conf.plugins.persistence')
+  },
 
   -- Distraction free mode
   {
@@ -85,6 +89,7 @@ plug.init({
   {'hrsh7th/cmp-buffer'},
   {'hrsh7th/cmp-path'},
   {'saadparwaiz1/cmp_luasnip'},
+  {'hrsh7th/cmp-nvim-lsp'},
 
   -- Snippets
   {'VonHeikemen/the-good-snippets', type = 'start'},
@@ -143,6 +148,11 @@ plug.init({
     type = 'lazy',
     branch = '0.5-compat'
   },
+
+    -- LSP support
+  {'neovim/nvim-lspconfig', type = 'opt'},
+  {'williamboman/nvim-lsp-installer', type = 'opt'},
+  {'j-hui/fidget.nvim', type = 'opt'},
 
   -- Enhance quickfix list
   {'romainl/vim-qf'},

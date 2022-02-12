@@ -14,8 +14,14 @@ user.config = {
     -- setting it to `nil` enables automatic completion
     autocomplete = nil,
   },
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
   sources = {
     {name = 'path'},
+    {name = 'nvim_lsp', keyword_length = 4},
     {name = 'buffer', keyword_length = 3},
     {name = 'luasnip', keyword_length = 2},
   },
