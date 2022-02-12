@@ -6,7 +6,13 @@ vim.cmd([[
 
 local M = {}
 local s = {}
-local server = require('lsp.servers')
+
+local state = {
+  global_cmds = false,
+  fidget_loaded = false
+}
+
+local servers = require('lsp.servers')
 local get_server = require('nvim-lsp-installer.servers').get_server
 
 M.setup = function(server_name, user_opts)
@@ -16,12 +22,12 @@ M.setup = function(server_name, user_opts)
 
   if not ok then return end
 
-  if not s.fidget then
+  if not state.fidget_loaded then
     require('fidget').setup(s.fidget_opts)
-    s.fidget = true
+    state.fidget_loaded = true
   end
 
-  local common = server[server_name] or {}
+  local common = servers[server_name] or {}
   local opts = vim.tbl_deep_extend('force', {}, common, user_opts)
 
   if opts.here then
@@ -55,39 +61,22 @@ M.setup = function(server_name, user_opts)
 end
 
 s.on_attach = function(client, bufnr)
-  local fmt = string.format
+  s.set_keymaps(bufnr)
 
-  local nmap = function(lhs, rhs)
-    local opts = {noremap = true, silent = true}
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', lhs, rhs, opts)
+  local fmt = string.format
+  local command = function(name, str, attr)
+    attr = attr or ''
+    vim.cmd(fmt('command! %s %s lua %s', attr, name, str))
   end
 
-  local lsp = function(str) return fmt('<cmd>lua vim.lsp.%s<cr>', str) end
-  local diagnostic = function(str) return fmt('<cmd>lua vim.diagnostic.%s<cr>', str) end
-  local telescope = function(str) return fmt('<cmd>lua require("telescope.builtin").%s<cr>', str) end
-  local command = function(name, str) vim.cmd(fmt('command! -buffer %s lua %s', name, str)) end
+  command('LspFormat', 'vim.lsp.buf.formatting()', '-buffer')
+  command('LspWorkspaceRemove', 'vim.lsp.buf.remove_workspace_folder()', '-buffer')
 
-  nmap('K', lsp 'buf.hover()')
-  nmap('gd', lsp 'buf.definition()')
-  nmap('gD', lsp 'buf.declaration()')
-  nmap('gi', lsp 'buf.implementation()')
-  nmap('go', lsp 'buf.type_definition()')
-  nmap('gr', lsp 'buf.references()')
-  nmap(';s', lsp 'buf.signature_help()')
-  nmap(';c', lsp 'buf.rename()')
-
-  nmap(';d', diagnostic 'open_float()')
-  nmap('[d', diagnostic 'goto_prev()')
-  nmap(']d', diagnostic 'goto_next()')
-
-  nmap('<leader>fd', telescope 'lsp_document_symbols()')
-  nmap('<leader>fq', telescope 'lsp_workspace_symbols()')
-  nmap('<leader>fa', telescope 'lsp_code_actions()')
-
-  command('LspFormat', 'vim.lsp.buf.formatting()')
-  command('LspWorkspaceAdd', 'vim.lsp.buf.add_workspace_folder()')
-  command('LspWorkspaceRemove', 'vim.lsp.buf.remove_workspace_folder()')
-  command('LspWorkspaceList', 'print(vim.inspect(vim.lsp.buf.list_workspace_folders()))')
+  if not state.global_cmds then
+    command('LspWorkspaceAdd', 'vim.lsp.buf.add_workspace_folder()')
+    command('LspWorkspaceList', 'vim.notify(vim.inspect(vim.lsp.buf.list_workspace_folders()))')
+    state.global_cmds = false
+  end
 end
 
 s.diagnostics = function()
@@ -107,7 +96,7 @@ s.diagnostics = function()
   vim.diagnostic.config({
     virtual_text = false,
     signs = true,
-    update_in_insert = true,
+    update_in_insert = false,
     underline = true,
     severity_sort = true,
     float = {
@@ -121,7 +110,40 @@ s.diagnostics = function()
   })
 end
 
-s.fidget = false
+s.set_keymaps = function(bufnr)
+  local fmt = function(cmd) return function(str) return cmd:format(str) end end
+
+  local map = function(m, lhs, rhs)
+    local opts = {noremap = true, silent = true}
+    vim.api.nvim_buf_set_keymap(bufnr, m, lhs, rhs, opts)
+  end
+
+  local lsp = fmt('<cmd>lua vim.lsp.%s<cr>')
+  local diagnostic = fmt('<cmd>lua vim.diagnostic.%s<cr>')
+  local telescope = fmt('<cmd>lua require("telescope.builtin").%s<cr>')
+
+  map('n', 'qi', '<cmd>LspInfo<cr>')
+
+  map('n', 'K', lsp 'buf.hover()')
+  map('n', 'gd', lsp 'buf.definition()')
+  map('n', 'gD', lsp 'buf.declaration()')
+  map('n', 'gi', lsp 'buf.implementation()')
+  map('n', 'go', lsp 'buf.type_definition()')
+  map('n', 'gr', lsp 'buf.references()')
+  map('n', 'qs', lsp 'buf.signature_help()')
+  map('n', 'qc', lsp 'buf.rename()')
+
+  map('i', '<M-i>', lsp 'buf.signature_help()')
+
+  map('n', 'qd', diagnostic 'open_float()')
+  map('n', '[d', diagnostic 'goto_prev()')
+  map('n', ']d', diagnostic 'goto_next()')
+
+  map('n', '<leader>fd', telescope 'lsp_document_symbols()')
+  map('n', '<leader>fq', telescope 'lsp_workspace_symbols()')
+  map('n', '<leader>fa', telescope 'lsp_code_actions()')
+end
+
 s.fidget_opts = {
   window = {
     blend = 0
