@@ -42,7 +42,7 @@ M.lua_map = function(fn)
 end
 
 M.create_excmd = function(cmd_name, fn)
-  opts = {}
+  local opts = {}
 
   if type(cmd_name) == 'table' then
     for i, v in pairs(cmd_name) do
@@ -79,7 +79,7 @@ M.reset_augroups = function(groups)
     endif
   ]]
 
-  for i, group in ipairs(groups) do
+  for _, group in ipairs(groups) do
     vim.cmd(reset_group:format(group, group, group))
   end
 end
