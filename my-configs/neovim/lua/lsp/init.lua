@@ -12,6 +12,12 @@ local state = {
   fidget_loaded = false
 }
 
+s.fidget_opts = {
+  window = {
+    blend = 0
+  }
+}
+
 local servers = require('lsp.servers')
 local get_server = require('nvim-lsp-installer.servers').get_server
 
@@ -60,7 +66,7 @@ M.setup = function(server_name, user_opts)
   server:setup(opts)
 end
 
-s.on_attach = function(client, bufnr)
+s.on_attach = function(_, bufnr)
   s.set_keymaps(bufnr)
 
   local fmt = string.format
@@ -132,6 +138,7 @@ s.set_keymaps = function(bufnr)
   map('n', 'gr', lsp 'buf.references()')
   map('n', 'qs', lsp 'buf.signature_help()')
   map('n', 'qc', lsp 'buf.rename()')
+  map('n', 'qa', lsp 'buf.code_action()')
 
   map('i', '<M-i>', lsp 'buf.signature_help()')
 
@@ -144,11 +151,11 @@ s.set_keymaps = function(bufnr)
   map('n', '<leader>fa', telescope 'lsp_code_actions()')
 end
 
-s.fidget_opts = {
-  window = {
-    blend = 0
-  }
-}
+M.setup_all = function()
+  for name, _ in pairs(servers) do
+    M.setup(name)
+  end
+end
 
 return M
 
