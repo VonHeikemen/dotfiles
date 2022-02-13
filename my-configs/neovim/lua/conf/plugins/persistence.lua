@@ -2,14 +2,17 @@ local command = require('bridge').create_excmd
 
 local join = function(...) return table.concat({...}, '/') end
 
-local project_path = join(vim.fn.stdpath('config'),  'projects')
+local prefix = vim.fn.stdpath('data')
+local project_path = join(prefix,  'projects')
+local session_path = join(prefix,  'sessions/')
+
 local state = {
   session = false,
   project_lua = nil
 }
 
 local start = function()
-  require('persistence').setup()
+  require('persistence').setup({dir = session_path})
   vim.fn.mkdir(project_path, 'p')
 end
 
