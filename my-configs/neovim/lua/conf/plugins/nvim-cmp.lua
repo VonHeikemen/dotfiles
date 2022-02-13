@@ -30,6 +30,21 @@ user.config = {
     maxwidth = 50,
     border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
   },
+  formatting = {
+    fields = {'menu', 'abbr', 'kind'},
+    format = function(entry, item)
+      local menu_icon = {
+        nvim_lsp = 'λ',
+        luasnip = '⋗',
+        buffer = 'Ω',
+        path = '🖫',
+        nvim_lua = 'Π',
+      }
+
+      item.menu = menu_icon[entry.source.name]
+      return item
+    end,
+  },
   mapping = {
     ['<Up>'] = cmp.mapping.select_prev_item(select_opts),
     ['<Down>'] = cmp.mapping.select_next_item(select_opts),
