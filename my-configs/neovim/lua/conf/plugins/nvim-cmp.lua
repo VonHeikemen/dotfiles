@@ -3,16 +3,16 @@ local lua_cmd = require('bridge').lua_cmd
 
 local cmp = require('cmp')
 local luasnip = require('luasnip')
-local user = {}
+local user = {autocomplete = true}
 
 local select_opts = {behavior = cmp.SelectBehavior.Select}
 
 user.config = {
+  enabled = function()
+    return user.autocomplete
+  end,
   completion = {
     completeopt = 'menu,menuone,noinsert',
-
-    -- setting it to `nil` enables automatic completion
-    autocomplete = nil,
   },
   snippet = {
     expand = function(args)
@@ -85,16 +85,9 @@ user.config = {
 }
 
 user.set_autocomplete = function(value)
-  -- `nil` means autocomplete is enabled
-  local new_value = nil
+  local old_value = user.autocomplete
 
-  if value == false then
-    new_value = false
-  end
-
-  if new_value == user.config.completion.autocomplete then
-    return
-  end
+  if new_value == old_value then return end
 
   if new_value == false then
     -- restore autocomplete in the next word
@@ -111,8 +104,7 @@ user.set_autocomplete = function(value)
     autocmd({'InsertLeave', once = true}, user.enable_cmd)
   end
 
-  user.config.completion.autocomplete = new_value
-  cmp.setup.buffer(user.config)
+  user.autocomplete = new_value
 end
 
 user.check_back_space = function()
@@ -125,7 +117,7 @@ user.check_back_space = function()
 end
 
 user.enable_cmd = lua_cmd(function()
-  if user.config.completion.autocomplete == nil then return end
+  if user.autocomplete then return end
 
   pcall(vim.api.nvim_buf_del_keymap, 0, 'i', '<Space>')
   user.set_autocomplete(true)
