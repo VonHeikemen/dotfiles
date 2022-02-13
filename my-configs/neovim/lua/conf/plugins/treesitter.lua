@@ -33,6 +33,10 @@ ts.setup({
     'php',
     'lua',
     'python',
+    'markdown',
+    'html',
+    'css',
+    'json'
   },
 })
 

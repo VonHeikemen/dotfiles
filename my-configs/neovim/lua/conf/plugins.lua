@@ -140,14 +140,14 @@ plug.init({
   {
     'nvim-treesitter/nvim-treesitter',
     type = 'lazy',
-    branch = '0.5-compat',
+    frozen = true,
     run = function() pcall(vim.cmd, 'TSUpdate') end,
     config = use('conf.plugins.treesitter')
   },
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
     type = 'lazy',
-    branch = '0.5-compat'
+    frozen = true
   },
 
     -- LSP support
