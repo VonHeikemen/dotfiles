@@ -157,5 +157,18 @@ M.setup_all = function()
   end
 end
 
+M.setup_servers = function(list)
+  local root_dir = list.root_dir
+
+  for i, server in pairs(list) do
+    if type(server) == 'string' then
+      M.setup(server, root_dir and {here = true} or {})
+    elseif type(server) == 'table' then
+      server.opts.here = root_dir and true or nil
+      M.setup(server[1], server.opts)
+    end
+  end
+end
+
 return M
 
