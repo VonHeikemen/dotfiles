@@ -34,7 +34,6 @@ ts.setup({
     'lua',
     'python',
     'markdown',
-    'html',
     'css',
     'json'
   },
