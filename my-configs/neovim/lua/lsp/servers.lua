@@ -23,5 +23,21 @@ server.tsserver = {
   end
 }
 
+server.cssls = {
+  capabilities = capabilities
+}
+
+server.html = {
+  capabilities = capabilities
+}
+
+server.angularls = {
+  capabilities = capabilities
+}
+
+server.intelephense = {
+  capabilities = capabilities
+}
+
 return server
 
