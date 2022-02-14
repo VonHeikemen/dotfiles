@@ -9,7 +9,7 @@ local select_opts = {behavior = cmp.SelectBehavior.Select}
 
 user.config = {
   enabled = function()
-    if vim.api.nvim_buf_get_option(0, 'buftype') == 'prompt' then
+    if vim.bo.buftype == 'prompt' then
       return false
     end
 
