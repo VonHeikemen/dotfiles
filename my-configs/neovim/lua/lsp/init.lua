@@ -13,6 +13,9 @@ local state = {
 }
 
 s.fidget_opts = {
+  text = {
+    spinner = 'moon'
+  },
   window = {
     blend = 0
   }
@@ -158,15 +161,15 @@ M.setup_all = function()
 end
 
 M.setup_servers = function(list)
-  local root_dir = list.root_dir
+  local opts = list.opts
+  local here = list.root_dir == true
 
-  for i, server in pairs(list) do
-    if type(server) == 'string' then
-      M.setup(server, root_dir and {here = true} or {})
-    elseif type(server) == 'table' then
-      server.opts.here = root_dir and true or nil
-      M.setup(server[1], server.opts)
-    end
+  if opts == nil and here then
+    opts = {here = true}
+  end
+
+  for _, server in pairs(list) do
+    M.setup(server, opts)
   end
 end
 
