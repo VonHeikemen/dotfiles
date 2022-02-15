@@ -39,9 +39,8 @@ M.setup = function(server_name, user_opts)
   local common = servers[server_name] or {}
   local opts = vim.tbl_deep_extend('force', {}, common, user_opts)
 
-  if opts.here then
+  if opts.root_dir == true then
     opts.root_dir = function() return vim.fn.getcwd() end
-    opts.here = nil
   end
 
   opts.on_attach = function(...)
@@ -165,7 +164,7 @@ M.setup_servers = function(list)
   local here = list.root_dir == true
 
   if opts == nil and here then
-    opts = {here = true}
+    opts = {root_dir = true}
   end
 
   for _, server in pairs(list) do
