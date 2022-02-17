@@ -49,6 +49,16 @@ M.setup = function(server_name, user_opts)
     if user_opts.on_attach then user_opts.on_attach(...) end
   end
 
+  local default_opts = server:get_default_options()
+
+  if default_opts.cmd and opts.cmd == nil then
+    opts.cmd = default_opts.cmd
+  end
+
+  if default_opts.cmd_env and opts.cmd_env == nil then
+    opts.cmd_env = default_opts.cmd_env
+  end
+
   vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
     vim.lsp.handlers.hover,
     {
@@ -65,7 +75,9 @@ M.setup = function(server_name, user_opts)
 
   s.diagnostics()
 
-  server:setup(opts)
+  local lsp = require('lspconfig')[server.name]
+  lsp.setup(opts)
+  lsp.manager.try_add_wrapper()
 end
 
 s.on_attach = function(_, bufnr)
