@@ -7,11 +7,6 @@ vim.cmd([[
 local M = {}
 local s = {}
 
-local state = {
-  global_cmds = false,
-  fidget_loaded = false
-}
-
 s.fidget_opts = {
   text = {
     spinner = 'moon'
@@ -31,10 +26,7 @@ M.setup = function(server_name, user_opts)
 
   if not ok then return end
 
-  if not state.fidget_loaded then
-    require('fidget').setup(s.fidget_opts)
-    state.fidget_loaded = true
-  end
+  s.call_once()
 
   local common = servers[server_name] or {}
   local opts = vim.tbl_deep_extend('force', {}, common, user_opts)
@@ -80,23 +72,31 @@ M.setup = function(server_name, user_opts)
   lsp.manager.try_add_wrapper()
 end
 
+s.call_once = function()
+  require('fidget').setup(s.fidget_opts)
+
+  s.diagnostics()
+
+  local command = function(name, str)
+    vim.cmd(fmt('command! %s lua %s', name, str))
+  end
+
+  command('LspWorkspaceAdd', 'vim.lsp.buf.add_workspace_folder()')
+  command('LspWorkspaceList', 'vim.notify(vim.inspect(vim.lsp.buf.list_workspace_folders()))')
+
+  s.call_once = function() end
+end
+
 s.on_attach = function(_, bufnr)
   s.set_keymaps(bufnr)
 
   local fmt = string.format
-  local command = function(name, str, attr)
-    attr = attr or ''
-    vim.cmd(fmt('command! %s %s lua %s', attr, name, str))
+  local command = function(name, str)
+    vim.cmd(fmt('command! -buffer %s lua %s', name, str))
   end
 
-  command('LspFormat', 'vim.lsp.buf.formatting()', '-buffer')
-  command('LspWorkspaceRemove', 'vim.lsp.buf.remove_workspace_folder()', '-buffer')
-
-  if not state.global_cmds then
-    command('LspWorkspaceAdd', 'vim.lsp.buf.add_workspace_folder()')
-    command('LspWorkspaceList', 'vim.notify(vim.inspect(vim.lsp.buf.list_workspace_folders()))')
-    state.global_cmds = false
-  end
+  command('LspFormat', 'vim.lsp.buf.formatting()')
+  command('LspWorkspaceRemove', 'vim.lsp.buf.remove_workspace_folder()')
 end
 
 s.diagnostics = function()
