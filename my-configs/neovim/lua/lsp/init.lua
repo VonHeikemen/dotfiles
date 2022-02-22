@@ -75,6 +75,7 @@ s.call_once = function()
 
   s.diagnostics()
 
+  local fmt = string.format
   local command = function(name, str)
     vim.cmd(fmt('command! %s lua %s', name, str))
   end
