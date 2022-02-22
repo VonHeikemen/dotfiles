@@ -65,8 +65,6 @@ M.setup = function(server_name, user_opts)
     }
   )
 
-  s.diagnostics()
-
   local lsp = require('lspconfig')[server.name]
   lsp.setup(opts)
   lsp.manager.try_add_wrapper()
@@ -142,7 +140,7 @@ s.set_keymaps = function(bufnr)
   local diagnostic = fmt('<cmd>lua vim.diagnostic.%s<cr>')
   local telescope = fmt('<cmd>lua require("telescope.builtin").%s<cr>')
 
-  map('n', 'qi', '<cmd>LspInfo<cr>')
+  map('n', '<leader>fi', '<cmd>LspInfo<cr>')
 
   map('n', 'K', lsp 'buf.hover()')
   map('n', 'gd', lsp 'buf.definition()')
@@ -150,13 +148,13 @@ s.set_keymaps = function(bufnr)
   map('n', 'gi', lsp 'buf.implementation()')
   map('n', 'go', lsp 'buf.type_definition()')
   map('n', 'gr', lsp 'buf.references()')
-  map('n', 'qs', lsp 'buf.signature_help()')
-  map('n', 'qc', lsp 'buf.rename()')
-  map('n', 'qa', lsp 'buf.code_action()')
+  map('n', 'gs', lsp 'buf.signature_help()')
+  map('n', '<F3>', lsp 'buf.rename()')
+  map('n', '<F5>', lsp 'buf.code_action()')
 
   map('i', '<M-i>', lsp 'buf.signature_help()')
 
-  map('n', 'qd', diagnostic 'open_float()')
+  map('n', 'gl', diagnostic 'open_float()')
   map('n', '[d', diagnostic 'goto_prev()')
   map('n', ']d', diagnostic 'goto_next()')
 
