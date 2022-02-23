@@ -18,6 +18,7 @@ s.fidget_opts = {
 
 local servers = require('lsp.servers')
 local get_server = require('nvim-lsp-installer.servers').get_server
+local lspconfig = require('lspconfig')
 
 M.setup = function(server_name, user_opts)
   user_opts = user_opts or {}
@@ -41,15 +42,14 @@ M.setup = function(server_name, user_opts)
     if user_opts.on_attach then user_opts.on_attach(...) end
   end
 
-  local default_opts = server:get_default_options()
+  server:setup_lsp(opts)
+  lspconfig[server.name].manager.try_add_wrapper()
+end
 
-  if default_opts.cmd and opts.cmd == nil then
-    opts.cmd = default_opts.cmd
-  end
+s.call_once = function()
+  require('fidget').setup(s.fidget_opts)
 
-  if default_opts.cmd_env and opts.cmd_env == nil then
-    opts.cmd_env = default_opts.cmd_env
-  end
+  s.diagnostics()
 
   vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
     vim.lsp.handlers.hover,
@@ -64,16 +64,6 @@ M.setup = function(server_name, user_opts)
       border = 'rounded',
     }
   )
-
-  local lsp = require('lspconfig')[server.name]
-  lsp.setup(opts)
-  lsp.manager.try_add_wrapper()
-end
-
-s.call_once = function()
-  require('fidget').setup(s.fidget_opts)
-
-  s.diagnostics()
 
   local fmt = string.format
   local command = function(name, str)
