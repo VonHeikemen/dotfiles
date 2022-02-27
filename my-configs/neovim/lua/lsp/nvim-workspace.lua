@@ -53,7 +53,7 @@ end
 
 M.setup_full_config = function()
   local opts = M.full_config()
-  opts.here = true
+  opts.root_dir = true
   vim.cmd('LspStop')
   require('lsp').setup('sumneko_lua', opts)
 
@@ -62,7 +62,7 @@ end
 
 M.setup = function()
   local opts = M.simple_config()
-  opts.here = true
+  opts.root_dir = true
   require('lsp').setup('sumneko_lua', opts)
 
   local noremap = {noremap = true, silent = true}
