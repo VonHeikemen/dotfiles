@@ -1,3 +1,4 @@
+local autocmd = require('bridge').augroup('persistence_cmds')
 local command = require('bridge').create_excmd
 
 local join = function(...) return table.concat({...}, '/') end
@@ -13,7 +14,6 @@ local state = {
 
 local start = function()
   require('persistence').setup({dir = session_path})
-  vim.fn.mkdir(project_path, 'p')
 end
 
 local project_name = function(session)
@@ -47,31 +47,25 @@ end)
 
 command('SessionLoad', function()
   start()
-
-  local persistence = require('persistence')
-  persistence.load()
-  local session = persistence.get_current()
-
-  if session == nil then return end
-
-  load_project(session)
+  require('persistence').load()
 end)
 
 command('SessionLast', function()
   start()
-
-  local persistence = require('persistence')
-  persistence.load({last = true})
-  local session = persistence.get_last()
-
-  if session == nil then return end
-
-  load_project(session)
+  require('persistence').load({last = true})
 end)
 
 command('SessionEditConfig', function()
-  if state.session then
-    vim.cmd('edit ' .. vim.fn.fnameescape(state.project_lua))
+  if not state.session then return end
+
+  if vim.fn.isdirectory(project_path) == 0 then
+    vim.fn.mkdir(project_path, 'p')
   end
+
+  vim.cmd('edit ' .. vim.fn.fnameescape(state.project_path))
+end)
+
+autocmd('SessionLoadPost', function()
+  load_project(vim.v.this_session)
 end)
 
