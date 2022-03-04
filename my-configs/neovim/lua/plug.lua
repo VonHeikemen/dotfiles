@@ -61,16 +61,20 @@ M.init = function(plugins)
   local lazy_loading = defer_fn(p.load_plugins(deferred))
   p.apply_start_config(config_fns)
 
+  autocmd({'User', 'PluginsLoaded', once = true}, function()
+    print('✔')
+    vim.defer_fn(function() print(' ') end, 600)
+  end)
+
   -- Figure out when to load the plugins
   if nofiles then
-    autocmd({'CmdlineEnter', once = true}, lazy_loading)
-    autocmd({'InsertEnter', once = true}, lazy_loading)
+    autocmd({'VimEnter', once = true}, lazy_loading)
     autocmd({'SessionLoadPost', once = true}, lazy_loading)
     return
   end
 
   p.packadd(p.lazy)
-  autocmd('VimEnter', lazy_loading)
+  autocmd({'VimEnter', once = true}, lazy_loading)
 end
 
 p.load_plugins = function(plugins)
