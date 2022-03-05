@@ -7,6 +7,8 @@ local prefix = vim.fn.stdpath('data')
 local project_path = join(prefix,  'projects')
 local session_path = join(prefix,  'sessions/')
 
+vim.g.session_path = session_path
+
 local state = {
   session = false,
   project_lua = nil

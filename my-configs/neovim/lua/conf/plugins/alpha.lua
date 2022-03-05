@@ -1,0 +1,185 @@
+local lua_map = require('bridge').lua_map
+local autocmd = require('bridge').augroup('alpha_cmds')
+
+local theme = {}
+local section = {}
+local action = {}
+
+local version = vim.version()
+
+-- Disable built-in intro message
+vim.opt.shortmess:append('I')
+
+section.header = {
+  type = 'text',
+  val = 'NEOVIM',
+  opts = {
+    position = 'center',
+    hl = 'string'
+  }
+}
+
+section.footer = {
+  type = 'text',
+  val = string.format(
+    'v%s.%s.%s%s',
+    version.major,
+    version.minor,
+    version.patch,
+    version.api_prerelease and ' (Nightly)' or ''
+  ),
+  opts = {
+    position = 'center',
+    hl = 'comment'
+  }
+}
+action.new_file = {
+  name = 'New File',
+  display = 'n',
+  keys = 'n',
+  fn = function()
+    vim.cmd('enew')
+  end
+}
+
+action.search_file = {
+  name = 'Find File',
+  display = 'f',
+  keys = 'f',
+  fn = function()
+    require('telescope.builtin').find_files()
+  end
+}
+
+action.recently_used = {
+  name = 'Search History',
+  display = 'h',
+  keys = 'h',
+  fn = function()
+    require('telescope.builtin').oldfiles()
+  end
+}
+
+action.explore = {
+  name = 'Explore',
+  display = 'e',
+  keys = 'e',
+  fn = function()
+    require('conf.functions').file_explorer(vim.fn.getcwd())
+  end
+}
+
+action.get_session = {
+  name = 'Workspace Session',
+  display = 's',
+  keys = 's',
+  fn = function()
+    require('persistence.config').setup({dir = vim.g.session_path})
+    local session_file = require('persistence').get_current()
+
+    if vim.fn.filereadable(session_file) == 1 then
+      vim.cmd('bdelete | SessionLoad')
+    else
+      vim.cmd('enew | SessionStart')
+      vim.notify('Starting new session', vim.log.levels.INFO)
+    end
+  end
+}
+
+action.help = {
+  name = 'Get Help',
+  display = 'H',
+  keys = 'H',
+  fn = function()
+    require('telescope.builtin').help_tags()
+  end
+}
+
+action.quit = {
+  name = 'Quit',
+  display = 'q',
+  keys = 'q',
+  fn = function()
+    vim.cmd('quitall')
+  end
+}
+
+action.execute = {
+  name = 'Execute command',
+  display = ';',
+  keys = ';',
+  fn = function()
+    require('fine-cmdline').open({})
+  end
+}
+
+-- Add buttons
+local button = function(args)
+  return {
+    type = 'button',
+    val = '➤ ' .. args.name,
+    on_press = args.fn,
+    opts = {
+      position = 'center',
+      shortcut = args.display,
+      cursor = 5,
+      width = 50,
+      align_shortcut = 'right',
+      hl_shortcut = 'number',
+    },
+  }
+end
+
+section.buttons = {
+  type = 'group',
+  opts = {spacing = 1}
+}
+
+-- very small screen
+if vim.o.lines < 18 then
+  section.buttons.val = {
+    button(action.search_file),
+    button(action.recently_used),
+    button(action.explore),
+  }
+else
+  section.buttons.val = {
+    button(action.new_file),
+    button(action.search_file),
+    button(action.recently_used),
+    button(action.explore),
+    button(action.get_session),
+    button(action.help),
+    button(action.quit)
+  }
+end
+
+theme.layout = {
+  {type = 'padding', val = 2},
+  section.header,
+  {type = 'padding', val = 2},
+  section.buttons,
+  section.footer
+}
+
+theme.opts = {}
+
+autocmd({'User', 'AlphaReady'}, function()
+  for _, item in pairs(action) do
+    vim.api.nvim_buf_set_keymap(
+      0,
+      'n',
+      item.keys,
+      lua_map(item.fn),
+      {noremap = true, silent = true}
+    )
+  end
+
+  if vim.g.terminal_color_background then
+    vim.cmd('highlight UserHideChar guifg=' .. vim.g.terminal_color_background)
+    vim.cmd('setlocal winhl=EndOfBuffer:UserHideChar')
+  end
+end)
+
+require('alpha').setup(theme)
+

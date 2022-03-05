@@ -159,6 +159,13 @@ plug.init({
   {'romainl/vim-qf'},
   {'stefandtw/quickfix-reflector.vim'},
 
+  -- Startup screen
+  {
+    'goolord/alpha-nvim',
+    type = 'start',
+    config = use('conf.plugins.alpha')
+  },
+
   -- UI components
   {
     'MunifTanjim/nui.nvim',
