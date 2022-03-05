@@ -219,14 +219,14 @@ plug.init({
         exit_after_idle_msecs = {labeled = nil, unlabeled = 600},
         safe_labels = {},
         labels = {
-          'w', 'f', 'n',
+          'w', 'f', 'a',
           'j', 'k', 'l', 'o', 'i', 'q', 'e', 'h', 'g',
           'u', 't',
-          'm', 'v', 'c', 'a', '.', 'z',
+          'm', 'v', 'c', 'n', '.', 'z',
           '/', 'F', 'L', 'N', 'H', 'G', 'M', 'U', 'T', '?', 'Z',
         },
       })
     end
-  },
+  }
 })
 

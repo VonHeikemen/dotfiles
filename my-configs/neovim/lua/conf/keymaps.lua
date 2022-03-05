@@ -175,6 +175,9 @@ noremap('x', '<leader>R', ":<C-u>GetSelection<CR>:SearchBoxReplace confirm=menu<
 -- ==                            MISCELLANEOUS                             == --
 -- ========================================================================== --
 
+-- Use lightspeed's omni mode
+remap('', 's', '<Plug>Lightspeed_omni_s')
+
 -- Close buffer while preserving the layout
 noremap('n', '<Leader>bc', ':Bdelete<CR>')
 
