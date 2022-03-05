@@ -111,5 +111,15 @@ M.file_explorer = function(cwd)
   end
 end
 
+M.set_autoindent = function()
+  require('guess-indent').setup({auto_cmd = true, verbose = 1})
+
+  vim.defer_fn(function()
+    local bufnr = vim.fn.bufnr()
+    vim.cmd('silent! bufdo GuessIndent')
+    vim.cmd('buffer ' .. bufnr)
+  end, 3)
+end
+
 return M
 
