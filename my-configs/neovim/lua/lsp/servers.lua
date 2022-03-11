@@ -16,7 +16,7 @@ server.sumneko_lua = {
 server.tsserver = {
   capabilities = capabilities,
   flags = {
-    debounce_text_changes = 500,
+    debounce_text_changes = 200,
   },
   on_attach = function(client, bufnr)
     client.resolved_capabilities.document_formatting = false
@@ -37,6 +37,10 @@ server.angularls = {
 
 server.intelephense = {
   capabilities = capabilities
+}
+
+server.pyright = {
+  capabilities = capabilities,
 }
 
 return server

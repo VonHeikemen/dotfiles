@@ -172,6 +172,42 @@ noremap('n', '<leader>R', ":SearchBoxReplace confirm=menu -- <C-r>=expand('<cwor
 noremap('x', '<leader>R', ":<C-u>GetSelection<CR>:SearchBoxReplace confirm=menu<CR><C-r>/")
 
 -- ========================================================================== --
+-- ==                                 LSP                                  == --
+-- ========================================================================== --
+
+autocmd({'User', 'LSPKeybindings'}, function()
+  local fmt = function(cmd) return function(str) return cmd:format(str) end end
+
+  local lsp = fmt('<cmd>lua vim.lsp.%s<cr>')
+  local diagnostic = fmt('<cmd>lua vim.diagnostic.%s<cr>')
+  local telescope = fmt('<cmd>lua require("telescope.builtin").%s<cr>')
+
+  local opts = {noremap = true, silent = true}
+
+  bufmap('n', '<leader>fi', '<cmd>LspInfo<cr>', opts)
+
+  bufmap('n', 'K', lsp 'buf.hover()', opts)
+  bufmap('n', 'gd', lsp 'buf.definition()', opts)
+  bufmap('n', 'gD', lsp 'buf.declaration()', opts)
+  bufmap('n', 'gi', lsp 'buf.implementation()', opts)
+  bufmap('n', 'go', lsp 'buf.type_definition()', opts)
+  bufmap('n', 'gr', lsp 'buf.references()', opts)
+  bufmap('n', 'gs', lsp 'buf.signature_help()', opts)
+  bufmap('n', '<F2>', lsp 'buf.rename()', opts)
+  bufmap('n', '<F4>', lsp 'buf.code_action()', opts)
+
+  bufmap('i', '<M-i>', lsp 'buf.signature_help()', opts)
+
+  bufmap('n', 'gl', diagnostic 'open_float()', opts)
+  bufmap('n', '[d', diagnostic 'goto_prev()', opts)
+  bufmap('n', ']d', diagnostic 'goto_next()', opts)
+
+  bufmap('n', '<leader>fd', telescope 'lsp_document_symbols()', opts)
+  bufmap('n', '<leader>fq', telescope 'lsp_workspace_symbols()', opts)
+  bufmap('n', '<leader>fa', telescope 'lsp_code_actions()', opts)
+end)
+
+-- ========================================================================== --
 -- ==                            MISCELLANEOUS                             == --
 -- ========================================================================== --
 
