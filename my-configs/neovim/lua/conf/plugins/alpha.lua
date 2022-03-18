@@ -44,15 +44,15 @@ action.new_file = {
 
 action.search_file = {
   name = 'Find File',
-  display = 'f',
-  keys = 'f',
+  display = 'f f',
+  keys = 'ff',
   fn = function()
     require('telescope.builtin').find_files()
   end
 }
 
 action.recently_used = {
-  name = 'Search History',
+  name = 'History',
   display = 'h',
   keys = 'h',
   fn = function()
@@ -78,6 +78,7 @@ action.get_session = {
     local session_file = require('persistence').get_current()
 
     if vim.fn.filereadable(session_file) == 1 then
+      vim.notify('Restoring session...', vim.log.levels.INFO)
       vim.cmd('bdelete | SessionLoad')
     else
       vim.cmd('enew | SessionStart')
@@ -105,11 +106,20 @@ action.quit = {
 }
 
 action.execute = {
-  name = 'Execute command',
-  display = ';',
-  keys = ';',
+  name = 'Execute Command',
+  display = 'x',
+  keys = 'x',
   fn = function()
     require('fine-cmdline').open({})
+  end
+}
+
+action.update_plugins = {
+  name = 'Update Plugins',
+  display = 'U',
+  keys = 'U',
+  fn = function()
+    vim.cmd('PackUpdate')
   end
 }
 
@@ -122,7 +132,7 @@ local button = function(args)
     opts = {
       position = 'center',
       shortcut = args.display,
-      cursor = 5,
+      cursor = 4,
       width = 50,
       align_shortcut = 'right',
       hl_shortcut = 'number',
@@ -149,7 +159,6 @@ else
     button(action.recently_used),
     button(action.explore),
     button(action.get_session),
-    button(action.help),
     button(action.quit)
   }
 end
