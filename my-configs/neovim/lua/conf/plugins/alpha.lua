@@ -78,7 +78,6 @@ action.get_session = {
     local session_file = require('persistence').get_current()
 
     if vim.fn.filereadable(session_file) == 1 then
-      vim.notify('Restoring session...', vim.log.levels.INFO)
       vim.cmd('bdelete | SessionLoad')
     else
       vim.cmd('enew | SessionStart')
