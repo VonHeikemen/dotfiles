@@ -1,45 +1,5 @@
 local M = {}
 
-M.zen_mode = function()
-  require('zen-mode').setup({
-    window = {
-      width = 0.60,
-      height = 0.98
-    },
-    on_open = function(win)
-      local bufmap = function(mode, lhs, rhs)
-        vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, {noremap = true})
-      end
-      vim.opt.wrap = true
-      vim.opt.linebreak = true
-
-      bufmap('n', 'k', 'gk')
-      bufmap('n', 'j', 'gj')
-      bufmap('x', 'k', 'gk')
-      bufmap('x', 'j', 'gj')
-      bufmap('n', 'O', 'O<Enter><Up>')
-    end
-  })
-end
-
-M.luasnip = function()
-  local luasnip = require('luasnip')
-  local snippets = require('luasnip.loaders.from_vscode')
-
-  luasnip.config.set_config({
-    history = false,
-    region_check_events = 'InsertEnter',
-    delete_check_events = 'InsertLeave'
-  })
-
-  snippets.lazy_load()
-  local filetype = vim.bo.filetype
-
-  if vim.fn.argc() > 0 and filetype ~= '' then
-    snippets.load({include = {filetype}})
-  end
-end
-
 M.autopairs = function()
   local npairs = require('nvim-autopairs')
   npairs.setup({fast_wrap = {}})
