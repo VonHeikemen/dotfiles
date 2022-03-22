@@ -48,6 +48,9 @@ noremap('n', 'N', 'Nzzzv')
 noremap('n', '#', '#zz')
 noremap('n', '*', '*zz')
 
+-- Change word, but better
+noremap('n', 'cw', '*N"_cgn')
+
 -- Delete in select mode
 noremap('s', '<BS>', '<C-g>"_c')
 remap('s', '<C-h>', '<BS>')
