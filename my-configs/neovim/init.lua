@@ -27,7 +27,7 @@ require('conf.basic')
 require('conf.commands')
 
 -- Install plugins if necessary
-if require('conf.plugins.install') then return end
+if require('plugins.install') then return end
 
 -- Plugin management and config
 require('conf.plugins')
