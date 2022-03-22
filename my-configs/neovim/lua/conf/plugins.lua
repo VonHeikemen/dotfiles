@@ -44,7 +44,7 @@ plug.init({
   },
 
   -- Distraction free mode
-  {'folke/zen-mode.nvim', config = setup.zen_mode},
+  {'folke/zen-mode.nvim', config = use('plugins.zen-mode')},
 
   -- File explorer
   {
@@ -70,7 +70,7 @@ plug.init({
   -- Snippets
   {'VonHeikemen/the-good-snippets', type = 'start'},
   {'mattn/emmet-vim', type = 'opt'},
-  {'L3MON4D3/LuaSnip', config = setup.luasnip},
+  {'L3MON4D3/LuaSnip', config = use('plugins.luasnip')},
   {'windwp/nvim-autopairs', config = setup.autopairs},
   {'b3nj5m1n/kommentary', config = setup.kommentary},
 
