@@ -48,9 +48,6 @@ noremap('n', 'N', 'Nzzzv')
 noremap('n', '#', '#zz')
 noremap('n', '*', '*zz')
 
--- Change word, but better
-noremap('n', 'cw', '*N"_cgn')
-
 -- Delete in select mode
 noremap('s', '<BS>', '<C-g>"_c')
 remap('s', '<C-h>', '<BS>')
@@ -213,6 +210,12 @@ end)
 -- ========================================================================== --
 -- ==                            MISCELLANEOUS                             == --
 -- ========================================================================== --
+
+-- Change the whole word
+noremap('n', 'cw', '"_ciw')
+
+-- Change word but repeatable
+noremap('n', '<leader>cw', "<cmd>let @/='\\<'.expand('<cword>').'\\>'<cr>\"_ciw")
 
 -- Use lightspeed's omni mode
 remap('', 's', '<Plug>Lightspeed_omni_s')
