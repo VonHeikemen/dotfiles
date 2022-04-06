@@ -1,6 +1,8 @@
 local M = {}
 
-M.setup = function(include_all)
+M.setup = function(opts)
+  opts = opts or {}
+
   -- Setup autocomplete for nvim's lua api
   require('cmp').setup.filetype('lua', {
     sources = {
@@ -16,14 +18,7 @@ M.setup = function(include_all)
 
   local lsp = require('lsp-zero')
 
-  if include_all then
-    lsp.nvim_workspace({
-      library = vim.api.nvim_get_runtime_file('', true)
-    })
-  else
-    lsp.nvim_workspace()
-  end
-
+  lsp.nvim_workspace({library = opts.library})
   lsp.use('sumneko_lua')
 end
 

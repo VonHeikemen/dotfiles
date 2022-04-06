@@ -92,7 +92,7 @@ plug.init({
   },
 
   -- LSP support
-  {'neovim/nvim-lspconfig', type = 'opt'},
+  {'neovim/nvim-lspconfig', type = 'start'},
   {'williamboman/nvim-lsp-installer', type = 'opt'},
   {'VonHeikemen/lsp-zero.nvim', type = 'opt'},
   {'j-hui/fidget.nvim', type = 'opt'},
@@ -132,6 +132,11 @@ plug.init({
   {'nvim-lua/plenary.nvim', type = 'start'},
   {'nvim-lua/popup.nvim', type = 'start'},
   {'NMAC427/guess-indent.nvim', config = setup.guess_indent},
-  {'ggandor/lightspeed.nvim', config = setup.lightspeed}
+  {'ggandor/lightspeed.nvim', config = setup.lightspeed},
+  {
+    'VonHeikemen/project-settings.nvim',
+    type = 'start',
+    config = use('plugins.project-settings')
+  }
 })
 

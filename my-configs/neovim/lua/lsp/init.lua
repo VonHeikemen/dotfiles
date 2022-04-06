@@ -1,7 +1,6 @@
 local M = {}
 
 vim.cmd([[
-  packadd nvim-lspconfig
   packadd nvim-lsp-installer
   packadd fidget.nvim
   packadd lsp-zero.nvim
@@ -35,6 +34,14 @@ end)
 
 for server, opts in pairs(servers) do
   lsp.configure(server, opts)
+end
+
+M.project_setup = function(opts)
+  for server, enable in pairs(opts) do
+    if enable == true then
+      lsp.use(server, {})
+    end
+  end
 end
 
 -- See :help lsp-zero.use()
