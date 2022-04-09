@@ -1,8 +1,7 @@
-local autocmd = require('bridge').augroup('compe_cmds')
-local lua_cmd = require('bridge').lua_cmd
-
 local cmp = require('cmp')
 local luasnip = require('luasnip')
+
+local compe_cmds = vim.api.nvim_create_augroup('compe_cmds', {clear = true})
 local user = {autocomplete = true}
 
 local select_opts = {behavior = cmp.SelectBehavior.Select}
@@ -95,17 +94,20 @@ user.set_autocomplete = function(value)
 
   if new_value == false then
     -- restore autocomplete in the next word
-    local keymap = '<cmd>%s<CR><Space>'
     vim.api.nvim_buf_set_keymap(
       0,
       'i',
       '<Space>',
-      keymap:format(user.enable_cmd),
+      '<cmd>UserCmpEnable<CR><Space>',
       {noremap = true}
     )
 
     -- restore when leaving insert mode
-    autocmd({'InsertLeave', once = true}, user.enable_cmd)
+    vim.api.nvim_create_autocmd('InsertLeave', {
+      group = compe_cmds,
+      command = 'UserCmpEnable',
+      once = true,
+    })
   end
 
   user.autocomplete = new_value
@@ -120,12 +122,14 @@ user.check_back_space = function()
   end
 end
 
-user.enable_cmd = lua_cmd(function()
+user.enable_cmd = function()
   if user.autocomplete then return end
 
   pcall(vim.api.nvim_buf_del_keymap, 0, 'i', '<Space>')
   user.set_autocomplete(true)
-end)
+end
+
+vim.api.nvim_add_user_command('UserCmpEnable', user.enable_cmd, {})
 
 cmp.setup(user.config)
 

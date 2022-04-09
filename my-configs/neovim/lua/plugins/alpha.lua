@@ -1,4 +1,3 @@
-local lua_map = require('bridge').lua_map
 local autocmd = require('bridge').augroup('alpha_cmds')
 
 local theme = {}
@@ -174,12 +173,11 @@ theme.opts = {}
 
 autocmd({'User', 'AlphaReady'}, function()
   for _, item in pairs(action) do
-    vim.api.nvim_buf_set_keymap(
-      0,
+    vim.keymap.set(
       'n',
       item.keys,
-      lua_map(item.fn),
-      {noremap = true, silent = true}
+      item.fn,
+      {silent = true, buffer = true}
     )
   end
 

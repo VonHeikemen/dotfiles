@@ -1,8 +1,8 @@
-local bridge = require('bridge')
+local command = require('bridge').create_excmd
 local fns = require('conf.functions')
 
-bridge.create_excmd('GetSelection', fns.get_selection)
-bridge.create_excmd('TrailspaceTrim', fns.trailspace_trim)
-bridge.create_excmd('SmartBufferPicker', fns.smart_buffer_picker)
-bridge.create_excmd('EditMacro', fns.edit_macro)
+command('GetSelection', fns.get_selection)
+command('TrailspaceTrim', fns.trailspace_trim)
+command('SmartBufferPicker', fns.smart_buffer_picker)
+command('EditMacro', fns.edit_macro)
 

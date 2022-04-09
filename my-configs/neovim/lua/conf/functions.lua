@@ -51,16 +51,13 @@ M.trailspace_trim = function()
 end
 
 M.smart_buffer_picker = function()
-  local luafn = require('bridge').lua_map
-  local opts = {noremap = true}
-
-  vim.api.nvim_set_keymap('n','<Leader>bb', luafn(function()
+  vim.keymap.set('n','<Leader>bb', function()
     require('telescope.builtin').buffers({only_cwd = vim.fn.haslocaldir() == 1})
-  end, opts))
+  end)
 
-  vim.api.nvim_set_keymap('n','<Leader>B', luafn(function()
+  vim.keymap.set('n','<Leader>B', function()
     require('telescope.builtin').buffers({only_cwd = false})
-  end, opts))
+  end)
 end
 
 M.job_output = function(cid, data, name)

@@ -1,13 +1,11 @@
 local fns = require('conf.functions')
 
 local autocmd = require('bridge').augroup('mapping_cmds')
-local luafn = require('bridge').lua_map
-local bind = vim.api.nvim_set_keymap
+local bind = vim.keymap.set
 
 -- Bind options
-local remap = function(m, lhs, rhs) bind(m, lhs, rhs, {noremap = false}) end
-local noremap = function(m, lhs, rhs) bind(m, lhs, rhs, {noremap = true}) end
-local bufmap = function(...) vim.api.nvim_buf_set_keymap(0, ...) end
+local remap = function(m, lhs, rhs) bind(m, lhs, rhs, {remap = true}) end
+local noremap = function(m, lhs, rhs) bind(m, lhs, rhs, {remap = false}) end
 
 -- Leader
 vim.g.mapleader = ' '
@@ -19,18 +17,11 @@ vim.g.mapleader = ' '
 -- Enter commands
 noremap('n', '<CR>', ':FineCmdline<CR>')
 
--- Escape to normal mode
-noremap('', '<C-L>', '<Esc>')
-noremap('i', '<C-L>', '<Esc>')
-noremap('t', '<C-L>', '<C-\\><C-n>')
-noremap('c', '<C-L>', '<Esc>')
-
 -- Select all text in current buffer
-noremap('n', '<Leader>a', 'ggVG')
+noremap('n', '<Leader>a', ':keepjumps normal! ggVG<CR>')
 
 -- Go to matching pair
-remap('n', '<Leader>e', '%')
-remap('x','<Leader>e', '%')
+remap({'n', 'x'}, '<Leader>e', '%')
 
 -- Go to first character in line
 noremap('', '<Leader>h', '^')
@@ -63,6 +54,7 @@ noremap('x', 'C','"_C')
 
 noremap('n', 'x','"_x')
 noremap('x', 'x','"_x')
+noremap('x', 'X','"_c')
 
 -- ========================================================================== --
 -- ==                           COMMAND MAPPINGS                           == --
@@ -114,10 +106,10 @@ noremap('n', '<Leader>cd', ':lcd %:p:h<CR>:pwd<CR>')
 noremap('n', '<Leader>uh', '<cmd>set invhlsearch<CR>')
 
 -- Tabline
-noremap('n', '<Leader>ut', luafn(fns.toggle_opt('showtabline', 'o', 1, 0)))
+noremap('n', '<Leader>ut', fns.toggle_opt('showtabline', 'o', 1, 0))
 
 -- Line length ruler
-noremap('n', '<Leader>ul', luafn(fns.toggle_opt('colorcolumn', 'wo', '81', '0')))
+noremap('n', '<Leader>ul', fns.toggle_opt('colorcolumn', 'wo', '81', '0'))
 
 -- Cursorline highlight
 noremap('n', '<Leader>uc', '<cmd>set invcursorline<CR>')
@@ -176,35 +168,33 @@ noremap('x', '<leader>R', ":<C-u>GetSelection<CR>:SearchBoxReplace confirm=menu<
 -- ========================================================================== --
 
 autocmd({'User', 'LSPKeybindings'}, function()
-  local fmt = function(cmd) return function(str) return cmd:format(str) end end
+  local telescope = require('telescope.builtin')
+  local lsp = vim.lsp.buf
 
-  local lsp = fmt('<cmd>lua vim.lsp.%s<cr>')
-  local diagnostic = fmt('<cmd>lua vim.diagnostic.%s<cr>')
-  local telescope = fmt('<cmd>lua require("telescope.builtin").%s<cr>')
+  local opts = {silent = true, buffer = true}
 
-  local opts = {noremap = true, silent = true}
+  bind('n', '<leader>fi', '<cmd>LspInfo<cr>', opts)
 
-  bufmap('n', '<leader>fi', '<cmd>LspInfo<cr>', opts)
+  bind('n', 'K', lsp.hover, opts)
+  bind('n', 'gd', lsp.definition, opts)
+  bind('n', 'gD', lsp.declaration, opts)
+  bind('n', 'gi', lsp.implementation, opts)
+  bind('n', 'go', lsp.type_definition, opts)
+  bind('n', 'gr', lsp.references, opts)
+  bind('n', 'gs', lsp.signature_help, opts)
+  bind('n', '<F2>', lsp.rename, opts)
+  bind('n', '<F4>', lsp.code_action, opts)
+  bind('x', '<F4>', lsp.range_code_action, opts)
 
-  bufmap('n', 'K', lsp 'buf.hover()', opts)
-  bufmap('n', 'gd', lsp 'buf.definition()', opts)
-  bufmap('n', 'gD', lsp 'buf.declaration()', opts)
-  bufmap('n', 'gi', lsp 'buf.implementation()', opts)
-  bufmap('n', 'go', lsp 'buf.type_definition()', opts)
-  bufmap('n', 'gr', lsp 'buf.references()', opts)
-  bufmap('n', 'gs', lsp 'buf.signature_help()', opts)
-  bufmap('n', '<F2>', lsp 'buf.rename()', opts)
-  bufmap('n', '<F4>', lsp 'buf.code_action()', opts)
+  bind('i', '<M-i>', lsp.signature_help, opts)
 
-  bufmap('i', '<M-i>', lsp 'buf.signature_help()', opts)
+  bind('n', 'gl', vim.diagnostic.open_float, opts)
+  bind('n', '[d', vim.diagnostic.goto_prev, opts)
+  bind('n', ']d', vim.diagnostic.goto_next, opts)
 
-  bufmap('n', 'gl', diagnostic 'open_float()', opts)
-  bufmap('n', '[d', diagnostic 'goto_prev()', opts)
-  bufmap('n', ']d', diagnostic 'goto_next()', opts)
-
-  bufmap('n', '<leader>fd', telescope 'lsp_document_symbols()', opts)
-  bufmap('n', '<leader>fq', telescope 'lsp_workspace_symbols()', opts)
-  bufmap('n', '<leader>fa', telescope 'lsp_code_actions()', opts)
+  bind('n', '<leader>fd', telescope.lsp_document_symbols, opts)
+  bind('n', '<leader>fq', telescope.lsp_workspace_symbols, opts)
+  bind('n', '<leader>fa', telescope.lsp_code_actions, opts)
 end)
 
 -- ========================================================================== --
@@ -237,22 +227,23 @@ remap('n', ']q', '<Plug>(qf_qf_next)zz')
 remap('n', '<Leader>cc', '<Plug>(qf_qf_toggle)')
 
 autocmd({'filetype', 'qf'}, function()
-  local opts = {noremap = false}
+  local opts = {remap = true, buffer = true}
+
   -- Go to location under the cursor
-  bufmap('n', 'gl', '<CR>', {noremap = true})
+  bind('n', '<CR>', '<CR>zz<C-w>w', {buffer = true})
 
   -- Go to next location and stay in the quickfix window
-  bufmap('n', 'K', '<Plug>(qf_qf_previous)zz<C-w>w', opts)
+  bind('n', '<Up>', '<Plug>(qf_qf_previous)zz<C-w>w', opts)
 
   -- Go to previous location and stay in the quickfix window
-  bufmap('n', 'J', '<Plug>(qf_qf_next)zz<C-w>w', opts)
+  bind('n', '<Down>', '<Plug>(qf_qf_next)zz<C-w>w', opts)
 
-  bufmap('n', '<leader>r', ':%s///g<Left><Left>', opts)
+  bind('n', '<leader>r', ':%s///g<Left><Left>', opts)
 end)
 
 -- Open file manager
-noremap('n', '<leader>dd', luafn(fns.file_explorer))
-noremap('n', '<leader>da', luafn(function() fns.file_explorer(vim.fn.getcwd()) end))
+noremap('n', '<leader>dd', fns.file_explorer)
+noremap('n', '<leader>da', function() fns.file_explorer(vim.fn.getcwd()) end)
 
 -- Undo break points
 local break_points = {'<Space>', '-', '_', ':', '.', '/'}

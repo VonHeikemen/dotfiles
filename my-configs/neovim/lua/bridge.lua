@@ -1,127 +1,57 @@
 local M = {}
 
-local module_name = 'bridge'
-local id = 0
-local fns = {}
+M.create_excmd = function(command, fn)
+  local cmd_name, opts
 
-M.apply = function(name, arg)
-  fns[name](arg)
-end
-
-M.apply_expr = function(name)
-  return vim.api.nvim_replace_termcodes(fns[name](), true, true, true)
-end
-
-M.register = function(name, fn)
-  fns[name] = fn
-end
-
-M.lua_call = function(name)
-  return string.format("lua require('%s').apply('%s')", module_name, name)
-end
-
-M.lua_cmd = function(fn)
-  id = id + 1
-  local name = 'cmd_' .. id
-  M.register(name, fn)
-  return M.lua_call(name)
-end
-
-M.lua_expr = function(fn)
-  id = id + 1
-  local name = 'expr_' .. id
-  M.register(name, fn)
-  return string.format("v:lua.require'%s'.apply_expr('%s')", module_name, name)
-end
-
-M.lua_map = function(fn)
-  id = id + 1
-  local name = 'map_' .. id
-  M.register(name, fn)
-  return string.format('<cmd>%s<CR>', M.lua_call(name))
-end
-
-M.create_excmd = function(cmd_name, fn)
-  local opts = {}
-
-  if type(cmd_name) == 'table' then
-    for i, v in pairs(cmd_name) do
-      if type(i) == 'string' then opts[i] = v end
-    end
-    cmd_name = cmd_name[1]
+  if type(command) == 'string' then
+    cmd_name = command
+    opts = {}
+  else
+    cmd_name = command[1]
+    command[1] = nil
+    opts = command
   end
 
-  M.register(cmd_name, fn)
-
-  if not opts.qargs then
-    local cmd = [[ command! %s %s ]]
-    vim.cmd(cmd:format(cmd_name, M.lua_call(cmd_name)))
-    return
-  end
-
-  local cmd = [[ command! -nargs=1 %s %s ]]
-  local call = string.format(
-    "lua require('%s').apply('%s', <q-args>)",
-    module_name,
-    cmd_name
-  )
-
-  vim.cmd(cmd:format(cmd_name, call))
-end
-
-M.reset_augroups = function(groups)
-  local reset_group = [[
-    if exists('#%s')
-      augroup %s
-        autocmd!
-      augroup END
-      augroup! %s
-    endif
-  ]]
-
-  for _, group in ipairs(groups) do
-    vim.cmd(reset_group:format(group, group, group))
-  end
+  vim.api.nvim_add_user_command(cmd_name, fn, opts)
 end
 
 M.group_command = function(group, event, command)
-  local add_cmd = [[
-    augroup %s
-      autocmd %s %s%s%s
-    augroup END
-  ]]
+  local name, opts
 
-  local pattern = '*'
-  local evt = event
-  local once = ' '
-
-  if type(event) == 'table' then
-    evt = event[1]
-    pattern = event[2] or '*'
-    if event.once then
-      once = ' ++once '
-    end
+  if type(event) == 'string' then
+    name = event
+    opts = {group = group}
+  else
+    name = event[1]
+    opts = event
+    opts.pattern = event[2]
+    opts[1] = nil
+    opts[2] = nil
   end
 
-  local user_cmd = command
-
-  if type(command) == 'function' then
-    user_cmd = M.lua_cmd(command)
+  if type(command) == 'string' and command:sub(1, 1) == ':' then
+    opts.command = command:sub(2)
+  else
+    opts.callback = command
   end
 
-  vim.cmd(add_cmd:format(group, evt, pattern, once, user_cmd))
+  return vim.api.nvim_create_autocmd(name, opts)
 end
 
 M.augroup = function(group)
-  M.reset_augroups({group})
+  local id = vim.api.nvim_create_augroup(group, {clear = true})
 
   return function(event, command)
-    return M.group_command(group, event, command)
+    M.group_command(id, event, command)
   end
 end
 
 M.autocmd = function(event, command)
-  return M.group_command('user_cmds', event, command)
+  return M.group_command(
+    vim.api.nvim_create_augroup('user_cmds', {clear = false}),
+    event,
+    command
+  )
 end
 
 return M

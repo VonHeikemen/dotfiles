@@ -86,6 +86,8 @@ if vim.env.TMUX then
 end
 
 if env.preserve_beam_cursor then
-  vim.cmd('autocmd VimLeave * set guicursor=a:ver25')
+  vim.api.nvim_create_autocmd('VimLeave', {
+    command = 'set guicursor=a:ver25'
+  })
 end
 

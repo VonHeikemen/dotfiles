@@ -7,22 +7,22 @@ vim.g.loaded_netrwPlugin = 1
 local actions = require('lir.actions')
 local marks = require('lir.mark.actions')
 local clipboard = require('lir.clipboard.actions')
-local bufmap = function(...) vim.api.nvim_buf_set_keymap(0, ...) end
 
 local on_init = function()
-  local noremap = {noremap = true, silent = true}
-  local remap = {noremap = false, silent = true}
+  local bind = vim.keymap.set
+  local noremap = {remap = false, silent = true, buffer = true}
+  local remap = {remap = true, silent = true, buffer = true}
 
   local mark = ":<C-u>lua require('lir.mark.actions').toggle_mark('v')<CR>gv<C-c>"
 
-  bufmap('n', 'v', 'V', noremap)
-  bufmap('x', 'q', '<Esc>', noremap)
+  bind('n', 'v', 'V', noremap)
+  bind('x', 'q', '<Esc>', noremap)
 
-  bufmap('x', '<Tab>', mark, noremap)
-  bufmap('x', 'cc', mark .. 'cc', remap)
-  bufmap('x', 'cx', mark .. 'cx', remap)
+  bind('x', '<Tab>', mark, noremap)
+  bind('x', 'cc', mark .. 'cc', remap)
+  bind('x', 'cx', mark .. 'cx', remap)
 
-  bufmap('n', '<S-Tab>', 'gv<Tab>', remap)
+  bind('n', '<S-Tab>', 'gv<Tab>', remap)
 end
 
 lir.setup({
