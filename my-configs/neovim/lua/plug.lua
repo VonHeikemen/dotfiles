@@ -1,4 +1,6 @@
 local autocmd = require('bridge').augroup('plug_init')
+local doautocmd = require('bridge').doautocmd
+local command = require('bridge').create_excmd
 
 local M = {
   skip_config = false
@@ -7,12 +9,11 @@ local M = {
 local done = false
 local nofiles = vim.fn.argc() == 0
 
-local p = {} -- still hate it
+local p = {} -- I hate it
 p.packpath = vim.fn.stdpath('data') .. '/site'
 p.minpac_path = vim.fn.stdpath('data') .. '/site/pack/minpac/opt/minpac'
 
 p.minpac_plugins = {}
-p.lazy = {}
 p.configs = {opts = {}}
 
 local defer_fn = function(fn)
@@ -30,11 +31,11 @@ local plug_name = function(plug)
   return name
 end
 
-M.init = function(plugins)
-  local deferred = {}
+M.init = function(user_plugins)
+  local plugins = {deferred = {}, lazy = {}}
   local config_fns = {}
 
-  for i, plug in pairs(plugins) do
+  for i, plug in pairs(user_plugins) do
     if plug.type == 'start' and type(plug.config) == 'function' then
       config_fns[plug_name(plug)] = plug.config
     end
@@ -44,21 +45,21 @@ M.init = function(plugins)
     end
 
     if plug.type == nil or plug.type == 'deferred' then
-      table.insert(deferred, plug)
+      table.insert(plugins.deferred, plug)
       plug.type = 'opt'
     end
 
     if plug.type == 'lazy' then
-      table.insert(p.lazy, plug)
+      table.insert(plugins.lazy, plug)
       plug.type = 'opt'
     end
   end
 
   -- setup minpac
-  p.minpac_plugins = plugins
+  p.minpac_plugins = user_plugins
   p.setup_commands()
 
-  local lazy_loading = defer_fn(p.load_plugins(deferred))
+  local lazy_loading = defer_fn(p.load_plugins(plugins))
   p.apply_start_config(config_fns)
 
   autocmd({'User', 'PluginsLoaded', once = true}, function()
@@ -73,26 +74,26 @@ M.init = function(plugins)
     return
   end
 
-  p.packadd(p.lazy)
-  autocmd({'VimEnter', once = true}, lazy_loading)
+  p.packadd(plugins.lazy)
+  autocmd('VimEnter', lazy_loading)
 end
 
 p.load_plugins = function(plugins)
   return function()
     if done then return end
 
-    p.packadd(plugins)
+    p.packadd(plugins.deferred)
 
     vim.cmd([[
-      runtime! OPT after/plugin/*.vim 
-      runtime! OPT after/plugin/*.lua 
+      runtime! OPT after/plugin/*.vim
+      runtime! OPT after/plugin/*.lua
     ]])
 
     if nofiles then
-      p.packadd(p.lazy)
+      p.packadd(plugins.lazy)
     end
 
-    vim.cmd('doautocmd User PluginsLoaded')
+    doautocmd({'User', 'PluginsLoaded'})
     done = true
   end
 end
@@ -130,7 +131,8 @@ p.apply_start_config = function(fns)
   end
 end
 
-M.apply_opt_config = function(plugin)
+M.apply_opt_config = function(input)
+  local plugin = input.args
   vim.cmd('packadd ' .. plugin)
   local config = p.configs.opts[plugin]
   if type(config) == 'function' then
@@ -156,23 +158,24 @@ M.minpac = function()
 end
 
 p.setup_commands = function()
-  vim.cmd([[
-    command! PackManDownload lua require('plug').minpac_download()
-    command! PackUpdate lua require('plug').minpac(); vim.call('minpac#update')
-    command! PackClean  lua require('plug').minpac(); vim.call('minpac#clean')
-    command! PackStatus lua require('plug').minpac(); vim.call('minpac#status')
-    command! -nargs=1 -complete=packadd PackAdd lua require('plug').apply_opt_config(<q-args>)
-  ]])
+  local action = function(minpac_fn)
+    return function() M.minpac(); vim.call(minpac_fn) end
+  end
+
+  command('PackManDownload', M.minpac_download)
+  command('PackUpdate', action('minpac#update'))
+  command('PackClean', action('minpac#clean'))
+  command('PackStatus', action('minpac#status'))
+  command({'PackAdd', nargs = 1, complete='packadd'}, M.apply_opt_config)
 end
 
 M.has_minpac = function()
-  local empty = vim.fn.empty(vim.fn.glob(p.minpac_path)) > 0
-  return not empty
+  return vim.fn.isdirectory(p.minpac_path) == 1
 end
 
 M.minpac_download = function()
-  local gitclone = 'git clone https://github.com/k-takata/minpac.git %s'
-  vim.fn.system(gitclone:format(p.minpac_path))
+  local gitclone = '!git clone https://github.com/k-takata/minpac.git %s'
+  vim.cmd(gitclone:format(p.minpac_path))
 end
 
 return M

@@ -12,7 +12,7 @@ M.create_excmd = function(command, fn)
     opts = command
   end
 
-  vim.api.nvim_add_user_command(cmd_name, fn, opts)
+  vim.api.nvim_create_user_command(cmd_name, fn, opts)
 end
 
 M.group_command = function(group, event, command)
@@ -52,6 +52,24 @@ M.autocmd = function(event, command)
     event,
     command
   )
+end
+
+M.doautocmd = function(args)
+  local event
+  local opts = {}
+
+  if type(event) == 'string' then
+    event = args
+  elseif args[3] then
+    event = args[2]
+    opts.group = args[1]
+    opts.pattern = args[3]
+  else
+    event = args[1]
+    opts.pattern = args[2]
+  end
+
+  vim.api.nvim_exec_autocmds(event, opts)
 end
 
 return M

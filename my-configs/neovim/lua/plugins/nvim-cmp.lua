@@ -129,7 +129,7 @@ user.enable_cmd = function()
   user.set_autocomplete(true)
 end
 
-vim.api.nvim_add_user_command('UserCmpEnable', user.enable_cmd, {})
+vim.api.nvim_create_user_command('UserCmpEnable', user.enable_cmd, {})
 
 cmp.setup(user.config)
 
