@@ -70,8 +70,9 @@ set.tags:prepend(f('%s/.git/tags', cwd))
 -- Insert mode completion setting
 set.completeopt = {'menu', 'menuone', 'noselect'}
 
--- Theme
-pcall(vim.cmd, 'colorscheme rubber-enhanced')
+-- Apply theme
+local theme = pcall(require, 'little-wonder')
+if theme then vim.cmd('colorscheme darkling') end
 
 -- Set grep default grep command with ripgrep
 set.grepprg = 'rg --vimgrep --follow'
