@@ -5,6 +5,14 @@ local compe_cmds = vim.api.nvim_create_augroup('compe_cmds', {clear = true})
 local user = {autocomplete = true}
 
 local select_opts = {behavior = cmp.SelectBehavior.Select}
+local documentation = vim.tbl_deep_extend(
+  'force',
+  cmp.config.window.bordered(),
+  {
+    max_height = 15,
+    max_width = 50,
+  }
+)
 
 user.config = {
   enabled = function()
@@ -28,10 +36,8 @@ user.config = {
     {name = 'buffer', keyword_length = 3},
     {name = 'luasnip', keyword_length = 2},
   },
-  documentation = {
-    maxheight = 15,
-    maxwidth = 50,
-    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+  window = {
+    documentation = documentation
   },
   formatting = {
     fields = {'menu', 'abbr', 'kind'},
