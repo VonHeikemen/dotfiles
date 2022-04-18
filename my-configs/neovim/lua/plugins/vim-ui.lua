@@ -189,7 +189,7 @@ UI.load = function()
   UI.select()
 end
 
-autocmd({'User', 'AlphaReady', once = true}, UI.load)
+autocmd({'User', 'PluginsLoaded', once = true}, UI.load)
 
 return UI
 

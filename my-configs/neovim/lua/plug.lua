@@ -1,5 +1,6 @@
 local autocmd = require('bridge').augroup('plug_init')
 local command = require('bridge').create_excmd
+local doautocmd = require('bridge').doautocmd
 local done = false
 
 local M = {
@@ -95,6 +96,7 @@ p.load_plugins = function(plugins, startup)
     ]])
   end
 
+  doautocmd({'User', 'PluginsLoaded'})
   done = true
 end
 
