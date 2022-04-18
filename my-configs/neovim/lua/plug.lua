@@ -1,26 +1,18 @@
 local autocmd = require('bridge').augroup('plug_init')
-local doautocmd = require('bridge').doautocmd
 local command = require('bridge').create_excmd
+local done = false
 
 local M = {
   skip_config = false
 }
 
-local done = false
-local nofiles = vim.fn.argc() == 0
-
-local p = {} -- I hate it
-p.packpath = vim.fn.stdpath('data') .. '/site'
-p.minpac_path = vim.fn.stdpath('data') .. '/site/pack/minpac/opt/minpac'
-
-p.minpac_plugins = {}
-p.configs = {opts = {}}
-
-local defer_fn = function(fn)
-  return function()
-    vim.defer_fn(fn, 20)
-  end
-end
+local p = {
+  packpath = vim.fn.stdpath('data') .. '/site',
+  minpac_path = vim.fn.stdpath('data') .. '/site/pack/minpac/opt/minpac',
+  minpac_plugins = {},
+  opt_config = {},
+  nofiles = vim.fn.argc() == 0,
+}
 
 local plug_name = function(plug)
   local name = plug.as
@@ -32,70 +24,78 @@ local plug_name = function(plug)
 end
 
 M.init = function(user_plugins)
-  local plugins = {deferred = {}, lazy = {}}
-  local config_fns = {}
+  local start_config = {}
+  local deferred = {}
 
   for i, plug in pairs(user_plugins) do
     if plug.type == 'start' and type(plug.config) == 'function' then
-      config_fns[plug_name(plug)] = plug.config
+      start_config[plug_name(plug)] = plug.config
     end
 
     if plug.type == 'opt' and type(plug.config) == 'function' then
-      p.configs.opts[plug_name(plug)] = plug.config
+      p.opt_config[plug_name(plug)] = plug.config
     end
 
-    if plug.type == nil or plug.type == 'deferred' then
-      table.insert(plugins.deferred, plug)
-      plug.type = 'opt'
-    end
-
-    if plug.type == 'lazy' then
-      table.insert(plugins.lazy, plug)
+    if plug.type == nil then
+      table.insert(deferred, plug)
       plug.type = 'opt'
     end
   end
 
-  -- setup minpac
   p.minpac_plugins = user_plugins
   p.setup_commands()
+  p.apply_start_config(start_config)
 
-  local lazy_loading = defer_fn(p.load_plugins(plugins))
-  p.apply_start_config(config_fns)
-
-  autocmd({'User', 'PluginsLoaded', once = true}, function()
-    print('✔')
-    vim.defer_fn(function() print(' ') end, 600)
-  end)
-
-  -- Figure out when to load the plugins
-  if nofiles then
-    autocmd({'VimEnter', once = true}, lazy_loading)
-    autocmd({'SessionLoadPost', once = true}, lazy_loading)
+  -- loading a session file
+  if vim.v.argv[2] == '-S' then
+    p.load_plugins(deferred, true)
     return
   end
 
-  p.packadd(plugins.lazy)
-  autocmd('VimEnter', lazy_loading)
+  -- wait for startup screen
+  if p.nofiles then
+    autocmd({'User', 'AlphaReady', once = true}, function()
+      vim.defer_fn(function()
+        p.load_plugins(deferred, false)
+      end, 10)
+    end)
+    return
+  end
+
+  p.load_plugins(deferred, true)
 end
 
-p.load_plugins = function(plugins)
-  return function()
-    if done then return end
+p.apply_start_config = function(fns)
+  if M.skip_config then return end
 
-    p.packadd(plugins.deferred)
+  for i, config in pairs(fns) do
+    config()
+  end
+end
 
+M.apply_opt_config = function(input)
+  local plugin = input.args
+  vim.cmd('packadd ' .. plugin)
+
+  local config = p.opt_config[plugin]
+  if type(config) == 'function' then
+    config()
+  end
+end
+
+p.load_plugins = function(plugins, startup)
+  if done then return end
+
+  p.packadd(plugins)
+
+  if startup == false then
     vim.cmd([[
       runtime! OPT after/plugin/*.vim
       runtime! OPT after/plugin/*.lua
     ]])
-
-    if nofiles then
-      p.packadd(plugins.lazy)
-    end
-
-    doautocmd({'User', 'PluginsLoaded'})
-    done = true
   end
+
+  done = true
 end
 
 p.packadd = function(plugins)
@@ -112,30 +112,13 @@ p.packadd = function(plugins)
     end
   end
 
-  vim.cmd(add_cmd)
-
   if M.skip_config then
     return
   end
 
+  vim.cmd(add_cmd)
+
   for i, config in pairs(config_fns) do
-    config()
-  end
-end
-
-p.apply_start_config = function(fns)
-  if M.skip_config then return end
-
-  for i, config in pairs(fns) do
-    config()
-  end
-end
-
-M.apply_opt_config = function(input)
-  local plugin = input.args
-  vim.cmd('packadd ' .. plugin)
-  local config = p.configs.opts[plugin]
-  if type(config) == 'function' then
     config()
   end
 end

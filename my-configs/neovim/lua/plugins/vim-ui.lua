@@ -1,3 +1,4 @@
+local automcd = require('bridge').augroup('vim-ui_cmds')
 local UI = {}
 
 local input_opts = function()
@@ -183,8 +184,12 @@ UI.select = function()
   end
 end
 
-UI.input()
-UI.select()
+UI.load = function()
+  UI.input()
+  UI.select()
+end
+
+autocmd({'User', 'AlphaReady', once = true}, UI.load)
 
 return UI
 

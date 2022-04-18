@@ -2,7 +2,6 @@ local fns = require('conf.functions')
 local setup = require('plugins.misc')
 local plug = require('plug')
 
-local nvim_ready = function(arg) return function() fns.nvim_ready(arg) end end
 local use = function(mod) return function() require(mod) end end
 
 -- ========================================================================== --
@@ -16,8 +15,7 @@ plug.init({
   -- Fuzzy finder
   {
     'nvim-telescope/telescope.nvim',
-    type = 'start',
-    config = nvim_ready('plugins.telescope')
+    config = use('plugins.telescope')
   },
   {
     'nvim-telescope/telescope-fzy-native.nvim',
@@ -81,14 +79,12 @@ plug.init({
   {'lumiliet/vim-twig', type = 'start'},
   {
     'nvim-treesitter/nvim-treesitter',
-    type = 'lazy',
     frozen = true,
     run = function() pcall(vim.cmd, 'TSUpdate') end,
     config = use('plugins.treesitter')
   },
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
-    type = 'lazy',
     frozen = true,
   },
 
@@ -113,12 +109,11 @@ plug.init({
   {
     'MunifTanjim/nui.nvim',
     type = 'start',
-    config = nvim_ready('plugins.vim-ui')
+    config = use('plugins.vim-ui')
   },
   {
     'VonHeikemen/fine-cmdline.nvim',
-    type = 'start',
-    config = nvim_ready(setup.fine_cmdline)
+    config = setup.fine_cmdline
   },
   {'VonHeikemen/searchbox.nvim', config = setup.searchbox},
   {'rcarriga/nvim-notify', config = setup.nvim_notify},
