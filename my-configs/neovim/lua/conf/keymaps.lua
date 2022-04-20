@@ -1,6 +1,7 @@
 local fns = require('conf.functions')
 
-local autocmd = require('bridge').augroup('mapping_cmds')
+local augroup = vim.api.nvim_create_augroup('mapping_cmds', {clear = true})
+local autocmd = vim.api.nvim_create_autocmd
 local bind = vim.keymap.set
 
 -- Bind options
@@ -167,35 +168,39 @@ noremap('x', '<leader>R', ":<C-u>GetSelection<CR>:SearchBoxReplace confirm=menu<
 -- ==                                 LSP                                  == --
 -- ========================================================================== --
 
-autocmd({'User', 'LSPKeybindings'}, function()
-  local telescope = require('telescope.builtin')
-  local lsp = vim.lsp.buf
+autocmd('User', {
+  pattern = 'LSPKeybindings',
+  group = augroup,
+  callback = function()
+    local telescope = require('telescope.builtin')
+    local lsp = vim.lsp.buf
 
-  local opts = {silent = true, buffer = true}
+    local opts = {silent = true, buffer = true}
 
-  bind('n', '<leader>fi', '<cmd>LspInfo<cr>', opts)
+    bind('n', '<leader>fi', '<cmd>LspInfo<cr>', opts)
 
-  bind('n', 'K', lsp.hover, opts)
-  bind('n', 'gd', lsp.definition, opts)
-  bind('n', 'gD', lsp.declaration, opts)
-  bind('n', 'gi', lsp.implementation, opts)
-  bind('n', 'go', lsp.type_definition, opts)
-  bind('n', 'gr', lsp.references, opts)
-  bind('n', 'gs', lsp.signature_help, opts)
-  bind('n', '<F2>', lsp.rename, opts)
-  bind('n', '<F4>', lsp.code_action, opts)
-  bind('x', '<F4>', lsp.range_code_action, opts)
+    bind('n', 'K', lsp.hover, opts)
+    bind('n', 'gd', lsp.definition, opts)
+    bind('n', 'gD', lsp.declaration, opts)
+    bind('n', 'gi', lsp.implementation, opts)
+    bind('n', 'go', lsp.type_definition, opts)
+    bind('n', 'gr', lsp.references, opts)
+    bind('n', 'gs', lsp.signature_help, opts)
+    bind('n', '<F2>', lsp.rename, opts)
+    bind('n', '<F4>', lsp.code_action, opts)
+    bind('x', '<F4>', lsp.range_code_action, opts)
 
-  bind('i', '<M-i>', lsp.signature_help, opts)
+    bind('i', '<M-i>', lsp.signature_help, opts)
 
-  bind('n', 'gl', vim.diagnostic.open_float, opts)
-  bind('n', '[d', vim.diagnostic.goto_prev, opts)
-  bind('n', ']d', vim.diagnostic.goto_next, opts)
+    bind('n', 'gl', vim.diagnostic.open_float, opts)
+    bind('n', '[d', vim.diagnostic.goto_prev, opts)
+    bind('n', ']d', vim.diagnostic.goto_next, opts)
 
-  bind('n', '<leader>fd', telescope.lsp_document_symbols, opts)
-  bind('n', '<leader>fq', telescope.lsp_workspace_symbols, opts)
-  bind('n', '<leader>fa', telescope.lsp_code_actions, opts)
-end)
+    bind('n', '<leader>fd', telescope.lsp_document_symbols, opts)
+    bind('n', '<leader>fq', telescope.lsp_workspace_symbols, opts)
+    bind('n', '<leader>fa', telescope.lsp_code_actions, opts)
+  end
+})
 
 -- ========================================================================== --
 -- ==                            MISCELLANEOUS                             == --
@@ -226,20 +231,24 @@ remap('n', '[q', '<Plug>(qf_qf_previous)zz')
 remap('n', ']q', '<Plug>(qf_qf_next)zz')
 remap('n', '<Leader>cc', '<Plug>(qf_qf_toggle)')
 
-autocmd({'filetype', 'qf'}, function()
-  local opts = {remap = true, buffer = true}
+autocmd('filetype', {
+  pattern = 'qf',
+  group = augroup,
+  callback = function()
+    local opts = {remap = true, buffer = true}
 
-  -- Go to location under the cursor
-  bind('n', '<CR>', '<CR>zz<C-w>w', {buffer = true})
+    -- Go to location under the cursor
+    bind('n', '<CR>', '<CR>zz<C-w>w', {buffer = true})
 
-  -- Go to next location and stay in the quickfix window
-  bind('n', '<Up>', '<Plug>(qf_qf_previous)zz<C-w>w', opts)
+    -- Go to next location and stay in the quickfix window
+    bind('n', '<Up>', '<Plug>(qf_qf_previous)zz<C-w>w', opts)
 
-  -- Go to previous location and stay in the quickfix window
-  bind('n', '<Down>', '<Plug>(qf_qf_next)zz<C-w>w', opts)
+    -- Go to previous location and stay in the quickfix window
+    bind('n', '<Down>', '<Plug>(qf_qf_next)zz<C-w>w', opts)
 
-  bind('n', '<leader>r', ':%s///g<Left><Left>', opts)
-end)
+    bind('n', '<leader>r', ':%s///g<Left><Left>', opts)
+  end
+})
 
 -- Open file manager
 noremap('n', '<leader>dd', fns.file_explorer)

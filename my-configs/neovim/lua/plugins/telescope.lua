@@ -1,11 +1,11 @@
-local command = require('bridge').create_excmd
+local command = vim.api.nvim_create_user_command
 
 local telescope = require('telescope')
 local actions = require('telescope.actions')
 
-command({'TGrep', nargs = 1}, function(input)
+command('TGrep', function(input)
   require('telescope.builtin').grep_string({search = input.args})
-end)
+end, {nargs = 1})
 
 local defaults = function(title)
   return {

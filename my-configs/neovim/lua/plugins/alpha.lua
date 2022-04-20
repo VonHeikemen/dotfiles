@@ -1,4 +1,5 @@
-local autocmd = require('bridge').augroup('alpha_cmds')
+local augroup = vim.api.nvim_create_augroup('alpha_cmds', {clear = true})
+local autocmd = vim.api.nvim_create_autocmd
 
 local theme = {}
 local section = {}
@@ -171,21 +172,25 @@ theme.layout = {
 
 theme.opts = {}
 
-autocmd({'User', 'AlphaReady'}, function()
-  for _, item in pairs(action) do
-    vim.keymap.set(
-      'n',
-      item.keys,
-      item.fn,
-      {silent = true, buffer = true}
-    )
-  end
+autocmd('User', {
+  pattern = 'AlphaReady',
+  group = augroup,
+  callback = function()
+    for _, item in pairs(action) do
+      vim.keymap.set(
+        'n',
+        item.keys,
+        item.fn,
+        {silent = true, buffer = true}
+      )
+    end
 
-  if vim.g.terminal_color_background then
-    vim.cmd('highlight UserHideChar guifg=' .. vim.g.terminal_color_background)
-    vim.cmd('setlocal winhl=EndOfBuffer:UserHideChar')
+    if vim.g.terminal_color_background then
+      vim.cmd('highlight UserHideChar guifg=' .. vim.g.terminal_color_background)
+      vim.cmd('setlocal winhl=EndOfBuffer:UserHideChar')
+    end
   end
-end)
+})
 
 require('alpha').setup(theme)
 

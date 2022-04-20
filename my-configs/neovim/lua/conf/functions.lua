@@ -67,7 +67,9 @@ M.job_output = function(cid, data, name)
 end
 
 M.nvim_ready = function(fn)
-  local autocmd = require('bridge').autocmd
+  local autocmd = vim.api.nvim_create_autocmd
+  local augroup = vim.api.nvim_create_augroup('user_cmds', {clear = false})
+
   local delay = 10
   local exec = function() vim.defer_fn(fn , delay) end
 
@@ -76,7 +78,7 @@ M.nvim_ready = function(fn)
     exec = function() vim.defer_fn(get_module, delay) end
   end
 
-  autocmd({'VimEnter', once = true}, exec)
+  autocmd('VimEnter', {once = true, group = augroup, callback = exec})
 end
 
 M.edit_macro = function()

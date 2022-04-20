@@ -1,7 +1,10 @@
+local augroup = vim.api.nvim_create_augroup('compe_cmds', {clear = true})
+local autocmd = vim.api.nvim_create_autocmd
+local command = vim.api.nvim_create_user_command
+
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
-local compe_cmds = vim.api.nvim_create_augroup('compe_cmds', {clear = true})
 local user = {autocomplete = true}
 
 local select_opts = {behavior = cmp.SelectBehavior.Select}
@@ -10,7 +13,7 @@ local documentation = vim.tbl_deep_extend(
   cmp.config.window.bordered(),
   {
     max_height = 15,
-    max_width = 50,
+    max_width = 60,
   }
 )
 
@@ -93,7 +96,7 @@ user.config = {
   }
 }
 
-user.set_autocomplete = function(value)
+user.set_autocomplete = function(new_value)
   local old_value = user.autocomplete
 
   if new_value == old_value then return end
@@ -109,8 +112,8 @@ user.set_autocomplete = function(value)
     )
 
     -- restore when leaving insert mode
-    vim.api.nvim_create_autocmd('InsertLeave', {
-      group = compe_cmds,
+    autocmd('InsertLeave', {
+      group = augroup,
       command = 'UserCmpEnable',
       once = true,
     })
@@ -135,7 +138,7 @@ user.enable_cmd = function()
   user.set_autocomplete(true)
 end
 
-vim.api.nvim_create_user_command('UserCmpEnable', user.enable_cmd, {})
+command('UserCmpEnable', user.enable_cmd, {})
 
 cmp.setup(user.config)
 

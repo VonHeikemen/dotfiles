@@ -1,4 +1,6 @@
-local automcd = require('bridge').augroup('vim-ui_cmds')
+local augroup = vim.api.nvim_create_augroup('vim-ui_cmds', {clear = true})
+local autocmd = vim.api.nvim_create_autocmd
+
 local UI = {}
 
 local input_opts = function()
@@ -189,7 +191,12 @@ UI.load = function()
   UI.select()
 end
 
-autocmd({'User', 'PluginsLoaded', once = true}, UI.load)
+autocmd('User', {
+  pattern = 'PluginsLoaded',
+  group = augroup,
+  once = true,
+  callback = UI.load
+})
 
 return UI
 

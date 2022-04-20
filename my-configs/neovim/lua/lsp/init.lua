@@ -9,6 +9,7 @@ vim.cmd([[
 
 local lsp = require('lsp-zero')
 local servers = require('lsp.servers')
+local doautocmd = vim.api.nvim_exec_autocmds
 
 require('fidget').setup({
   text = {
@@ -29,7 +30,7 @@ lsp.on_attach(function()
   if vim.b.lsp_attached == true then return end
 
   -- keybinding are in lua/conf/keymaps.lua
-  doautocmd({'mapping_cmds', 'User', 'LSPKeybindings'})
+  doautocmd('User', {pattern = 'LSPKeybindings', group = 'mapping_cmds'})
   vim.b.lsp_attached = true
 end)
 

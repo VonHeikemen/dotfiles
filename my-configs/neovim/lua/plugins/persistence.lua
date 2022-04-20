@@ -1,5 +1,4 @@
-local autocmd = require('bridge').augroup('persistence_cmds')
-local command = require('bridge').create_excmd
+local command = vim.api.nvim_create_user_command
 
 local join = function(...) return table.concat({...}, '/') end
 
@@ -12,25 +11,22 @@ local start = function()
   require('persistence').setup({dir = session_path})
 end
 
-command('SessionStart', function()
-  start()
-end)
+local load_session = function(args)
+  require('project-settings').load()
+  require('persistence').load(args)
+end
 
-command('SessionStop', function()
-  require('persistence').stop()
-end)
+command('SessionStart', start, {})
+
+command('SessionStop', function() require('persistence').stop() end, {})
 
 command('SessionLoad', function()
   start()
-  require('persistence').load()
-end)
+  load_session({last = false})
+end, {})
 
 command('SessionLast', function()
   start()
-  require('persistence').load({last = true})
-end)
-
-autocmd('SessionLoadPost', function()
-  require('project-settings').load()
-end)
+  load_session({last = true})
+end, {})
 

@@ -1,6 +1,8 @@
-local autocmd = require('bridge').augroup('plug_init')
-local command = require('bridge').create_excmd
-local doautocmd = require('bridge').doautocmd
+local augroup = vim.api.nvim_create_augroup('plug_init', {clear = true})
+local autocmd = vim.api.nvim_create_autocmd
+local command = vim.api.nvim_create_user_command
+local doautocmd = vim.api.nvim_exec_autocmds
+
 local done = false
 
 local M = {
@@ -55,11 +57,13 @@ M.init = function(user_plugins)
 
   -- wait for startup screen
   if p.nofiles then
-    autocmd({'User', 'AlphaReady', once = true}, function()
-      vim.defer_fn(function()
-        p.load_plugins(deferred, false)
-      end, 10)
-    end)
+    autocmd('User', {
+      pattern = 'AlphaReady',
+      group = augroup,
+      callback = function()
+        vim.defer_fn(function() p.load_plugins(deferred, false) end, 10)
+      end
+    })
     return
   end
 
@@ -96,7 +100,7 @@ p.load_plugins = function(plugins, startup)
     ]])
   end
 
-  doautocmd({'User', 'PluginsLoaded'})
+  doautocmd('User', {pattern = 'PluginsLoaded'})
   done = true
 end
 
@@ -147,11 +151,11 @@ p.setup_commands = function()
     return function() M.minpac(); vim.call(minpac_fn) end
   end
 
-  command('PackManDownload', M.minpac_download)
-  command('PackUpdate', action('minpac#update'))
-  command('PackClean', action('minpac#clean'))
-  command('PackStatus', action('minpac#status'))
-  command({'PackAdd', nargs = 1, complete='packadd'}, M.apply_opt_config)
+  command('PackManDownload', M.minpac_download, {})
+  command('PackUpdate', action('minpac#update'), {})
+  command('PackClean', action('minpac#clean'), {})
+  command('PackStatus', action('minpac#status'), {})
+  command('PackAdd', M.apply_opt_config, {nargs = 1, complete='packadd'})
 end
 
 M.has_minpac = function()
