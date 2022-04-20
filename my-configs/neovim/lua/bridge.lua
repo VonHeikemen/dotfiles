@@ -24,6 +24,7 @@ M.group_command = function(group, event, command)
   else
     name = event[1]
     opts = event
+    opts.group = group
     opts.pattern = event[2]
     opts[1] = nil
     opts[2] = nil

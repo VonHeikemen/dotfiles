@@ -1,3 +1,4 @@
+local doautocmd = require('bridge').doautocmd
 local M = {}
 
 vim.cmd([[
@@ -28,7 +29,7 @@ lsp.on_attach(function()
   if vim.b.lsp_attached == true then return end
 
   -- keybinding are in lua/conf/keymaps.lua
-  vim.cmd('doautocmd User LSPKeybindings')
+  doautocmd({'mapping_cmds', 'User', 'LSPKeybindings'})
   vim.b.lsp_attached = true
 end)
 
