@@ -69,6 +69,21 @@ action.explore = {
   end
 }
 
+action.get_session = {
+  name = 'Workspace Session',
+  display = 's',
+  keys = 's',
+  fn = function()
+    require('project-settings').load({})
+    if vim.g.session_name then
+      require('plugins.session').load_current()
+    else
+      local msg = 'No session name specified in settings file'
+      vim.notify(msg, vim.log.levels.WARN)
+    end
+  end
+}
+
 action.help = {
   name = 'Get Help',
   display = 'H',
@@ -140,6 +155,7 @@ else
     button(action.search_file),
     button(action.recently_used),
     button(action.explore),
+    button(action.get_session),
     button(action.quit)
   }
 end

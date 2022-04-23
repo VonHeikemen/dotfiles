@@ -19,6 +19,11 @@ project.set_config({
       require('conf.functions').set_autoindent()
     end),
 
+    session = function(name)
+      if type(name) ~= 'string' then return end
+      vim.g.session_name = name
+    end,
+
     ['nvim-config'] = enable(function()
       require('lsp.nvim-workspace').setup()
     end),
