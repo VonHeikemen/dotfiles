@@ -69,23 +69,6 @@ action.explore = {
   end
 }
 
-action.get_session = {
-  name = 'Workspace Session',
-  display = 's',
-  keys = 's',
-  fn = function()
-    require('persistence.config').setup({dir = vim.g.session_path})
-    local session_file = require('persistence').get_current()
-
-    if vim.fn.filereadable(session_file) == 1 then
-      vim.cmd('bdelete | SessionLoad')
-    else
-      vim.cmd('enew | SessionStart')
-      vim.notify('Starting new session', vim.log.levels.INFO)
-    end
-  end
-}
-
 action.help = {
   name = 'Get Help',
   display = 'H',
@@ -157,7 +140,6 @@ else
     button(action.search_file),
     button(action.recently_used),
     button(action.explore),
-    button(action.get_session),
     button(action.quit)
   }
 end

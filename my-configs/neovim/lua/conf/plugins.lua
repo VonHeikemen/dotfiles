@@ -35,13 +35,6 @@ plug.init({
   {'VonHeikemen/rubber-themes.vim', type = 'opt'},
   {'VonHeikemen/little-wonder', type = 'start'},
 
-  -- Session manager
-  {
-    'folke/persistence.nvim',
-    type = 'start',
-    config = use('plugins.persistence')
-  },
-
   -- Distraction free mode
   {'folke/zen-mode.nvim', config = use('plugins.zen-mode')},
 
