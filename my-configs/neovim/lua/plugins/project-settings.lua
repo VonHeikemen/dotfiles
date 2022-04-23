@@ -1,6 +1,9 @@
 local project = require('project-settings')
 local enable = project.utils.enable
 
+local augroup = vim.api.nvim_create_augroup('project_cmds', {clear = true})
+local autocmd = vim.api.nvim_create_autocmd
+
 project.set_config({
   settings = {
     notify_unregistered = false,
@@ -36,5 +39,11 @@ project.set_config({
       require('lsp.nvim-workspace').setup({library = dependencies})
     end
   }
+})
+
+autocmd('BufWritePost', {
+  pattern = 'vimrc.json',
+  group = augroup,
+  command = 'ProjectSettingsRegister'
 })
 
