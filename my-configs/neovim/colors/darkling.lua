@@ -74,5 +74,8 @@ local hi = lw.set_hl
 
 link('TelescopeMatching', 'Boolean')
 link('TelescopeSelection', 'CursorLine')
-hi('TelescopeSelectionCaret', {fg = '#FC8680', bg = '#242830'})
+link('NormalFloat', 'Normal')
+link('markdownError', 'Normal')
+
+hi('TelescopeSelectionCaret', {fg = color.red.gui, bg = color.dark_blue.gui})
 
