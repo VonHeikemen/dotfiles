@@ -14,7 +14,7 @@ local p = {
   minpac_path = vim.fn.stdpath('data') .. '/site/pack/minpac/opt/minpac',
   minpac_plugins = {},
   opt_config = {},
-  nofiles = vim.fn.argc() == 0,
+  hasfiles = vim.fn.argc() > 0,
 }
 
 local plug_name = function(plug)
@@ -49,25 +49,24 @@ M.init = function(user_plugins)
   p.setup_commands()
   p.apply_start_config(start_config)
 
-  -- loading a session file
-  if vim.v.argv[2] == '-S' then
+  local arg = vim.v.argv[2] or ''
+  local starts_with_command = arg == '-S'
+    or arg == '-c'
+    or vim.startswith(arg, '+')
+
+  if p.hasfiles or starts_with_command then
     p.load_plugins(deferred, true)
     return
   end
 
   -- wait for startup screen
-  if p.nofiles then
-    autocmd('User', {
-      pattern = 'AlphaReady',
-      group = augroup,
-      callback = function()
-        vim.defer_fn(function() p.load_plugins(deferred, false) end, 10)
-      end
-    })
-    return
-  end
-
-  p.load_plugins(deferred, true)
+  autocmd('User', {
+    pattern = 'AlphaReady',
+    group = augroup,
+    callback = function()
+      vim.defer_fn(function() p.load_plugins(deferred, false) end, 10)
+    end
+  })
 end
 
 p.apply_start_config = function(fns)
