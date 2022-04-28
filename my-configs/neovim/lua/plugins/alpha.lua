@@ -76,7 +76,7 @@ action.get_session = {
   fn = function()
     require('project-settings').load({})
     if vim.g.session_name then
-      require('plugins.session').load_current()
+      require('plugins.session').load_current(vim.g.session_name)
     else
       local msg = 'No session name specified in settings file'
       vim.notify(msg, vim.log.levels.WARN)

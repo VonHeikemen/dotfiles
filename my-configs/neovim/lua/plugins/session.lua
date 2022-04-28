@@ -44,11 +44,16 @@ M.is_readable = function(name)
   return vim.fn.filereadable(join(session_dir, name .. '.vim')) == 1
 end
 
-M.save = function()
+M.save = function(name)
+  local session = escape(join(session_dir, name .. '.vim'))
+  vim.cmd('mksession! ' .. session)
+end
+
+M.save_current = function()
   local session = vim.v.this_session
   if session == '' then return end
 
-  vim.cmd('mksession! ' .. session)
+  vim.cmd('mksession! ' .. escape(session))
 end
 
 M.autosave = function()
@@ -57,19 +62,12 @@ M.autosave = function()
   set_autocmd = autocmd('VimLeavePre', {
     group = augroup,
     desc = 'Save active session on exit',
-    callback = M.save
+    callback = M.save_current
   })
 end
 
-M.load_current = function()
-  local name = vim.g.session_name
-
+M.load_current = function(name)
   if name == nil then
-    vim.ui.input({prompt = 'Session name:'}, function(value)
-      if value == nil then return end
-      M.create(value)
-      vim.defer_fn(function() vim.cmd('enew') end, 5)
-    end)
     return
   end
 
@@ -77,20 +75,13 @@ M.load_current = function()
     M.source(name)
     return
   end
-
-  M.create(name)
 end
 
 local load_session = function(input)
-  local name = input.args
-  if name:len() > 0 then
-    vim.g.session_name = name
-  end
-
-  M.load_current()
+  M.load_current(input.args)
 end
 
-local new_session = function()
+M.new_session = function()
   vim.ui.input({prompt = 'Session name:'}, function(value)
     if value == nil then return end
     M.create(value)
@@ -104,7 +95,7 @@ local new_branch = function(input)
     return
   end
 
-  M.save()
+  M.save_current()
 
   local branch = '%s::%s'
   M.create(branch:format(vim.g.session_name, input.args))
@@ -117,10 +108,13 @@ local load_branch = function(input)
     return
   end
 
-  M.save()
+  M.save_current()
 
   local branch = '%s::%s'
-  local name = branch:format(vim.g.session_name, input.args)
+  local name = branch:format(
+    vim.split(vim.g.session_name, '::')[1],
+    input.args
+  )
 
   if not M.is_readable(name) then
     local msg = 'Could not find branch %s'
@@ -128,13 +122,12 @@ local load_branch = function(input)
     return
   end
 
-  vim.g.session_name = name
-  M.load_current()
+  M.load_current(name)
 end
 
-command('SessionSave', M.save, {})
+command('SessionSave', M.save_current, {})
 command('SessionLoad', load_session, {nargs = '?'})
-command('SessionNew', new_session, {})
+command('SessionNew', M.new_session, {})
 command('SessionNewBranch', new_branch, {nargs = 1})
 command('SessionLoadBranch', load_branch, {nargs = 1})
 
