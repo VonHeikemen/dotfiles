@@ -98,7 +98,8 @@ local new_branch = function(input)
   M.save_current()
 
   local branch = '%s::%s'
-  M.create(branch:format(vim.g.session_name, input.args))
+  local name = vim.split(vim.g.session_name, '::')[1]
+  M.create(branch:format(name, input.args))
 end
 
 local load_branch = function(input)
