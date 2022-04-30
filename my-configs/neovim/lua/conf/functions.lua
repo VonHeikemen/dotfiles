@@ -120,5 +120,10 @@ M.set_autoindent = function()
   end, 3)
 end
 
+M.load_project = function()
+  require('project-settings').load({})
+  require('plugins.session').load_current(vim.g.session_name)
+end
+
 return M
 
