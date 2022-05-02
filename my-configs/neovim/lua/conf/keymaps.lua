@@ -197,7 +197,6 @@ autocmd('User', {
 
     bind('n', '<leader>fd', telescope.lsp_document_symbols, opts)
     bind('n', '<leader>fq', telescope.lsp_workspace_symbols, opts)
-    bind('n', '<leader>fa', telescope.lsp_code_actions, opts)
   end
 })
 
