@@ -1,4 +1,3 @@
-local doautocmd = require('bridge').doautocmd
 local M = {}
 
 vim.cmd([[
@@ -9,6 +8,9 @@ vim.cmd([[
 
 local lsp = require('lsp-zero')
 local servers = require('lsp.servers')
+
+local augroup = vim.api.nvim_create_augroup('lsp_cmds', {clear = true})
+local autocmd = vim.api.nvim_create_autocmd
 local doautocmd = vim.api.nvim_exec_autocmds
 
 require('fidget').setup({
@@ -22,6 +24,7 @@ require('fidget').setup({
 
 lsp.set_preferences({
   setup_servers_on_start = 'per-project',
+  cmp_capabilities = true,
   set_lsp_keymaps = false
 })
 
@@ -29,7 +32,7 @@ lsp.on_attach(function()
   -- only run once per buffer
   if vim.b.lsp_attached == true then return end
 
-  -- keybinding are in lua/conf/keymaps.lua
+  -- keybindings are in lua/conf/keymaps.lua
   doautocmd('User', {pattern = 'LSPKeybindings', group = 'mapping_cmds'})
   vim.b.lsp_attached = true
 end)
@@ -37,6 +40,20 @@ end)
 for server, opts in pairs(servers) do
   lsp.configure(server, opts)
 end
+
+autocmd('ModeChanged', {
+  group = augroup,
+  pattern = {'n:i', 'v:s'},
+  desc = 'Disable diagnostics while typing',
+  callback = function() vim.diagnostic.disable(0) end
+})
+
+autocmd('ModeChanged', {
+  group = augroup,
+  pattern = 'i:n',
+  desc = 'Enable diagnostics when leaving insert mode',
+  callback = function() vim.diagnostic.enable(0) end
+})
 
 M.project_setup = function(opts)
   for server, enable in pairs(opts) do
@@ -46,7 +63,6 @@ M.project_setup = function(opts)
   end
 end
 
--- See :help lsp-zero.use()
 M.use = lsp.use
 
 return M

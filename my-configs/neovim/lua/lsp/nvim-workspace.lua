@@ -18,8 +18,13 @@ M.setup = function(opts)
 
   local lsp = require('lsp-zero')
 
-  lsp.nvim_workspace({library = opts.library})
-  lsp.use('sumneko_lua')
+  local server_opts = lsp.defaults.nvim_workspace()
+
+  if opts.library then
+    server_opts.settings.Lua.workspace.library = opts.library
+  end
+
+  lsp.use('sumneko_lua', server_opts)
 end
 
 return M
