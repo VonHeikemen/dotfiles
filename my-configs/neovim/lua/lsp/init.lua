@@ -1,6 +1,7 @@
 local M = {}
 
 vim.cmd([[
+  packadd nvim-lspconfig
   packadd nvim-lsp-installer
   packadd fidget.nvim
   packadd lsp-zero.nvim

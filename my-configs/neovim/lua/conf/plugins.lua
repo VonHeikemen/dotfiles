@@ -82,7 +82,7 @@ plug.init({
   },
 
   -- LSP support
-  {'neovim/nvim-lspconfig', type = 'start'},
+  {'neovim/nvim-lspconfig', type = 'opt'},
   {'williamboman/nvim-lsp-installer', type = 'opt'},
   {'VonHeikemen/lsp-zero.nvim', type = 'opt'},
   {'j-hui/fidget.nvim', type = 'opt'},
