@@ -32,7 +32,6 @@ plug.init({
   },
 
   -- Theme
-  {'VonHeikemen/rubber-themes.vim', type = 'opt'},
   {'VonHeikemen/little-wonder', type = 'start'},
 
   -- Distraction free mode
