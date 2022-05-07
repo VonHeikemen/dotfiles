@@ -204,11 +204,11 @@ autocmd('User', {
 -- ==                            MISCELLANEOUS                             == --
 -- ========================================================================== --
 
--- Change the whole word
-bind('n', 'cw', '"_ciw')
+-- Change word under cursor
+bind('n', 'cj', '"_ciw')
 
 -- Change word but repeatable
-bind('n', '<leader>cw', "<cmd>let @/='\\<'.expand('<cword>').'\\>'<cr>\"_ciw")
+bind('n', '<leader>j', "<cmd>let @/='\\<'.expand('<cword>').'\\>'<cr>\"_ciw")
 
 -- Use lightspeed's omni mode
 bind('', 's', '<Plug>Lightspeed_omni_s')

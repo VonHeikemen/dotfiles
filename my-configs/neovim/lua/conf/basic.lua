@@ -1,6 +1,7 @@
 local env = require('conf.env')
 local cwd = vim.fn.getcwd()
 local f = string.format
+local autocmd = vim.api.nvim_create_autocmd
 
 local set = vim.opt
 
@@ -81,14 +82,7 @@ set.errorformat:append('%f:%l:%c%p%m')
 -- Status line
 set.statusline = '%=%r%m %l:%c %p%% %y '
 
-if vim.env.TMUX then
-  local dirname = vim.fn.fnamemodify(cwd, ':t')
-  set.statusline:append(f('[%s] ', dirname))
-end
-
 if env.preserve_beam_cursor then
-  vim.api.nvim_create_autocmd('VimLeave', {
-    command = 'set guicursor=a:ver25'
-  })
+  autocmd('VimLeave', {command = 'set guicursor=a:ver25'})
 end
 
