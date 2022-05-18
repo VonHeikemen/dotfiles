@@ -1,18 +1,16 @@
 local M = {}
 
 vim.cmd([[
-  packadd nvim-lspconfig
   packadd nvim-lsp-installer
   packadd fidget.nvim
-  packadd lsp-zero.nvim
 ]])
 
-local lsp = require('lsp-zero')
-local servers = require('lsp.servers')
-
-local augroup = vim.api.nvim_create_augroup('lsp_cmds', {clear = true})
+local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
-local doautocmd = vim.api.nvim_exec_autocmds
+
+local lsp = require('lsp.client')
+
+require('nvim-lsp-installer').setup({})
 
 require('fidget').setup({
   text = {
@@ -23,48 +21,77 @@ require('fidget').setup({
   },
 })
 
-lsp.set_preferences({
-  setup_servers_on_start = 'per-project',
-  cmp_capabilities = true,
-  set_lsp_keymaps = false
-})
+M.diagnostics = function()
+  local sign = function(opts)
+    vim.fn.sign_define(opts.name, {
+      texthl = opts.name,
+      text = opts.text,
+      numhl = ''
+    })
+  end
 
-lsp.on_attach(function()
-  -- only run once per buffer
-  if vim.b.lsp_attached == true then return end
+  sign({name = 'DiagnosticSignError', text = '✘'})
+  sign({name = 'DiagnosticSignWarn', text = '▲'})
+  sign({name = 'DiagnosticSignHint', text = '⚑'})
+  sign({name = 'DiagnosticSignInfo', text = ''})
 
-  -- keybindings are in lua/conf/keymaps.lua
-  doautocmd('User', {pattern = 'LSPKeybindings', group = 'mapping_cmds'})
-  vim.b.lsp_attached = true
-end)
+  vim.diagnostic.config({
+    virtual_text = false,
+    signs = true,
+    update_in_insert = false,
+    underline = true,
+    severity_sort = true,
+    float = {
+      focusable = false,
+      style = 'minimal',
+      border = 'rounded',
+      source = 'always',
+      header = '',
+      prefix = '',
+    },
+  })
 
-for server, opts in pairs(servers) do
-  lsp.configure(server, opts)
+  local group = augroup('diagnostic_cmds', {clear = true})
+
+  autocmd('ModeChanged', {
+    group = group,
+    pattern = {'n:i', 'v:s'},
+    desc = 'Disable diagnostics while typing',
+    callback = function() vim.diagnostic.disable(0) end
+  })
+
+  autocmd('ModeChanged', {
+    group = group,
+    pattern = 'i:n',
+    desc = 'Enable diagnostics when leaving insert mode',
+    callback = function() vim.diagnostic.enable(0) end
+  })
 end
 
-autocmd('ModeChanged', {
-  group = augroup,
-  pattern = {'n:i', 'v:s'},
-  desc = 'Disable diagnostics while typing',
-  callback = function() vim.diagnostic.disable(0) end
-})
+M.handlers = function()
+  vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+    vim.lsp.handlers.hover,
+    {border = 'rounded'}
+  )
 
-autocmd('ModeChanged', {
-  group = augroup,
-  pattern = 'i:n',
-  desc = 'Enable diagnostics when leaving insert mode',
-  callback = function() vim.diagnostic.enable(0) end
-})
+  vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+    vim.lsp.handlers.signature_help,
+    {border = 'rounded'}
+  )
+end
 
 M.project_setup = function(opts)
   for server, enable in pairs(opts) do
     if enable == true then
-      lsp.use(server, {})
+      lsp.start(server)
     end
   end
 end
 
-M.use = lsp.use
+M.start = lsp.start
+
+M.diagnostics()
+M.handlers()
 
 return M
 

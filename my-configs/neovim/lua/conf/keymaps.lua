@@ -176,8 +176,6 @@ autocmd('User', {
 
     local opts = {silent = true, buffer = true}
 
-    bind('n', '<leader>fi', '<cmd>LspInfo<cr>', opts)
-
     bind('n', 'K', lsp.hover, opts)
     bind('n', 'gd', lsp.definition, opts)
     bind('n', 'gD', lsp.declaration, opts)
