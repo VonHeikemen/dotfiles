@@ -205,8 +205,17 @@ autocmd('User', {
 -- Change word under cursor
 bind('n', 'cj', '"_ciw')
 
--- Change word but repeatable
-bind('n', '<leader>j', "<cmd>let @/='\\<'.expand('<cword>').'\\>'<cr>\"_ciw")
+-- Add word to search then replace
+bind('n', '<Leader>j', [[<cmd>let @/='\<'.expand('<cword>').'\>'<cr>"_ciw]])
+
+-- Add selection to search then replace
+bind('x', '<Leader>j', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>"_cgn]])
+
+-- Begin a "searchable" macro
+bind('x', 'qi', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>gvqi]])
+
+-- Apply macro in the next instance of the search
+bind('n', '<F8>', 'gn@i')
 
 -- Use lightspeed's omni mode
 bind('', 's', '<Plug>Lightspeed_omni_s')
