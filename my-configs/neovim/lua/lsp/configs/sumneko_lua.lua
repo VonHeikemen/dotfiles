@@ -5,6 +5,7 @@ local filetypes = {lua = true}
 local server = shared.make_config({
   cmd = {'lua-language-server'},
   name = 'sumneko_lua',
+  filetypes = filetypes,
   settings = {
     Lua = {
       telemetry = {enable = false},
@@ -13,8 +14,5 @@ local server = shared.make_config({
   }
 })
 
-return {
-  filetypes = filetypes,
-  params = server
-}
+return server
 

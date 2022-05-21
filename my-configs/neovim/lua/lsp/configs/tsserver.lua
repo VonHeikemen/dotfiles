@@ -12,10 +12,8 @@ local filetypes = {
 local server = shared.make_config({
   cmd = {'typescript-language-server', '--stdio'},
   name = 'tsserver',
+  filetypes = filetypes,
 })
 
-return {
-  filetypes = filetypes,
-  params = server
-}
+return server
 

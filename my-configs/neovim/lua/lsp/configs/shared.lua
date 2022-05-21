@@ -47,7 +47,7 @@ M.on_init = function(client, results)
 
   local group = augroup(fmt(server_group, client.id), {clear = true})
   local attach = function()
-    require('lsp.client').buf_attach(client.name, client.id)
+    require('lsp.client').buf_attach(client.config.filetypes, client.id)
   end
 
   autocmd('BufEnter', {
