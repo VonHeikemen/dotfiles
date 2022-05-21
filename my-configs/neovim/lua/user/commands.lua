@@ -1,4 +1,4 @@
-local fns = require('conf.functions')
+local fns = require('user.functions')
 local command = vim.api.nvim_create_user_command
 
 command('GetSelection', fns.get_selection, {})

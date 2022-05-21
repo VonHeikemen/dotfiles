@@ -65,7 +65,7 @@ action.explore = {
   display = 'e',
   keys = 'e',
   fn = function()
-    require('conf.functions').file_explorer(vim.fn.getcwd())
+    require('user.functions').file_explorer(vim.fn.getcwd())
   end
 }
 

@@ -5,11 +5,11 @@
 -- ripgrep  - https://github.com/BurntSushi/ripgrep
 
 -- Try to load "env" file
-local ok, env = pcall(require, 'conf.env')
+local ok, env = pcall(require, 'user.env')
 
 if not ok then
   vim.notify(
-    'lua/conf/env.lua not found. You should probably rename env.sample',
+    'lua/user/env.lua not found. You should probably rename env.sample',
     vim.log.levels.ERROR
   )
   return
@@ -21,17 +21,17 @@ if env.theme_tweaks then
 end
 
 -- Basic editor options
-require('conf.basic')
+require('user.settings')
 
 -- User defined commands
-require('conf.commands')
+require('user.commands')
 
 -- Install plugins if necessary
 if require('plugins.install') then return end
 
 -- Plugin management and config
-require('conf.plugins')
+require('user.plugins')
 
 -- Keybindings
-require('conf.keymaps')
+require('user.keymaps')
 

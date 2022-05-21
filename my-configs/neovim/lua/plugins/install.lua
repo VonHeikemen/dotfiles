@@ -13,7 +13,7 @@ end
 
 plug.minpac_download()
 
-require('conf.plugins')
+require('user.plugins')
 plug.minpac()
 
 vim.call('minpac#update', '', {['do'] = quit_nvim})

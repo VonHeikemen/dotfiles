@@ -1,4 +1,4 @@
-local fns = require('conf.functions')
+local fns = require('user.functions')
 local setup = require('plugins.misc')
 local plug = require('plug')
 

@@ -16,7 +16,7 @@ project.set_config({
     end,
 
     autoindent = enable(function()
-      require('conf.functions').set_autoindent()
+      require('user.functions').set_autoindent()
     end),
 
     session = function(name)

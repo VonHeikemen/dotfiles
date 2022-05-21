@@ -1,4 +1,4 @@
-local fns = require('conf.functions')
+local fns = require('user.functions')
 
 local augroup = vim.api.nvim_create_augroup('mapping_cmds', {clear = true})
 local autocmd = vim.api.nvim_create_autocmd
