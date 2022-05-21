@@ -118,7 +118,6 @@ plug.init({
   {'nvim-lua/plenary.nvim', type = 'start'},
   {'nvim-lua/popup.nvim', type = 'start'},
   {'NMAC427/guess-indent.nvim', config = setup.guess_indent},
-  {'ggandor/lightspeed.nvim', config = setup.lightspeed},
   {
     'VonHeikemen/project-settings.nvim',
     type = 'start',
