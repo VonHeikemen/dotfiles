@@ -10,7 +10,7 @@ local autocmd = vim.api.nvim_create_autocmd
 
 local lsp = require('lsp.client')
 
-require('nvim-lsp-installer').setup({})
+require('nvim-lsp-installer').settings({})
 
 require('fidget').setup({
   text = {
