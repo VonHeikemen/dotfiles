@@ -62,11 +62,13 @@ M.on_init = function(client, results)
   end
 end
 
-M.on_exit = function(code, signal, client_id)
-  vim.schedule(function()
-    vim.api.nvim_del_augroup_by_name(fmt(server_group, client_id))
-  end)
-end
+M.on_exit = vim.schedule_wrap(function(code, signal, client_id)
+  local group = fmt(server_group, client_id)
+
+  if vim.fn.exists(fmt('#%s', group)) == 1 then
+    vim.api.nvim_del_augroup_by_name(group)
+  end
+end)
 
 M.on_attach = function(client, bufnr)
   if vim.b.lsp_attached then return  end
