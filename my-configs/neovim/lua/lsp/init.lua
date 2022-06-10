@@ -10,7 +10,9 @@ local autocmd = vim.api.nvim_create_autocmd
 
 local lsp = require('lsp.client')
 
-require('nvim-lsp-installer').settings({})
+require('nvim-lsp-installer').settings({
+  ui = {border = 'rounded'}
+})
 
 require('fidget').setup({
   text = {
