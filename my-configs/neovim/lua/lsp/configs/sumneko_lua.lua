@@ -1,6 +1,6 @@
 local shared = require('lsp.configs.shared')
 
-local filetypes = {lua = true}
+local filetypes = {'lua'}
 
 local server = shared.make_config({
   cmd = {'lua-language-server'},

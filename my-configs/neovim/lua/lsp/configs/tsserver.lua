@@ -1,12 +1,12 @@
 local shared = require('lsp.configs.shared')
 
 local filetypes = {
-  javascript = true,
-  javascriptreact = true,
-  ['javascript.jsx'] = true,
-  typescript = true,
-  typescriptreact = true,
-  ['typescript.tsx'] = true
+  'javascript',
+  'javascriptreact',
+  'javascript.jsx',
+  'typescript',
+  'typescriptreact',
+  'typescript.tsx'
 }
 
 local server = shared.make_config({

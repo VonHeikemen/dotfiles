@@ -47,11 +47,11 @@ M.on_init = function(client, results)
 
   local group = augroup(fmt(server_group, client.id), {clear = true})
   local attach = function()
-    require('lsp.client').buf_attach(client.config.filetypes, client.id)
+    vim.lsp.buf_attach_client(0, client.id)
   end
 
-  autocmd('BufEnter', {
-    pattern = '*',
+  autocmd('FileType', {
+    pattern = client.config.filetypes,
     group = group,
     desc = fmt('Attach LSP: %s', client.name),
     callback = attach
