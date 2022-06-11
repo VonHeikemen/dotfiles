@@ -46,7 +46,7 @@ M.on_init = function(client, results)
   end
 
   local group = augroup(fmt(server_group, client.id), {clear = true})
-  local filetypes = client.config.filetypes
+  local filetypes = client.config.filetypes or {'*'}
 
   local attach = function()
     vim.lsp.buf_attach_client(0, client.id)
@@ -59,9 +59,9 @@ M.on_init = function(client, results)
     callback = attach
   })
 
-  if vim.v.vim_did_enter == 1 and
-    vim.tbl_contains(filetypes, vim.bo.filetype)
-  then
+  if vim.v.vim_did_enter == 0 then return end
+
+  if filetypes[1] == '*' or vim.tbl_contains(filetypes, vim.bo.filetype) then
     attach()
   end
 end
