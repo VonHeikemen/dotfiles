@@ -82,7 +82,3 @@ set.errorformat:append('%f:%l:%c%p%m')
 -- Status line
 set.statusline = '%=%r%m %l:%c %p%% %y '
 
-if env.preserve_beam_cursor then
-  autocmd('VimLeave', {command = 'set guicursor=a:ver25'})
-end
-
