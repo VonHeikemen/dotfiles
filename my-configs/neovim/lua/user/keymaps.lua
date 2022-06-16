@@ -256,6 +256,16 @@ autocmd('filetype', {
 bind('n', '<leader>dd', fns.file_explorer)
 bind('n', '<leader>da', function() fns.file_explorer(vim.fn.getcwd()) end)
 
+-- Load neogit
+bind('n', '<leader>g', function()
+  if vim.fn.executable('git') == 1 then
+    vim.cmd('PackAdd neogit')
+    vim.cmd('Neogit')
+  else
+    vim.notify('git is not available', vim.log.levels.WARN)
+  end
+end, {desc = 'Open Neogit'})
+
 -- Undo break points
 local break_points = {'<Space>', '-', '_', ':', '.', '/'}
 for _, char in ipairs(break_points) do

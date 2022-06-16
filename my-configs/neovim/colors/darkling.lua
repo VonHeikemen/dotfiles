@@ -47,7 +47,7 @@ local theme = {
     menu_item     = color.dark_blue,
     menu_selected = color.bright_black,
     search        = color.yellow,
-    matchparen    = color.yellow,
+    matchparen    = color.cyan,
     info          = color.cyan,
     warning       = color.yellow,
     error         = color.red
@@ -70,12 +70,24 @@ lw.apply('darkling', theme)
 -- Custom rules
 ---
 local link = lw.link
-local hi = lw.set_hl
+local hi = function(group, colors)
+  vim.api.nvim_set_hl(0, group, {
+    fg = colors.fg.gui,
+    bg = colors.bg.gui,
+    ctermfg = colors.fg.cterm,
+    ctermbg = colors.bg.cterm,
+  })
+end
 
 link('TelescopeMatching', 'Boolean')
 link('TelescopeSelection', 'CursorLine')
 link('NormalFloat', 'Normal')
 link('markdownError', 'Normal')
 
-hi('TelescopeSelectionCaret', {fg = color.red.gui, bg = color.dark_blue.gui})
+hi('TelescopeSelectionCaret', {fg = color.red, bg = color.dark_blue})
+
+hi('DiffAdd', {fg = color.green, bg = lw.NONE})
+hi('DiffChange', {fg = color.yellow, bg = lw.NONE})
+hi('DiffDelete', {fg = color.red, bg = lw.NONE})
+hi('DiffText',   {fg = color.cyan, bg = lw.NONE})
 

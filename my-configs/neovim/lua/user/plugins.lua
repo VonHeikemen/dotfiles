@@ -84,6 +84,11 @@ plug.init({
   {'williamboman/nvim-lsp-installer', type = 'opt'},
   {'j-hui/fidget.nvim', type = 'opt'},
 
+  -- Git
+  {'TimUntersberger/neogit', type = 'opt', config = setup.neogit},
+  {'sindrets/diffview.nvim', type = 'opt'},
+  {'rhysd/conflict-marker.vim'},
+
   -- Enhance quickfix list
   {'romainl/vim-qf'},
   {'stefandtw/quickfix-reflector.vim'},
