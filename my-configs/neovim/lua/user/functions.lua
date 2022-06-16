@@ -1,14 +1,5 @@
 local M = {}
 
-M.t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-M.not_ok = function(module)
-  local ok = pcall(require, module)
-  return not ok
-end
-
 M.toggle_opt = function(prop, scope, on, off)
   if on == nil then
     on = true
@@ -50,35 +41,10 @@ M.trailspace_trim = function()
   vim.api.nvim_win_set_cursor(0, curpos)
 end
 
-M.smart_buffer_picker = function()
-  vim.keymap.set('n','<Leader>bb', function()
-    require('telescope.builtin').buffers({only_cwd = vim.fn.haslocaldir() == 1})
-  end)
-
-  vim.keymap.set('n','<Leader>B', function()
-    require('telescope.builtin').buffers({only_cwd = false})
-  end)
-end
-
 M.job_output = function(cid, data, name)
   for i, val in pairs(data) do
     print(val)
   end
-end
-
-M.nvim_ready = function(fn)
-  local autocmd = vim.api.nvim_create_autocmd
-  local augroup = vim.api.nvim_create_augroup('user_cmds', {clear = false})
-
-  local delay = 10
-  local exec = function() vim.defer_fn(fn , delay) end
-
-  if type(fn) == 'string' then
-    local get_module = function() require(fn) end
-    exec = function() vim.defer_fn(get_module, delay) end
-  end
-
-  autocmd('VimEnter', {once = true, group = augroup, callback = exec})
 end
 
 M.edit_macro = function()
