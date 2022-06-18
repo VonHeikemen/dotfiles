@@ -120,6 +120,7 @@ plug.init({
   {'tpope/vim-surround'},
   {'tpope/vim-repeat'},
   {'tpope/vim-abolish'},
+  {'ThePrimeagen/harpoon'},
   {'nvim-treesitter/playground', type = 'opt'},
   {'nvim-lua/plenary.nvim', type = 'start'},
   {'NMAC427/guess-indent.nvim', config = setup.guess_indent},
