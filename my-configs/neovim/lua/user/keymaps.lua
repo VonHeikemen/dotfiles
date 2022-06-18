@@ -223,6 +223,9 @@ bind('n', '<Leader>bc', ':Bdelete<CR>')
 -- Toggle zen-mode
 bind('n', '<Leader>uz', '<cmd>ZenMode<CR>')
 
+-- Toggle indentline guides
+bind('n', '<leader>ui', '<cmd>IndentBlanklineToggle<cr>')
+
 -- Override some `cv` bindings from `vim-system-copy`.
 bind('n', 'cvv', 'ax<Esc><plug>SystemPastel', remap)
 bind('n', 'cvk', 'Ox<Esc><Plug>SystemPastel', remap)

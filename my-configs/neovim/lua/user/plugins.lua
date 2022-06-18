@@ -112,6 +112,7 @@ plug.init({
   },
   {'VonHeikemen/searchbox.nvim', config = setup.searchbox},
   {'rcarriga/nvim-notify', config = setup.nvim_notify},
+  {'lukas-reineke/indent-blankline.nvim', config = setup.indent_blankline},
 
   --  Utilities
   {'moll/vim-bbye'},
