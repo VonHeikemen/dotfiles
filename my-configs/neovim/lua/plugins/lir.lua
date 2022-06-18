@@ -36,7 +36,7 @@ lir.setup({
     ['h']  = actions.up,
     ['q']  = actions.quit,
 
-    ['.'] = actions.toggle_show_hidden,
+    ['za'] = actions.toggle_show_hidden,
     ['i'] = actions.newfile,
     ['o'] = actions.mkdir,
     ['r'] = actions.rename,
