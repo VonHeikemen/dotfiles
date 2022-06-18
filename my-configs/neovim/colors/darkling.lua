@@ -70,6 +70,7 @@ lw.apply('darkling', theme)
 -- Custom rules
 ---
 local link = lw.link
+local hs = lw.set_hl
 local hi = function(group, colors)
   vim.api.nvim_set_hl(0, group, {
     fg = colors.fg.gui,
@@ -90,4 +91,7 @@ hi('DiffAdd', {fg = color.green, bg = lw.NONE})
 hi('DiffChange', {fg = color.yellow, bg = lw.NONE})
 hi('DiffDelete', {fg = color.red, bg = lw.NONE})
 hi('DiffText',   {fg = color.cyan, bg = lw.NONE})
+
+hs('IndentBlanklineChar', {fg = '#494E5B'})
+hs('IndentBlanklineContextChar', {fg = '#6D717C'})
 
