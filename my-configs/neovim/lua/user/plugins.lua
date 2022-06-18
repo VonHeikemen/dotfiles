@@ -121,7 +121,6 @@ plug.init({
   {'tpope/vim-abolish'},
   {'nvim-treesitter/playground', type = 'opt'},
   {'nvim-lua/plenary.nvim', type = 'start'},
-  {'nvim-lua/popup.nvim', type = 'start'},
   {'NMAC427/guess-indent.nvim', config = setup.guess_indent},
   {'ggandor/leap.nvim', config = setup.leap},
   {
