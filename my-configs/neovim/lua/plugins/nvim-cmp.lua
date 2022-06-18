@@ -14,6 +14,7 @@ local documentation = vim.tbl_deep_extend(
   {
     max_height = 15,
     max_width = 60,
+    zindex = 16,
   }
 )
 

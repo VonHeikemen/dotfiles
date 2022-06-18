@@ -53,7 +53,8 @@ lir.setup({
     winblend = 0,
     win_opts = function()
       return {
-        border = 'single'
+        border = 'single',
+        zindex = 12
       }
     end
   }

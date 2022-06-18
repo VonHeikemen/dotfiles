@@ -6,6 +6,7 @@ local UI = {}
 local input_opts = function()
   return {
     relative = 'win',
+    zindex = 14,
     position = {
       row = '10%',
       col = '50%',
@@ -28,6 +29,7 @@ end
 local select_opts = function()
   return {
     relative = 'editor',
+    zindex = 14,
     position = {
       row = '10%',
       col = '50%'

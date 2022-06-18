@@ -1,4 +1,5 @@
 require('zen-mode').setup({
+  zindex = 11,
   window = {
     width = 0.60,
     height = 0.98
