@@ -8,15 +8,6 @@ local luasnip = require('luasnip')
 local user = {autocomplete = true}
 
 local select_opts = {behavior = cmp.SelectBehavior.Select}
-local documentation = vim.tbl_deep_extend(
-  'force',
-  cmp.config.window.bordered(),
-  {
-    max_height = 15,
-    max_width = 60,
-    zindex = 16,
-  }
-)
 
 user.config = {
   enabled = function()
@@ -27,7 +18,7 @@ user.config = {
     return user.autocomplete
   end,
   completion = {
-    completeopt = 'menu,menuone,noinsert',
+    completeopt = 'menu,menuone',
   },
   snippet = {
     expand = function(args)
@@ -41,7 +32,12 @@ user.config = {
     {name = 'luasnip', keyword_length = 2},
   },
   window = {
-    documentation = documentation
+    documentation = {
+      border = 'rounded',
+      max_height = 15,
+      max_width = 50,
+      zindex = 16,
+    }
   },
   formatting = {
     fields = {'menu', 'abbr', 'kind'},
