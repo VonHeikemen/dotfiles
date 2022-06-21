@@ -1,5 +1,4 @@
 local fns = require('user.functions')
-local setup = require('plugins.misc')
 local plug = require('plug')
 
 local use = function(mod) return function() require(mod) end end
@@ -62,8 +61,8 @@ plug.init({
   {'VonHeikemen/the-good-snippets', type = 'start'},
   {'mattn/emmet-vim', type = 'opt'},
   {'L3MON4D3/LuaSnip', config = use('plugins.luasnip')},
-  {'windwp/nvim-autopairs', config = setup.autopairs},
-  {'b3nj5m1n/kommentary', config = setup.kommentary},
+  {'windwp/nvim-autopairs', config = use('plugins.autopairs')},
+  {'b3nj5m1n/kommentary', config = use('plugins.kommentary')},
 
   -- Language support
   {'othree/html5.vim', type = 'start'},
@@ -85,7 +84,7 @@ plug.init({
   {'j-hui/fidget.nvim', type = 'opt'},
 
   -- Git
-  {'TimUntersberger/neogit', type = 'opt', config = setup.neogit},
+  {'TimUntersberger/neogit', type = 'opt', config = use('plugins.neogit')},
   {'sindrets/diffview.nvim', type = 'opt'},
   {'rhysd/conflict-marker.vim'},
 
@@ -108,11 +107,14 @@ plug.init({
   },
   {
     'VonHeikemen/fine-cmdline.nvim',
-    config = setup.fine_cmdline
+    config = use('plugins.fine-cmdline')
   },
-  {'VonHeikemen/searchbox.nvim', config = setup.searchbox},
-  {'rcarriga/nvim-notify', config = setup.nvim_notify},
-  {'lukas-reineke/indent-blankline.nvim', config = setup.indent_blankline},
+  {'VonHeikemen/searchbox.nvim', config = use('plugins.searchbox')},
+  {'rcarriga/nvim-notify', config = use('plugins.nvim-notify')},
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    config = use('plugins.indent-blankline')
+  },
 
   --  Utilities
   {'moll/vim-bbye'},
@@ -123,8 +125,8 @@ plug.init({
   {'ThePrimeagen/harpoon'},
   {'nvim-treesitter/playground', type = 'opt'},
   {'nvim-lua/plenary.nvim', type = 'start'},
-  {'NMAC427/guess-indent.nvim', config = setup.guess_indent},
-  {'ggandor/leap.nvim', config = setup.leap},
+  {'NMAC427/guess-indent.nvim', config = use('plugins.guess-indent')},
+  {'ggandor/leap.nvim', config = use('plugins.leap')},
   {
     'VonHeikemen/project-settings.nvim',
     type = 'start',
