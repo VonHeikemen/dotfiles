@@ -12,10 +12,7 @@ plug.init({
   {'k-takata/minpac', type = 'opt'},
 
   -- Fuzzy finder
-  {
-    'nvim-telescope/telescope.nvim',
-    config = use('plugins.telescope')
-  },
+  {'nvim-telescope/telescope.nvim', config = use('plugins.telescope')},
   {
     'nvim-telescope/telescope-fzy-native.nvim',
     type = 'start',
@@ -37,11 +34,7 @@ plug.init({
   {'folke/zen-mode.nvim', config = use('plugins.zen-mode')},
 
   -- File explorer
-  {
-    'tamago324/lir.nvim',
-    type = 'start',
-    config = use('plugins.lir')
-  },
+  {'tamago324/lir.nvim', type = 'start', config = use('plugins.lir')},
 
   -- Better clipboard support
   {'christoomey/vim-system-copy'},
@@ -74,10 +67,7 @@ plug.init({
     run = function() pcall(vim.cmd, 'TSUpdate') end,
     config = use('plugins.treesitter')
   },
-  {
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    frozen = true,
-  },
+  {'nvim-treesitter/nvim-treesitter-textobjects', frozen = true},
 
   -- LSP support
   {'williamboman/nvim-lsp-installer', type = 'opt'},
@@ -93,22 +83,11 @@ plug.init({
   {'stefandtw/quickfix-reflector.vim'},
 
   -- Startup screen
-  {
-    'goolord/alpha-nvim',
-    type = 'start',
-    config = use('plugins.alpha')
-  },
+  {'goolord/alpha-nvim', type = 'start', config = use('plugins.alpha')},
 
   -- UI components
-  {
-    'MunifTanjim/nui.nvim',
-    type = 'start',
-    config = use('plugins.vim-ui')
-  },
-  {
-    'VonHeikemen/fine-cmdline.nvim',
-    config = use('plugins.fine-cmdline')
-  },
+  {'MunifTanjim/nui.nvim', type = 'start', config = use('plugins.vim-ui')},
+  {'VonHeikemen/fine-cmdline.nvim', config = use('plugins.fine-cmdline')},
   {'VonHeikemen/searchbox.nvim', config = use('plugins.searchbox')},
   {'rcarriga/nvim-notify', config = use('plugins.nvim-notify')},
   {
