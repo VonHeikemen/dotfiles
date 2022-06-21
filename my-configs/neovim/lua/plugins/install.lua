@@ -1,4 +1,4 @@
-local plug = require('plug')
+local plug = require('plugins.manager')
 
 if plug.has_minpac() then
   return false
