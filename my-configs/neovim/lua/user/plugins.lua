@@ -126,6 +126,7 @@ plug.init({
   {'nvim-treesitter/playground', type = 'opt'},
   {'nvim-lua/plenary.nvim', type = 'start'},
   {'NMAC427/guess-indent.nvim', config = use('plugins.guess-indent')},
+  {'max397574/better-escape.nvim', config = use('plugins.better-escape')},
   {'ggandor/leap.nvim', config = use('plugins.leap')},
   {
     'VonHeikemen/project-settings.nvim',
