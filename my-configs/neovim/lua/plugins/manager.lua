@@ -11,11 +11,16 @@ local M = {
 
 local p = {
   packpath = vim.fn.stdpath('data') .. '/site',
-  minpac_path = vim.fn.stdpath('data') .. '/site/pack/minpac/opt/minpac',
   minpac_plugins = {},
   opt_config = {},
   hasfiles = vim.fn.argc() > 0,
 }
+
+if vim.g.plugin_packpath then
+  p.packpath = vim.g.plugin_packpath
+end
+
+p.minpac_path = p.packpath .. '/pack/minpac/opt/minpac'
 
 local plug_name = function(plug)
   local name = plug.as
