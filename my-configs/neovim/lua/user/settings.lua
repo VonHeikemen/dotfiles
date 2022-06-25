@@ -1,84 +1,75 @@
 local env = require('user.env')
-local cwd = vim.fn.getcwd()
-local f = string.format
-local autocmd = vim.api.nvim_create_autocmd
 
-local set = vim.opt
-
-if env.tempdir then
-   -- Temp files directory
-  set.backupdir = env.tempdir
-  set.directory = env.tempdir
-else
+if not env.tempdir then
   -- Don't use temp files
-  set.swapfile = false
-  set.backup = false
+  vim.opt.swapfile = false
+  vim.opt.backup = false
 end
 
 -- Ignore the case when the search pattern is all lowercase
-set.smartcase = true
-set.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.ignorecase = true
 
 -- Autosave when navigating between buffers
-set.autowrite = true
+vim.opt.autowrite = true
 
 -- Disable line wrapping
-set.wrap = false
+vim.opt.wrap = false
 
 -- Keep lines below cursor when scrolling
-set.scrolloff = 2
-set.sidescrolloff = 5
+vim.opt.scrolloff = 2
+vim.opt.sidescrolloff = 5
 
 -- Don't highlight search results
-set.hlsearch = false
+vim.opt.hlsearch = false
 
 -- Enable incremental search
-set.incsearch = true
+vim.opt.incsearch = true
 
 -- Enable cursorline
-set.cursorline = true
+vim.opt.cursorline = true
 
 -- Enable syntax highlight
 vim.cmd('syntax enable')
 
 -- Always display signcolumn (for diagnostic related stuff)
-set.signcolumn = 'yes'
+vim.opt.signcolumn = 'yes'
 
 -- When opening a window put it right or below the current one
-set.splitright = true
-set.splitbelow = true
+vim.opt.splitright = true
+vim.opt.splitbelow = true
 
 if vim.fn.has('termguicolors') == 1 then
-  set.termguicolors = true
+  vim.opt.termguicolors = true
 end
 
 -- Preserve state (undo, marks, etc) in non visible buffers
-set.hidden = true
+vim.opt.hidden = true
 
 -- Tab set to two spaces
-set.tabstop = 2
-set.shiftwidth = 2
-set.softtabstop = 2
-set.expandtab = true
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.expandtab = true
 
 -- Enable mouse support
-set.mouse = 'a'
+vim.opt.mouse = 'a'
 
 -- Look for a tag file in the git folder
 -- I shouldn't have to use `cwd` but here we are
-set.tags:prepend(f('%s/.git/tags', cwd))
+vim.opt.tags:prepend(string.format('%s/.git/tags', vim.fn.getcwd()))
 
 -- Insert mode completion setting
-set.completeopt = {'menu', 'menuone', 'noselect'}
+vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
 
 -- Apply theme
 local theme = pcall(require, 'little-wonder')
 if theme then vim.cmd('colorscheme darkling') end
 
 -- Set grep default grep command with ripgrep
-set.grepprg = 'rg --vimgrep --follow'
-set.errorformat:append('%f:%l:%c%p%m')
+vim.opt.grepprg = 'rg --vimgrep --follow'
+vim.opt.errorformat:append('%f:%l:%c%p%m')
 
 -- Status line
-set.statusline = '%=%r%m %l:%c %p%% %y '
+vim.opt.statusline = '%=%r%m %l:%c %p%% %y '
 
