@@ -71,7 +71,9 @@ plug.init({
 
   -- LSP support
   {'williamboman/nvim-lsp-installer', type = 'opt'},
+  {'jose-elias-alvarez/null-ls.nvim', type = 'opt'},
   {'j-hui/fidget.nvim', type = 'opt'},
+
 
   -- Git
   {'TimUntersberger/neogit', type = 'opt', config = use('plugins.neogit')},

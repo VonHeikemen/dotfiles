@@ -24,6 +24,10 @@ project.set_config({
       vim.g.session_name = name
     end,
 
+    ['null-ls'] = enable(function()
+      require('lsp.null-ls').setup()
+    end),
+
     ['nvim-config'] = enable(function()
       require('lsp.nvim-workspace').setup()
     end),

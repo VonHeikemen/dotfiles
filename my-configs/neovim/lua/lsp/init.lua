@@ -8,6 +8,7 @@ vim.cmd([[
 
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
+local command = vim.api.nvim_create_user_command
 
 local lsp = require('lsp.client')
 
@@ -30,6 +31,9 @@ require('fidget').setup({
   window = {
     blend = 0
   },
+  sources = {
+    ['null-ls'] = {ignore = true}
+  }
 })
 
 M.diagnostics = function()
@@ -89,6 +93,20 @@ M.handlers = function()
     vim.lsp.handlers.signature_help,
     {border = 'rounded'}
   )
+
+  command('Format', M.format, {desc = 'Format current buffer'})
+  command('LspFormat', vim.lsp.buf.formatting, {desc = 'LSP based formatting'})
+end
+
+M.format = function()
+  -- use null-ls if present
+  if vim.fn.exists(':NullFormat') == 2 then
+    vim.cmd('NullFormat')
+    return
+  end
+
+  -- fallback to whatever lsp server has formatting capabilities
+  vim.lsp.buf.formatting()
 end
 
 M.project_setup = function(opts)
