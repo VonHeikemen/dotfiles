@@ -9,6 +9,7 @@ command('GetSelection', fns.get_selection, {desc = 'Get selected text'})
 command('TrailspaceTrim', fns.trailspace_trim, {desc = 'Delete extra whitespace'})
 command('EditMacro', fns.edit_macro, {desc = 'Create/Edit macro in an input'})
 command('LoadProject', fns.load_project, {desc = 'Parse project config'})
+command('AutoIndent', fns.set_autoindent, {desc = 'Guess indentantion in all files'})
 
 autocmd('TextYankPost', {
   desc = 'highlight text after is copied',
@@ -18,21 +19,15 @@ autocmd('TextYankPost', {
   end
 })
 
-autocmd('CmdWinEnter', {
-  group = augroup,
-  command = 'quit'
-})
+autocmd('CmdWinEnter', {group = augroup, command = 'quit'})
 
 autocmd('FileType', {
   group = augroup,
-  pattern = {'qf', 'help', 'man', 'lspinfo'},
+  pattern = {'qf', 'help', 'man', 'lspinfo', 'harpoon', 'null-ls-info'},
   command = 'nnoremap <buffer> q <cmd>quit<cr>'
 })
 
 if env.preserve_beam_cursor then
-  autocmd('VimLeave', {
-    group = augroup,
-    command = 'set guicursor=a:ver25'
-  })
+  autocmd('VimLeave', {group = augroup, command = 'set guicursor=a:ver25'})
 end
 
