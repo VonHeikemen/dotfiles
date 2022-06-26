@@ -30,6 +30,9 @@ plug.init({
   -- Theme
   {'VonHeikemen/little-wonder', type = 'start'},
 
+  -- Distraction free mode
+  {'junegunn/goyo.vim', config = use('plugins.goyo')},
+
   -- File explorer
   {'tamago324/lir.nvim', type = 'start', config = use('plugins.lir')},
 
