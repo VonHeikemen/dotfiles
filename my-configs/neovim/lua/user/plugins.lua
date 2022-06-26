@@ -30,9 +30,6 @@ plug.init({
   -- Theme
   {'VonHeikemen/little-wonder', type = 'start'},
 
-  -- Distraction free mode
-  {'folke/zen-mode.nvim', config = use('plugins.zen-mode')},
-
   -- File explorer
   {'tamago324/lir.nvim', type = 'start', config = use('plugins.lir')},
 

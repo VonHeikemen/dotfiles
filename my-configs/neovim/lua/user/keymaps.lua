@@ -220,9 +220,6 @@ bind('n', '<F8>', 'gn@i')
 -- Close buffer while preserving the layout
 bind('n', '<Leader>bc', ':Bdelete<CR>')
 
--- Toggle zen-mode
-bind('n', '<Leader>uz', '<cmd>ZenMode<CR>')
-
 -- Toggle indentline guides
 bind('n', '<leader>ui', '<cmd>IndentBlanklineToggle<cr>')
 
