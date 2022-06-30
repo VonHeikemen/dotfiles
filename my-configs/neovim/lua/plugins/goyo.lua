@@ -23,6 +23,6 @@ local leave = function()
   unbind('n', 'O')
 end
 
-autocmd('User', {pattern = 'GoyoEnter', callback = enter})
-autocmd('User', {pattern = 'GoyoLeave', callback = leave})
+autocmd('User', {pattern = 'GoyoEnter', group = augroup, callback = enter})
+autocmd('User', {pattern = 'GoyoLeave', group = augroup, callback = leave})
 
