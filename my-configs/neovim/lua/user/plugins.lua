@@ -27,6 +27,9 @@ plug.init({
     end
   },
 
+  -- Search
+  {'dyng/ctrlsf.vim', config = use('plugins.ctrlsf')},
+
   -- Theme
   {'VonHeikemen/little-wonder', type = 'start'},
 

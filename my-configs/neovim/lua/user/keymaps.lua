@@ -128,9 +128,9 @@ bind('n', '<Leader>ur', '<cmd>set invrelativenumber<CR>')
 bind('n', '<Leader>?', ':Telescope keymaps<CR>')
 
 -- Search pattern
-bind('n', '<leader>F', ':FineCmdline TGrep <CR>')
-bind('x', '<Leader>F', ':<C-u>GetSelection<CR>:TGrep <C-r>/<CR>')
-bind('n', '<Leader>fw', ":TGrep <C-r>=expand('<cword>')<CR><CR>")
+bind('n', '<leader>F', ':FineCmdline Find <CR>')
+bind('x', '<Leader>F', ':<C-u>GetSelection<CR>:Find <C-r>/<CR>')
+bind('n', '<Leader>fw', ":Find <C-r>=expand('<cword>')<CR><CR>")
 bind('n', '<leader>fg', ':Telescope live_grep<CR>')
 
 -- Find files by name
