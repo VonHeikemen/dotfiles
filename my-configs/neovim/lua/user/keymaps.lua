@@ -262,8 +262,6 @@ autocmd('filetype', {
 
     -- Go to previous location and stay in the quickfix window
     bind('n', '<Down>', '<Plug>(qf_qf_next)zz<C-w>w', opts)
-
-    bind('n', '<leader>r', ':%s///g<Left><Left>', opts)
   end
 })
 

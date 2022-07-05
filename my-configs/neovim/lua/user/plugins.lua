@@ -55,7 +55,6 @@ plug.init({
   {'mattn/emmet-vim', type = 'opt'},
   {'L3MON4D3/LuaSnip', config = use('plugins.luasnip')},
   {'windwp/nvim-autopairs', config = use('plugins.autopairs')},
-  {'b3nj5m1n/kommentary', config = use('plugins.kommentary')},
 
   -- Language support
   {'othree/html5.vim', type = 'start'},
@@ -82,7 +81,6 @@ plug.init({
 
   -- Enhance quickfix list
   {'romainl/vim-qf'},
-  {'stefandtw/quickfix-reflector.vim'},
 
   -- Startup screen
   {'goolord/alpha-nvim', type = 'start', config = use('plugins.alpha')},
