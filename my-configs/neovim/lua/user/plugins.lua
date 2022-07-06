@@ -124,4 +124,5 @@ plug.init({
 
 -- Session manager
 require('plugins.session')
+require('plugins.statusline').setup('full')
 

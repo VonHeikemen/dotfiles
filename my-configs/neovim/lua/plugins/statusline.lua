@@ -117,7 +117,7 @@ state.short_status = {
   state.full_status[8]
 }
 
-M.setup = function()
+M.setup = function(status)
   local augroup = vim.api.nvim_create_augroup('statusline_cmds', {clear = true})
   local autocmd = vim.api.nvim_create_autocmd
   vim.opt.showmode = false
@@ -141,6 +141,11 @@ M.setup = function()
     desc = 'Clear message area',
     command = "echo ''"
   })
+
+  local pattern = M.get_status(status)
+  if pattern then
+    vim.o.statusline = pattern
+  end
 end
 
 M.get_status = function(name)

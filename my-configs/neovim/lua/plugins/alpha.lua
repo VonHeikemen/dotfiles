@@ -171,10 +171,6 @@ theme.layout = {
 
 theme.opts = {}
 
-local alpha_leave = function()
-  require('plugins.statusline').apply('full')
-end
-
 autocmd('User', {
   pattern = 'AlphaReady',
   group = augroup,
@@ -193,16 +189,8 @@ autocmd('User', {
       vim.cmd('setlocal winhl=EndOfBuffer:UserHideChar')
     end
 
-    local statusline = require('plugins.statusline')
-    statusline.setup()
-    statusline.apply('short')
+    vim.wo.statusline = require('plugins.statusline').get_status('short')
   end
-})
-
-autocmd('User', {
-  pattern = 'AlphaClosed',
-  group = augroup,
-  callback = function() pcall(alpha_leave) end,
 })
 
 require('alpha').setup(theme)
