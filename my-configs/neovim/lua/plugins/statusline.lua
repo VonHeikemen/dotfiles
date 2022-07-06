@@ -1,5 +1,5 @@
-local augroup = vim.api.nvim_create_augroup('statusline_cmds', {clear = true})
-local autocmd = vim.api.nvim_create_autocmd
+local M = {}
+local state = {}
 
 local default_hl = function(name, style)
   local ok, hl = pcall(vim.api.nvim_get_hl_by_name, name, 1)
@@ -71,56 +71,80 @@ local mode_map = {
 local fmt = string.format
 local hi_pattern = '%%#%s#%s%%*'
 
-Status = {}
-Status.higroups = mode_higroups
-Status.mode_group = mode_higroups['NORMAL']
+_G._statusline_component = function(name)
+  return state[name]()
+end
 
-Status.mode = function()
+state.mode_group = mode_higroups['NORMAL']
+
+state.mode = function()
   local mode = vim.api.nvim_get_mode().mode
   local mode_name = mode_map[mode]
 
   local higroup = mode_higroups[mode_name] 
 
   if higroup then
-    Status.mode_group = higroup
+    state.mode_group = higroup
     return fmt(hi_pattern, higroup, ' ')
   end
   
-  Status.mode_group = 'Mode_xx'
+  state.mode_group = 'Mode_xx'
   local text = fmt(' %s ', mode_name)
-  return fmt(hi_pattern, Status.mode_group, text)
+  return fmt(hi_pattern, state.mode_group, text)
 end
 
-Status.position = function()
-  return fmt(hi_pattern, Status.mode_group, ' %2l:%-2c ')
+state.position = function()
+  return fmt(hi_pattern, state.mode_group, ' %2l:%-2c ')
 end
 
-Status.percent = fmt(hi_pattern, 'StatusPercent', ' %3p%% ')
+state.percent = fmt(hi_pattern, 'StatusPercent', ' %3p%% ')
 
-Status.full_status = {
-  '%{%v:lua.Status.mode()%} ',
+state.full_status = {
+  '%{%v:lua._statusline_component("mode")%} ',
   '%t',
   '%r',
   '%m',
   '%=',
   '%{&filetype} ',
-  Status.percent,
-  '%{%v:lua.Status.position()%}'
+  state.percent,
+  '%{%v:lua._statusline_component("position")%}'
 }
 
-Status.short_status = {
-  Status.full_status[1],
+state.short_status = {
+  state.full_status[1],
   '%=',
-  Status.percent,
-  Status.full_status[8]
+  state.percent,
+  state.full_status[8]
 }
 
-vim.opt.showmode = false
+M.setup = function()
+  local augroup = vim.api.nvim_create_augroup('statusline_cmds', {clear = true})
+  local autocmd = vim.api.nvim_create_autocmd
+  vim.opt.showmode = false
 
-apply_hl()
-autocmd('ColorScheme', {
-  group = augroup,
-  desc = 'Apply statusline highlights',
-  callback = apply_hl
-})
+  apply_hl()
+  autocmd('ColorScheme', {
+    group = augroup,
+    desc = 'Apply statusline highlights',
+    callback = apply_hl
+  })
+  autocmd('FileType', {
+    desc = 'Apply short statusline',
+    group = augroup,
+    pattern = {'lir', 'Neogit*'},
+    callback = function()
+      vim.wo.statusline = M.get_status('short')
+    end
+  })
+end
+
+M.get_status = function(name)
+  return table.concat(state[fmt('%s_status', name)], '')
+end
+
+M.apply = function(name)
+  vim.o.statusline = M.get_status(name)
+end
+
+return M
 

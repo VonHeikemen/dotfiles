@@ -172,8 +172,7 @@ theme.layout = {
 theme.opts = {}
 
 local alpha_leave = function()
-  local pattern = table.concat(Status.full_status, '')
-  vim.o.statusline = pattern
+  require('plugins.statusline').apply('full')
 end
 
 autocmd('User', {
@@ -194,8 +193,9 @@ autocmd('User', {
       vim.cmd('setlocal winhl=EndOfBuffer:UserHideChar')
     end
 
-    require('plugins.statusline')
-    vim.o.statusline = table.concat(Status.short_status, '')
+    local statusline = require('plugins.statusline')
+    statusline.setup()
+    statusline.apply('short')
   end
 })
 
