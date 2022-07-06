@@ -8,17 +8,17 @@ local default_hl = function(name, style)
 end
 
 local mode_higroups = {
-  ['NORMAL'] = 'Mode_NORMAL',
-  ['VISUAL'] = 'Mode_VISUAL',
-  ['V-BLOCK'] = 'Mode_V_BLOCK',
-  ['V-LINE'] = 'Mode_V_LINE',
-  ['INSERT'] = 'Mode_INSERT',
-  ['COMMAND'] = 'Mode_COMMAND',
+  ['NORMAL'] = 'UserMode_NORMAL',
+  ['VISUAL'] = 'UserMode_VISUAL',
+  ['V-BLOCK'] = 'UserMode_V_BLOCK',
+  ['V-LINE'] = 'UserMode_V_LINE',
+  ['INSERT'] = 'UserMode_INSERT',
+  ['COMMAND'] = 'UserMode_COMMAND',
 }
 
 local apply_hl = function()
-  default_hl('StatusPercent', {bg = '#464D5D', fg = '#D8DEE9'})
-  default_hl('Mode_xx', {bg = '#FC8680', fg = '#353535', bold = true})
+  default_hl('UserStatusPercent', {bg = '#464D5D', fg = '#D8DEE9'})
+  default_hl('UserMode_xx', {bg = '#FC8680', fg = '#353535', bold = true})
 
   default_hl(mode_higroups['NORMAL'],  {bg = '#6699CC', fg = '#353535'})
   default_hl(mode_higroups['VISUAL'],  {bg = '#DDA0DD', fg = '#353535'})
@@ -88,7 +88,7 @@ state.mode = function()
     return fmt(hi_pattern, higroup, ' ')
   end
   
-  state.mode_group = 'Mode_xx'
+  state.mode_group = 'UserMode_xx'
   local text = fmt(' %s ', mode_name)
   return fmt(hi_pattern, state.mode_group, text)
 end
@@ -97,7 +97,7 @@ state.position = function()
   return fmt(hi_pattern, state.mode_group, ' %2l:%-2c ')
 end
 
-state.percent = fmt(hi_pattern, 'StatusPercent', ' %3p%% ')
+state.percent = fmt(hi_pattern, 'UserStatusPercent', ' %3p%% ')
 
 state.full_status = {
   '%{%v:lua._statusline_component("mode")%} ',
@@ -129,12 +129,17 @@ M.setup = function()
     callback = apply_hl
   })
   autocmd('FileType', {
-    desc = 'Apply short statusline',
     group = augroup,
     pattern = {'lir', 'Neogit*'},
+    desc = 'Apply short statusline',
     callback = function()
       vim.wo.statusline = M.get_status('short')
     end
+  })
+  autocmd('InsertEnter', {
+    group = augroup,
+    desc = 'Clear message area',
+    command = "echo ''"
   })
 end
 
@@ -144,6 +149,13 @@ end
 
 M.apply = function(name)
   vim.o.statusline = M.get_status(name)
+end
+
+M.higroups = function()
+  local res = vim.deepcopy(mode_higroups)
+  res['DEFAULT'] = 'UserMode_xx'
+  res['STATUS-PERCENT'] = 'UserStatusPercent'
+  return res
 end
 
 return M
