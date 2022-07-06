@@ -70,6 +70,3 @@ if theme then vim.cmd('colorscheme darkling') end
 vim.opt.grepprg = 'rg --vimgrep --follow'
 vim.opt.errorformat:append('%f:%l:%c%p%m')
 
--- Status line
-vim.opt.statusline = '%=%r%m %l:%c %p%% %y '
-
