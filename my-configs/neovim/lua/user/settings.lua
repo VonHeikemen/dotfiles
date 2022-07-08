@@ -10,9 +10,6 @@ end
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
 
--- Autosave when navigating between buffers
-vim.opt.autowrite = true
-
 -- Disable line wrapping
 vim.opt.wrap = false
 
@@ -23,14 +20,8 @@ vim.opt.sidescrolloff = 5
 -- Don't highlight search results
 vim.opt.hlsearch = false
 
--- Enable incremental search
-vim.opt.incsearch = true
-
 -- Enable cursorline
 vim.opt.cursorline = true
-
--- Enable syntax highlight
-vim.cmd('syntax enable')
 
 -- Always display signcolumn (for diagnostic related stuff)
 vim.opt.signcolumn = 'yes'
@@ -38,13 +29,6 @@ vim.opt.signcolumn = 'yes'
 -- When opening a window put it right or below the current one
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-
-if vim.fn.has('termguicolors') == 1 then
-  vim.opt.termguicolors = true
-end
-
--- Preserve state (undo, marks, etc) in non visible buffers
-vim.opt.hidden = true
 
 -- Tab set to two spaces
 vim.opt.tabstop = 2
@@ -60,11 +44,14 @@ vim.opt.mouse = 'a'
 vim.opt.tags:prepend(string.format('%s/.git/tags', vim.fn.getcwd()))
 
 -- Insert mode completion setting
-vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
+vim.opt.completeopt = {'menu', 'menuone'}
 
 -- Apply theme
 local theme = pcall(require, 'little-wonder')
-if theme then vim.cmd('colorscheme darkling') end
+if theme then
+  vim.opt.termguicolors = true
+  vim.cmd('colorscheme darkling')
+end
 
 -- Set grep default grep command with ripgrep
 vim.opt.grepprg = 'rg --vimgrep --follow'
