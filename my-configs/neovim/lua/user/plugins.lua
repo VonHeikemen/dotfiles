@@ -77,7 +77,6 @@ plug.init({
   {'jose-elias-alvarez/null-ls.nvim', type = 'opt'},
   {'j-hui/fidget.nvim', type = 'opt'},
 
-
   -- Git
   {'TimUntersberger/neogit', type = 'opt', config = use('plugins.neogit')},
   {'sindrets/diffview.nvim', type = 'opt'},
