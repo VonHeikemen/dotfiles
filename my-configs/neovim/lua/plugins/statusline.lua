@@ -75,21 +75,52 @@ _G._statusline_component = function(name)
   return state[name]()
 end
 
+local show_sign = function(mode)
+  local empty = ' '
+
+  -- This just checks a user defined variable
+  -- it ignores completely if there are active clients
+  if vim.b.lsp_attached == nil then
+    return empty
+  end
+
+  local ok = ' λ '
+  local ignore = {
+    ['INSERT'] = true,
+    ['COMMAND'] = true
+  }
+
+  if ignore[mode] then return ok end
+
+  local levels = vim.diagnostic.severity
+  local errors = #vim.diagnostic.get(0, {severity = levels.ERROR})
+  if errors > 0 then return ' ✘ ' end
+
+  local warnings = #vim.diagnostic.get(0, {severity = levels.WARN})
+  if warnings > 0 then return ' ▲ ' end
+
+  return ok
+end
+
+state.show_diagnostic = false
 state.mode_group = mode_higroups['NORMAL']
 
 state.mode = function()
   local mode = vim.api.nvim_get_mode().mode
   local mode_name = mode_map[mode]
+  local text = ' '
 
-  local higroup = mode_higroups[mode_name] 
+  local higroup = mode_higroups[mode_name]
 
   if higroup then
     state.mode_group = higroup
-    return fmt(hi_pattern, higroup, ' ')
+    if state.show_diagnostic then text = show_sign(mode_name) end
+
+    return fmt(hi_pattern, higroup, text)
   end
-  
+
   state.mode_group = 'UserStatusMode_xx'
-  local text = fmt(' %s ', mode_name)
+  text = fmt(' %s ', mode_name)
   return fmt(hi_pattern, state.mode_group, text)
 end
 
@@ -140,6 +171,15 @@ M.setup = function(status)
     group = augroup,
     desc = 'Clear message area',
     command = "echo ''"
+  })
+  autocmd('User', {
+    group = augroup,
+    once = true,
+    pattern = 'LspAttached',
+    desc = 'Show diagnostic sign',
+    callback = function()
+      state.show_diagnostic = true
+    end
   })
 
   local pattern = M.get_status(status)
