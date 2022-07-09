@@ -8,17 +8,17 @@ local default_hl = function(name, style)
 end
 
 local mode_higroups = {
-  ['NORMAL'] = 'UserMode_NORMAL',
-  ['VISUAL'] = 'UserMode_VISUAL',
-  ['V-BLOCK'] = 'UserMode_V_BLOCK',
-  ['V-LINE'] = 'UserMode_V_LINE',
-  ['INSERT'] = 'UserMode_INSERT',
-  ['COMMAND'] = 'UserMode_COMMAND',
+  ['NORMAL'] = 'UserStatusMode_NORMAL',
+  ['VISUAL'] = 'UserStatusMode_VISUAL',
+  ['V-BLOCK'] = 'UserStatusMode_V_BLOCK',
+  ['V-LINE'] = 'UserStatusMode_V_LINE',
+  ['INSERT'] = 'UserStatusMode_INSERT',
+  ['COMMAND'] = 'UserStatusMode_COMMAND',
 }
 
 local apply_hl = function()
-  default_hl('UserStatusPercent', {bg = '#464D5D', fg = '#D8DEE9'})
-  default_hl('UserMode_xx', {bg = '#FC8680', fg = '#353535', bold = true})
+  default_hl('UserStatusBlock', {bg = '#464D5D', fg = '#D8DEE9'})
+  default_hl('UserStatusMode_xx', {bg = '#FC8680', fg = '#353535', bold = true})
 
   default_hl(mode_higroups['NORMAL'],  {bg = '#6699CC', fg = '#353535'})
   default_hl(mode_higroups['VISUAL'],  {bg = '#DDA0DD', fg = '#353535'})
@@ -88,7 +88,7 @@ state.mode = function()
     return fmt(hi_pattern, higroup, ' ')
   end
   
-  state.mode_group = 'UserMode_xx'
+  state.mode_group = 'UserStatusMode_xx'
   local text = fmt(' %s ', mode_name)
   return fmt(hi_pattern, state.mode_group, text)
 end
@@ -97,7 +97,7 @@ state.position = function()
   return fmt(hi_pattern, state.mode_group, ' %2l:%-2c ')
 end
 
-state.percent = fmt(hi_pattern, 'UserStatusPercent', ' %3p%% ')
+state.percent = fmt(hi_pattern, 'UserStatusBlock', ' %3p%% ')
 
 state.full_status = {
   '%{%v:lua._statusline_component("mode")%} ',
@@ -158,8 +158,8 @@ end
 
 M.higroups = function()
   local res = vim.deepcopy(mode_higroups)
-  res['DEFAULT'] = 'UserMode_xx'
-  res['STATUS-PERCENT'] = 'UserStatusPercent'
+  res['DEFAULT'] = 'UserStatusMode_xx'
+  res['STATUS-BLOCK'] = 'UserStatusBlock'
   return res
 end
 
