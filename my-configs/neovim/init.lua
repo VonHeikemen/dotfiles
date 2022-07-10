@@ -33,9 +33,9 @@ require('user.commands')
 -- Install plugins if necessary
 if require('plugins.install') then return end
 
--- Plugin management and config
-require('user.plugins')
-
 -- Keybindings
 require('user.keymaps')
+
+-- Plugin management and config
+require('user.plugins')
 

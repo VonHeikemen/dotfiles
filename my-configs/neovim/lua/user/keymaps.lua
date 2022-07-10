@@ -10,6 +10,9 @@ local remap = {remap = true}
 -- Leader
 vim.g.mapleader = ' '
 
+-- Disable vim-surround default mappings
+vim.g.surround_no_mappings = 1
+
 -- ========================================================================== --
 -- ==                             KEY MAPPINGS                             == --
 -- ========================================================================== --
@@ -47,13 +50,10 @@ bind('s', '<C-h>', '<BS>', remap)
 bind('i', '<C-h>', '<BS>', remap)
 
 -- Whatever you delete, make it go away
-bind('n', 'c','"_c')
-bind('n', 'C','"_C')
-bind('x', 'c','"_c')
-bind('x', 'C','"_C')
+bind({'n', 'x'}, 'c','"_c')
+bind({'n', 'x'}, 'C','"_C')
 
-bind('n', 'x','"_x')
-bind('x', 'x','"_x')
+bind({'n', 'x'}, 'x','"_x')
 bind('x', 'X','"_c')
 
 -- ========================================================================== --
@@ -151,17 +151,17 @@ bind('v', '<Leader>y', ':<C-u>GetSelection<CR>gv')
 bind('v', '<Leader>Y', ':<C-u>GetSelection<CR>:set hlsearch<CR>')
 
 -- Nice buffer local search
-bind('n', '<leader>s', ':SearchBoxIncSearch<CR>')
-bind('x', '<leader>s', ':SearchBoxIncSearch visual_mode=true<CR>')
-bind('n', '<leader>S', ":SearchBoxMatchAll title=' Match '<CR>")
-bind('x', '<leader>S', ":SearchBoxMatchAll title=' Match ' visual_mode=true<CR>")
+bind('n', 's', ':SearchBoxIncSearch<CR>')
+bind('x', 's', ':SearchBoxIncSearch visual_mode=true<CR>')
+bind('n', 'S', ":SearchBoxMatchAll title=' Match '<CR>")
+bind('x', 'S', ":SearchBoxMatchAll title=' Match ' visual_mode=true<CR>")
 bind('n', '<leader>;', '<cmd>SearchBoxClear<CR>')
 
 -- Begin search & replace
-bind('n', '<leader>r', ":SearchBoxReplace confirm=menu<CR>")
-bind('x', '<leader>r', ":SearchBoxReplace confirm=menu visual_mode=true<CR>")
-bind('n', '<leader>R', ":SearchBoxReplace confirm=menu -- <C-r>=expand('<cword>')<CR><CR>")
-bind('x', '<leader>R', ":<C-u>GetSelection<CR>:SearchBoxReplace confirm=menu<CR><C-r>/")
+bind('n', 'r', ":SearchBoxReplace confirm=menu<CR>")
+bind('x', 'r', ":SearchBoxReplace confirm=menu visual_mode=true<CR>")
+bind('n', 'R', ":SearchBoxReplace confirm=menu -- <C-r>=expand('<cword>')<CR><CR>")
+bind('x', 'R', ":<C-u>GetSelection<CR>:SearchBoxReplace confirm=menu<CR><C-r>/")
 
 -- ========================================================================== --
 -- ==                                 LSP                                  == --

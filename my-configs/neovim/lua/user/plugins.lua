@@ -101,7 +101,7 @@ plug.init({
   --  Utilities
   {'moll/vim-bbye'},
   {'wellle/targets.vim'},
-  {'tpope/vim-surround'},
+  {'tpope/vim-surround', config = use('plugins.surround')},
   {'tpope/vim-repeat'},
   {'tpope/vim-abolish'},
   {'ThePrimeagen/harpoon'},
