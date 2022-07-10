@@ -149,6 +149,16 @@ state.short_status = {
   state.full_status[8]
 }
 
+state.inactive_status = {
+  ' %t',
+  '%r',
+  '%m',
+  '%=',
+  '%{&filetype} |',
+  '%3p%% | ',
+  '%2l:%-2c ',
+}
+
 M.setup = function(status)
   local augroup = vim.api.nvim_create_augroup('statusline_cmds', {clear = true})
   local autocmd = vim.api.nvim_create_autocmd
@@ -165,6 +175,7 @@ M.setup = function(status)
     pattern = {'lir', 'Neogit*'},
     desc = 'Apply short statusline',
     callback = function()
+      vim.w.status_style = 'short'
       vim.wo.statusline = M.get_status('short')
     end
   })
@@ -180,6 +191,33 @@ M.setup = function(status)
     desc = 'Show diagnostic sign',
     callback = function()
       state.show_diagnostic = true
+    end
+  })
+  autocmd('WinEnter', {
+    group = augroup,
+    desc = 'Change statusline',
+    callback = function()
+      local winconfig = vim.api.nvim_win_get_config(0)
+      if winconfig.relative ~= '' then return end
+
+      local style = vim.w.status_style
+      if style == nil then
+        style = 'full'
+        vim.w.status_style = style
+      end
+
+      vim.wo.statusline = M.get_status(style)
+
+      local winnr = vim.fn.winnr('#')
+      if winnr == 0 then return end
+
+      local curwin = vim.api.nvim_get_current_win()
+      local winid = vim.fn.win_getid(winnr)
+      if winid == 0 or winid == curwin then return end
+
+      if vim.api.nvim_win_is_valid(winid) then
+        vim.wo[winid].statusline = M.get_status('inactive')
+      end
     end
   })
 
@@ -203,6 +241,8 @@ M.higroups = function()
   res['STATUS-BLOCK'] = 'UserStatusBlock'
   return res
 end
+
+M.default_hl = apply_hl
 
 return M
 
