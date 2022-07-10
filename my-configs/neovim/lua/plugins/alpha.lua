@@ -189,7 +189,16 @@ autocmd('User', {
       vim.cmd('setlocal winhl=EndOfBuffer:UserHideChar')
     end
 
+    vim.w.status_style = 'short'
     vim.wo.statusline = require('plugins.statusline').get_status('short')
+  end
+})
+
+autocmd('User', {
+  pattern = 'AlphaClosed',
+  group = augroup,
+  callback = function()
+    vim.defer_fn(function() vim.w.status_style = 'full' end, 5)
   end
 })
 
