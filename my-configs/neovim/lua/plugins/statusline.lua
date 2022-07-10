@@ -2,8 +2,8 @@ local M = {}
 local state = {}
 
 local default_hl = function(name, style)
-  local ok, _ = pcall(vim.api.nvim_get_hl_by_name, name, 1)
-  if ok then return end
+  local ok, hl = pcall(vim.api.nvim_get_hl_by_name, name, 1)
+  if ok and (hl.background or hl.foreground) then return end
 
   vim.api.nvim_set_hl(0, name, style)
 end
