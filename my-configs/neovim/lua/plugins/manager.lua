@@ -167,8 +167,11 @@ M.has_minpac = function()
 end
 
 M.minpac_download = function()
-  local gitclone = '!git clone https://github.com/k-takata/minpac.git %s'
-  vim.cmd(gitclone:format(p.minpac_path))
+  local url = 'https://github.com/k-takata/minpac.git'
+
+  print('Installing minpac...')
+  vim.fn.system({'git', 'clone', url, p.minpac_path})
+  print('Done.')
 end
 
 return M
