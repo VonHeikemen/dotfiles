@@ -147,15 +147,15 @@ bind('n', '<Leader>bb', ':Telescope buffers<CR>')
 bind('n', '<Leader>B', ':Telescope buffers only_cwd=true<CR>')
 
 -- Put selected text in register '/'
-bind('v', '<Leader>y', ':<C-u>GetSelection<CR>gv')
-bind('v', '<Leader>Y', ':<C-u>GetSelection<CR>:set hlsearch<CR>')
+bind('x', '<Leader>y', ':<C-u>GetSelection<CR>gv')
+bind('x', '<Leader>Y', ':<C-u>GetSelection<CR>:set hlsearch<CR>')
 
 -- Nice buffer local search
 bind('n', 's', ':SearchBoxIncSearch<CR>')
 bind('x', 's', ':SearchBoxIncSearch visual_mode=true<CR>')
 bind('n', 'S', ":SearchBoxMatchAll title=' Match '<CR>")
 bind('x', 'S', ":SearchBoxMatchAll title=' Match ' visual_mode=true<CR>")
-bind('n', '<leader>;', '<cmd>SearchBoxClear<CR>')
+bind('n', '<leader>s', '<cmd>SearchBoxClear<CR>')
 
 -- Begin search & replace
 bind('n', 'r', ":SearchBoxReplace confirm=menu<CR>")
@@ -168,13 +168,19 @@ bind('x', 'R', ":<C-u>GetSelection<CR>:SearchBoxReplace confirm=menu<CR><C-r>/")
 -- ========================================================================== --
 
 autocmd('User', {
-  pattern = 'LSPKeybindings',
+  pattern = 'LspAttached',
   group = augroup,
   callback = function()
     local telescope = require('telescope.builtin')
     local lsp = vim.lsp.buf
 
     local opts = {silent = true, buffer = true}
+
+    bind('n', '<leader>fi', '<cmd>LspInfo<cr>', opts)
+
+    if vim.fn.mapcheck('<leader>;', 'n') == '' then
+      bind({'n', 'x'}, '<leader>;', '<cmd>LspFormat<cr>', opts)
+    end
 
     bind('n', 'K', lsp.hover, opts)
     bind('n', 'gd', lsp.definition, opts)

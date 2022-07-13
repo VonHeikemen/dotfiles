@@ -2,22 +2,28 @@ local M = {}
 vim.cmd('packadd null-ls.nvim')
 
 local null_ls = require('null-ls')
+
 local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
 
 local config = {
   on_attach = function(client, bufnr)
     local bufcmd = vim.api.nvim_buf_create_user_command
-    local format = function()
-      local params = vim.lsp.util.make_formatting_params({})
-      client.request('textDocument/formatting', params, nil, bufnr)
+    local format_cmd = function(input)
+      require('lsp.client').format_cmd(input, client, bufnr)
     end
 
-    if client.server_capabilities.documentFormattingProvider then
-      bufcmd(bufnr, 'NullFormat', format, {desc = 'Format using null-ls'})
-    end
+    bufcmd(bufnr, 'NullFormat', format_cmd, {
+      bang = true,
+      range = true,
+      desc = 'Format using null-ls'
+    })
 
     require('lsp.configs.shared').on_attach(client, bufnr)
+
+    vim.keymap.set({'n', 'x'}, '<leader>;', '<cmd>NullFormat<cr>', {
+      buffer = bufnr
+    })
   end,
   sources = {
     formatting.prettier,

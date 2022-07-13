@@ -76,15 +76,38 @@ end)
 
 M.on_attach = function(client, bufnr)
   if vim.b.lsp_attached then return  end
+
+  local bufcmd = vim.api.nvim_buf_create_user_command
   vim.b.lsp_attached = true
 
+  bufcmd(bufnr, 'LspFormat', M.format_cmd, {
+    bang = true,
+    desc = 'LSP based formatting'
+  })
+
   -- keybindings are in lua/user/keymaps.lua
-  doautocmd('User', {pattern = 'LSPKeybindings', group = 'mapping_cmds'})
+  doautocmd('User', {pattern = 'LspAttached'})
 end
 
 M.capabilities = require('cmp_nvim_lsp').update_capabilities(
   vim.lsp.protocol.make_client_capabilities()
 )
+
+M.format_cmd = function(input)
+  local has_range = input.line2 == input.count
+  local execute = vim.lsp.buf.formatting
+
+  if input.bang then
+    if has_range then return end
+    execute = vim.lsp.buf.formatting_sync
+  end
+
+  if has_range then
+    execute = vim.lsp.buf.range_formatting
+  end
+
+  execute()
+end
 
 return M
 
