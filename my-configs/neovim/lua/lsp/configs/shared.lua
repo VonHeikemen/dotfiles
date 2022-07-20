@@ -76,9 +76,11 @@ end)
 
 M.on_attach = function(client, bufnr)
   if vim.b.lsp_attached then return  end
+  vim.b.lsp_attached = true
 
   local bufcmd = vim.api.nvim_buf_create_user_command
-  vim.b.lsp_attached = true
+  vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'
+  vim.bo.tagfunc = 'v:lua.vim.lsp.tagfunc'
 
   bufcmd(bufnr, 'LspFormat', M.format_cmd, {
     bang = true,
