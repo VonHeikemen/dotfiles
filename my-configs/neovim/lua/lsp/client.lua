@@ -2,11 +2,11 @@ local M = {}
 
 local fmt = string.format
 
-M.start = function(name, opts)
+function M.start(name, opts)
   vim.lsp.start_client(M.config(name, opts))
 end
 
-M.config = function(name, opts)
+function M.config(name, opts)
   local server_opts = require(fmt('lsp.configs.%s', name))
 
   if opts then
@@ -20,12 +20,12 @@ M.config = function(name, opts)
   return server_opts
 end
 
-M.format = function(client, bufnr)
+function M.format(client, bufnr)
   local params = vim.lsp.util.make_formatting_params({})
   client.request('textDocument/formatting', params, nil, bufnr)
 end
 
-M.format_sync = function(client, bufnr)
+function M.format_sync(client, bufnr)
   local params = vim.lsp.util.make_formatting_params({})
   local result = client.request_sync('textDocument/formatting', params, 5 * 1000, bufnr)
 
@@ -34,14 +34,14 @@ M.format_sync = function(client, bufnr)
   end
 end
 
-M.range_format = function(client, bufnr, options)
+function M.range_format(client, bufnr, options)
   local params = vim.lsp.util.make_given_range_params()
   params.options = vim.lsp.util.make_formatting_params(options).options
 
   client.request('textDocument/rangeFormatting', params)
 end
 
-M.format_cmd = function(input, client, bufnr)
+function M.format_cmd(input, client, bufnr)
   local has_range = input.line2 == input.count
   local execute = M.format
 

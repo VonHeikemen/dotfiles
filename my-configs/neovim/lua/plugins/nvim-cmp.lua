@@ -93,7 +93,7 @@ user.config = {
   }
 }
 
-user.set_autocomplete = function(new_value)
+function user.set_autocomplete(new_value)
   local old_value = user.autocomplete
 
   if new_value == old_value then return end
@@ -119,7 +119,7 @@ user.set_autocomplete = function(new_value)
   user.autocomplete = new_value
 end
 
-user.check_back_space = function()
+function user.check_back_space()
   local col = vim.fn.col('.') - 1
   if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
     return true
@@ -128,7 +128,7 @@ user.check_back_space = function()
   end
 end
 
-user.enable_cmd = function()
+function user.enable_cmd()
   if user.autocomplete then return end
 
   pcall(vim.api.nvim_buf_del_keymap, 0, 'i', '<Space>')

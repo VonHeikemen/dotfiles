@@ -8,7 +8,7 @@ local actions = require('lir.actions')
 local marks = require('lir.mark.actions')
 local clipboard = require('lir.clipboard.actions')
 
-local on_init = function()
+local function on_init()
   local bind = vim.keymap.set
   local noremap = {remap = false, silent = true, buffer = true}
   local remap = {remap = true, silent = true, buffer = true}

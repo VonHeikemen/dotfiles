@@ -13,11 +13,11 @@ require('leap').setup({
   },
 })
 
-local leap_anywhere = function()
+local function leap_anywhere()
   require('leap').leap({target_windows = {vim.api.nvim_get_current_win()}})
 end
 
-local leap_line_backward = function()
+local function leap_line_backward()
   local winid = vim.api.nvim_get_current_win()
   local comp = function(state, wininfo, line)
     if state.lnum == -1 then
@@ -33,7 +33,7 @@ local leap_line_backward = function()
   })
 end
 
-local leap_line_forward = function()
+local function leap_line_forward()
   local winid = vim.api.nvim_get_current_win()
   local comp = function(state, wininfo, line)
     if state.lnum == -1 then
@@ -60,7 +60,7 @@ bind({'n', 'x', 'o'}, 'zs', leap_anywhere, {desc = 'Two character search and jum
 bind({'n', 'x', 'o'}, 'L', 'w')
 bind({'n', 'x', 'o'}, 'H', 'b')
 
-M.line_targets = function(winid, comp)
+function M.line_targets(winid, comp)
   local wininfo =  vim.fn.getwininfo(winid)[1]
   local cur_line = vim.fn.line('.')
 

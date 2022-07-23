@@ -7,7 +7,7 @@ local fmt = string.format
 
 local server_group = 'LSP_server_%s'
 
-M.make_config = function(config)
+function M.make_config(config)
   local get_server = require('nvim-lsp-installer').get_server
 
   local defaults = {
@@ -34,7 +34,7 @@ M.make_config = function(config)
   )
 end
 
-M.on_init = function(client, results)
+function M.on_init(client, results)
   if results.offsetEncoding then
     client.offset_encoding = results.offsetEncoding
   end
@@ -74,7 +74,7 @@ M.on_exit = vim.schedule_wrap(function(code, signal, client_id)
   end
 end)
 
-M.on_attach = function(client, bufnr)
+function M.on_attach(client, bufnr)
   if vim.b.lsp_attached then return  end
   vim.b.lsp_attached = true
 
@@ -95,7 +95,7 @@ M.capabilities = require('cmp_nvim_lsp').update_capabilities(
   vim.lsp.protocol.make_client_capabilities()
 )
 
-M.format_cmd = function(input)
+function M.format_cmd(input)
   local has_range = input.line2 == input.count
   local execute = vim.lsp.buf.formatting
 

@@ -1,7 +1,7 @@
 local fns = require('user.functions')
 local plug = require('plugins.manager')
 
-local use = function(mod) return function() require(mod) end end
+local function use(mod) return function() require(mod) end end
 
 -- ========================================================================== --
 -- ==                               PLUGINS                                == --

@@ -6,10 +6,10 @@ local command = vim.api.nvim_create_user_command
 local escape = vim.fn.fnameescape
 
 local set_autocmd = nil
-local join = function(...) return table.concat({...}, '/') end
+local function join(...) return table.concat({...}, '/') end
 local session_dir = join(vim.fn.stdpath('data'),  'sessions')
 
-M.create = function(name)
+function M.create(name)
   if name == nil or name == '' then return end
 
   local file = join(session_dir, name)
@@ -32,7 +32,7 @@ M.create = function(name)
   M.autosave()
 end
 
-M.source = function(name)
+function M.source(name)
   local file = escape(join(session_dir, name))
   local source = 'source %s.vim'
 
@@ -40,23 +40,23 @@ M.source = function(name)
   M.autosave()
 end
 
-M.is_readable = function(name)
+function M.is_readable(name)
   return vim.fn.filereadable(join(session_dir, name .. '.vim')) == 1
 end
 
-M.save = function(name)
+function M.save(name)
   local session = escape(join(session_dir, name .. '.vim'))
   vim.cmd('mksession! ' .. session)
 end
 
-M.save_current = function()
+function M.save_current()
   local session = vim.v.this_session
   if session == '' then return end
 
   vim.cmd('mksession! ' .. escape(session))
 end
 
-M.autosave = function()
+function M.autosave()
   if set_autocmd then return end
 
   set_autocmd = autocmd('VimLeavePre', {
@@ -66,7 +66,7 @@ M.autosave = function()
   })
 end
 
-M.load_current = function(name)
+function M.load_current(name)
   if name == nil then
     return
   end
@@ -77,18 +77,18 @@ M.load_current = function(name)
   end
 end
 
-local load_session = function(input)
+local function load_session(input)
   M.load_current(input.args)
 end
 
-M.new_session = function()
+function M.new_session()
   vim.ui.input({prompt = 'Session name:'}, function(value)
     if value == nil then return end
     M.create(value)
   end)
 end
 
-local new_branch = function(input)
+local function new_branch(input)
   if vim.g.session_name == nil then
     local msg = 'There is no active session.'
     vim.notify(msg, vim.log.levels.ERROR)
@@ -102,7 +102,7 @@ local new_branch = function(input)
   M.create(branch:format(name, input.args))
 end
 
-local load_branch = function(input)
+local function load_branch(input)
   if vim.g.session_name == nil then
     local msg = 'There is no active session.'
     vim.notify(msg, vim.log.levels.ERROR)

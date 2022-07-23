@@ -3,7 +3,7 @@ local autocmd = vim.api.nvim_create_autocmd
 
 local UI = {}
 
-local input_opts = function()
+local function input_opts()
   return {
     relative = 'win',
     zindex = 14,
@@ -26,7 +26,7 @@ local input_opts = function()
   }
 end
 
-local select_opts = function()
+local function select_opts()
   return {
     relative = 'editor',
     zindex = 14,
@@ -48,7 +48,7 @@ local select_opts = function()
   }
 end
 
-UI.input = function()
+function UI.input()
   local Input = require('nui.input')
   local event = require('nui.utils.autocmd').event
 
@@ -102,7 +102,7 @@ UI.input = function()
   end
 end
 
-UI.select = function()
+function UI.select()
   local Menu = require('nui.menu')
   local event = require('nui.utils.autocmd').event
 
@@ -115,7 +115,7 @@ UI.select = function()
       return
     end
 
-    local function on_done(item, index)
+    local on_done = function(item, index)
       if select_ui then
         -- if it's still mounted, unmount it
         select_ui:unmount()
@@ -188,7 +188,7 @@ UI.select = function()
   end
 end
 
-UI.load = function()
+function UI.load()
   UI.input()
   UI.select()
 end

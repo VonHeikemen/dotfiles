@@ -5,7 +5,7 @@ local unbind = vim.keymap.del
 
 vim.g.goyo_height = '100%'
 
-local enter = function()
+local function enter()
   vim.opt.wrap = true
   vim.opt.linebreak =  true
   
@@ -14,7 +14,7 @@ local enter = function()
   bind('n', 'O', 'O<Enter><Up>')
 end
 
-local leave = function()
+local function leave()
   vim.opt.wrap = false
   vim.opt.linebreak =  false
 

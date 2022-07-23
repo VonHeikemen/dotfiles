@@ -1,7 +1,7 @@
 local M = {}
 local state = {}
 
-local default_hl = function(name, style)
+local function default_hl(name, style)
   local ok, hl = pcall(vim.api.nvim_get_hl_by_name, name, 1)
   if ok and (hl.background or hl.foreground) then return end
 
@@ -17,7 +17,7 @@ local mode_higroups = {
   ['COMMAND'] = 'UserStatusMode_COMMAND',
 }
 
-local apply_hl = function()
+local function apply_hl()
   default_hl('UserStatusBlock', {bg = '#464D5D', fg = '#D8DEE9'})
   default_hl('UserStatusMode_xx', {bg = '#FC8680', fg = '#353535', bold = true})
 
@@ -72,11 +72,11 @@ local mode_map = {
 local fmt = string.format
 local hi_pattern = '%%#%s#%s%%*'
 
-_G._statusline_component = function(name)
+function _G._statusline_component(name)
   return state[name]()
 end
 
-local show_sign = function(mode)
+local function show_sign(mode)
   local empty = ' '
 
   -- This just checks a user defined variable
@@ -106,7 +106,7 @@ end
 state.show_diagnostic = false
 state.mode_group = mode_higroups['NORMAL']
 
-state.mode = function()
+function state.mode()
   local mode = vim.api.nvim_get_mode().mode
   local mode_name = mode_map[mode]
   local text = ' '
@@ -125,7 +125,7 @@ state.mode = function()
   return fmt(hi_pattern, state.mode_group, text)
 end
 
-state.position = function()
+function state.position()
   return fmt(hi_pattern, state.mode_group, ' %2l:%-2c ')
 end
 
@@ -159,7 +159,7 @@ state.inactive_status = {
   '%2l:%-2c ',
 }
 
-M.setup = function(status)
+function M.setup(status)
   local augroup = vim.api.nvim_create_augroup('statusline_cmds', {clear = true})
   local autocmd = vim.api.nvim_create_autocmd
   vim.opt.showmode = false
@@ -227,15 +227,15 @@ M.setup = function(status)
   end
 end
 
-M.get_status = function(name)
+function M.get_status(name)
   return table.concat(state[fmt('%s_status', name)], '')
 end
 
-M.apply = function(name)
+function M.apply(name)
   vim.o.statusline = M.get_status(name)
 end
 
-M.higroups = function()
+function M.higroups()
   local res = vim.deepcopy(mode_higroups)
   res['DEFAULT'] = 'UserStatusMode_xx'
   res['STATUS-BLOCK'] = 'UserStatusBlock'

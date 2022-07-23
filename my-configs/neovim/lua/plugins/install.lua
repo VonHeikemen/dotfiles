@@ -6,7 +6,7 @@ end
 
 plug.skip_config = true
 
-local quit_nvim = function()
+local function quit_nvim()
   vim.fn.confirm('You need to restart neovim to complete install process')
   vim.cmd('quitall')
 end

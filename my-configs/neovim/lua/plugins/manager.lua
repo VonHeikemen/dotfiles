@@ -22,7 +22,7 @@ end
 
 p.minpac_path = p.packpath .. '/pack/minpac/opt/minpac'
 
-local plug_name = function(plug)
+local function plug_name(plug)
   local name = plug.as
   if name == nil then
     name = plug[1]:match('^[%w-]+/([%w-_.]+)$')
@@ -31,7 +31,7 @@ local plug_name = function(plug)
   return name
 end
 
-M.init = function(user_plugins)
+function M.init(user_plugins)
   local start_config = {}
   local deferred = {}
 
@@ -74,7 +74,7 @@ M.init = function(user_plugins)
   })
 end
 
-p.apply_start_config = function(fns)
+function p.apply_start_config(fns)
   if M.skip_config then return end
 
   for i, config in pairs(fns) do
@@ -82,7 +82,7 @@ p.apply_start_config = function(fns)
   end
 end
 
-M.apply_opt_config = function(input)
+function M.apply_opt_config(input)
   local plugin = input.args
   vim.cmd('packadd ' .. plugin)
 
@@ -92,7 +92,7 @@ M.apply_opt_config = function(input)
   end
 end
 
-p.load_plugins = function(plugins, startup)
+function p.load_plugins(plugins, startup)
   if done then return end
 
   p.packadd(plugins)
@@ -108,7 +108,7 @@ p.load_plugins = function(plugins, startup)
   done = true
 end
 
-p.packadd = function(plugins)
+function p.packadd(plugins)
   local add = 'packadd %s\n'
   local add_cmd = ''
   local config_fns = {}
@@ -133,7 +133,7 @@ p.packadd = function(plugins)
   end
 end
 
-M.minpac = function()
+function M.minpac()
   vim.cmd('packadd minpac')
   vim.call('minpac#init', {dir = p.packpath})
 
@@ -150,7 +150,7 @@ M.minpac = function()
   end
 end
 
-p.setup_commands = function()
+function p.setup_commands()
   local action = function(minpac_fn)
     return function() M.minpac(); vim.call(minpac_fn) end
   end
@@ -162,11 +162,11 @@ p.setup_commands = function()
   command('PackAdd', M.apply_opt_config, {nargs = 1, complete='packadd'})
 end
 
-M.has_minpac = function()
+function M.has_minpac()
   return vim.fn.isdirectory(p.minpac_path) == 1
 end
 
-M.minpac_download = function()
+function M.minpac_download()
   local url = 'https://github.com/k-takata/minpac.git'
 
   print('Installing minpac...')

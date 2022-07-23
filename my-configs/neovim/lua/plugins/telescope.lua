@@ -7,14 +7,14 @@ command('TGrep', function(input)
   require('telescope.builtin').grep_string({search = input.args})
 end, {nargs = 1})
 
-local defaults = function(title)
+local function defaults(title)
   return {
     prompt_title = title,
     results_title = false
   }
 end
 
-local dropdown = function(title, previewer)
+local function dropdown(title, previewer)
   return {
     prompt_title = title,
     previewer = previewer or false,

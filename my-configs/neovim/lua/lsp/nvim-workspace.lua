@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function(opts)
+function M.setup(opts)
   opts = opts or {}
 
   -- Setup autocomplete for nvim's lua api

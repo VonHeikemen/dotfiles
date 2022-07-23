@@ -36,7 +36,7 @@ require('fidget').setup({
   }
 })
 
-M.diagnostics = function()
+function M.diagnostics()
   local sign = function(opts)
     vim.fn.sign_define(opts.name, {
       texthl = opts.name,
@@ -83,7 +83,7 @@ M.diagnostics = function()
   })
 end
 
-M.handlers = function()
+function M.handlers()
   vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
     vim.lsp.handlers.hover,
     {border = 'rounded'}
@@ -98,7 +98,7 @@ M.handlers = function()
   command('LspFormat', vim.lsp.buf.formatting, {desc = 'LSP based formatting'})
 end
 
-M.format = function()
+function M.format()
   -- use null-ls if present
   if vim.fn.exists(':NullFormat') == 2 then
     vim.cmd('NullFormat')
@@ -109,7 +109,7 @@ M.format = function()
   vim.lsp.buf.formatting()
 end
 
-M.project_setup = function(opts)
+function M.project_setup(opts)
   for server, enable in pairs(opts) do
     if enable == true then
       lsp.start(server)

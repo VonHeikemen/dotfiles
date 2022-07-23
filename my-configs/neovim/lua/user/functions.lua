@@ -1,6 +1,6 @@
 local M = {}
 
-M.toggle_opt = function(prop, scope, on, off)
+function M.toggle_opt(prop, scope, on, off)
   if on == nil then
     on = true
   end
@@ -22,7 +22,7 @@ M.toggle_opt = function(prop, scope, on, off)
   end
 end
 
-M.get_selection = function()
+function M.get_selection()
   local f = vim.fn
   local temp = f.getreg('s')
   vim.cmd('normal! gv"sy')
@@ -32,7 +32,7 @@ M.get_selection = function()
   f.setreg('s', temp)
 end
 
-M.trailspace_trim = function()
+function M.trailspace_trim()
   -- Save cursor position to later restore
   local curpos = vim.api.nvim_win_get_cursor(0)
 
@@ -41,13 +41,13 @@ M.trailspace_trim = function()
   vim.api.nvim_win_set_cursor(0, curpos)
 end
 
-M.job_output = function(cid, data, name)
+function M.job_output(cid, data, name)
   for i, val in pairs(data) do
     print(val)
   end
 end
 
-M.edit_macro = function()
+function M.edit_macro()
   local register = 'i'
 
   local opts = {default = vim.g.edit_macro_last or ''}
@@ -68,7 +68,7 @@ M.edit_macro = function()
   end)
 end
 
-M.file_explorer = function(cwd)
+function M.file_explorer(cwd)
   if vim.o.lines > 17 then
     require('lir.float').toggle(cwd)
   else
@@ -76,7 +76,7 @@ M.file_explorer = function(cwd)
   end
 end
 
-M.set_autoindent = function()
+function M.set_autoindent()
   require('guess-indent').setup({auto_cmd = true, verbose = 1})
 
   vim.defer_fn(function()
@@ -86,7 +86,7 @@ M.set_autoindent = function()
   end, 3)
 end
 
-M.load_project = function()
+function M.load_project()
   require('project-settings').load({})
   require('plugins.session').load_current(vim.g.session_name)
 end

@@ -122,7 +122,7 @@ action.update_plugins = {
 }
 
 -- Add buttons
-local button = function(args)
+local function button(args)
   return {
     type = 'button',
     val = '➤ ' .. args.name,
