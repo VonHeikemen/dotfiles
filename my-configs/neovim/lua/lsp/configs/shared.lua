@@ -8,8 +8,6 @@ local fmt = string.format
 local server_group = 'LSP_server_%s'
 
 function M.make_config(config)
-  local get_server = require('nvim-lsp-installer').get_server
-
   local defaults = {
     root_dir = vim.fn.getcwd(),
     capabilities = M.capabilities,
@@ -21,15 +19,9 @@ function M.make_config(config)
     },
   }
 
-  local ok, server = get_server(config.name)
-  local server_opts = {}
-
-  if ok then server_opts = server:get_default_options() end
-
   return vim.tbl_deep_extend(
     'force',
     defaults,
-    server_opts,
     config
   )
 end
