@@ -2,8 +2,7 @@ local M = {}
 
 vim.cmd([[
   packadd fidget.nvim
-  packadd nvim-lsp-installer
-  packadd nvim-lspconfig
+  packadd mason.nvim
 ]])
 
 local augroup = vim.api.nvim_create_augroup
@@ -12,15 +11,7 @@ local command = vim.api.nvim_create_user_command
 
 local lsp = require('lsp.client')
 
--- Kids, don't do this at home.
--- Make nvim-lsp-installer work without lspconfig.
-if pcall(require, 'lspconfig') == false then
-  package.loaded['lspconfig.util'] = {
-    add_hook_before = function(arg) return arg end
-  }
-end
-
-require('nvim-lsp-installer').settings({
+require('mason').setup({
   ui = {border = 'rounded'}
 })
 
