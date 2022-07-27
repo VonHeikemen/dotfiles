@@ -23,6 +23,8 @@ local function on_init()
   bind('x', 'cx', mark .. 'cx', remap)
 
   bind('n', '<S-Tab>', 'gv<Tab>', remap)
+
+  vim.wo.statusline = require('plugins.statusline').get_status('short')
 end
 
 lir.setup({

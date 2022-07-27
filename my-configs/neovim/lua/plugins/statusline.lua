@@ -126,7 +126,7 @@ function state.mode()
 end
 
 function state.position()
-  return fmt(hi_pattern, state.mode_group, ' %2l:%-2c ')
+  return fmt(hi_pattern, state.mode_group, ' %2l:%c ')
 end
 
 state.percent = fmt(hi_pattern, 'UserStatusBlock', ' %3p%% ')
@@ -165,6 +165,11 @@ function M.setup(status)
   vim.opt.showmode = false
 
   apply_hl()
+  local pattern = M.get_status(status)
+  if pattern then
+    vim.o.statusline = pattern
+  end
+
   autocmd('ColorScheme', {
     group = augroup,
     desc = 'Apply statusline highlights',
@@ -172,7 +177,7 @@ function M.setup(status)
   })
   autocmd('FileType', {
     group = augroup,
-    pattern = {'lir', 'Neogit*'},
+    pattern = {'ctrlsf', 'Neogit*'},
     desc = 'Apply short statusline',
     callback = function()
       vim.w.status_style = 'short'
@@ -220,11 +225,6 @@ function M.setup(status)
       end
     end
   })
-
-  local pattern = M.get_status(status)
-  if pattern then
-    vim.o.statusline = pattern
-  end
 end
 
 function M.get_status(name)
