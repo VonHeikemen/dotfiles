@@ -84,20 +84,6 @@ function M.handlers()
     vim.lsp.handlers.signature_help,
     {border = 'rounded'}
   )
-
-  command('Format', M.format, {desc = 'Format current buffer'})
-  command('LspFormat', vim.lsp.buf.formatting, {desc = 'LSP based formatting'})
-end
-
-function M.format()
-  -- use null-ls if present
-  if vim.fn.exists(':NullFormat') == 2 then
-    vim.cmd('NullFormat')
-    return
-  end
-
-  -- fallback to whatever lsp server has formatting capabilities
-  vim.lsp.buf.formatting()
 end
 
 function M.project_setup(opts)
