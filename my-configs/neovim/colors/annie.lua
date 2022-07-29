@@ -20,6 +20,7 @@ lw.apply('anny', theme)
 ---
 -- Custom rules
 ---
+local none = 'LittleWonderNone'
 local link = lw.link
 local hs = lw.set_hl
 local hi = function(group, colors)
@@ -34,7 +35,7 @@ end
 link('TelescopeMatching', 'Boolean')
 link('TelescopeSelection', 'CursorLine')
 link('NormalFloat', 'Normal')
-link('markdownError', 'Normal')
+link('markdownError', none)
 
 hi('TelescopeSelectionCaret', {fg = color.orange, bg = color.metal_blue})
 
