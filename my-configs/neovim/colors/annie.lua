@@ -15,7 +15,7 @@ local theme = mariana.update({
   }
 })
 
-lw.apply('anny', theme)
+lw.apply('annie', theme)
 
 ---
 -- Custom rules
