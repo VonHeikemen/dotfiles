@@ -76,6 +76,7 @@ function M.on_attach(client, bufnr)
 
   bufcmd(bufnr, 'LspFormat', M.format_cmd, {
     bang = true,
+    range = true,
     desc = 'LSP based formatting'
   })
 
