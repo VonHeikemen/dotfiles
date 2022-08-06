@@ -21,7 +21,7 @@ local function input_opts()
       }
     },
     win_options = {
-      winhighlight = 'Normal:Normal',
+      winhighlight = 'Normal:Normal,FloatBorder:FloatBorder',
     },
   }
 end
@@ -43,7 +43,7 @@ local function select_opts()
       },
     },
     win_options = {
-      winhighlight = 'Normal:Normal',
+      winhighlight = 'Normal:Normal,FloatBorder:FloatBorder',
     },
   }
 end
