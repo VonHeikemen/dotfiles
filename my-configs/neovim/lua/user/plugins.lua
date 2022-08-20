@@ -121,7 +121,7 @@ plug.init({
 -- ==                            LOCAL PLUGINS                             == --
 -- ========================================================================== --
 
--- Session manager
+require('plugins.tmux')
 require('plugins.session')
 require('plugins.statusline').setup('full')
 
