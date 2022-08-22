@@ -75,7 +75,9 @@ local function parse_cmd(input)
   end
 end
 
-command('Tmux', parse_cmd, {nargs = 1})
+function M.setup()
+  command('Tmux', parse_cmd, {nargs = 1})
+end
 
 return M
 
