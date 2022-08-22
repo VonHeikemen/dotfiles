@@ -4,7 +4,7 @@ local cmd = ''
 
 local command = vim.api.nvim_create_user_command
 
-function M.tmux_run(val)
+function M.tmux_run(val, exec)
   local run = cmd
 
   if #val > 0 then
@@ -16,7 +16,11 @@ function M.tmux_run(val)
     return
   end
 
-  local args = {'tmux', 'send-keys', '-t', pane_id, run, 'C-m'}
+  local args = {'tmux', 'send-keys', '-t', pane_id, run}
+
+  if exec then
+    table.insert(args, 'C-m')
+  end
 
   vim.fn.jobstart(args)
 end
@@ -61,7 +65,8 @@ local function parse_cmd(input)
   end
 
   local valid = {
-    run = M.tmux_run,
+    run = function(val) M.tmux_run(val, true) end,
+    send = function(val) M.tmux_run(val, false) end,
     cmd = M.tmux_cmd,
     pane = M.tmux_pane,
     pwd = M.tmux_pwd
