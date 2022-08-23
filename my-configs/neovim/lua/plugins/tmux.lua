@@ -51,7 +51,7 @@ end
 
 function M.tmux_pwd()
   local cd = ' cd %s'
-  M.tmux_run(cd:format(vim.fn.getcwd()))
+  M.tmux_run(cd:format(vim.fn.getcwd()), true)
 end
 
 local function parse_cmd(input)
@@ -80,9 +80,7 @@ local function parse_cmd(input)
   end
 end
 
-function M.setup()
-  command('Tmux', parse_cmd, {nargs = 1})
-end
+command('Tmux', parse_cmd, {nargs = 1})
 
 return M
 
