@@ -126,10 +126,10 @@ function state.mode()
 end
 
 function state.position()
-  return fmt(hi_pattern, state.mode_group, ' %2l:%c ')
+  return fmt(hi_pattern, state.mode_group, ' %3l:%-2c ')
 end
 
-state.percent = fmt(hi_pattern, 'UserStatusBlock', ' %3p%% ')
+state.percent = fmt(hi_pattern, 'UserStatusBlock', ' %2p%% ')
 
 state.full_status = {
   '%{%v:lua._statusline_component("mode")%} ',
@@ -155,8 +155,8 @@ state.inactive_status = {
   '%m',
   '%=',
   '%{&filetype} |',
-  '%3p%% | ',
-  '%2l:%-2c ',
+  '%2p%% | ',
+  '%3l:%-2c ',
 }
 
 function M.setup(status)
