@@ -98,6 +98,9 @@ plug.init({
     config = use('plugins.indent-blankline')
   },
 
+  -- Handle terminal windows
+  {'akinsho/toggleterm.nvim', config = use('plugins.toggleterm')},
+
   --  Utilities
   {'moll/vim-bbye'},
   {'wellle/targets.vim'},
