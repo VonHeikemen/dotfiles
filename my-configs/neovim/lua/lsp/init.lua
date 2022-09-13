@@ -7,7 +7,6 @@ vim.cmd([[
 
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
-local command = vim.api.nvim_create_user_command
 
 local lsp = require('lsp.client')
 

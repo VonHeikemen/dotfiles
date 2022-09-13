@@ -29,7 +29,7 @@ project.set_config({
     end),
 
     ['nvim-config'] = enable(function()
-      require('lsp.nvim-workspace').setup()
+      require('lsp').start('nvim_lua')
     end),
 
     ['nvim-plugin'] = function(opts)
@@ -45,7 +45,9 @@ project.set_config({
         end
       end
 
-      require('lsp.nvim-workspace').setup({library = dependencies})
+      local server = require('lsp.servers.nvim_lua')
+      server.settings.Lua.workspace.library = dependencies
+      vim.lsp.start_client(server)
     end
   }
 })

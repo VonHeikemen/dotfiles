@@ -7,7 +7,7 @@ function M.start(name, opts)
 end
 
 function M.config(name, opts)
-  local server_opts = require(fmt('lsp.configs.%s', name))
+  local server_opts = require(fmt('lsp.servers.%s', name))
 
   if opts then
     server_opts = vim.tbl_deep_extend(

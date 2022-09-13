@@ -7,7 +7,7 @@ local fmt = string.format
 
 local server_group = 'LSP_server_%s'
 
-function M.make_config(config)
+function M.make(config)
   local defaults = {
     root_dir = vim.fn.getcwd(),
     capabilities = M.capabilities,

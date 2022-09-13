@@ -1,11 +1,9 @@
-local shared = require('lsp.configs.shared')
+local config = require('lsp.config')
 
-local filetypes = {'lua'}
-
-local server = shared.make_config({
+local server = config.make({
   cmd = {'lua-language-server'},
   name = 'sumneko_lua',
-  filetypes = filetypes,
+  filetypes = {'lua'},
   settings = {
     Lua = {
       telemetry = {enable = false},

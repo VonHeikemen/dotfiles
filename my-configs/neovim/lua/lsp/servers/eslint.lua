@@ -1,20 +1,18 @@
-local shared = require('lsp.configs.shared')
+local config = require('lsp.config')
 local cwd = vim.fn.getcwd()
 
-local filetypes = {
-  'javascript',
-  'javascriptreact',
-  'javascript.jsx',
-  'typescript',
-  'typescriptreact',
-  'typescript.tsx',
-  'vue'
-}
-
-local server = shared.make_config({
+local server = config.make({
   cmd = {'vscode-eslint-language-server', '--stdio'},
   name = 'eslint',
-  filetypes = filetypes,
+  filetypes = {
+    'javascript',
+    'javascriptreact',
+    'javascript.jsx',
+    'typescript',
+    'typescriptreact',
+    'typescript.tsx',
+    'vue'
+  },
   settings = {
     -- required
     validate = 'on',

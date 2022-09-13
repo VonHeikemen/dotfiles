@@ -19,7 +19,7 @@ local config = {
       desc = 'Format using null-ls'
     })
 
-    require('lsp.configs.shared').on_attach(client, bufnr)
+    require('lsp.config').on_attach(client, bufnr)
 
     vim.keymap.set({'n', 'x'}, '<leader>;', '<cmd>NullFormat<cr>', {
       buffer = bufnr
