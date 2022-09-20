@@ -113,6 +113,7 @@ plug.init({
   {'NMAC427/guess-indent.nvim', config = use('plugins.guess-indent')},
   {'max397574/better-escape.nvim', config = use('plugins.better-escape')},
   {'ggandor/leap.nvim', config = use('plugins.leap')},
+  {'ggandor/flit.nvim', config = use('plugins.flit')},
   {
     'VonHeikemen/project-settings.nvim',
     type = 'start',
