@@ -32,6 +32,20 @@ function M.get_selection()
   f.setreg('s', temp)
 end
 
+function M.syntax_query()
+  local f = vim.fn
+  local stack = f.synstack(f.line('.'), f.col('.'))
+
+  if stack[1] == nil then
+    print('No id found')
+    return
+  end
+
+  for _, id in pairs(stack) do
+    print(f.synIDattr(id, 'name'))
+  end
+end
+
 function M.trailspace_trim()
   -- Save cursor position to later restore
   local curpos = vim.api.nvim_win_get_cursor(0)
