@@ -89,6 +89,7 @@ local function show_sign(mode)
   local ignore = {
     ['INSERT'] = true,
     ['COMMAND'] = true
+    ['TERMINAL'] = true
   }
 
   if ignore[mode] then return ok end
