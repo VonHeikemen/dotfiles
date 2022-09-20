@@ -155,7 +155,7 @@ state.inactive_status = {
   '%m',
   '%=',
   '%{&filetype} |',
-  '%2p%% | ',
+  ' %2p%% | ',
   '%3l:%-2c ',
 }
 
