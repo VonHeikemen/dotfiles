@@ -1,6 +1,6 @@
 local bind = vim.keymap.set
 
-bind('x', 'zb',  '<Plug>VSurround')
+bind('x', 'Y',  '<Plug>VSurround')
 
 bind('n', 'ds',  '<Plug>Dsurround')
 bind('n', 'cs',  '<Plug>Csurround')
