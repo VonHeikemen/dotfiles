@@ -4,11 +4,11 @@ local bind = vim.keymap.set
 require('leap').setup({
   safe_labels = {},
   labels = {
-    'w', 'f', 'a',
+    'w', 's', 'a',
     'j', 'k', 'l', 'o', 'i', 'q', 'e', 'h', 'g',
     'u', 't',
     'm', 'v', 'c', 'n', '.', 'z',
-    '/', 'F', 'L', 'N', 'H', 'G', 'M', 'U', 'T', '?', 'Z',
+    '/', 'D', 'L', 'N', 'H', 'G', 'M', 'U', 'T', '?', 'Z',
     'J', 'K', 'O', 'I'
   },
 })
