@@ -88,7 +88,7 @@ local function show_sign(mode)
   local ok = ' λ '
   local ignore = {
     ['INSERT'] = true,
-    ['COMMAND'] = true
+    ['COMMAND'] = true,
     ['TERMINAL'] = true
   }
 
