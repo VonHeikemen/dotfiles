@@ -64,11 +64,10 @@ user.config = {
     ['<C-d>'] = cmp.mapping.scroll_docs(5),
     ['<C-u>'] = cmp.mapping.scroll_docs(-5),
 
-    ['<C-e>'] = cmp.mapping(function(fallback)
+    ['<M-u>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.close()
         user.set_autocomplete(false)
-        fallback()
       else
         cmp.complete()
         user.set_autocomplete(true)
