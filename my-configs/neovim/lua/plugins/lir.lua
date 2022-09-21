@@ -56,7 +56,7 @@ lir.setup({
     win_opts = function()
       return {
         border = 'single',
-        zindex = 12
+        zindex = 46
       }
     end
   }

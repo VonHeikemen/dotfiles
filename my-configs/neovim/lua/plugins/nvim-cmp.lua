@@ -36,7 +36,7 @@ user.config = {
       border = 'rounded',
       max_height = 15,
       max_width = 50,
-      zindex = 16,
+      zindex = 50,
     }
   },
   formatting = {
