@@ -17,7 +17,7 @@ autocmd('TextYankPost', {
   desc = 'highlight text after is copied',
   group = augroup,
   callback = function()
-    vim.highlight.on_yank({higroup = 'Visual', timeout = 200})
+    vim.highlight.on_yank({higroup = 'Visual', timeout = 80})
   end
 })
 
