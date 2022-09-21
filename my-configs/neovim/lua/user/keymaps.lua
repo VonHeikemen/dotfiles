@@ -17,8 +17,15 @@ vim.g.surround_no_mappings = 1
 -- ==                             KEY MAPPINGS                             == --
 -- ========================================================================== --
 
+-- Escape to normal mode
+bind('', '<M-l>', '<Esc>')
+bind('t', '<M-l>', '<C-\\><C-n>')
+bind('c', '<M-l>', '<Esc>')
+bind('i', '<M-l>', '<Esc>')
+
 -- Enter commands
 bind('n', '<CR>', ':FineCmdline<CR>')
+bind('x', '<CR>', ":<C-u>FineCmdline '<,'><CR>")
 
 -- Select all text in current buffer
 bind('n', '<Leader>a', ':keepjumps normal! ggVG<CR>')
@@ -33,8 +40,8 @@ bind('', '<Leader>h', '^')
 bind('', '<Leader>l', 'g_')
 
 -- Scroll half page and center
-bind('', '<C-u>', '<C-u>M')
-bind('', '<C-d>', '<C-d>M')
+bind('n', '<M-k>', '<C-u>M')
+bind('n', '<M-j>', '<C-d>M')
 
 -- Search will center on the line it's found in
 bind('n', 'n', 'nzzzv')
@@ -44,10 +51,17 @@ bind('n', '*', '*zz')
 
 -- Delete in select mode
 bind('s', '<BS>', '<C-g>"_c')
-bind('s', '<C-h>', '<BS>', remap)
+bind('s', '<M-h>', '<BS>', remap)
 
 -- Because of reasons
-bind('i', '<C-h>', '<BS>', remap)
+bind('i', '<M-h>', '<BS>', remap)
+bind('s', '<Space>', '<BS>', {remap = true, nowait = true})
+
+bind({'i', 'c'}, '<M-a>', '<Left>')
+bind({'i', 'c'}, '<M-d>', '<Right>')
+bind({'i', 'c'}, '<M-1>', '<')
+bind({'i', 'c'}, '<M-2>', '>', remap)
+bind('i', '<M-Space>', '<Enter><Up><Esc>o')
 
 -- Whatever you delete, make it go away
 bind({'n', 'x'}, 'c','"_c')
@@ -176,8 +190,6 @@ autocmd('User', {
 
     local opts = {silent = true, buffer = true}
 
-    bind('n', '<leader>fi', '<cmd>LspInfo<cr>', opts)
-
     if vim.fn.mapcheck('<leader>;', 'n') == '' then
       bind({'n', 'x'}, '<leader>;', '<cmd>LspFormat<cr>', opts)
     end
@@ -192,8 +204,6 @@ autocmd('User', {
     bind('n', '<F2>', lsp.rename, opts)
     bind('n', '<F4>', lsp.code_action, opts)
     bind('x', '<F4>', lsp.range_code_action, opts)
-
-    bind('i', '<M-i>', lsp.signature_help, opts)
 
     bind('n', 'gl', vim.diagnostic.open_float, opts)
     bind('n', '[d', vim.diagnostic.goto_prev, opts)
