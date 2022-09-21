@@ -57,7 +57,6 @@ plug.init({
   {'VonHeikemen/the-good-snippets', type = 'start'},
   {'mattn/emmet-vim', type = 'opt'},
   {'L3MON4D3/LuaSnip', config = use('plugins.luasnip')},
-  {'windwp/nvim-autopairs', config = use('plugins.autopairs')},
   {'numToStr/Comment.nvim', config = use('plugins.comment')},
 
   -- Language support
