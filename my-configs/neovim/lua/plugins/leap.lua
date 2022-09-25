@@ -5,17 +5,13 @@ require('leap').setup({
   safe_labels = {},
   labels = {
     'w', 's', 'a',
-    'j', 'k', 'l', 'o', 'i', 'q', 'e', 'h', 'g',
+    'j', 'k', 'l', 'o', 'i', 'q', 'd', 'h', 'g',
     'u', 't',
     'm', 'v', 'c', 'n', '.', 'z',
     '/', 'D', 'L', 'N', 'H', 'G', 'M', 'U', 'T', '?', 'Z',
     'J', 'K', 'O', 'I'
   },
 })
-
-local function leap_anywhere()
-  require('leap').leap({target_windows = {vim.api.nvim_get_current_win()}})
-end
 
 local function leap_line_backward()
   local winid = vim.api.nvim_get_current_win()
@@ -49,16 +45,14 @@ local function leap_line_forward()
   })
 end
 
-bind({'n', 'x', 'o'}, 'w', '<Plug>(leap-forward)')
+bind({'n', 'x', 'o'}, 'e', '<Plug>(leap-forward)')
 bind({'n', 'x', 'o'}, 'b', '<Plug>(leap-backward)')
 
-bind({'n', 'x', 'o'}, 'W', leap_line_forward, {desc = 'Jump to line below cursor'})
+bind({'n', 'x', 'o'}, 'e', leap_line_forward, {desc = 'Jump to line below cursor'})
 bind({'n', 'x', 'o'}, 'B', leap_line_backward, {desc = 'Jump to line above cursor'})
 
-bind({'n', 'x', 'o'}, 'zs', leap_anywhere, {desc = 'Two character search and jump'})
-
-bind({'n', 'x', 'o'}, 'L', 'w')
 bind({'n', 'x', 'o'}, 'H', 'b')
+bind({'n', 'x', 'o'}, 'L', 'e')
 
 function M.line_targets(winid, comp)
   local wininfo =  vim.fn.getwininfo(winid)[1]
