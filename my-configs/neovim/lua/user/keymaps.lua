@@ -218,9 +218,6 @@ autocmd('User', {
 -- ==                            MISCELLANEOUS                             == --
 -- ========================================================================== --
 
--- Change word under cursor
-bind('n', 'cj', '"_ciw')
-
 -- Add word to search then replace
 bind('n', '<Leader>j', [[<cmd>let @/='\<'.expand('<cword>').'\>'<cr>"_ciw]])
 
