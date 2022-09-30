@@ -101,9 +101,6 @@ plug.init({
   {'akinsho/toggleterm.nvim', config = use('plugins.toggleterm')},
 
   --  Utilities
-  {'moll/vim-bbye'},
-  {'wellle/targets.vim'},
-  {'tpope/vim-surround', config = use('plugins.surround')},
   {'tpope/vim-repeat'},
   {'tpope/vim-abolish'},
   {'ThePrimeagen/harpoon'},

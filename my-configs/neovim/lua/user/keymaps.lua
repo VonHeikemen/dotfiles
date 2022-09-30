@@ -10,9 +10,6 @@ local remap = {remap = true}
 -- Leader
 vim.g.mapleader = ' '
 
--- Disable vim-surround default mappings
-vim.g.surround_no_mappings = 1
-
 -- ========================================================================== --
 -- ==                             KEY MAPPINGS                             == --
 -- ========================================================================== --
@@ -229,9 +226,6 @@ bind('x', 'qi', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>
 
 -- Apply macro in the next instance of the search
 bind('n', '<F8>', 'gn@i')
-
--- Close buffer while preserving the layout
-bind('n', '<Leader>bc', ':Bdelete<CR>')
 
 -- Toggle zen-mode
 bind('n', '<Leader>uz', '<cmd>Goyo<CR>')
