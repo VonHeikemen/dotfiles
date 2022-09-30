@@ -45,6 +45,7 @@ project.set_config({
         end
       end
 
+      require('lsp')
       local server = require('lsp.servers.nvim_lua')
       server.settings.Lua.workspace.library = dependencies
       vim.lsp.start_client(server)
