@@ -10,7 +10,11 @@ local config = {
   on_attach = function(client, bufnr)
     local bufcmd = vim.api.nvim_buf_create_user_command
     local format_cmd = function(input)
-      require('lsp.client').format_cmd(input, client, bufnr)
+      vim.lsp.buf.format({
+        id = client.id,
+        timeout_ms = 5000,
+        async = input.bang,
+      })
     end
 
     bufcmd(bufnr, 'NullFormat', format_cmd, {

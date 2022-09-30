@@ -8,8 +8,6 @@ vim.cmd([[
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
-local lsp = require('lsp.client')
-
 require('mason').setup({
   ui = {border = 'rounded'}
 })
@@ -31,14 +29,14 @@ function M.diagnostics()
     vim.fn.sign_define(opts.name, {
       texthl = opts.name,
       text = opts.text,
-      numhl = ''
+      numhl = '',
     })
   end
 
   sign({name = 'DiagnosticSignError', text = '✘'})
   sign({name = 'DiagnosticSignWarn', text = '▲'})
   sign({name = 'DiagnosticSignHint', text = '⚑'})
-  sign({name = 'DiagnosticSignInfo', text = ''})
+  sign({name = 'DiagnosticSignInfo', text = '»'})
 
   vim.diagnostic.config({
     virtual_text = false,
@@ -87,13 +85,23 @@ end
 
 function M.project_setup(opts)
   for server, enable in pairs(opts) do
-    if enable == true then
-      lsp.start(server)
-    end
+    if enable == true then M.start(server) end
   end
 end
 
-M.start = lsp.start
+function M.config(name, opts)
+  local server_opts = require(string.format('lsp.servers.%s', name))
+
+  if opts then
+    server_opts = vim.tbl_deep_extend('force', server_opts, opts)
+  end
+
+  return server_opts
+end
+
+function M.start(name, opts)
+  vim.lsp.start_client(M.config(name, opts))
+end
 
 M.diagnostics()
 M.handlers()
