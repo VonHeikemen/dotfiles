@@ -108,6 +108,7 @@ plug.init({
   {'nvim-lua/plenary.nvim', type = 'start'},
   {'NMAC427/guess-indent.nvim', config = use('plugins.guess-indent')},
   {'max397574/better-escape.nvim', config = use('plugins.better-escape')},
+  {'echasnovski/mini.nvim', branch = 'stable', config = use('plugins.mini')},
   {'ggandor/leap.nvim', config = use('plugins.leap')},
   {'ggandor/flit.nvim', config = use('plugins.flit')},
   {
