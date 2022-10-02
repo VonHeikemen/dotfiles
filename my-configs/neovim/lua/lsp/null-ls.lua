@@ -30,7 +30,9 @@ local config = {
     })
   end,
   sources = {
-    formatting.prettier,
+    formatting.prettier.with({
+      prefer_local = 'node_modules/.bin',
+    }),
     diagnostics.php
   }
 }
