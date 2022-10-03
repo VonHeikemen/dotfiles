@@ -25,7 +25,7 @@ local config = {
 
     require('lsp.config').on_attach(client, bufnr)
 
-    vim.keymap.set({'n', 'x'}, '<leader>;', '<cmd>NullFormat<cr>', {
+    vim.keymap.set({'n', 'x'}, 'gq', '<cmd>NullFormat<cr>', {
       buffer = bufnr
     })
   end,

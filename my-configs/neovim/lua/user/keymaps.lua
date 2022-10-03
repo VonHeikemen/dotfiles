@@ -187,8 +187,8 @@ autocmd('User', {
 
     local opts = {silent = true, buffer = true}
 
-    if vim.fn.mapcheck('<leader>;', 'n') == '' then
-      bind({'n', 'x'}, '<leader>;', '<cmd>LspFormat<cr>', opts)
+    if vim.fn.mapcheck('gq', 'n') == '' then
+      bind({'n', 'x'}, 'gq', '<cmd>LspFormat<cr>', opts)
     end
 
     bind('n', 'K', lsp.hover, opts)
