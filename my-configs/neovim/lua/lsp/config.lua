@@ -72,9 +72,11 @@ function M.on_attach(client, bufnr)
   doautocmd('User', {pattern = 'LspAttached'})
 end
 
-M.capabilities = require('cmp_nvim_lsp').update_capabilities(
-  vim.lsp.protocol.make_client_capabilities()
-)
+M.capabilities = vim.tbl_deep_extend(
+  'force',
+  vim.lsp.protocol.make_client_capabilities(),
+  require('cmp_nvim_lsp').default_capabilities()
+) 
 
 function M.format_cmd(input)
   vim.lsp.buf.format({async = input.bang})
