@@ -18,7 +18,9 @@ plug.init({
     type = 'start',
     depth = 2,
     run = function()
-      if vim.fn.executable('make') == 0 then return end
+      if vim.fn.executable('make') == 0 then
+        return
+      end
 
       vim.fn.jobstart({'make'}, {
         cwd = vim.fn.getcwd() .. '/deps/fzy-lua-native',

@@ -3,7 +3,9 @@ local state = {}
 
 local function default_hl(name, style)
   local ok, hl = pcall(vim.api.nvim_get_hl_by_name, name, 1)
-  if ok and (hl.background or hl.foreground) then return end
+  if ok and (hl.background or hl.foreground) then
+    return
+  end
 
   vim.api.nvim_set_hl(0, name, style)
 end
@@ -92,14 +94,20 @@ local function show_sign(mode)
     ['TERMINAL'] = true
   }
 
-  if ignore[mode] then return ok end
+  if ignore[mode] then
+    return ok
+  end
 
   local levels = vim.diagnostic.severity
   local errors = #vim.diagnostic.get(0, {severity = levels.ERROR})
-  if errors > 0 then return ' ✘ ' end
+  if errors > 0 then
+    return ' ✘ '
+  end
 
   local warnings = #vim.diagnostic.get(0, {severity = levels.WARN})
-  if warnings > 0 then return ' ▲ ' end
+  if warnings > 0 then
+    return ' ▲ '
+  end
 
   return ok
 end
@@ -204,7 +212,9 @@ function M.setup(status)
     desc = 'Change statusline',
     callback = function()
       local winconfig = vim.api.nvim_win_get_config(0)
-      if winconfig.relative ~= '' then return end
+      if winconfig.relative ~= '' then
+        return
+      end
 
       local style = vim.w.status_style
       if style == nil then
@@ -215,11 +225,15 @@ function M.setup(status)
       vim.wo.statusline = M.get_status(style)
 
       local winnr = vim.fn.winnr('#')
-      if winnr == 0 then return end
+      if winnr == 0 then
+        return
+      end
 
       local curwin = vim.api.nvim_get_current_win()
       local winid = vim.fn.win_getid(winnr)
-      if winid == 0 or winid == curwin then return end
+      if winid == 0 or winid == curwin then
+        return
+      end
 
       if vim.api.nvim_win_is_valid(winid) then
         vim.wo[winid].statusline = M.get_status('inactive')

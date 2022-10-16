@@ -10,7 +10,9 @@ local function join(...) return table.concat({...}, '/') end
 local session_dir = join(vim.fn.stdpath('data'),  'sessions')
 
 function M.create(name)
-  if name == nil or name == '' then return end
+  if name == nil or name == '' then
+    return
+  end
 
   local file = join(session_dir, name)
 
@@ -51,13 +53,17 @@ end
 
 function M.save_current()
   local session = vim.v.this_session
-  if session == '' then return end
+  if session == '' then
+    return
+  end
 
   vim.cmd('mksession! ' .. escape(session))
 end
 
 function M.autosave()
-  if set_autocmd then return end
+  if set_autocmd then
+    return
+  end
 
   set_autocmd = autocmd('VimLeavePre', {
     group = augroup,
@@ -83,7 +89,10 @@ end
 
 function M.new_session()
   vim.ui.input({prompt = 'Session name:'}, function(value)
-    if value == nil then return end
+    if value == nil then
+      return
+    end
+
     M.create(value)
   end)
 end

@@ -73,7 +73,9 @@ function M.edit_macro()
   end
 
   vim.ui.input(opts, function(value)
-    if value == nil then return end
+    if value == nil then
+      return
+    end
 
     local macro = vim.fn.escape(value, '"')
     vim.cmd(string.format('let @%s="%s"', register, macro))

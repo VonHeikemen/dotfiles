@@ -20,7 +20,10 @@ project.set_config({
     end),
 
     session = function(name)
-      if type(name) ~= 'string' then return end
+      if type(name) ~= 'string' then
+        return
+      end
+
       vim.g.session_name = name
     end,
 

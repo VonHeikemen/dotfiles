@@ -41,7 +41,9 @@ function M.on_init(client, results)
     callback = attach
   })
 
-  if vim.v.vim_did_enter == 0 then return end
+  if vim.v.vim_did_enter == 0 then
+    return
+  end
 
   if filetypes[1] == '*' or vim.tbl_contains(filetypes, vim.bo.filetype) then
     attach()
@@ -57,7 +59,10 @@ M.on_exit = vim.schedule_wrap(function(code, signal, client_id)
 end)
 
 function M.on_attach(client, bufnr)
-  if vim.b.lsp_attached then return  end
+  if vim.b.lsp_attached then
+    return
+  end
+
   vim.b.lsp_attached = true
 
   local bufcmd = vim.api.nvim_buf_create_user_command

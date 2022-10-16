@@ -75,7 +75,9 @@ function M.init(user_plugins)
 end
 
 function p.apply_start_config(fns)
-  if M.skip_config then return end
+  if M.skip_config then
+    return
+  end
 
   for i, config in pairs(fns) do
     config()
@@ -93,7 +95,9 @@ function M.apply_opt_config(input)
 end
 
 function p.load_plugins(plugins, startup)
-  if done then return end
+  if done then
+    return
+  end
 
   p.packadd(plugins)
 

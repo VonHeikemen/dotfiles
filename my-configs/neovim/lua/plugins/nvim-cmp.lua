@@ -95,7 +95,9 @@ user.config = {
 function user.set_autocomplete(new_value)
   local old_value = user.autocomplete
 
-  if new_value == old_value then return end
+  if new_value == old_value then
+    return
+  end
 
   if new_value == false then
     -- restore autocomplete in the next word
@@ -128,7 +130,9 @@ function user.check_back_space()
 end
 
 function user.enable_cmd()
-  if user.autocomplete then return end
+  if user.autocomplete then
+    return
+  end
 
   pcall(vim.api.nvim_buf_del_keymap, 0, 'i', '<Space>')
   user.set_autocomplete(true)

@@ -32,7 +32,10 @@ function M.tmux_cmd(val)
   end
 
   vim.ui.input({prompt = 'tmux command'}, function(value)
-    if value == nil then return end
+    if value == nil then
+      return
+    end
+
     cmd = value
   end)
 end
@@ -44,7 +47,10 @@ function M.tmux_pane(val)
   end
 
   vim.ui.input({prompt = 'tmux pane'}, function(value)
-    if value == nil then return end
+    if value == nil then
+      return
+    end
+
     pane_id = value
   end)
 end
