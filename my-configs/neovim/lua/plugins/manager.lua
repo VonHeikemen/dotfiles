@@ -86,7 +86,7 @@ end
 
 function M.apply_opt_config(input)
   local plugin = input.args
-  vim.cmd('packadd ' .. plugin)
+  vim.cmd({cmd = 'packadd', args = {plugin}})
 
   local config = p.opt_config[plugin]
   if type(config) == 'function' then

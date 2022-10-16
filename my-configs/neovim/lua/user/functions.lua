@@ -88,7 +88,7 @@ function M.file_explorer(cwd)
   if vim.o.lines > 17 then
     require('lir.float').toggle(cwd)
   else
-    vim.cmd('edit ' .. (cwd or vim.fn.expand('%:p:h')))
+    vim.cmd({cmd = 'edit', args = {cwd or vim.fn.expand('%:p:h')}})
   end
 end
 
@@ -98,7 +98,7 @@ function M.set_autoindent()
   vim.defer_fn(function()
     local bufnr = vim.fn.bufnr()
     vim.cmd('silent! bufdo GuessIndent')
-    vim.cmd('buffer ' .. bufnr)
+    vim.cmd({cmd = 'buffer', args = {bufnr}})
   end, 3)
 end
 
