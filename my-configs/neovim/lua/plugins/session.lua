@@ -3,18 +3,21 @@ local M = {}
 local augroup = vim.api.nvim_create_augroup('session_cmds', {clear = true})
 local autocmd = vim.api.nvim_create_autocmd
 local command = vim.api.nvim_create_user_command
-local escape = vim.fn.fnameescape
 
 local set_autocmd = nil
 local function join(...) return table.concat({...}, '/') end
 local session_dir = join(vim.fn.stdpath('data'),  'sessions')
+
+local function mksession(file, bang)
+  vim.cmd({cmd = 'mksession', args = {file}, bang = bang})
+end
 
 function M.create(name)
   if name == nil or name == '' then
     return
   end
 
-  local file = join(session_dir, name)
+  local file = join(session_dir, name .. '.vim')
 
   if vim.fn.filereadable(file) == 1 then
     local msg = 'session file %s already exists'
@@ -22,12 +25,11 @@ function M.create(name)
     return
   end
 
-  local mksession = 'mksession %s.vim'
-  local ok = pcall(vim.cmd, mksession:format(escape(file)))
+  local ok = pcall(mksession, file)
 
   if not ok and vim.fn.filereadable(session_dir) == 0 then
     vim.fn.mkdir(session_dir, 'p')
-    pcall(vim.cmd, mksession:format(escape(file)))
+    pcall(mksession, file)
   end
 
   vim.g.session_name = name
@@ -35,10 +37,9 @@ function M.create(name)
 end
 
 function M.source(name)
-  local file = escape(join(session_dir, name))
-  local source = 'source %s.vim'
+  local file = join(session_dir, name .. '.vim')
 
-  vim.cmd(source:format(file))
+  vim.cmd({cmd = 'source', args = {file}})
   M.autosave()
 end
 
@@ -47,17 +48,16 @@ function M.is_readable(name)
 end
 
 function M.save(name)
-  local session = escape(join(session_dir, name .. '.vim'))
-  vim.cmd('mksession! ' .. session)
+  mksession(join(session_dir, name .. '.vim'), true)
 end
 
 function M.save_current()
-  local session = vim.v.this_session
-  if session == '' then
+  local file = vim.v.this_session
+  if file == '' then
     return
   end
 
-  vim.cmd('mksession! ' .. escape(session))
+  mksession(file, true)
 end
 
 function M.autosave()
