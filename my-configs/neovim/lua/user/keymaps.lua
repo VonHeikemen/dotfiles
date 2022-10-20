@@ -178,10 +178,15 @@ bind('x', 'R', ":<C-u>GetSelection<CR>:SearchBoxReplace confirm=menu<CR><C-r>/")
 -- ==                                 LSP                                  == --
 -- ========================================================================== --
 
-autocmd('User', {
-  pattern = 'LspAttached',
+autocmd('LspAttach', {
   group = augroup,
   callback = function()
+    if vim.b.lsp_attached then
+      return
+    end
+
+    vim.b.lsp_attached = true
+
     local telescope = require('telescope.builtin')
     local lsp = vim.lsp.buf
 

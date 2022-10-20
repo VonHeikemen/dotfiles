@@ -4,6 +4,19 @@ local enable = project.utils.enable
 local augroup = vim.api.nvim_create_augroup('project_cmds', {clear = true})
 local autocmd = vim.api.nvim_create_autocmd
 
+local function cmp_lua()
+  -- Setup autocomplete for nvim's lua api
+  require('cmp').setup.filetype('lua', {
+    sources = {
+      {name = 'path'},
+      {name = 'nvim_lua'},
+      {name = 'nvim_lsp', keyword_length = 3},
+      {name = 'buffer', keyword_length = 3},
+      {name = 'luasnip', keyword_length = 2},
+    }
+  })
+end
+
 project.set_config({
   settings = {
     notify_unregistered = false,
@@ -32,7 +45,19 @@ project.set_config({
     end),
 
     ['nvim-config'] = enable(function()
-      require('lsp').start('nvim_lua')
+      cmp_lua()
+      require('lsp').start('nvim_lua', {
+        settings = {
+          Lua = {
+            workspace = {
+              library = {
+                vim.fn.expand('$VIMRUNTIME/lua'),
+                vim.fn.stdpath('config') .. '/lua',
+              },
+            },
+          }
+        }
+      })
     end),
 
     ['nvim-plugin'] = function(opts)
@@ -48,10 +73,14 @@ project.set_config({
         end
       end
 
-      require('lsp')
-      local server = require('lsp.servers.nvim_lua')
-      server.settings.Lua.workspace.library = dependencies
-      vim.lsp.start_client(server)
+      cmp_lua()
+      require('lsp').start('nvim_lua', {
+        settings = {
+          Lua = {
+            workspace = {library = dependencies},
+          }
+        }
+      })
     end
   }
 })

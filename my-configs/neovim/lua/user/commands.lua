@@ -11,7 +11,19 @@ command('EditMacro', fns.edit_macro, {desc = 'Create/Edit macro in an input'})
 command('LoadProject', fns.load_project, {desc = 'Parse project config'})
 command('AutoIndent', fns.set_autoindent, {desc = 'Guess indentantion in all files'})
 command('SyntaxQuery', fns.syntax_query, {desc = 'Show highlight group'})
-require('lsp.commands')
+
+command(
+  'Lsp',
+  function(input)
+    local lsp = require('lsp')
+    if input.args == '' then
+      return
+    end
+
+    lsp.start(input.args, {})
+  end,
+  {desc = 'Initialize a language server', nargs = '?'}
+)
 
 autocmd('TextYankPost', {
   desc = 'highlight text after is copied',

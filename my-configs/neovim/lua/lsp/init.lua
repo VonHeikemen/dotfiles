@@ -2,7 +2,9 @@ local M = {}
 
 vim.cmd([[
   packadd fidget.nvim
+  packadd nvim-lspconfig
   packadd mason.nvim
+  packadd mason-lspconfig.nvim
 ]])
 
 local augroup = vim.api.nvim_create_augroup
@@ -11,6 +13,8 @@ local autocmd = vim.api.nvim_create_autocmd
 require('mason').setup({
   ui = {border = 'rounded'}
 })
+
+require('mason-lspconfig').setup({})
 
 require('fidget').setup({
   text = {
@@ -85,22 +89,30 @@ end
 
 function M.project_setup(opts)
   for server, enable in pairs(opts) do
-    if enable == true then M.start(server) end
+    if enable == true then
+      M.start(server, {})
+    end
   end
-end
-
-function M.config(name, opts)
-  local server_opts = require(string.format('lsp.servers.%s', name))
-
-  if opts then
-    server_opts = vim.tbl_deep_extend('force', server_opts, opts)
-  end
-
-  return server_opts
 end
 
 function M.start(name, opts)
-  vim.lsp.start_client(M.config(name, opts))
+  opts = opts or {}
+
+  opts.single_file_support = false
+  opts.capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+  if opts.root_dir == nil then
+    opts.root_dir = function() return vim.fn.getcwd() end
+  end
+
+  local defaults = require('lsp.servers').get(name)
+  local lsp = require('lspconfig')[name]
+
+  lsp.setup(vim.tbl_deep_extend('force', defaults, opts))
+
+  if vim.v.vim_did_enter == 1 and lsp.manager then
+    lsp.manager.try_add_wrapper()
+  end
 end
 
 M.diagnostics()

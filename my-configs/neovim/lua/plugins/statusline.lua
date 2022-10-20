@@ -198,10 +198,9 @@ function M.setup(status)
     desc = 'Clear message area',
     command = "echo ''"
   })
-  autocmd('User', {
+  autocmd('LspAttach', {
     group = augroup,
     once = true,
-    pattern = 'LspAttached',
     desc = 'Show diagnostic sign',
     callback = function()
       state.show_diagnostic = true

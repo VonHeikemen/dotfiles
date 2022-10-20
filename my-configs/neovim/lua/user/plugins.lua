@@ -74,9 +74,11 @@ plug.init({
   {'nvim-treesitter/nvim-treesitter-textobjects', frozen = true},
 
   -- LSP support
-  {'williamboman/mason.nvim', type = 'opt'},
-  {'jose-elias-alvarez/null-ls.nvim', type = 'opt'},
   {'j-hui/fidget.nvim', type = 'opt'},
+  {'neovim/nvim-lspconfig', type = 'opt'},
+  {'williamboman/mason.nvim', type = 'opt'},
+  {'williamboman/mason-lspconfig.nvim', type = 'opt'},
+  {'jose-elias-alvarez/null-ls.nvim', type = 'opt'},
 
   -- Git
   {'TimUntersberger/neogit', type = 'opt', config = use('plugins.neogit')},
