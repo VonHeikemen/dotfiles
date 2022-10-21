@@ -135,11 +135,22 @@ local function load_branch(input)
   M.load_current(name)
 end
 
+local function session_config()
+  local session = vim.v.this_session
+  if session == '' then
+    return
+  end
+
+  local path = vim.fn.fnamemodify(session, ':r')
+  vim.cmd({cmd = 'edit', args ={path .. 'x.vim'}})
+end
+
 command('SessionSave', M.save_current, {})
 command('SessionLoad', load_session, {nargs = '?'})
 command('SessionNew', M.new_session, {})
 command('SessionNewBranch', new_branch, {nargs = 1})
 command('SessionLoadBranch', load_branch, {nargs = 1})
+command('SessionConfig', session_config, {})
 
 return M
 
