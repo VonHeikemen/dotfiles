@@ -115,11 +115,6 @@ plug.init({
   {'echasnovski/mini.nvim', branch = 'stable', config = use('plugins.mini')},
   {'ggandor/leap.nvim', config = use('plugins.leap')},
   {'ggandor/flit.nvim', config = use('plugins.flit')},
-  {
-    'VonHeikemen/project-settings.nvim',
-    type = 'start',
-    config = use('plugins.project-settings')
-  }
 })
 
 -- ========================================================================== --
