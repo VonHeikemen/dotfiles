@@ -12,10 +12,6 @@ local function cmp_lua()
 end
 
 return {
-  autoindent = function()
-    require('user.functions').set_autoindent()
-  end,
-
   nvim_config = function()
     cmp_lua()
     require('lsp').start('nvim_lua', {
