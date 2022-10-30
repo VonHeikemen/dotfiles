@@ -7,7 +7,10 @@ local function default_hl(name, style)
     return
   end
 
-  vim.api.nvim_set_hl(0, name, style)
+  local normal = vim.api.nvim_get_hl_by_name('Normal', 1)
+  local fallback = vim.api.nvim_get_hl_by_name(style, 1)
+
+  vim.api.nvim_set_hl(0, name, {fg = normal.background, bg = fallback.foreground})
 end
 
 local mode_higroups = {
@@ -20,15 +23,14 @@ local mode_higroups = {
 }
 
 local function apply_hl()
-  default_hl('UserStatusBlock', {bg = '#464D5D', fg = '#D8DEE9'})
-  default_hl('UserStatusMode_xx', {bg = '#FC8680', fg = '#353535', bold = true})
+  default_hl('UserStatusMode_xx', 'Error')
 
-  default_hl(mode_higroups['NORMAL'],  {bg = '#6699CC', fg = '#353535'})
-  default_hl(mode_higroups['VISUAL'],  {bg = '#DDA0DD', fg = '#353535'})
-  default_hl(mode_higroups['V-BLOCK'], {link = mode_higroups['VISUAL']})
-  default_hl(mode_higroups['V-LINE'],  {link = mode_higroups['VISUAL']})
-  default_hl(mode_higroups['INSERT'],  {bg = '#99C794', fg = '#353535'})
-  default_hl(mode_higroups['COMMAND'], {bg = '#5FB4B4', fg = '#101010'})
+  default_hl(mode_higroups['NORMAL'],  'Function')
+  default_hl(mode_higroups['VISUAL'],  'WarningMsg')
+  default_hl(mode_higroups['V-BLOCK'], mode_higroups['VISUAL'])
+  default_hl(mode_higroups['V-LINE'],  mode_higroups['VISUAL'])
+  default_hl(mode_higroups['INSERT'],  'String')
+  default_hl(mode_higroups['COMMAND'], 'Special')
 end
 
 -- mode_map copied from:
