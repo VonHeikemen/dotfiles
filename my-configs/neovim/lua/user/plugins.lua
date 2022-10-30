@@ -123,5 +123,5 @@ plug.init({
 
 require('plugins.tmux')
 require('plugins.session')
-require('plugins.statusline').setup('full')
+require('plugins.statusline').setup()
 
