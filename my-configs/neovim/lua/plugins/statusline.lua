@@ -23,12 +23,12 @@ local mode_higroups = {
 }
 
 local function apply_hl()
-  default_hl('UserStatusMode_xx', 'Error')
+  default_hl('UserStatusMode_DEFAULT', 'Comment')
 
-  default_hl(mode_higroups['NORMAL'],  'Function')
-  default_hl(mode_higroups['VISUAL'],  'WarningMsg')
-  default_hl(mode_higroups['V-BLOCK'], mode_higroups['VISUAL'])
-  default_hl(mode_higroups['V-LINE'],  mode_higroups['VISUAL'])
+  default_hl(mode_higroups['NORMAL'],  'Directory')
+  default_hl(mode_higroups['VISUAL'],  'Number')
+  default_hl(mode_higroups['V-BLOCK'], 'Number')
+  default_hl(mode_higroups['V-LINE'],  'Number')
   default_hl(mode_higroups['INSERT'],  'String')
   default_hl(mode_higroups['COMMAND'], 'Special')
 end
@@ -131,7 +131,7 @@ function state.mode()
     return fmt(hi_pattern, higroup, text)
   end
 
-  state.mode_group = 'UserStatusMode_xx'
+  state.mode_group = 'UserStatusMode_DEFAULT'
   text = fmt(' %s ', mode_name)
   return fmt(hi_pattern, state.mode_group, text)
 end
@@ -253,7 +253,7 @@ end
 
 function M.higroups()
   local res = vim.deepcopy(mode_higroups)
-  res['DEFAULT'] = 'UserStatusMode_xx'
+  res['DEFAULT'] = 'UserStatusMode_DEFAULT'
   res['STATUS-BLOCK'] = 'UserStatusBlock'
   return res
 end
