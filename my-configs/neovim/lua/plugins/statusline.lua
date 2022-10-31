@@ -1,9 +1,15 @@
 local M = {}
 local state = {}
 
-local function default_hl(name, style)
+local function default_hl(name, style, opts)
+  opts = opts or {}
   local ok, hl = pcall(vim.api.nvim_get_hl_by_name, name, 1)
   if ok and (hl.background or hl.foreground) then
+    return
+  end
+
+  if opts.link then
+    vim.api.nvim_set_hl(0, name, {link = style})
     return
   end
 
@@ -23,6 +29,7 @@ local mode_higroups = {
 }
 
 local function apply_hl()
+  default_hl('UserStatusBlock', 'StatusLine', {link = true})
   default_hl('UserStatusMode_DEFAULT', 'Comment')
 
   default_hl(mode_higroups['NORMAL'],  'Directory')
