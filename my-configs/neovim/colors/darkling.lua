@@ -19,6 +19,15 @@ local color = {
   wild_red   = {gui = '#DF334A', cterm = 167},
   dark_blue  = {gui = '#242830', cterm = 235},
   darkness   = {gui = '#3B4252', cterm = 238},
+
+  -- For statusline
+  blue_gray    = {gui = '#6699CC', cterm = 68 },
+  jet_white    = {gui = '#353535', cterm = 236},
+  eton_green   = {gui = '#99C794', cterm = 114},
+  crystal_cyan = {gui = '#5FB4B4', cterm = 73 },
+  pitch_black  = {gui = '#101010', cterm = 233},
+  kinda_white  = {gui = '#D8DEE9', cterm = 253},
+  other_gray   = {gui = '#464D5D', cterm = 239},
 }
 
 local theme = {
@@ -69,30 +78,33 @@ lw.apply('darkling', theme)
 ---
 -- Custom rules
 ---
-local none = 'LittleWonderNone'
 local link = lw.link
 local hs = lw.set_hl
-local hi = function(group, colors)
-  vim.api.nvim_set_hl(0, group, {
-    fg = colors.fg.gui,
-    bg = colors.bg.gui,
-    ctermfg = colors.fg.cterm,
-    ctermbg = colors.bg.cterm,
-  })
-end
+local hi = lw.highlight
 
 link('TelescopeMatching', 'Boolean')
 link('TelescopeSelection', 'CursorLine')
 link('NormalFloat', 'Normal')
-link('markdownError', none)
+link('markdownError', lw.no_color)
 
-hi('TelescopeSelectionCaret', {fg = color.red, bg = color.dark_blue})
+hi('TelescopeSelectionCaret', color.red, color.dark_blue)
 
-hi('DiffAdd', {fg = color.green, bg = lw.NONE})
-hi('DiffChange', {fg = color.yellow, bg = lw.NONE})
-hi('DiffDelete', {fg = color.red, bg = lw.NONE})
-hi('DiffText',   {fg = color.cyan, bg = lw.NONE})
+hi('DiffAdd', color.green)
+hi('DiffChange', color.yellow)
+hi('DiffDelete', color.red)
+hi('DiffText', color.cyan)
 
 hs('IndentBlanklineChar', {fg = '#494E5B'})
 hs('IndentBlanklineContextChar', {fg = '#6D717C'})
+
+local statusline = require('plugins.statusline').higroups()
+
+hi(statusline['NORMAL'], color.jet_white, color.blue_gray)
+hi(statusline['VISUAL'], color.jet_white, color.magenta)
+hi(statusline['V-BLOCK'], color.jet_white, color.magenta)
+hi(statusline['V-LINE'], color.jet_white, color.magenta)
+hi(statusline['INSERT'], color.jet_white, color.eton_green)
+hi(statusline['COMMAND'], color.pitch_black, color.crystal_cyan)
+hi(statusline['STATUS-BLOCK'], color.kinda_white, color.other_gray)
+hi(statusline['DEFAULT'], color.pitch_black, color.red)
 
