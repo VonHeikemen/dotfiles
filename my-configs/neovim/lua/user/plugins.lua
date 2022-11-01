@@ -125,5 +125,6 @@ plug.init({
 
 require('plugins.tmux')
 require('plugins.session')
+require('plugins.tabline').setup()
 require('plugins.statusline').setup()
 
