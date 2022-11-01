@@ -1,0 +1,2 @@
+require('mini.ai').setup({})
+
