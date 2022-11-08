@@ -98,18 +98,16 @@ function M.new_session()
 end
 
 function M.read_name(dir)
-  local path = join(dir, '.git', 'session-nvim')
+  local paths = {
+    join(dir, '.git', 'session-nvim'),
+    join(dir, '.session-nvim')
+  }
 
-  if vim.fn.filereadable(path) == 0 then
-    path = join(dir, '.session-nvim')
+  for _, file in pairs(paths) do
+    if vim.fn.filereadable(file) == 1 then
+      return vim.fn.readfile(file, '', 1)[1]
+    end
   end
-
-  if vim.fn.filereadable(path) == 0 then
-    return
-  end
-
-  local session = vim.fn.readfile(path, '', 1)
-  return session[1]
 end
 
 local function new_branch(input)
