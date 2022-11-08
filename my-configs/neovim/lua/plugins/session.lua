@@ -97,6 +97,21 @@ function M.new_session()
   end)
 end
 
+function M.read_name(dir)
+  local path = join(dir, '.git', 'session-nvim')
+
+  if vim.fn.filereadable(path) == 0 then
+    path = join(dir, '.session-nvim')
+  end
+
+  if vim.fn.filereadable(path) == 0 then
+    return
+  end
+
+  local session = vim.fn.readfile(path, '', 1)
+  return session[1]
+end
+
 local function new_branch(input)
   if vim.g.session_name == nil then
     local msg = 'There is no active session.'

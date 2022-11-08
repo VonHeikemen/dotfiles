@@ -69,18 +69,17 @@ action.explore = {
   end
 }
 
-action.workspace = {
-  name = 'Load Workspace',
-  display = 'w',
-  keys = 'w',
+action.restore_session = {
+  name = 'Restore Session',
+  display = 's',
+  keys = 's',
   fn = function()
-    local project_settings = require('project-settings')
-    project_settings.load({})
-
-    if vim.g.session_name then
-      require('plugins.session').load_current(vim.g.session_name)
+    local session = require('plugins.session')
+    local name = session.read_name(vim.fn.getcwd())
+    if name then
+      session.load_current(name)
     else
-      project_settings.check_status()
+      vim.notify('There is no session available')
     end
   end
 }
@@ -156,7 +155,7 @@ else
     button(action.search_file),
     button(action.recently_used),
     button(action.explore),
-    button(action.workspace),
+    button(action.restore_session),
     button(action.quit)
   }
 end
