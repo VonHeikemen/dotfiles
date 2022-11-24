@@ -1,6 +1,6 @@
-" ============================================================================ "
-" ===                           EDITING OPTIONS                            === "
-" ============================================================================ "
+" ============================================================================
+" ===                           EDITING OPTIONS                            ===
+" ============================================================================
 
 if !has('nvim')
   set nocompatible
@@ -12,10 +12,13 @@ if !has('nvim')
   set incsearch
   set laststatus=2
   set wildmenu
+  set wildoptions=pum,tagfile
 
   let &t_SI = "\<Esc>[6 q"
   let &t_SR = "\<Esc>[4 q"
   let &t_EI = "\<Esc>[2 q"
+else
+  set inccommand=nosplit
 endif
 
 set hidden
@@ -26,7 +29,6 @@ set nowrap
 set mouse=a
 set termguicolors
 set scrolloff=2
-set inccommand=nosplit
 set relativenumber
 set cursorline
 
@@ -38,9 +40,9 @@ set expandtab
 let g:netrw_winsize = 30
 let g:netrw_banner = 0
 
-" ============================================================================ "
-" ===                             KEY MAPPINGS                             === "
-" ============================================================================ "
+" ============================================================================
+" ===                             KEY MAPPINGS                             ===
+" ============================================================================
 
 let g:mapleader = ' '
 
@@ -103,17 +105,17 @@ augroup netrw_mapping
   autocmd filetype netrw call NetrwMapping()
 augroup END
 
-" ============================================================================ "
-" ===                              COLORSCHEME                             === "
-" ============================================================================ "
+" ============================================================================
+" ===                              COLORSCHEME                             ===
+" ============================================================================
 
 syntax enable
 
 function! MyHighlights() abort
   hi! Normal ctermfg=153 ctermbg=235 guifg=#C0CAF5 guibg=#24283B
   hi! LineNr ctermfg=243 guifg=#6B7678
-  hi! CursorLineNr ctermfg=153 ctermbg=235 guifg=#C0CAF5 guibg=#24283B
-  hi! CursorLine ctermfg=NONE ctermbg=236 guifg=NONE guibg=#292E42
+  hi! CursorLineNr ctermfg=153 ctermbg=235 guifg=#C0CAF5 guibg=#24283B cterm=NONE gui=NONE
+  hi! CursorLine ctermfg=NONE ctermbg=236 guifg=NONE guibg=#292E42 cterm=NONE gui=NONE
   hi! MatchParen ctermfg=179 ctermbg=NONE guifg=#73DACA guibg=NONE gui=underline
   hi! Visual ctermfg=NONE ctermbg=239 guifg=NONE guibg=#364A82 cterm=NONE gui=NONE
   hi! Pmenu ctermbg=234 guibg=#1F2335
