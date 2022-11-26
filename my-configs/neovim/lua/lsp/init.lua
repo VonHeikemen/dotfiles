@@ -110,7 +110,7 @@ function M.start(name, opts)
 
   lsp.setup(vim.tbl_deep_extend('force', defaults, opts))
 
-  if vim.v.vim_did_enter == 1 and lsp.manager then
+  if lsp.manager and vim.bo.filetype ~= '' then
     lsp.manager.try_add_wrapper()
   end
 end
