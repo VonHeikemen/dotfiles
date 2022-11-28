@@ -47,10 +47,12 @@ vim.opt.tags:prepend(string.format('%s/.git/tags', vim.fn.getcwd()))
 vim.opt.completeopt = {'menu', 'menuone'}
 
 -- Apply theme
+vim.opt.termguicolors = true
 local theme = pcall(require, 'little-wonder')
 if theme then
-  vim.opt.termguicolors = true
-  vim.cmd('colorscheme darkling')
+  vim.cmd('colorscheme polaris')
+else
+  vim.cmd('colorscheme nightly')
 end
 
 -- Set grep default grep command with ripgrep
