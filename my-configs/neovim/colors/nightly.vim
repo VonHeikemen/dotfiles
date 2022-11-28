@@ -38,7 +38,7 @@ let g:colors_name = 'nightly'
 
 hi Normal        ctermfg=153   guifg=#C0CAF5  ctermbg=235    guibg=#24283B
 hi Cursor        ctermfg=bg    guifg=bg       ctermbg=fg     guibg=fg
-hi CursorLine    ctermfg=NONE  guifg=NONE     ctermbg=236    guibg=#292E42
+hi CursorLine    ctermfg=NONE  guifg=NONE     ctermbg=236    guibg=#292E42  cterm=NONE     gui=NONE
 hi CursorLineNr  ctermfg=NONE  guifg=NONE     ctermbg=bg     guibg=bg
 hi ColorColumn   ctermfg=NONE  guifg=NONE     ctermbg=234    guibg=#1F2335
 hi LineNr        ctermfg=243   guifg=#6B7678  ctermbg=bg     guibg=bg
@@ -173,26 +173,33 @@ hi link htmlArg             UserNone
 hi link htmlTitle           UserNone
 
 " viml
-hi link vimParenSep  UserNone
+hi link vimUserFunc     Function
+hi link vimParenSep     UserNone
+hi link vimCommand      UserNone
+hi link vimGroup        UserNone
+hi link vimHiGroup      UserNone
+hi link vimHiCtermFgBg  UserNone
+hi link vimHiGuiFgBg    UserNone
 
-" Treesitter
-hi link @constructor          UserNone
-hi link @method.vue           UserNone
-hi link @punctuation.bracket  UserNone
-hi link @tag.attribute        UserNone
-hi link @text.title           UserNone
-hi link @type                 UserNone
-hi link @constant             UserNone
+if has('nvim')
+  " Treesitter
+  hi link @constructor          UserNone
+  hi link @method.vue           UserNone
+  hi link @punctuation.bracket  UserNone
+  hi link @tag.attribute        UserNone
+  hi link @text.title           UserNone
+  hi link @type                 UserNone
+  hi link @constant             UserNone
 
-hi link @function.call     Function
-hi link @function.builtin  Function
-hi link @constant.builtin  Number
-hi link @type.css          Function
-hi link @constructor.php   Function
-hi link @tag.delimiter     Special
-hi link @tag               Function
-hi link @text.uri.html     String
-
+  hi link @function.call     Function
+  hi link @function.builtin  Function
+  hi link @constant.builtin  Number
+  hi link @type.css          Function
+  hi link @constructor.php   Function
+  hi link @tag.delimiter     Special
+  hi link @tag               Function
+  hi link @text.uri.html     String
+endif
 
 "
 " Terminal
