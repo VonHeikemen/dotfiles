@@ -181,7 +181,7 @@ hi link vimHiGroup      UserNone
 hi link vimHiCtermFgBg  UserNone
 hi link vimHiGuiFgBg    UserNone
 
-if has('nvim')
+if has('nvim-0.8')
   " Treesitter
   hi link @constructor          UserNone
   hi link @method.vue           UserNone
