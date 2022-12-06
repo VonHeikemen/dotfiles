@@ -1,5 +1,5 @@
-local fs = require 'gears.filesystem'
-local dpi = require 'beautiful.xresources'.apply_dpi
+local fs = require('gears.filesystem')
+local dpi = require('beautiful.xresources').apply_dpi
 
 local config_dir = fs.get_configuration_dir()
 local themes_path = config_dir .. 'theme/'
@@ -24,7 +24,7 @@ theme.font      = 'sans 8'
 
 -- {{{ Colors
 theme.fg_normal  = '#DCDCCC'
-theme.fg_focus  = '#DCDCCC'
+theme.fg_focus   = '#DCDCCC'
 theme.fg_urgent  = '#CC9393'
 theme.bg_normal  = bg_color
 theme.bg_focus   = focus_color

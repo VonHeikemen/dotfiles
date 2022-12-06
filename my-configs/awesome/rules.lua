@@ -1,6 +1,6 @@
-local awful = require 'awful'
-local beautiful = require 'beautiful'
-local keymaps = require 'keymaps'
+local awful = require('awful')
+local beautiful = require('beautiful')
+local keymaps = require('keymaps')
 
 -- Rules to apply to new clients (through the 'manage' signal).
 awful.rules.rules = {

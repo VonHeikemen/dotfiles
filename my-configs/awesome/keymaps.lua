@@ -1,19 +1,19 @@
-local awful = require 'awful'
-local beautiful = require 'beautiful'
-local join = require 'gears'.table.join
-local hotkeys_popup = require 'awful.hotkeys_popup'
-local menu  = require 'statusbar.widgets'.main_menu
-local cyclefocus = require 'cyclefocus'
-local lain = require 'lain'
+local awful = require('awful')
+local beautiful = require('beautiful')
+local join = require('gears').table.join
+local hotkeys_popup = require('awful.hotkeys_popup')
+local menu  = require('statusbar.widgets').main_menu
+local cyclefocus = require('cyclefocus')
+local lain = require('lain')
 
 local M = {}
 local key = awful.key
 
-local spawn = function(cmd)
+local function spawn(cmd)
   return function() awful.spawn(cmd) end
 end
 
-local term = function(cmd)
+local function term(cmd)
   return User.terminal .. ' -e ' .. cmd
 end
 
@@ -30,7 +30,7 @@ local dropdown_terminal = lain.util.quake({
   end
 })
 
-local alt_tab = function()
+local function alt_tab()
   cyclefocus.cycle({
     display_notifications = false,
     move_mouse_pointer = false,
@@ -40,7 +40,7 @@ local alt_tab = function()
   })
 end
 
-local move_mouse = function(x, y)
+local function move_mouse(x, y)
   local cmd = 'xdotool mousemove_relative --sync -- %s %s'
   return spawn(cmd:format(x, y))
 end
@@ -56,7 +56,7 @@ local App = {
   browser = 'x-www-browser',
   filemanager = 'pcmanfm',
   calculator = 'galculator',
-  musicplayer = term 'tmux new-session -A -D -s music cmus',
+  musicplayer = term('tmux new-session -A -D -s music cmus'),
 }
 
 M.global = join(
@@ -86,7 +86,7 @@ M.global = join(
     {description = 'open music player', group = 'launcher'}
   ),
   key(
-    {mod}, 'p', spawn(term 'htop'),
+    {mod}, 'p', spawn(term('htop')),
     {description = 'inspect system resources', group = 'launcher'}
   ),
   key(

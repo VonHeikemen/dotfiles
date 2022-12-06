@@ -1,9 +1,9 @@
-local gears = require 'gears'
-local awful = require 'awful'
-local wibox = require 'wibox'
-local beautiful = require 'beautiful'
+local gears = require('gears')
+local awful = require('awful')
+local wibox = require('wibox')
+local beautiful = require('beautiful')
 
-local toggle_tasklist = function(screen)
+local function toggle_tasklist(screen)
   local tag_clients = screen.selected_tag:clients() or 99
 
   if tag_clients == 99 then
@@ -17,7 +17,7 @@ local toggle_tasklist = function(screen)
   end
 end
 
-local update_tag_state = function(screen)
+local function update_tag_state(screen)
   local next = screen.selected_tag.index
   local last = State.recent_tags.current
   State.recent_tags = {last = last, current = next}
@@ -80,7 +80,7 @@ client.connect_signal('request::titlebars', function(c)
     )
   )
 
-  awful.titlebar(c):setup {
+  awful.titlebar(c):setup({
     -- Left
     {
       -- awful.titlebar.widget.iconwidget(c),
@@ -109,7 +109,7 @@ client.connect_signal('request::titlebars', function(c)
 
     expand = 'none',
     layout = wibox.layout.align.horizontal
-  }
+  })
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.

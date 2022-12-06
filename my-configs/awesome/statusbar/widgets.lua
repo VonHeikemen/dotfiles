@@ -1,9 +1,9 @@
-local gears = require 'gears'
-local awful = require 'awful'
-local beautiful = require 'beautiful'
-local wibox = require 'wibox'
-local hotkeys_popup = require 'awful.hotkeys_popup'
-local lain = require 'lain'
+local gears = require('gears')
+local awful = require('awful')
+local beautiful = require('beautiful')
+local wibox = require('wibox')
+local hotkeys_popup = require('awful.hotkeys_popup')
+local lain = require('lain')
 local mod = User.modkey
 
 -- Load Debian menu entries
@@ -38,7 +38,7 @@ end
 widget.textclock = wibox.widget.textclock('%l:%M %p')
 
 -- Attach a calendar widget to the clock
-local cal = lain.widget.cal {
+local cal = lain.widget.cal({
   attach_to = {widget.textclock},
   icons = '',
   notification_preset = {
@@ -47,7 +47,7 @@ local cal = lain.widget.cal {
     fg = beautiful.fg_normal,
     bg = beautiful.bg_normal
   }
-}
+})
 
 -- This ain't necessary. My mouse is broken so I need this right now
 widget.textclock:buttons(

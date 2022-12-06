@@ -1,10 +1,10 @@
-local gears = require 'gears'
-local awful = require 'awful'
-local wibox = require 'wibox'
-local beautiful = require 'beautiful'
-local widget = require 'statusbar.widgets'
+local gears = require('gears')
+local awful = require('awful')
+local wibox = require('wibox')
+local beautiful = require('beautiful')
+local widget = require('statusbar.widgets')
 
-local set_wallpaper = function(s)
+local function set_wallpaper(s)
   if beautiful.wallpaper then
     local wallpaper = beautiful.wallpaper
 
@@ -42,27 +42,27 @@ awful.screen.connect_for_each_screen(function(s)
   )
 
   -- Create a taglist widget
-  s.mytaglist = awful.widget.taglist {
+  s.mytaglist = awful.widget.taglist({
     screen  = s,
     filter  = awful.widget.taglist.filter.all,
     buttons = widget.taglist
-  }
+  })
 
   -- Create a tasklist widget
-  s.mytasklist = awful.widget.tasklist {
+  s.mytasklist = awful.widget.tasklist({
     screen  = s,
     filter  = awful.widget.tasklist.filter.currenttags,
     buttons = widget.tasklist,
     style = {
       disable_task_name = true,
     }
-  }
+  })
 
   -- Create the wibox
   s.mywibox = awful.wibar({position = 'top', screen = s})
 
   -- Add widgets to the wibox
-  s.mywibox:setup {
+  s.mywibox:setup({
     layout = wibox.layout.align.horizontal,
     expand = 'none',
 
@@ -89,6 +89,6 @@ awful.screen.connect_for_each_screen(function(s)
       wibox.widget.systray(),
       space
     },
-  }
+  })
 end)
 

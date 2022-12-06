@@ -1,5 +1,5 @@
-local awful = require 'awful'
-local menubar = require 'menubar'
+local awful = require('awful')
+local menubar = require('menubar')
 
 os.setlocale(os.getenv('LANG'))
 
