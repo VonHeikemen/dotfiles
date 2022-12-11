@@ -12,16 +12,9 @@
 local ok, env = pcall(require, 'user.env')
 
 if not ok then
-  vim.notify(
-    'lua/user/env.lua not found. You should probably rename env.sample',
-    vim.log.levels.ERROR
-  )
+  local msg = 'lua/user/env.lua not found. You should probably rename env.sample',
+  vim.notify(msg vim.log.levels.ERROR)
   return
-end
-
--- tweak colorscheme
-if env.theme_tweaks then
-  vim.cmd('source ' .. env.theme_tweaks)
 end
 
 -- Basic editor options
