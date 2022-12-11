@@ -4,3 +4,6 @@ require('fine-cmdline').setup({
   },
 })
 
+vim.keymap.set('n', '<CR>', ':FineCmdline<CR>')
+vim.keymap.set('x', '<CR>', ":<C-u>FineCmdline '<,'><CR>")
+

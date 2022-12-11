@@ -85,6 +85,46 @@ function M.handlers()
     vim.lsp.handlers.signature_help,
     {border = 'rounded'}
   )
+
+  local group = augroup('lsp_cmds', {clear = true})
+
+  autocmd('LspAttach', {
+    group = group,
+    callback = function()
+      if vim.b.lsp_attached then
+        return
+      end
+
+      vim.b.lsp_attached = true
+
+      local telescope = require('telescope.builtin')
+      local lsp = vim.lsp.buf
+
+      local opts = {silent = true, buffer = true}
+
+      if vim.fn.mapcheck('gq', 'n') == '' then
+        bind({'n', 'x'}, 'gq', '<cmd>LspFormat<cr>', opts)
+      end
+
+      bind('n', 'K', lsp.hover, opts)
+      bind('n', 'gd', lsp.definition, opts)
+      bind('n', 'gD', lsp.declaration, opts)
+      bind('n', 'gi', lsp.implementation, opts)
+      bind('n', 'go', lsp.type_definition, opts)
+      bind('n', 'gr', lsp.references, opts)
+      bind('n', 'gs', lsp.signature_help, opts)
+      bind('n', '<F2>', lsp.rename, opts)
+      bind('n', '<F4>', lsp.code_action, opts)
+      bind('x', '<F4>', lsp.range_code_action, opts)
+
+      bind('n', 'gl', vim.diagnostic.open_float, opts)
+      bind('n', '[d', vim.diagnostic.goto_prev, opts)
+      bind('n', ']d', vim.diagnostic.goto_next, opts)
+
+      bind('n', '<leader>fd', telescope.lsp_document_symbols, opts)
+      bind('n', '<leader>fq', telescope.lsp_workspace_symbols, opts)
+    end
+  })
 end
 
 function M.project_setup(opts)

@@ -1,4 +1,6 @@
 local lir = require('lir')
+local fns = require('user.functions')
+local bind = vim.keymap.set
 
 -- disable netrw
 vim.g.loaded_netrw = 1
@@ -8,8 +10,11 @@ local actions = require('lir.actions')
 local marks = require('lir.mark.actions')
 local clipboard = require('lir.clipboard.actions')
 
+-- Open file manager
+bind('n', '<leader>dd', fns.file_explorer)
+bind('n', '<leader>da', function() fns.file_explorer(vim.fn.getcwd()) end)
+
 local function on_init()
-  local bind = vim.keymap.set
   local noremap = {remap = false, silent = true, buffer = true}
   local remap = {remap = true, silent = true, buffer = true}
 

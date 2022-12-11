@@ -1,8 +1,13 @@
 local command = vim.api.nvim_create_user_command
+local bind = vim.keymap.set
 
 command('Find', function(input)
   vim.call('ctrlsf#Search', input.args)
 end, {nargs = 1, desc = 'Search pattern using ripgrep'})
+
+bind('n', '<leader>F', ':FineCmdline Find <CR>')
+bind('x', '<Leader>F', ':<C-u>GetSelection<CR>:Find <C-r>/<CR>')
+bind('n', '<Leader>fw', ":Find <C-r>=expand('<cword>')<CR><CR>")
 
 vim.g.ctrlsf_default_root = 'cwd'
 vim.g.ctrlsf_auto_focus = {at = 'start'}

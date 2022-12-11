@@ -26,3 +26,5 @@ end
 autocmd('User', {pattern = 'GoyoEnter', group = augroup, callback = enter})
 autocmd('User', {pattern = 'GoyoLeave', group = augroup, callback = leave})
 
+bind('n', '<Leader>uz', '<cmd>Goyo<CR>')
+

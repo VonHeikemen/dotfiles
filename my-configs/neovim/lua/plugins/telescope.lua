@@ -1,4 +1,5 @@
 local command = vim.api.nvim_create_user_command
+local bind = vim.keymap.set
 
 local telescope = require('telescope')
 local actions = require('telescope.actions')
@@ -68,4 +69,29 @@ telescope.setup({
 })
 
 telescope.load_extension('fzy_native')
+
+---
+-- Keymaps
+---
+
+-- Search pattern
+bind('n', '<leader>fg', ':Telescope live_grep<CR>')
+
+-- Show key bindings list
+bind('n', '<Leader>?', ':Telescope keymaps<CR>')
+
+-- Find files by name
+bind('n', '<Leader>ff', ':Telescope find_files<CR>')
+
+-- Search symbols in buffer
+bind('n', '<Leader>fs', ':Telescope treesitter<CR>')
+
+-- Search buffer lines
+bind('n', '<Leader>fb', ':Telescope current_buffer_fuzzy_find<CR>')
+
+-- Search in files history
+bind('n', '<Leader>fh', ':Telescope oldfiles<CR>')
+
+-- Search in active buffers list
+bind('n', '<Leader>bb', ':Telescope buffers<CR>')
 

@@ -42,7 +42,7 @@ local ok, result = pcall(plug.init, {
   {'tamago324/lir.nvim', type = 'start', config = use('plugins.lir')},
 
   -- Better clipboard support
-  {'christoomey/vim-system-copy'},
+  {'christoomey/vim-system-copy', config = use('plugins.vim-system-copy')},
 
   -- Editor config
   {'editorconfig/editorconfig-vim'},
@@ -86,7 +86,7 @@ local ok, result = pcall(plug.init, {
   {'rhysd/conflict-marker.vim'},
 
   -- Enhance quickfix list
-  {'romainl/vim-qf'},
+  {'romainl/vim-qf', config = use('plugins.vim-qf')},
 
   -- Startup screen
   {'goolord/alpha-nvim', type = 'start', config = use('plugins.alpha')},
@@ -107,9 +107,9 @@ local ok, result = pcall(plug.init, {
   --  Utilities
   {'tpope/vim-repeat'},
   {'tpope/vim-abolish'},
-  {'ThePrimeagen/harpoon'},
   {'nvim-treesitter/playground', type = 'opt'},
   {'nvim-lua/plenary.nvim', type = 'start'},
+  {'ThePrimeagen/harpoon', config = use('plugins.harpoon')},
   {'NMAC427/guess-indent.nvim', config = use('plugins.guess-indent')},
   {'max397574/better-escape.nvim', config = use('plugins.better-escape')},
   {'echasnovski/mini.ai', branch = 'stable', config = use('plugins.mini-ai')},

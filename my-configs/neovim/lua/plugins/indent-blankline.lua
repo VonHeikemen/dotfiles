@@ -7,3 +7,5 @@ require('indent_blankline').setup({
   show_current_context = false
 })
 
+vim.keymap.set('n', '<leader>ui', '<cmd>IndentBlanklineToggle<cr>')
+
