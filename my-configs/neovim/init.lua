@@ -13,7 +13,7 @@ local ok, env = pcall(require, 'user.env')
 
 if not ok then
   local msg = 'lua/user/env.lua not found. You should probably rename env.sample',
-  vim.notify(msg vim.log.levels.ERROR)
+  vim.notify(msg, vim.log.levels.ERROR)
   return
 end
 
