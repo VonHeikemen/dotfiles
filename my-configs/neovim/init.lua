@@ -17,15 +17,8 @@ if not ok then
   return
 end
 
--- Basic editor options
 require('user.settings')
-
--- User defined commands
 require('user.commands')
-
--- Keybindings
 require('user.keymaps')
-
--- Plugin management and config
 require('user.plugins')
 
