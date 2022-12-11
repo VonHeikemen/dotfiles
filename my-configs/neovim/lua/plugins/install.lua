@@ -6,15 +6,21 @@ end
 
 plug.skip_config = true
 
+plug.minpac_download()
+
+local plugins = plug.get_plugins()
+
+if vim.tbl_isempty(plugins) then
+  return
+end
+
+plug.init(plugins)
+plug.minpac()
+
 local function quit_nvim()
   vim.fn.confirm('You need to restart neovim to complete install process')
   vim.cmd('quitall')
 end
-
-plug.minpac_download()
-
-require('user.plugins')
-plug.minpac()
 
 vim.call('minpac#update', '', {['do'] = quit_nvim})
 

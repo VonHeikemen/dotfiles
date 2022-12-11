@@ -166,6 +166,10 @@ function p.setup_commands()
   command('PackAdd', M.apply_opt_config, {nargs = 1, complete='packadd'})
 end
 
+function M.get_plugins()
+  return p.minpac_plugins
+end
+
 function M.has_minpac()
   return vim.fn.isdirectory(p.minpac_path) == 1
 end

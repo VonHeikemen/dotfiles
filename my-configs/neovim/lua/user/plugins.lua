@@ -7,7 +7,7 @@ local function use(mod) return function() require(mod) end end
 -- ==                               PLUGINS                                == --
 -- ========================================================================== --
 
-plug.init({
+local ok, result = pcall(plug.init, {
   -- Plugin manager
   {'k-takata/minpac', type = 'opt'},
 
@@ -118,6 +118,14 @@ plug.init({
   {'ggandor/leap.nvim', config = use('plugins.leap')},
   {'ggandor/flit.nvim', config = use('plugins.flit')},
 })
+
+if not ok then
+  if require('plugins.install') then
+    return
+  end
+
+  vim.notify(result, vim.log.levels.ERROR)
+end
 
 -- ========================================================================== --
 -- ==                            LOCAL PLUGINS                             == --
