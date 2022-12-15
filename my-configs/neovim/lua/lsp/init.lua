@@ -99,6 +99,7 @@ function M.handlers()
 
       local telescope = require('telescope.builtin')
       local lsp = vim.lsp.buf
+      local bind = vim.keymap.set
 
       local opts = {silent = true, buffer = true}
 
