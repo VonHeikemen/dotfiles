@@ -181,6 +181,9 @@ hi link vimHiGroup      UserNone
 hi link vimHiCtermFgBg  UserNone
 hi link vimHiGuiFgBg    UserNone
 
+" lua
+hi link luaStatement  UserNone
+
 if has('nvim-0.8')
   " Treesitter
   hi link @constructor          UserNone
