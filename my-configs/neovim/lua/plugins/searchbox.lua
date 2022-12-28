@@ -3,7 +3,8 @@ local bind = vim.keymap.set
 require('searchbox').setup({
   defaults = {
     modifier = 'plain',
-    confirm = 'menu',
+    confirm = 'native',
+    show_matches = '[T:{total}]'
   }
 })
 
