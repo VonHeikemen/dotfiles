@@ -146,7 +146,7 @@ function M.start(name, opts)
     opts.root_dir = function() return vim.fn.getcwd() end
   end
 
-  local defaults = require('lsp.servers').get(name)
+  local defaults = require('plugins.lsp.servers').get(name)
   local lsp = require('lspconfig')[name]
 
   lsp.setup(vim.tbl_deep_extend('force', defaults, opts))

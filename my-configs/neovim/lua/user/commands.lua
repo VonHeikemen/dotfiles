@@ -67,7 +67,7 @@ command(
 command(
   'NullLsp',
   function()
-    require('lsp.null-ls').setup()
+    require('plugins.lsp.null-ls').setup()
   end,
   {desc = 'Initialize Null-ls'}
 )
@@ -75,7 +75,7 @@ command(
 command(
   'Lsp',
   function(input)
-    local lsp = require('lsp')
+    local lsp = require('plugins.lsp')
     if input.args == '' then
       return
     end

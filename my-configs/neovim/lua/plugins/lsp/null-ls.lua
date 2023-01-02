@@ -36,7 +36,7 @@ local config = {
 }
 
 function M.setup()
-  require('lsp')
+  require('plugins.lsp')
   null_ls.setup(config)
 end
 
