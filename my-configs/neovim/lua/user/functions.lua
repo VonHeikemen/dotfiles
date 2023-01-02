@@ -29,7 +29,9 @@ function M.job_output(cid, data, name)
 end
 
 function M.file_explorer(cwd)
-  if vim.o.lines > 17 then
+  local env = require('user.env')
+
+  if vim.o.lines > env.small_screen_lines then
     require('lir.float').toggle(cwd)
   else
     vim.cmd({cmd = 'edit', args = {cwd or vim.fn.expand('%:p:h')}})

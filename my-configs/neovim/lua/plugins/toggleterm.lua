@@ -8,9 +8,10 @@ require('toggleterm').setup({
 local open_mapping = '<M-i>'
 
 local function toggle()
+  local env = require('user.env')
   local term = require('toggleterm') 
 
-  if vim.o.lines < 17 then
+  if vim.o.lines < env.small_screen_lines then
     local size = vim.o.columns * 0.4
     term.toggle(vim.v.count, size, nil, 'vertical')
     return

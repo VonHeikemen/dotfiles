@@ -1,3 +1,4 @@
+local env = require('user.env')
 local augroup = vim.api.nvim_create_augroup('alpha_cmds', {clear = true})
 local autocmd = vim.api.nvim_create_autocmd
 
@@ -143,7 +144,7 @@ section.buttons = {
 }
 
 -- very small screen
-if vim.o.lines < 18 then
+if vim.o.lines < env.small_screen_lines then
   section.buttons.val = {
     button(action.search_file),
     button(action.recently_used),
