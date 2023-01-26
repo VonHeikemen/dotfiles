@@ -8,14 +8,15 @@ local luasnip = require('luasnip')
 local user = {autocomplete = true}
 
 local select_opts = {behavior = cmp.SelectBehavior.Select}
+local cmp_enable = cmp.get_config().enabled
 
 user.config = {
   enabled = function()
-    if vim.bo.buftype == 'prompt' then
-      return false
+    if user.autocomplete then
+      return cmp_enable()
     end
 
-    return user.autocomplete
+    return false
   end,
   completion = {
     completeopt = 'menu,menuone',
@@ -64,9 +65,9 @@ user.config = {
     ['<C-d>'] = cmp.mapping.scroll_docs(5),
     ['<C-u>'] = cmp.mapping.scroll_docs(-5),
 
-    ['<M-u>'] = cmp.mapping(function(fallback)
+    ['<M-u>'] = cmp.mapping(function()
       if cmp.visible() then
-        cmp.close()
+        cmp.abort()
         user.set_autocomplete(false)
       else
         cmp.complete()
