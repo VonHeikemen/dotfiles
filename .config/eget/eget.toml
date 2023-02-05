@@ -1,0 +1,42 @@
+# get eget:
+# wget https://github.com/zyedidia/eget/releases/download/v1.3.1/eget-1.3.1-linux_amd64.tar.gz
+
+[global]
+  target = "~/.local/bin/"
+
+["zyedidia/eget"]
+  asset_filters = ["linux_amd64.tar.gz"]
+
+["go-task/task"]
+  asset_filters = ["linux_amd64.tar.gz"]
+
+["svenstaro/miniserve"]
+  asset_filters = ["x86_64-unknown-linux-musl"]
+
+["dandavison/delta"]
+  asset_filters = ["x86_64-unknown-linux-musl.tar.gz"]
+
+["jesseduffield/lazygit"]
+  asset_filters = ["Linux_x86_64.tar.gz"]
+
+["tdewolff/minify"]
+  asset_filters = ["linux_amd64.tar.gz"]
+
+["guillaumebreton/gone"]
+  asset_filters = ["Linux_x86_64.tar.gz"]
+
+["getzola/zola"]
+  asset_filters = ["x86_64-unknown-linux-gnu.tar.gz"]
+
+["ClementTsang/bottom"]
+  asset_filters = ["x86_64-unknown-linux-musl.tar.gz"]
+
+["rs/curlie"]
+  asset_filters = ["linux_amd64.tar.gz"]
+
+["sharkdp/hyperfine"]
+  asset_filters = ["x86_64-unknown-linux-gnu.tar.gz"]
+
+["XAMPPRocky/tokei"]
+  asset_filters = ["x86_64-unknown-linux-gnu.tar.gz"]
+
