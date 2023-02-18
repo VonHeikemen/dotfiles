@@ -124,6 +124,11 @@ function user.lsp_attach()
   local telescope = require('telescope.builtin')
   local lsp = vim.lsp.buf
   local bind = vim.keymap.set
+  local command = vim.api.nvim_buf_create_user_command
+
+  command(0, 'LspFormat', function()
+    vim.lsp.buf.format({async = true})
+  end, {})
 
   local opts = {silent = true, buffer = true}
 
