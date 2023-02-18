@@ -1,6 +1,11 @@
-local ts = require('nvim-treesitter.configs')
+local Plugin = {'nvim-treesitter/nvim-treesitter'}
+Plugin.pin = true
 
-ts.setup({
+Plugin.dependencies = {
+  {'nvim-treesitter/nvim-treesitter-textobjects', pin = true}
+}
+
+Plugin.opts = {
   highlight = {
     enable = true,
   },
@@ -61,10 +66,20 @@ ts.setup({
     'typescript',
     'tsx',
     'php',
-    'lua',
-    'python',
     'css',
-    'json'
+    'json',
+    'lua',
+    'vim',
   },
-})
+}
+
+function Plugin.build()
+  pcall(vim.cmd, 'TSUpdate')
+end
+
+function Plugin.config(_, opts)
+  require('nvim-treesitter.configs').setup(opts)
+end
+
+return Plugin
 

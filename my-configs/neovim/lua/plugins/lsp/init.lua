@@ -1,34 +1,55 @@
-local M = {}
+-- LSP support
+local Plugin = {'neovim/nvim-lspconfig'} 
+local user = {}
 
-vim.cmd([[
-  packadd fidget.nvim
-  packadd nvim-lspconfig
-  packadd mason.nvim
-  packadd mason-lspconfig.nvim
-]])
+Plugin.dependencies = {
+  {'j-hui/fidget.nvim'},
+  {'williamboman/mason.nvim'},
+  {'williamboman/mason-lspconfig.nvim'},
+  {'hrsh7th/cmp-nvim-lsp'},
+}
 
-local augroup = vim.api.nvim_create_augroup
-local autocmd = vim.api.nvim_create_autocmd
+Plugin.cmd = 'Lsp'
 
-require('mason').setup({
-  ui = {border = 'rounded'}
-})
+function Plugin.config()
+  user.diagnostics()
+  user.handlers()
 
-require('mason-lspconfig').setup({})
+  require('fidget').setup({
+    text = {
+      spinner = 'moon'
+    },
+    window = {
+      blend = 0
+    },
+    sources = {
+      ['null-ls'] = {ignore = true}
+    }
+  })
 
-require('fidget').setup({
-  text = {
-    spinner = 'moon'
-  },
-  window = {
-    blend = 0
-  },
-  sources = {
-    ['null-ls'] = {ignore = true}
-  }
-})
+  require('mason').setup({
+    ui = {border = 'rounded'}
+  })
 
-function M.diagnostics()
+  require('mason-lspconfig').setup({})
+
+  vim.api.nvim_create_user_command(
+    'Lsp',
+    function(input)
+      if input.args == '' then
+        return
+      end
+
+      require('plugins.lsp.server').start(input.args, {})
+    end,
+    {desc = 'Initialize a language server', nargs = '?'}
+  )
+end
+
+function user.diagnostics()
+  local augroup = vim.api.nvim_create_augroup
+  local autocmd = vim.api.nvim_create_autocmd
+
   local sign = function(opts)
     vim.fn.sign_define(opts.name, {
       texthl = opts.name,
@@ -75,7 +96,10 @@ function M.diagnostics()
   })
 end
 
-function M.handlers()
+function user.handlers()
+  local augroup = vim.api.nvim_create_augroup
+  local autocmd = vim.api.nvim_create_autocmd
+
   vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
     vim.lsp.handlers.hover,
     {border = 'rounded'}
@@ -87,77 +111,44 @@ function M.handlers()
   )
 
   local group = augroup('lsp_cmds', {clear = true})
-
-  autocmd('LspAttach', {
-    group = group,
-    callback = function()
-      if vim.b.lsp_attached then
-        return
-      end
-
-      vim.b.lsp_attached = true
-
-      local telescope = require('telescope.builtin')
-      local lsp = vim.lsp.buf
-      local bind = vim.keymap.set
-
-      local opts = {silent = true, buffer = true}
-
-      if vim.fn.mapcheck('gq', 'n') == '' then
-        bind({'n', 'x'}, 'gq', '<cmd>LspFormat<cr>', opts)
-      end
-
-      bind('n', 'K', lsp.hover, opts)
-      bind('n', 'gd', lsp.definition, opts)
-      bind('n', 'gD', lsp.declaration, opts)
-      bind('n', 'gi', lsp.implementation, opts)
-      bind('n', 'go', lsp.type_definition, opts)
-      bind('n', 'gr', lsp.references, opts)
-      bind('n', 'gs', lsp.signature_help, opts)
-      bind('n', '<F2>', lsp.rename, opts)
-      bind('n', '<F4>', lsp.code_action, opts)
-      bind('x', '<F4>', lsp.range_code_action, opts)
-
-      bind('n', 'gl', vim.diagnostic.open_float, opts)
-      bind('n', '[d', vim.diagnostic.goto_prev, opts)
-      bind('n', ']d', vim.diagnostic.goto_next, opts)
-
-      bind('n', '<leader>fd', telescope.lsp_document_symbols, opts)
-      bind('n', '<leader>fq', telescope.lsp_workspace_symbols, opts)
-    end
-  })
+  autocmd('LspAttach', {group = group, callback = user.lsp_attach})
 end
 
-function M.project_setup(opts)
-  for server, enable in pairs(opts) do
-    if enable == true then
-      M.start(server, {})
-    end
+function user.lsp_attach()
+  if vim.b.lsp_attached then
+    return
   end
+
+  vim.b.lsp_attached = true
+
+  local telescope = require('telescope.builtin')
+  local lsp = vim.lsp.buf
+  local bind = vim.keymap.set
+
+  local opts = {silent = true, buffer = true}
+
+  if vim.fn.mapcheck('gq', 'n') == '' then
+    bind({'n', 'x'}, 'gq', '<cmd>LspFormat<cr>', opts)
+  end
+
+  bind('n', 'K', lsp.hover, opts)
+  bind('n', 'gd', lsp.definition, opts)
+  bind('n', 'gD', lsp.declaration, opts)
+  bind('n', 'gi', lsp.implementation, opts)
+  bind('n', 'go', lsp.type_definition, opts)
+  bind('n', 'gr', lsp.references, opts)
+  bind('n', 'gs', lsp.signature_help, opts)
+  bind('n', '<F2>', lsp.rename, opts)
+  bind('n', '<F4>', lsp.code_action, opts)
+  bind('x', '<F4>', lsp.range_code_action, opts)
+
+  bind('n', 'gl', vim.diagnostic.open_float, opts)
+  bind('n', '[d', vim.diagnostic.goto_prev, opts)
+  bind('n', ']d', vim.diagnostic.goto_next, opts)
+
+  bind('n', '<leader>fd', telescope.lsp_document_symbols, opts)
+  bind('n', '<leader>fq', telescope.lsp_workspace_symbols, opts)
 end
 
-function M.start(name, opts)
-  opts = opts or {}
-
-  opts.single_file_support = false
-  opts.capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-  if opts.root_dir == nil then
-    opts.root_dir = function() return vim.fn.getcwd() end
-  end
-
-  local defaults = require('plugins.lsp.servers').get(name)
-  local lsp = require('lspconfig')[name]
-
-  lsp.setup(vim.tbl_deep_extend('force', defaults, opts))
-
-  if lsp.manager and vim.bo.filetype ~= '' then
-    lsp.manager.try_add_wrapper()
-  end
-end
-
-M.diagnostics()
-M.handlers()
-
-return M
+return Plugin
 

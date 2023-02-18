@@ -1,10 +1,11 @@
-vim.cmd('packadd diffview.nvim')
+-- Git
+local Plugin = {'TimUntersberger/neogit'}
 
-require('diffview').setup({
-  use_icons = false
-})
+Plugin.dependencies = {{'sindrets/diffview.nvim'}}
 
-require('neogit').setup({
+Plugin.keys = {{'<leader>g', '<cmd>Neogit<cr>'}}
+
+Plugin.opts = {
   disable_hint = true,
   auto_refresh = false,
   integrations = {diffview = true},
@@ -17,7 +18,15 @@ require('neogit').setup({
       [';'] = 'RefreshBuffer'
     }
   }
-})
+}
 
-vim.keymap.set('n', '<leader>g', '<cmd>Neogit<cr>')
+function Plugin.config(_, opts)
+  require('diffview').setup({
+    use_icons = false
+  })
+
+  require('neogit').setup(opts)
+end
+
+return Plugin
 

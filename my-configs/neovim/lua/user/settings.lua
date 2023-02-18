@@ -46,14 +46,8 @@ vim.opt.tags:prepend(string.format('%s/.git/tags', vim.fn.getcwd()))
 -- Insert mode completion setting
 vim.opt.completeopt = {'menu', 'menuone'}
 
--- Apply theme
+-- Use the pretty colors
 vim.opt.termguicolors = true
-local theme = pcall(require, 'little-wonder')
-if theme then
-  vim.cmd('colorscheme polaris')
-else
-  vim.cmd('colorscheme nightly')
-end
 
 -- Set grep default grep command with ripgrep
 vim.opt.grepprg = 'rg --vimgrep --follow'

@@ -1,2 +1,0 @@
-require('mini.comment').setup()
-

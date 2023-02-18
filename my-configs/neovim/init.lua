@@ -22,3 +22,8 @@ require('user.commands')
 require('user.keymaps')
 require('user.plugins')
 
+-- Apply theme
+local theme = pcall(require, 'little-wonder')
+if theme then
+  vim.cmd('colorscheme polaris')
+end

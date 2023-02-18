@@ -14,7 +14,7 @@ end
 return {
   nvim_config = function()
     cmp_lua()
-    require('plugins.lsp').start('nvim_lua', {
+    require('plugins.lsp.server').start('nvim_lua', {
       settings = {
         Lua = {
           workspace = {
@@ -42,7 +42,7 @@ return {
     end
 
     cmp_lua()
-    require('plugins.lsp').start('nvim_lua', {
+    require('plugins.lsp.server').start('nvim_lua', {
       settings = {
         Lua = {
           workspace = {library = dependencies},

@@ -1,7 +1,8 @@
-local M = {}
-local bind = vim.keymap.set
+-- Jump anywhere
+local Plugin = {'ggandor/leap.nvim'}
+local user = {}
 
-require('leap').setup({
+Plugin.opts = {
   safe_labels = {},
   labels = {
     'w', 's', 'a',
@@ -11,9 +12,30 @@ require('leap').setup({
     '/', 'D', 'L', 'N', 'H', 'G', 'M', 'U', 'T', '?', 'Z',
     'J', 'K', 'O', 'I'
   },
-})
+}
 
-local function leap_line_backward()
+function Plugin.init()
+  vim.keymap.set({'n', 'x', 'o'}, 'H', 'b')
+  vim.keymap.set({'n', 'x', 'o'}, 'L', 'e')
+end
+
+function Plugin.keys()
+  local keys = {}
+  local mode = {'n', 'x', 'o'} 
+  local bind = function(l, r, d)
+    table.insert(keys, {l, r, desc = d, mode = mode})
+  end
+  
+  bind('e', '<Plug>(leap-forward)')
+  bind('b', '<Plug>(leap-backward)')
+
+  bind('E', user.line_forward, 'Jump to line below cursor')
+  bind('B', user.line_backward, 'Jump to line above cursor')
+
+  return keys
+end
+
+function user.line_backward()
   local winid = vim.api.nvim_get_current_win()
   local comp = function(state, wininfo, line)
     if state.lnum == -1 then
@@ -29,7 +51,7 @@ local function leap_line_backward()
   })
 end
 
-local function leap_line_forward()
+function user.line_forward()
   local winid = vim.api.nvim_get_current_win()
   local comp = function(state, wininfo, line)
     if state.lnum == -1 then
@@ -40,21 +62,12 @@ local function leap_line_forward()
   end
 
   require('leap').leap({
-    targets = M.line_targets(winid, comp),
+    targets = user.line_targets(winid, comp),
     target_windows = {winid}
   })
 end
 
-bind({'n', 'x', 'o'}, 'e', '<Plug>(leap-forward)')
-bind({'n', 'x', 'o'}, 'b', '<Plug>(leap-backward)')
-
-bind({'n', 'x', 'o'}, 'E', leap_line_forward, {desc = 'Jump to line below cursor'})
-bind({'n', 'x', 'o'}, 'B', leap_line_backward, {desc = 'Jump to line above cursor'})
-
-bind({'n', 'x', 'o'}, 'H', 'b')
-bind({'n', 'x', 'o'}, 'L', 'e')
-
-function M.line_targets(winid, comp)
+function user.line_targets(winid, comp)
   local wininfo =  vim.fn.getwininfo(winid)[1]
   local cur_line = vim.fn.line('.')
 
@@ -94,5 +107,5 @@ function M.line_targets(winid, comp)
   return targets
 end
 
-return M
+return Plugin
 

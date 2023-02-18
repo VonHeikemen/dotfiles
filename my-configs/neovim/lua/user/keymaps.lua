@@ -144,16 +144,6 @@ bind('x', 'qi', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>
 -- Apply macro in the next instance of the search
 bind('n', '<F8>', 'gn@i')
 
--- Load neogit
-bind('n', '<leader>g', function()
-  if vim.fn.executable('git') == 1 then
-    vim.cmd('PackAdd neogit')
-    vim.cmd('Neogit')
-  else
-    vim.notify('git is not available', vim.log.levels.WARN)
-  end
-end, {desc = 'Open Neogit'})
-
 -- Undo break points
 local break_points = {'<Space>', '-', '_', ':', '.', '/'}
 for _, char in ipairs(break_points) do

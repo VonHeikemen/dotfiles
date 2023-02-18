@@ -64,5 +64,26 @@ function M.get(name)
   return fn()
 end
 
+function M.start(name, opts)
+  opts = opts or {}
+
+  opts.single_file_support = false
+  opts.capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+  if opts.root_dir == nil then
+    opts.root_dir = function() return vim.fn.getcwd() end
+  end
+
+  local defaults = M.get(name)
+
+  local lsp = require('lspconfig')[name]
+
+  lsp.setup(vim.tbl_deep_extend('force', defaults, opts))
+
+  if lsp.manager and vim.bo.filetype ~= '' then
+    lsp.manager.try_add_wrapper()
+  end
+end
+
 return M
 

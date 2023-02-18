@@ -1,9 +1,21 @@
-local augroup = vim.api.nvim_create_augroup('vim-ui_cmds', {clear = true})
-local autocmd = vim.api.nvim_create_autocmd
-
+-- UI components
+local Plugin = {'MunifTanjim/nui.nvim'}
 local UI = {}
 
-local function input_opts()
+Plugin.lazy = true
+
+function Plugin.init()
+  vim.ui.select = function(...)
+    UI.select()
+    return vim.ui.select(...)
+  end
+  vim.ui.input = function(...)
+    UI.input()
+    return vim.ui.input(...)
+  end
+end
+
+function UI.input_opts()
   return {
     relative = 'win',
     zindex = 48,
@@ -26,7 +38,7 @@ local function input_opts()
   }
 end
 
-local function select_opts()
+function UI.select_opts()
   return {
     relative = 'editor',
     zindex = 48,
@@ -77,7 +89,7 @@ function UI.input()
       if not ok then vim.notify(err, vim.log.levels.ERROR) end
     end
 
-    local popup_opts = input_opts()
+    local popup_opts = UI.input_opts()
 
     if opts.prompt then
       popup_opts.border.text.top = string.format(' %s ', opts.prompt)
@@ -128,7 +140,7 @@ function UI.select()
       select_ui = nil
     end
 
-    local popup_opts = select_opts()
+    local popup_opts = UI.select_opts()
 
     local format_item = function(item)
       return string.format('* %s', tostring(item))
@@ -188,17 +200,5 @@ function UI.select()
   end
 end
 
-function UI.load()
-  UI.input()
-  UI.select()
-end
-
-autocmd('User', {
-  pattern = 'PluginsLoaded',
-  group = augroup,
-  once = true,
-  callback = UI.load
-})
-
-return UI
+return Plugin
 

@@ -22,12 +22,6 @@ function M.toggle_opt(prop, scope, on, off)
   end
 end
 
-function M.job_output(cid, data, name)
-  for i, val in pairs(data) do
-    print(val)
-  end
-end
-
 function M.file_explorer(cwd)
   local env = require('user.env')
 

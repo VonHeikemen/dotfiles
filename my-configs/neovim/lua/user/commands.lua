@@ -65,27 +65,6 @@ command(
 )
 
 command(
-  'NullLsp',
-  function()
-    require('plugins.lsp.null-ls').setup()
-  end,
-  {desc = 'Initialize Null-ls'}
-)
-
-command(
-  'Lsp',
-  function(input)
-    local lsp = require('plugins.lsp')
-    if input.args == '' then
-      return
-    end
-
-    lsp.start(input.args, {})
-  end,
-  {desc = 'Initialize a language server', nargs = '?'}
-)
-
-command(
   'ProjectSet',
   function(input)
     local index = input.args:find(' ')
