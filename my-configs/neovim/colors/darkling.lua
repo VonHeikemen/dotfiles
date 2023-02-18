@@ -108,3 +108,7 @@ hi(statusline['COMMAND'], color.pitch_black, color.crystal_cyan)
 hi(statusline['STATUS-BLOCK'], color.kinda_white, color.other_gray)
 hi(statusline['DEFAULT'], color.pitch_black, color.red)
 
+local tabline = require('plugins.tabline').higroups()
+
+link(tabline['TABLINE-SEPARATOR'], 'Function')
+

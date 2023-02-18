@@ -33,3 +33,7 @@ hi(statusline['COMMAND'], color.black, color.cyan)
 hi(statusline['INSERT'], color.black, color.green)
 hi(statusline['STATUS-BLOCK'], color.white, color.blue_two)
 
+local tabline = require('plugins.tabline').higroups()
+
+link(tabline['TABLINE-SEPARATOR'], 'Function')
+
