@@ -31,11 +31,12 @@ lazy.opts = {
     border = 'rounded',
   },
   install = {
-    colorscheme = {'nightly'}
+    missing = true,            -- install missing plugins on startup.
+    colorscheme = {'nightly'}  -- use this theme during first install process
   },
   change_detection = {
     enabled = true, -- check for config file changes
-    notify = true, -- get a notification when changes are found
+    notify = true,  -- get a notification when changes are found
   },
 }
 
