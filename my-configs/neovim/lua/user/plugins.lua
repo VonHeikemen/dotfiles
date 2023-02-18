@@ -59,6 +59,11 @@ local ok, result = pcall(plug.init, {
   {'VonHeikemen/the-good-snippets', type = 'start'},
   {'mattn/emmet-vim', type = 'opt'},
   {'L3MON4D3/LuaSnip', config = use('plugins.luasnip')},
+  {
+    'echasnovski/mini.comment',
+    branch = 'stable',
+    config = use('plugins.mini-comment')
+  },
 
   -- Language support
   {'othree/html5.vim', type = 'start'},
