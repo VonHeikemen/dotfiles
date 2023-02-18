@@ -75,7 +75,7 @@ action.restore_session = {
   display = 's',
   keys = 's',
   fn = function()
-    local session = require('plugins.session')
+    local session = require('plugins.core.session')
     local name = session.read_name(vim.fn.getcwd())
     if name then
       session.load_current(name)
@@ -190,7 +190,7 @@ autocmd('User', {
     end
 
     vim.w.status_style = 'short'
-    vim.wo.statusline = require('plugins.statusline').get_status('short')
+    vim.wo.statusline = require('plugins.core.statusline').get_status('short')
   end
 })
 

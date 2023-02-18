@@ -1,5 +1,5 @@
 local fns = require('user.functions')
-local plug = require('plugins.manager')
+local plug = require('plugins.core.manager')
 
 local function use(mod) return function() require(mod) end end
 
@@ -120,7 +120,7 @@ local ok, result = pcall(plug.init, {
 })
 
 if not ok then
-  if require('plugins.install') then
+  if require('plugins.core.install') then
     return
   end
 
@@ -131,8 +131,8 @@ end
 -- ==                            LOCAL PLUGINS                             == --
 -- ========================================================================== --
 
-require('plugins.tmux')
-require('plugins.session')
-require('plugins.tabline').setup()
-require('plugins.statusline').setup()
+require('plugins.core.tmux')
+require('plugins.core.session')
+require('plugins.core.tabline').setup()
+require('plugins.core.statusline').setup()
 

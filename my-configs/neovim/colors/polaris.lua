@@ -27,13 +27,13 @@ hi('DiffChange', color.yellow)
 hi('DiffDelete', color.red)
 hi('DiffText', color.cyan)
 
-local statusline = require('plugins.statusline').higroups()
+local statusline = require('plugins.core.statusline').higroups()
 
 hi(statusline['COMMAND'], color.black, color.cyan)
 hi(statusline['INSERT'], color.black, color.green)
 hi(statusline['STATUS-BLOCK'], color.white, color.blue_two)
 
-local tabline = require('plugins.tabline').higroups()
+local tabline = require('plugins.core.tabline').higroups()
 
 link(tabline['TABLINE-SEPARATOR'], 'Function')
 

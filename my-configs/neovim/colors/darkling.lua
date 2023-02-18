@@ -97,7 +97,7 @@ hi('DiffText', color.cyan)
 hs('IndentBlanklineChar', {fg = '#494E5B'})
 hs('IndentBlanklineContextChar', {fg = '#6D717C'})
 
-local statusline = require('plugins.statusline').higroups()
+local statusline = require('plugins.core.statusline').higroups()
 
 hi(statusline['NORMAL'], color.jet_white, color.blue_gray)
 hi(statusline['VISUAL'], color.jet_white, color.magenta)
@@ -108,7 +108,7 @@ hi(statusline['COMMAND'], color.pitch_black, color.crystal_cyan)
 hi(statusline['STATUS-BLOCK'], color.kinda_white, color.other_gray)
 hi(statusline['DEFAULT'], color.pitch_black, color.red)
 
-local tabline = require('plugins.tabline').higroups()
+local tabline = require('plugins.core.tabline').higroups()
 
 link(tabline['TABLINE-SEPARATOR'], 'Function')
 
