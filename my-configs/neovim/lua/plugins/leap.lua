@@ -48,7 +48,7 @@ end
 bind({'n', 'x', 'o'}, 'e', '<Plug>(leap-forward)')
 bind({'n', 'x', 'o'}, 'b', '<Plug>(leap-backward)')
 
-bind({'n', 'x', 'o'}, 'e', leap_line_forward, {desc = 'Jump to line below cursor'})
+bind({'n', 'x', 'o'}, 'E', leap_line_forward, {desc = 'Jump to line below cursor'})
 bind({'n', 'x', 'o'}, 'B', leap_line_backward, {desc = 'Jump to line above cursor'})
 
 bind({'n', 'x', 'o'}, 'H', 'b')
