@@ -111,7 +111,6 @@ local ok, result = pcall(plug.init, {
   {'nvim-lua/plenary.nvim', type = 'start'},
   {'ThePrimeagen/harpoon', config = use('plugins.harpoon')},
   {'NMAC427/guess-indent.nvim', config = use('plugins.guess-indent')},
-  {'max397574/better-escape.nvim', config = use('plugins.better-escape')},
   {'echasnovski/mini.ai', branch = 'stable', config = use('plugins.mini-ai')},
   {'echasnovski/mini.bufremove', branch = 'stable', config = use('plugins.mini-bufremove')},
   {'echasnovski/mini.surround', branch = 'stable', config = use('plugins.mini-surround')},
