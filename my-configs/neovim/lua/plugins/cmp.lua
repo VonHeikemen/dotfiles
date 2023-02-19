@@ -17,11 +17,8 @@ Plugin.dependencies = {
 Plugin.event = 'InsertEnter'
 
 function Plugin.config()
-  local augroup = vim.api.nvim_create_augroup('compe_cmds', {clear = true})
-  local autocmd = vim.api.nvim_create_autocmd
-  local command = vim.api.nvim_create_user_command
-
-  command('UserCmpEnable', user.enable_cmd, {})
+  user.augroup = vim.api.nvim_create_augroup('compe_cmds', {clear = true})
+  vim.api.nvim_create_user_command('UserCmpEnable', user.enable_cmd, {})
 
   local cmp = require('cmp')
   local luasnip = require('luasnip')
@@ -133,8 +130,8 @@ function user.set_autocomplete(new_value)
     )
 
     -- restore when leaving insert mode
-    autocmd('InsertLeave', {
-      group = augroup,
+    vim.api.nvim_create_autocmd('InsertLeave', {
+      group = user.augroup,
       command = 'UserCmpEnable',
       once = true,
     })
