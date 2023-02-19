@@ -46,7 +46,7 @@ function user.line_backward()
   end
 
   require('leap').leap({
-    targets = M.line_targets(winid, comp),
+    targets = user.line_targets(winid, comp),
     target_windows = {winid}
   })
 end
