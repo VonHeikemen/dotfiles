@@ -40,7 +40,10 @@ lazy.opts = {
   },
 }
 
-lazy.setup({{import = 'plugins'}})
+lazy.setup({
+  -- Load them from the lua/plugins folder
+  {import = 'plugins'}
+})
 
 -- ========================================================================== --
 -- ==                            LOCAL PLUGINS                             == --
