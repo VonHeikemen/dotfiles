@@ -1,7 +1,4 @@
 local Plugins = {
-  -- Theme
-  {'VonHeikemen/little-wonder', lazy = false, priority = 200},
-
   -- Editor Config
   {'editorconfig/editorconfig-vim', lazy = true},
   {'mattn/emmet-vim', enabled = false},

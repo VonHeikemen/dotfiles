@@ -1,4 +1,4 @@
-local lw = require('little-wonder')
+local cs = require('plugins.core.colorscheme')
 
 local color = {
   white   = {gui = '#DCE0DD', cterm = 249},
@@ -20,7 +20,6 @@ local color = {
   dark_blue  = {gui = '#242830', cterm = 235},
   darkness   = {gui = '#3B4252', cterm = 238},
 
-  -- For statusline
   blue_gray    = {gui = '#6699CC', cterm = 68 },
   jet_white    = {gui = '#353535', cterm = 236},
   eton_green   = {gui = '#99C794', cterm = 114},
@@ -73,19 +72,19 @@ local theme = {
   },
 }
 
-lw.apply('darkling', theme)
+cs.apply('darkling', theme)
 
 ---
 -- Custom rules
 ---
-local link = lw.link
-local hs = lw.set_hl
-local hi = lw.highlight
+local link = cs.link
+local hs = cs.set_hl
+local hi = cs.highlight
 
 link('TelescopeMatching', 'Boolean')
 link('TelescopeSelection', 'CursorLine')
 link('NormalFloat', 'Normal')
-link('markdownError', lw.no_color)
+link('markdownError', cs.no_color)
 
 hi('TelescopeSelectionCaret', color.red, color.dark_blue)
 
