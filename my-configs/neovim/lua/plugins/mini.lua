@@ -1,20 +1,22 @@
+local Plugins = {}
+local Plug = function(s) table.insert(Plugins, s) end
 local config = function(_, o) require(o[1]).setup() end
 
-local mini_ai = {
+Plug {
   'echasnovski/mini.ai',
   branch = 'stable',
   opts = {'mini.ai'},
   config = config,
 }
 
-local comment = {
+Plug {
   'echasnovski/mini.comment',
   branch = 'stable',
   opts = {'mini.comment'},
   config = config,
 }
 
-local bufremove = {
+Plug {
   'echasnovski/mini.bufremove',
   branch = 'stable',
   keys = {{'<Leader>bc', '<cmd>lua MiniBufremove.delete()<cr>'}},
@@ -22,7 +24,7 @@ local bufremove = {
   config = config,
 }
 
-local surround = {
+Plug {
   'echasnovski/mini.surround',
   branch = 'stable',
   keys = {
@@ -48,10 +50,5 @@ local surround = {
   end,
 } 
 
-return {
-  mini_ai,
-  comment,
-  bufremove,
-  surround,
-}
+return Plugins
 
