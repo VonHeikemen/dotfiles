@@ -17,20 +17,26 @@ local comment = {
 local bufremove = {
   'echasnovski/mini.bufremove',
   branch = 'stable',
+  keys = {{'<Leader>bc', '<cmd>lua MiniBufremove.delete()<cr>'}},
   opts = {'mini.bufremove'},
   config = config,
-  keys = {{'<Leader>bc', '<cmd>lua MiniBufremove.delete()<cr>'}}
 }
 
 local surround = {
   'echasnovski/mini.surround',
   branch = 'stable',
+  keys = {
+    {'ds', "v:lua.MiniSurround.operator('delete') . ' '", expr = true},
+    {'cs', "v:lua.MiniSurround.operator('replace') . ' '", expr = true},
+    {'ys', "v:lua.MiniSurround.operator('add')", expr = true},
+    {'Y', ":<C-u>lua MiniSurround.add('visual')<cr>", mode = 'x'},
+  },
   opts = {
     search_method = 'cover',
     mappings = {
       add = '',
-      delete = 'ds',
-      replace = 'cs',
+      delete = '',
+      replace = '',
       find = '',
       find_left = '',
       highlight = '',
@@ -39,20 +45,8 @@ local surround = {
   },
   config = function(_, opts)
     require('mini.surround').setup(opts)
-    vim.keymap.set('x', 'Y', ":<C-u>lua MiniSurround.add('visual')<cr>")
-    vim.keymap.set('n', 'ys', "v:lua.MiniSurround.operator('add')", {expr = true})
-  end
+  end,
 } 
-
-surround.keys = function()
-  local mappings = surround.opts.mappings
-  return {
-    {'ys'},
-    {'Y', mode = 'x'},
-    {mappings.delete},
-    {mappings.replace},
-  }
-end
 
 return {
   mini_ai,
