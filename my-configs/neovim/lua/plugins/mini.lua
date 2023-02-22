@@ -1,34 +1,44 @@
 local Plugins = {}
 local Plug = function(s) table.insert(Plugins, s) end
-local config = function(_, o) require(o[1]).setup() end
 
 Plug {
   'echasnovski/mini.ai',
   branch = 'stable',
-  opts = {'mini.ai'},
-  config = config,
+  keys = {
+    {'a', mode = {'x', 'o'}},
+    {'i', mode = {'x', 'o'}},
+  },
+  config = function()
+    require('mini.ai').setup()
+  end,
 }
 
 Plug {
   'echasnovski/mini.comment',
   branch = 'stable',
+  keys = {
+    'gcc',
+    {'gc', mode = {'n', 'x', 'o'}},
+  },
   opts = {
-    'mini.comment',
     hooks = {
       pre = function()
         require('ts_context_commentstring.internal').update_commentstring()
       end,
     },
   },
-  config = config,
+  config = function(_, opts)
+    require('mini.comment').setup(opts)
+  end,
 }
 
 Plug {
   'echasnovski/mini.bufremove',
   branch = 'stable',
   keys = {{'<Leader>bc', '<cmd>lua MiniBufremove.delete()<cr>'}},
-  opts = {'mini.bufremove'},
-  config = config,
+  config = function()
+    require('mini.bufremove').setup()
+  end,
 }
 
 Plug {
