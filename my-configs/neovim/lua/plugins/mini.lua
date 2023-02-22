@@ -67,5 +67,37 @@ Plug {
   end,
 } 
 
+Plug {
+  'echasnovski/mini.bracketed',
+  -- There is no stable branch yet
+  -- branch = 'stable',
+  keys = {
+    {'[c', "<Cmd>lua MiniBracketed.conflict('backward')<CR>", mode = {'n', 'x'}},
+    {']c', "<Cmd>lua MiniBracketed.conflict('forward')<CR>", mode = {'n', 'x'}},
+
+    {'[q', "<Cmd>lua MiniBracketed.quickfix('backward')<CR>"},
+    {']q', "<Cmd>lua MiniBracketed.quickfix('forward')<CR>"},
+  },
+  opts = {
+    buffer     = {suffix = ''},
+    comment    = {suffix = ''},
+    conflict   = {suffix = ''},
+    diagnostic = {suffix = ''},
+    file       = {suffix = ''},
+    indent     = {suffix = ''},
+    jump       = {suffix = ''},
+    location   = {suffix = ''},
+    oldfile    = {suffix = ''},
+    quickfix   = {suffix = ''},
+    treesitter = {suffix = ''},
+    undo       = {suffix = ''},
+    window     = {suffix = ''},
+    yank       = {suffix = ''},
+  },
+  config = function(_, opts)
+    require('mini.bracketed').setup(opts)
+  end
+}
+
 return Plugins
 
