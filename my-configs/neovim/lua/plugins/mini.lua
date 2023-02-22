@@ -12,7 +12,14 @@ Plug {
 Plug {
   'echasnovski/mini.comment',
   branch = 'stable',
-  opts = {'mini.comment'},
+  opts = {
+    'mini.comment',
+    hooks = {
+      pre = function()
+        require('ts_context_commentstring.internal').update_commentstring()
+      end,
+    },
+  },
   config = config,
 }
 
