@@ -5,7 +5,14 @@ local Plugins = {
   -- Utilities
   {'tpope/vim-repeat', keys = '.'},
   {'tpope/vim-abolish', keys = 'cr'},
-  {'nvim-treesitter/playground', lazy = true},
+  {
+    'nvim-treesitter/playground',
+    cmd = {
+      'TSPlaygroundToggle',
+      'TSNodeUnderCursor',
+      'TSHighlightCapturesUnderCursor'
+    }
+  },
 }
 
 return Plugins
