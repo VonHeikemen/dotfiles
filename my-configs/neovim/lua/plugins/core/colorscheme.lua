@@ -202,6 +202,7 @@ function M.apply_links()
   link('htmlTagName',        'Function')
   link('htmlSpecialTagName', 'Function')
   link('htmlArg',            cs_none)
+  link('htmlLink',           cs_none)
 
 
   -- Language: CSS
@@ -321,6 +322,7 @@ function M.apply_links()
   link('@tag.attribute', cs_none)
   link('@tag', 'Function')
   link('@text.uri.html', 'String')
+  link('@text.literal', cs_none)
 end
 
 function M.terminal(theme)
