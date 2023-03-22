@@ -115,12 +115,12 @@ function Plugin.opts()
     end
   }
 
-  action.update_plugins = {
-    name = 'Update Plugins',
-    display = 'U',
-    keys = 'U',
+  action.lazy_ui = {
+    name = 'Open lazy.nvim UI',
+    display = 'L',
+    keys = 'L',
     fn = function()
-      vim.cmd('PackUpdate')
+      vim.cmd('Lazy')
     end
   }
 
