@@ -42,7 +42,6 @@ function Plugin.config()
   vim.api.nvim_create_user_command(
     'NullLsp',
     function()
-      vim.cmd('Lazy load nvim-lspconfig')
       null_ls.setup(config)
     end,
     {desc = 'Initialize Null-ls'}
