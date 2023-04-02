@@ -69,8 +69,7 @@ Plug {
 
 Plug {
   'echasnovski/mini.bracketed',
-  -- There is no stable branch yet
-  -- branch = 'stable',
+  branch = 'stable',
   keys = {
     {'[c', "<Cmd>lua MiniBracketed.conflict('backward')<CR>", mode = {'n', 'x'}},
     {']c', "<Cmd>lua MiniBracketed.conflict('forward')<CR>", mode = {'n', 'x'}},
