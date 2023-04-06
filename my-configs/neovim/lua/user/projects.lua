@@ -1,54 +1,50 @@
+local Project = {}
+
 local function cmp_lua()
+  local cmp = require('cmp')
+  local sources = vim.deepcopy(cmp.get_config().sources)
+  table.insert(sources, {name = 'nvim_lua'})
+
   -- Setup autocomplete for nvim's lua api
-  require('cmp').setup.filetype('lua', {
-    sources = {
-      {name = 'path'},
-      {name = 'nvim_lua'},
-      {name = 'nvim_lsp', keyword_length = 3},
-      {name = 'buffer', keyword_length = 3},
-      {name = 'luasnip', keyword_length = 2},
+  cmp.setup.filetype('lua', {sources = sources})
+end
+
+function Project.nvim_config()
+  cmp_lua()
+  require('plugins.lsp.server').start('nvim_lua', {
+    settings = {
+      Lua = {
+        workspace = {
+          library = {
+            vim.fn.expand('$VIMRUNTIME/lua'),
+            vim.fn.stdpath('config') .. '/lua',
+          },
+        },
+      }
     }
   })
 end
 
-return {
-  nvim_config = function()
-    cmp_lua()
-    require('plugins.lsp.server').start('nvim_lua', {
-      settings = {
-        Lua = {
-          workspace = {
-            library = {
-              vim.fn.expand('$VIMRUNTIME/lua'),
-              vim.fn.stdpath('config') .. '/lua',
-            },
-          },
-        }
-      }
-    })
-  end,
+function Project.nvim_plugin(opts)
+  cmp_lua()
+  local dependencies = {vim.fn.expand('$VIMRUNTIME/lua')}
+  local lua = vim.fn.stdpath('data') .. '/lazy/*/lua/%s'
 
-  nvim_plugin = function(opts)
-    local dependencies = {vim.fn.expand('$VIMRUNTIME/lua')}
-    local lua = 'lua/%s'
-
-    if opts.dependencies then
-      for i, path in pairs(opts.dependencies) do
-        dependencies[i + 1] = vim.fn.fnamemodify(
-          vim.api.nvim_get_runtime_file(lua:format(path), true)[1],
-          ':h'
-        )
-      end
+  if opts.dependencies then
+    for i, mod in ipairs(opts.dependencies) do
+      local path = vim.fn.glob(lua:format(mod))
+      dependencies[i + 1] = path == '' and nil or path
     end
-
-    cmp_lua()
-    require('plugins.lsp.server').start('nvim_lua', {
-      settings = {
-        Lua = {
-          workspace = {library = dependencies},
-        }
-      }
-    })
   end
-}
+
+  require('plugins.lsp.server').start('nvim_lua', {
+    settings = {
+      Lua = {
+        workspace = {library = dependencies},
+      }
+    }
+  })
+end
+
+return Project
 
