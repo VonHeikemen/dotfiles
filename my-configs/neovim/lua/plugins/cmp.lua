@@ -72,28 +72,42 @@ function Plugin.config()
       end,
     },
     mapping = {
+      ['<C-u>'] = cmp.mapping.scroll_docs(-5),
+      ['<C-d>'] = cmp.mapping.scroll_docs(5),
+
       ['<Up>'] = cmp.mapping.select_prev_item(select_opts),
       ['<Down>'] = cmp.mapping.select_next_item(select_opts),
 
       ['<M-k>'] = cmp.mapping.select_prev_item(select_opts),
       ['<M-j>'] = cmp.mapping.select_next_item(select_opts),
 
-      ['<C-d>'] = cmp.mapping.scroll_docs(5),
-      ['<C-u>'] = cmp.mapping.scroll_docs(-5),
+      ['<C-o>'] = cmp.mapping(function(fallback)
+        if luasnip.jumpable(-1) then
+          luasnip.jump(-1)
+        else
+          fallback()
+        end
+      end, {'i', 's'}),
+
+      ['<C-l>'] = cmp.mapping(function(fallback)
+        if luasnip.jumpable(1) then
+          luasnip.jump(1)
+        else
+          fallback()
+        end
+      end, {'i', 's'}),
 
       ['<M-u>'] = cmp.mapping(function()
         if cmp.visible() then
-          cmp.abort()
           user.set_autocomplete(false)
+          cmp.abort()
         else
-          cmp.complete()
           user.set_autocomplete(true)
+          cmp.complete()
         end
       end),
 
       ['<Tab>'] = cmp.mapping(function(fallback)
-        user.set_autocomplete(true)
-
         if cmp.visible() then
           cmp.confirm({select = true})
         elseif luasnip.jumpable(1) then
@@ -101,11 +115,18 @@ function Plugin.config()
         elseif user.check_back_space() then
           fallback()
         else
+          user.set_autocomplete(true)
           cmp.complete()
         end
       end, {'i', 's'}),
 
-      ['<S-Tab>'] = cmp.mapping(function() luasnip.jump(-1) end, {'i', 's'}),
+      ['<S-Tab>'] = cmp.mapping(function()
+        if luasnip.jumpable(-1) then
+          luasnip.jump(-1) 
+        else
+          user.insert_tab()
+        end
+      end, {'i', 's'}),
     }
   }
 
@@ -140,6 +161,7 @@ function user.set_autocomplete(new_value)
   user.autocomplete = new_value
 end
 
+
 function user.check_back_space()
   local col = vim.fn.col('.') - 1
   if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
@@ -156,6 +178,14 @@ function user.enable_cmd()
 
   pcall(vim.api.nvim_buf_del_keymap, 0, 'i', '<Space>')
   user.set_autocomplete(true)
+end
+
+function user.insert_tab()
+  vim.api.nvim_feedkeys(
+    vim.api.nvim_replace_termcodes('<Tab>', true, true, true),
+    'n',
+    true 
+  )
 end
 
 return Plugin
