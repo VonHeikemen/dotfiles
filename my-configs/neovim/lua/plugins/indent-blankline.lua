@@ -3,6 +3,8 @@ local Plugin = {'lukas-reineke/indent-blankline.nvim'}
 
 Plugin.name = 'indent_blankline'
 
+Plugin.event = {'BufReadPost', 'BufNewFile'}
+
 Plugin.opts = {
   enabled = false,
   char = '▏',
@@ -12,9 +14,9 @@ Plugin.opts = {
   show_current_context = false
 }
 
-Plugin.keys = {
-  {'<leader>ui', '<cmd>IndentBlanklineToggle<cr>'}
-}
+Plugin.init = function()
+  vim.keymap.set('n', '<leader>ui', '<cmd>IndentBlanklineToggle<cr>')
+end
 
 return Plugin
 
