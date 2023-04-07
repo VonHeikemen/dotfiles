@@ -14,7 +14,7 @@ Plugin.opts = {
   show_current_context = false
 }
 
-Plugin.init = function()
+function Plugin.init()
   vim.keymap.set('n', '<leader>ui', '<cmd>IndentBlanklineToggle<cr>')
 end
 
