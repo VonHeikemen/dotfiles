@@ -9,7 +9,7 @@ function Plugin.init()
   -- Manage the quickfix list
   bind('n', '[q', '<Plug>(qf_qf_previous)zz')
   bind('n', ']q', '<Plug>(qf_qf_next)zz')
-  bind('n', '<Leader>cc', '<Plug>(qf_qf_toggle)')
+  bind('n', '<leader>cc', '<Plug>(qf_qf_toggle)')
 
   autocmd('filetype', {
     pattern = 'qf',

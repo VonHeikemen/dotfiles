@@ -16,25 +16,25 @@ function Plugin.init()
   local bind = vim.keymap.set
 
   -- Search pattern
-  bind('n', '<leader>fg', ':Telescope live_grep<CR>')
+  bind('n', '<leader>fg', '<cmd>Telescope live_grep<cr>')
 
   -- Show key bindings list
-  bind('n', '<Leader>?', ':Telescope keymaps<CR>')
+  bind('n', '<leader>?', '<cmd>Telescope keymaps<cr>')
 
   -- Find files by name
-  bind('n', '<Leader>ff', ':Telescope find_files<CR>')
+  bind('n', '<leader>ff', '<cmd>Telescope find_files<cr>')
 
   -- Search symbols in buffer
-  bind('n', '<Leader>fs', ':Telescope treesitter<CR>')
+  bind('n', '<leader>fs', '<cmd>Telescope treesitter<cr>')
 
   -- Search buffer lines
-  bind('n', '<Leader>fb', ':Telescope current_buffer_fuzzy_find<CR>')
+  bind('n', '<leader>fb', '<cmd>Telescope current_buffer_fuzzy_find<cr>')
 
   -- Search in files history
-  bind('n', '<Leader>fh', ':Telescope oldfiles<CR>')
+  bind('n', '<leader>fh', '<cmd>Telescope oldfiles<cr>')
 
   -- Search in active buffers list
-  bind('n', '<Leader>bb', ':Telescope buffers<CR>')
+  bind('n', '<leader>bb', '<cmd>Telescope buffers<cr>')
 end
 
 function Plugin.config()

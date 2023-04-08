@@ -18,16 +18,16 @@ bind('c', '<M-l>', '<Esc>')
 bind('i', '<M-l>', '<Esc>')
 
 -- Select all text in current buffer
-bind('n', '<Leader>a', ':keepjumps normal! ggVG<CR>')
+bind('n', '<leader>a', '<cmd>keepjumps normal! ggVG<cr>')
 
 -- Go to matching pair
-bind({'n', 'x'}, '<Leader>e', '%', remap)
+bind({'n', 'x'}, '<leader>e', '%', remap)
 
 -- Go to first character in line
-bind('', '<Leader>h', '^')
+bind('', '<leader>h', '^')
 
 -- Go to last character in line
-bind('', '<Leader>l', 'g_')
+bind('', '<leader>l', 'g_')
 
 -- Scroll half page and center
 bind('n', '<M-k>', '<C-u>M')
@@ -65,78 +65,78 @@ bind('x', 'X','"_c')
 -- ========================================================================== --
 
 -- Moving lines and preserving indentation
-bind('n', '<C-j>', ":move .+1<CR>==")
-bind('n', '<C-k>', ":move .-2<CR>==")
-bind('v', '<C-j>', ":move '>+1<CR>gv=gv")
-bind('v', '<C-k>', ":move '<-2<CR>gv=gv")
+bind('n', '<C-j>', "<cmd>move .+1<cr>==")
+bind('n', '<C-k>', "<cmd>move .-2<cr>==")
+bind('v', '<C-j>', "<cmd>move '>+1<cr>gv=gv")
+bind('v', '<C-k>', "<cmd>move '<-2<cr>gv=gv")
 
 -- Write file
-bind('n', '<Leader>w', ':write<CR>')
+bind('n', '<leader>w', '<cmd>write<cr>')
 
 -- Safe quit
-bind('n', '<Leader>qq', ':quitall<CR>')
+bind('n', '<leader>qq', '<cmd>quitall<cr>')
 
 -- Force quit
-bind('n', '<Leader>Q', ':quitall!<CR>')
+bind('n', '<leader>Q', '<cmd>quitall!<cr>')
 
 -- Close buffer
-bind('n', '<Leader>bq', ':bdelete<CR>')
+bind('n', '<leader>bq', '<cmd>bdelete<cr>')
 
 -- Move to last active buffer
-bind('n', '<Leader>bl', ':buffer #<CR>')
+bind('n', '<leader>bl', '<cmd>buffer #<cr>')
 
 -- Navigate between buffers
-bind('n', '[b', ':bprevious<CR>')
-bind('n', ']b', ':bnext<CR>')
+bind('n', '[b', '<cmd>bprevious<cr>')
+bind('n', ']b', '<cmd>bnext<cr>')
 
 -- Open new tabpage
-bind('n', '<Leader>tn', ':tabnew<CR>')
+bind('n', '<leader>tn', '<cmd>tabnew<cr>')
 
 -- Navigate between tabpages
-bind('n', '[t', ':tabprevious<CR>')
-bind('n', ']t', ':tabnext<CR>')
+bind('n', '[t', '<cmd>tabprevious<cr>')
+bind('n', ']t', '<cmd>tabnext<cr>')
 
 -- Clear messages
-bind('n', '<Leader><space>', ":echo ''<CR>")
+bind('n', '<leader><space>', "<cmd>echo ''<cr>")
 
 -- Switch to the directory of the open buffer
-bind('n', '<Leader>cd', ':lcd %:p:h<CR>:pwd<CR>')
+bind('n', '<leader>cd', '<cmd>lcd %:p:h<cr><cmd>pwd<cr>')
 
 -- Put selected text in register '/'
-bind('x', '<Leader>y', ':<C-u>GetSelection<CR>gv')
-bind('x', '<Leader>Y', ':<C-u>GetSelection<CR>:set hlsearch<CR>')
+bind('x', '<leader>y', '<Esc><cmd>GetSelection<cr>gv')
+bind('x', '<leader>Y', '<Esc><cmd>GetSelection<cr><cmd>set hlsearch<cr>')
 
 -- ========================================================================== --
 -- ==                           TOGGLE ELEMENTS                            == --
 -- ========================================================================== --
 
 -- Search result highlight
-bind('n', '<Leader>uh', '<cmd>set invhlsearch<CR>')
+bind('n', '<leader>uh', '<cmd>set invhlsearch<cr>')
 
 -- Tabline
-bind('n', '<Leader>ut', fns.toggle_opt('showtabline', 'o', 1, 0))
+bind('n', '<leader>ut', fns.toggle_opt('showtabline', 'o', 1, 0))
 
 -- Line length ruler
-bind('n', '<Leader>ul', fns.toggle_opt('colorcolumn', 'wo', '81', '0'))
+bind('n', '<leader>ul', fns.toggle_opt('colorcolumn', 'wo', '81', '0'))
 
 -- Cursorline highlight
-bind('n', '<Leader>uc', '<cmd>set invcursorline<CR>')
+bind('n', '<leader>uc', '<cmd>set invcursorline<cr>')
 
 -- Line numbers
-bind('n', '<Leader>un', '<cmd>set invnumber<CR>')
+bind('n', '<leader>un', '<cmd>set invnumber<cr>')
 
 -- Relative line numbers
-bind('n', '<Leader>ur', '<cmd>set invrelativenumber<CR>')
+bind('n', '<leader>ur', '<cmd>set invrelativenumber<cr>')
 
 -- ========================================================================== --
 -- ==                            MISCELLANEOUS                             == --
 -- ========================================================================== --
 
 -- Add word to search then replace
-bind('n', '<Leader>j', [[<cmd>let @/='\<'.expand('<cword>').'\>'<cr>"_ciw]])
+bind('n', '<leader>j', [[<cmd>let @/='\<'.expand('<cword>').'\>'<cr>"_ciw]])
 
 -- Add selection to search then replace
-bind('x', '<Leader>j', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>"_cgn]])
+bind('x', '<leader>j', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>"_cgn]])
 
 -- Begin a "searchable" macro
 bind('x', 'qi', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>gvqi]])

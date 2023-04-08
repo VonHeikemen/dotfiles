@@ -2,7 +2,7 @@
 local Plugin = {'junegunn/goyo.vim'}
 
 Plugin.keys = {
-  {'<Leader>uz', '<cmd>Goyo<CR>'}
+  {'<leader>uz', '<cmd>Goyo<cr>'}
 }
 
 function Plugin.init()

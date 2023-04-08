@@ -14,8 +14,8 @@ Plugin.opts = {
 Plugin.cmd = 'FineCmdline'
 
 function Plugin.init()
-  vim.keymap.set('n', '<CR>', ':FineCmdline<CR>')
-  vim.keymap.set('x', '<CR>', ":<C-u>FineCmdline '<,'><CR>")
+  vim.keymap.set('n', '<cr>', '<cmd>FineCmdline<cr>')
+  vim.keymap.set('x', '<cr>', "<Esc><cmd>FineCmdline '<,'><cr>")
 end
 
 return Plugin

@@ -145,8 +145,8 @@ function user.set_autocomplete(new_value)
     vim.api.nvim_buf_set_keymap(
       0,
       'i',
-      '<Space>',
-      '<cmd>UserCmpEnable<CR><Space>',
+      '<space>',
+      '<cmd>UserCmpEnable<cr><space>',
       {noremap = true}
     )
 

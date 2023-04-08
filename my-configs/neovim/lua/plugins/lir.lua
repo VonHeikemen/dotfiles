@@ -22,7 +22,7 @@ local function lir_init()
   local remap = {remap = true, silent = true, buffer = true}
   local bind = vim.keymap.set
 
-  local mark = ":<C-u>lua require('lir.mark.actions').toggle_mark('v')<CR>gv<C-c>"
+  local mark = "<Esc><cmd>lua require('lir.mark.actions').toggle_mark('v')<cr>gv<C-c>"
 
   bind('n', 'v', 'V', noremap)
   bind('x', 'q', '<Esc>', noremap)

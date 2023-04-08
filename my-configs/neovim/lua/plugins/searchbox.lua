@@ -22,16 +22,16 @@ Plugin.cmd = {
 function Plugin.init()
   local bind = vim.keymap.set
 
-  bind('n', 's', ':SearchBoxIncSearch<CR>')
-  bind('x', 's', ':SearchBoxIncSearch visual_mode=true<CR>')
-  bind('n', 'S', ":SearchBoxMatchAll title=' Match '<CR>")
-  bind('x', 'S', ":SearchBoxMatchAll title=' Match ' visual_mode=true<CR>")
-  bind('n', '<leader>s', '<cmd>SearchBoxClear<CR>')
+  bind('n', 's', '<cmd>SearchBoxIncSearch<cr>')
+  bind('x', 's', "<Esc><cmd>'<,'>SearchBoxIncSearch visual_mode=true<cr>")
+  bind('n', 'S', "<cmd>SearchBoxMatchAll title=' Match '<cr>")
+  bind('x', 'S', "<Esc><cmd>'<,'>SearchBoxMatchAll title=' Match ' visual_mode=true<cr>")
+  bind('n', '<leader>s', '<cmd>SearchBoxClear<cr>')
 
-  bind('n', 'r', ":SearchBoxReplace<CR>")
-  bind('x', 'r', ":SearchBoxReplace visual_mode=true<CR>")
-  bind('n', 'R', ":SearchBoxReplace -- <C-r>=expand('<cword>')<CR><CR>")
-  bind('x', 'R', ":<C-u>GetSelection<CR>:SearchBoxReplace<CR><C-r>/")
+  bind('n', 'r', "<cmd>SearchBoxReplace <CR>")
+  bind('x', 'r', "<Esc><cmd>SearchBoxReplace  visual_mode=true<cr>")
+  bind('n', 'R', "<cmd>exe 'SearchBoxReplace  --' expand('<cword>')<cr>")
+  bind('x', 'R', "<Esc><cmd>GetSelection<cr><cmd>exe 'SearchBoxReplace --' getreg('/')<cr>")
 end
 
 return Plugin

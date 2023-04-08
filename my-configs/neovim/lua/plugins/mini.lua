@@ -35,7 +35,7 @@ Plug {
 Plug {
   'echasnovski/mini.bufremove',
   branch = 'stable',
-  keys = {{'<Leader>bc', '<cmd>lua MiniBufremove.delete()<cr>'}},
+  keys = {{'<leader>bc', '<cmd>lua MiniBufremove.delete()<cr>'}},
   config = function()
     require('mini.bufremove').setup()
   end,
@@ -48,7 +48,7 @@ Plug {
     {'ds', "v:lua.MiniSurround.operator('delete') . ' '", expr = true},
     {'cs', "v:lua.MiniSurround.operator('replace') . ' '", expr = true},
     {'ys', "v:lua.MiniSurround.operator('add')", expr = true},
-    {'Y', ":<C-u>lua MiniSurround.add('visual')<cr>", mode = 'x'},
+    {'Y', "<Esc><cmd>lua MiniSurround.add('visual')<cr>", mode = 'x'},
   },
   opts = {
     search_method = 'cover',
@@ -71,11 +71,11 @@ Plug {
   'echasnovski/mini.bracketed',
   branch = 'stable',
   keys = {
-    {'[c', "<Cmd>lua MiniBracketed.conflict('backward')<CR>", mode = {'n', 'x'}},
-    {']c', "<Cmd>lua MiniBracketed.conflict('forward')<CR>", mode = {'n', 'x'}},
+    {'[c', "<cmd>lua MiniBracketed.conflict('backward')<cr>", mode = {'n', 'x'}},
+    {']c', "<cmd>lua MiniBracketed.conflict('forward')<cr>", mode = {'n', 'x'}},
 
-    {'[q', "<Cmd>lua MiniBracketed.quickfix('backward')<CR>"},
-    {']q', "<Cmd>lua MiniBracketed.quickfix('forward')<CR>"},
+    {'[q', "<cmd>lua MiniBracketed.quickfix('backward')<cr>"},
+    {']q', "<cmd>lua MiniBracketed.quickfix('forward')<cr>"},
   },
   opts = {
     buffer     = {suffix = ''},
