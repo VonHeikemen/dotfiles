@@ -21,6 +21,10 @@ alias rmf='rm -rf'
 
 alias lzg='lazygit'
 
+alias gtop='btm --basic'
+
+alias bb='echo -ne "\e[6 q"'
+
 alias ta='tmux attach -t'
 alias tl='tmux list-sessions'
 alias ts='tmux new-session -A -D -s'
