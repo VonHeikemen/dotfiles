@@ -49,3 +49,6 @@
 ["caarlos0/timer"]
   asset_filters = ["linux_amd64.tar.gz"]
 
+["oz/tz"]
+  asset_filters = ["linux-amd64.tar.gz"]
+
