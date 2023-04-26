@@ -1,4 +1,4 @@
-local cs = require('plugins.core.colorscheme')
+local cs = require('local.colorscheme')
 
 local color = {
   white   = {gui = '#C0CAF5', cterm = 153},
@@ -83,13 +83,13 @@ hi('DiffChange', color.yellow)
 hi('DiffDelete', color.red)
 hi('DiffText', color.cyan)
 
-local statusline = require('plugins.core.statusline').higroups()
+local statusline = require('local.statusline').higroups()
 
 hi(statusline['COMMAND'], color.black, color.cyan)
 hi(statusline['INSERT'], color.black, color.green)
 hi(statusline['STATUS-BLOCK'], color.white, color.blue_two)
 
-local tabline = require('plugins.core.tabline').higroups()
+local tabline = require('local.tabline').higroups()
 
 link(tabline['TABLINE-SEPARATOR'], 'Function')
 

@@ -33,7 +33,7 @@ local function lir_init()
 
   bind('n', '<S-Tab>', 'gv<Tab>', remap)
 
-  vim.wo.statusline = require('plugins.core.statusline').get_status('short')
+  vim.wo.statusline = require('local.statusline').get_status('short')
 end
 
 function Plugin.config()

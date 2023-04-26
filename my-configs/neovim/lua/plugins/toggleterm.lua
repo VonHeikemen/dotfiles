@@ -24,7 +24,7 @@ function Plugin.config()
   require('toggleterm').setup({
     on_open = function()
       vim.w.status_style = 'short'
-      vim.wo.statusline = require('plugins.core.statusline').get_status('short')
+      vim.wo.statusline = require('local.statusline').get_status('short')
     end
   })
 

@@ -1,4 +1,4 @@
-local cs = require('plugins.core.colorscheme')
+local cs = require('local.colorscheme')
 
 local color = {
   white   = {gui = '#D8DEE9', cterm = 253},

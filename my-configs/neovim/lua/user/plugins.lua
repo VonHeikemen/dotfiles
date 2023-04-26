@@ -49,8 +49,8 @@ lazy.setup({
 -- ==                            LOCAL PLUGINS                             == --
 -- ========================================================================== --
 
-require('plugins.core.tmux')
-require('plugins.core.session')
-require('plugins.core.tabline').setup()
-require('plugins.core.statusline').setup()
+require('local.tmux')
+require('local.session')
+require('local.tabline').setup()
+require('local.statusline').setup()
 

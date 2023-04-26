@@ -78,7 +78,7 @@ function Plugin.opts()
     display = 's',
     keys = 's',
     fn = function()
-      local session = require('plugins.core.session')
+      local session = require('local.session')
       local name = session.read_name(vim.fn.getcwd())
       if name then
         session.load_current(name)
@@ -201,7 +201,7 @@ function Plugin.config(_, opts)
       end
 
       vim.w.status_style = 'short'
-      vim.wo.statusline = require('plugins.core.statusline').get_status('short')
+      vim.wo.statusline = require('local.statusline').get_status('short')
     end
   })
 
