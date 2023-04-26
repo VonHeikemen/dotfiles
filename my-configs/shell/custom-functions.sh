@@ -26,94 +26,12 @@ lyrics ()
   w3m "$site/$artist/$song.html"
 }
 
-# Update dotfile repo or local config manually
-dots ()
-{
-  local DOTS="$HOME/dotfiles"
-
-  if [ "$1" = "-s" ]; then
-    if [ "$PWD" != "$HOME" ]; then
-      echo "you should be in your home directory"
-      return 1
-    fi
-    local file="$2"
-  else
-    local file="$1"
-  fi
-
-  vi "$DOTS/$file" -c "vsplit $2" -c "cd $DOTS"
-}
-
 # Calculator utility
 calc ()
 {
   bc <<EOF
 $@
 EOF
-}
-
-# Extend the deno cli
-deno ()
-{
-  if [ -z "$1" ];then
-    command deno
-    return
-  fi
-
-  local cmd=$1; shift
-
-  case "$cmd" in
-    x)
-      command deno run --allow-run ./Taskfile.js "$@"
-      ;;
-    start)
-      command deno run --allow-run ./Taskfile.js start "$@"
-      ;;
-    init)
-      cp ~/my-configs/deno/Taskfile.js ./
-      echo "Taskfile.js created"
-      ;;
-    s|script)
-      command deno run --import-map="$HOME/my-configs/deno/import-map.json" "$@"
-      ;;
-    *)
-      command deno "$cmd" "$@"
-      ;;
-  esac
-}
-
-# Docker wrapper
-doc ()
-{
-  case "$1" in
-    up)
-      systemctl start docker
-      ;;
-    down)
-      systemctl stop docker
-      ;;
-    start)
-      shift;
-      docker container start $@
-      ;;
-    stop)
-      shift;
-      docker container stop $@
-      ;;
-    ls)
-      docker ps -a
-      ;;
-    li)
-      docker images
-      ;;
-    x|exec)
-      shift;
-      docker exec $@
-      ;;
-    a|attach)
-      docker container attach $2
-      ;;
-  esac
 }
 
 # mpv wrapper
@@ -154,7 +72,7 @@ z ()
   fi
 
   local dirs="$HOME/my-configs/dirs.json"
-  local dest=$(awk -F'"' "/^\\s*\"$1\":/ { print \$4 }" "$dirs")
+  local dest=$(awk -F'"' "/^  \"$1\":/ { print \$4 }" "$dirs")
 
   if [ -z "$dest" ]; then
     echo "Can't find '$1'"
@@ -165,12 +83,73 @@ z ()
 }
 
 # use file explorer (vifm) to change current working directory
-ll ()
+j ()
 {
   local dest=$(vifm --choose-dir - "$@")
 
   if [ $? -eq 0 ]; then
     cd "$dest"
   fi
+}
+
+# open neovim session for current directory
+code ()
+{
+  if [ -z "$1" ]; then
+    if [ -f "./.git/session-nvim" ] || [ -f "./.session-nvim" ]; then
+      vi -c "SessionRestore!"
+      return
+    fi
+  fi
+
+  local file="$HOME/.local/share/nvim/sessions/$1.vim"
+
+  if [ -f "$file" ]; then
+    vi -c "SessionLoad $1"
+    return
+  fi
+
+  echo "There is no session available"
+}
+
+# start timer
+tme ()
+{
+  if [ -z "$1" ]; then
+    return
+  fi
+
+  if [ -z "$2" ]; then
+    timer "$1" && \
+      notify-send -t 5000 'Timer finished!'
+    return
+  fi
+
+  timer -n "$1" "$2" && \
+    notify-send -t 10000 "$1" "finished!"
+}
+
+# displays time across the time zones of your choosing
+tz ()
+{
+  if [ -z "$1" ]; then
+    echo "Provide an argument"
+    return
+  fi
+
+  case "$1" in
+    it|italy)
+      TZ_LIST="Etc/GMT-2,Italy" command tz
+    ;;
+    cal|california)
+      TZ_LIST="Etc/GMT+7,USA California" command tz
+    ;;
+    uk|london)
+      TZ_LIST="Etc/GMT-1,UK" command tz
+    ;;
+    *)
+      echo "Wrong argument"
+    ;;
+  esac
 }
 
