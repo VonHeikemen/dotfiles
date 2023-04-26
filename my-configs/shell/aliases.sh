@@ -1,13 +1,10 @@
 export EDITOR='nvim'
-export PYTHONUSERBASE=~/.local
 export TERMINAL='kitty'
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!cache/*" --glob "!node_modules/*" --glob "!vendor/*"'
 export FZF_DEFAULT_OPTS='--layout=reverse --border' 
 export BAT_THEME='base16'
-export NNN_FCOLORS='c1e20402000506f7c6d6ab09'
-export DENO_INSTALL="$HOME/.deno"
 
-export PATH=$PATH:$HOME/bin:$HOME/.config/npm/packages/bin:$DENO_INSTALL/bin
+export PATH=$PATH:$HOME/.local/bin:$HOME/.local/share/pnpm/bin
 
 alias duh='du -d 1 -h'
 
