@@ -81,7 +81,7 @@ function Plugin.config()
       ['<M-k>'] = cmp.mapping.select_prev_item(select_opts),
       ['<M-j>'] = cmp.mapping.select_next_item(select_opts),
 
-      ['<C-o>'] = cmp.mapping(function(fallback)
+      ['<C-a>'] = cmp.mapping(function(fallback)
         if luasnip.jumpable(-1) then
           luasnip.jump(-1)
         else
@@ -89,7 +89,7 @@ function Plugin.config()
         end
       end, {'i', 's'}),
 
-      ['<C-l>'] = cmp.mapping(function(fallback)
+      ['<C-d>'] = cmp.mapping(function(fallback)
         if luasnip.jumpable(1) then
           luasnip.jump(1)
         else
