@@ -81,7 +81,7 @@ function M.start(name, opts)
   lsp.setup(vim.tbl_deep_extend('force', defaults, opts))
 
   if lsp.manager and vim.bo.filetype ~= '' then
-    lsp.manager.try_add_wrapper()
+    lsp.manager.try_add_wrapper(vim.api.nvim_get_current_buf())
   end
 end
 
