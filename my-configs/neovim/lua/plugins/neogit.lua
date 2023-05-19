@@ -8,7 +8,7 @@ Plugin.dependencies = {
   {
     'sindrets/diffview.nvim',
     cmd = {'DiffviewOpen'},
-    config = user.diffview,
+    config = function() user.diffview() end,
   }
 }
 
