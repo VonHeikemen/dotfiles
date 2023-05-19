@@ -1,7 +1,16 @@
 -- Git
 local Plugin = {'TimUntersberger/neogit'}
+local user = {}
 
-Plugin.dependencies = {{'sindrets/diffview.nvim'}}
+Plugin.name = 'neogit'
+
+Plugin.dependencies = {
+  {
+    'sindrets/diffview.nvim',
+    cmd = {'DiffviewOpen'},
+    config = user.diffview,
+  }
+}
 
 Plugin.keys = {{'<leader>g', '<cmd>Neogit<cr>'}}
 
@@ -20,12 +29,28 @@ Plugin.opts = {
   }
 }
 
-function Plugin.config(_, opts)
-  require('diffview').setup({
-    use_icons = false
-  })
+function user.diffview()
+  local diff = require('diffview.actions')
 
-  require('neogit').setup(opts)
+  require('diffview').setup({
+    use_icons = false,
+    view = {
+      default = {
+        layout = 'diff2_vertical',
+      },
+      merge_tool = {
+        layout = 'diff3_mixed',
+      }
+    },
+    keymaps = {
+      view = {
+        {'n', '<M-h>', diff.conflict_choose('ours'), {desc = 'Choose ours'}},
+        {'n', '<M-l>', diff.conflict_choose('theirs'), {desc = 'Choose theirs'}},
+        {'n', '<M-j>', diff.next_conflict, {desc = 'Go to next conflict'}},
+        {'n', '<M-k>', diff.prev_conflict, {desc = 'Go to previous conflict'}},
+      }
+    },
+  })
 end
 
 return Plugin
