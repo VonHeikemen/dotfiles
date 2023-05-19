@@ -133,7 +133,7 @@ function Plugin.opts()
       opts = {
         position = 'center',
         shortcut = args.display,
-        cursor = 4,
+        cursor = 2,
         width = 50,
         align_shortcut = 'right',
         hl_shortcut = 'number',
