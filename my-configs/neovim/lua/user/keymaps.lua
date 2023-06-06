@@ -49,8 +49,6 @@ bind('s', '<Space>', '<BS>', {remap = true, nowait = true})
 
 bind({'i', 'c'}, '<M-a>', '<Left>')
 bind({'i', 'c'}, '<M-d>', '<Right>')
-bind({'i', 'c'}, '<M-1>', '<')
-bind({'i', 'c'}, '<M-2>', '>', remap)
 bind('i', '<M-Space>', '<Enter><Up><Esc>o')
 
 -- Whatever you delete, make it go away
@@ -58,7 +56,7 @@ bind({'n', 'x'}, 'c','"_c')
 bind({'n', 'x'}, 'C','"_C')
 
 bind({'n', 'x'}, 'x','"_x')
-bind('x', 'X','"_c')
+bind({'n', 'x'}, 'X','"_d')
 
 -- ========================================================================== --
 -- ==                           COMMAND MAPPINGS                           == --
@@ -67,8 +65,8 @@ bind('x', 'X','"_c')
 -- Moving lines and preserving indentation
 bind('n', '<C-j>', "<cmd>move .+1<cr>==")
 bind('n', '<C-k>', "<cmd>move .-2<cr>==")
-bind('v', '<C-j>', "<cmd>move '>+1<cr>gv=gv")
-bind('v', '<C-k>', "<cmd>move '<-2<cr>gv=gv")
+bind('x', '<C-j>', "<esc><cmd>'<,'>move '>+1<cr>gv=gv")
+bind('x', '<C-k>', "<esc><cmd>'<,'>move '<-2<cr>gv=gv")
 
 -- Write file
 bind('n', '<leader>w', '<cmd>write<cr>')
