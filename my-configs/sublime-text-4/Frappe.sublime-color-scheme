@@ -1,0 +1,157 @@
+// Documentation at https://www.sublimetext.com/docs/color_schemes.html
+{
+	"variables":
+	{
+	},
+	"globals":
+	{
+	},
+	"rules":
+	[
+		{
+			"name": "Comment",
+			"scope": "comment",
+			"font_style": ""
+		},
+		{
+			"name": "Boolean",
+			"scope": "constant.language.boolean",
+			"font_style": ""
+		},
+		{
+			"name": "Built-in constant",
+			"scope": "constant.language",
+			"font_style": ""
+		},
+		{
+			"name": "Built-in function",
+			"scope": "support.function.builtin",
+			"font_style": ""
+		},
+		{
+			"name": "Keyword",
+			"scope": "keyword",
+			"font_style": ""
+		},
+    {
+      "name": "Conditional/loop",
+      "scope": "keyword.control.loop, keyword.control.conditional, keyword.control.c++",
+      "font_style": ""
+    },
+    {
+      "name": "Return",
+      "scope": "keyword.control.return, keyword.control.flow.return",
+      "font_style": ""
+    },
+		{
+			"name": "Exception",
+			"scope": "support.type.exception",
+			"font_style": ""
+		},
+    {
+      "name": "Operator",
+      "scope": "keyword.operator, punctuation.accessor",
+      "font_style": ""
+    },
+		{
+			"name": "Include",
+			"scope": "keyword.control.import.include",
+			"font_style": ""
+		},
+		{
+			"name": "Storage type",
+			"scope": "storage.type",
+			"font_style": ""
+		},
+		{
+			"name": "Storage type namespace",
+			"scope": "entity.name.namespace, meta.path",
+			"font_style": ""
+		},
+		{
+			"name": "Storage type class",
+			"scope": "storage.type.class",
+			"font_style": ""
+		},
+		{
+			"name": "Keyword class",
+			"scope": "keyword.declaration.class",
+			"font_style": ""
+		},
+		{
+			"name": "Inherited class",
+			"scope": "entity.other.inherited-class",
+			"font_style": ""
+		},
+		{
+			"name": "Function name",
+			"scope": "entity.name.function, variable.function",
+			"font_style": ""
+		},
+		{
+			"name": "Function argument",
+			"scope": "variable.parameter.function",
+			"font_style": ""
+		},
+		{
+			"name": "Function declaration",
+			"scope": "keyword.declaration.function",
+			"font_style": ""
+		},
+		{
+			"name": "Library class/type",
+			"scope": "support.type, support.class",
+			"font_style": ""
+		},
+		{
+			"name": "Variable function",
+			"scope": "variable.function",
+			"font_style": ""
+		},
+		{
+			"name": "Variable parameter",
+			"scope": "variable.parameter",
+			"font_style": ""
+		},
+		{
+			"name": "Variable other",
+			"scope": "variable.other",
+			"font_style": ""
+		},
+		{
+			"name": "Tag attribute",
+			"scope": "entity.other.attribute-name",
+			"font_style": ""
+		},
+		{
+			"name": "Markdown URL",
+			"scope": "markup.underline.link.markdown",
+			"font_style": "underline"
+		},
+		{
+			"name": "Markdown literal",
+			"scope": "comment.block.markdown, meta.code-fence, markup.raw.code-fence, markup.raw.inline",
+			"font_style": ""
+		},
+		{
+			"name": "Bash parameter",
+			"scope": "variable.language.shell",
+			"font_style": ""
+		},
+		{
+			"name": "Lua field",
+			"scope": "source.lua meta.function.lua meta.block.lua meta.mapping.value.lua meta.mapping.key.lua string.unquoted.key.lua",
+			"font_style": ""
+		},
+		{
+			"name": "CSS property",
+			"scope": "support.type.property-name.css",
+			"font_style": ""
+		},
+		{
+			"name": "CSS suffix",
+			"scope": "constant.numeric.suffix.css, keyword.other.unit.css",
+			"font_style": ""
+		},
+	]
+}

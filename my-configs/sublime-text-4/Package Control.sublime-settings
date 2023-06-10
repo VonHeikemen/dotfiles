@@ -1,0 +1,21 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Catppuccin color schemes",
+		"FileManager",
+		"NeoVintageous",
+		"open-tab-list",
+		"Origami",
+		"Package Control",
+		"Twig",
+		"VimL",
+	],
+	"repositories":
+	[
+		"https://github.com/VonHeikemen/open-tab-list"
+	],
+}

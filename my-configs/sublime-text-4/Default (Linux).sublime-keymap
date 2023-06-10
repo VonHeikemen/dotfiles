@@ -1,0 +1,121 @@
+[
+	{
+		"keys": ["alt+h"],
+		"command": "left_delete",
+		"context": [
+			{"key": "vi_insert_mode_aware"}
+		]
+	},
+	{
+		"keys": ["alt+h"],
+		"command": "noop",
+	},
+  {
+  	"keys": ["alt+l"],
+  	"command": "nv_feed_key",
+  	"args": {"key": "<esc>"},
+  	"context": [
+  		{"key": "nv_command_or_insert"},
+  	]
+  },
+	{
+	  "keys": ["alt+k"],
+	  "command": "move",
+	  "args": {"by": "lines", "forward": false},
+	  "context": [
+	    {"key": "overlay_visible", "operator": "equal", "operand": true}
+	  ]
+	},
+	{
+	  "keys": ["alt+j"],
+	  "command": "move",
+	  "args": {"by": "lines", "forward": true},
+	  "context": [
+	    {"key": "overlay_visible", "operator": "equal", "operand": true}
+	  ]
+	},
+	{
+	  "keys": ["alt+k"],
+	  "command": "move",
+	  "args": {"by": "lines", "forward": false},
+	  "context": [
+	    {"key": "auto_complete_visible", "operator": "equal", "operand": true}
+	  ]
+	},
+	{
+	  "keys": ["alt+j"],
+	  "command": "move",
+	  "args": {"by": "lines", "forward": true},
+	  "context": [
+	    {"key": "auto_complete_visible", "operator": "equal", "operand": true}
+	  ]
+	},
+	{
+		"keys": ["ctrl+º"],
+		"command": "show_panel",
+		"args": {
+			"panel": "console",
+			"toggle": true
+		} 
+	},
+	{
+    "keys": [" ", "d", "a"],
+    "command": "toggle_side_bar",
+    "context": [
+    	{"key": "control", "operand": "sidebar_tree"}
+    ]
+	},
+	{
+    "keys": [" ", "d", "d"],
+    "command": "toggle_side_bar",
+    "context": [
+    	{"key": "control", "operand": "sidebar_tree"}
+    ]
+	},
+  {
+    "keys": ["alt+b"],
+    "command": "select",
+    "context": [
+      {
+        "key": "overlay_has_focus",
+        "operator": "equal",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": ["alt+b"],
+    "command": "commit_completion",
+    "context": [
+      {
+        "key": "setting.command_mode",
+        "operand": false
+      },
+      {
+        "key": "setting.visual_mode",
+        "operand": false
+      },
+      {
+        "key": "auto_complete_visible"
+      }
+    ]
+  },
+  {
+    "keys": ["alt+b"],
+    "command": "enter_key",
+    "context": [
+      {
+        "key": "panel_has_focus",
+        "operand": true
+      }
+    ]
+  },
+  {
+    "keys": ["·"],
+    "command": "insert",
+    "args": {"characters": "$"},
+    "context": [
+			{"key": "vi_insert_mode_aware"}
+    ]
+  },
+]

@@ -1,0 +1,22 @@
+{
+	"highlight_line": true,
+	"line_numbers": false,
+	"margin": 1,
+	"mini_diff": false,
+	"tab_size": 2,
+	"word_wrap": false,
+	"reveal_menu": true,
+	"ignored_packages":
+	[
+		"Six",
+		"Vintage",
+		"Vintageous",
+	],
+	"neovintageous_build_version": 12700,
+	"highlightedyank_duration": 80,
+	"vintageous_enable_sneak": true,
+	"font_size": 12,
+	"color_scheme": "Polaris.sublime-color-scheme",
+	"overlay_scroll_bars": "enabled",
+	"theme": "Adaptive.sublime-theme",
+}

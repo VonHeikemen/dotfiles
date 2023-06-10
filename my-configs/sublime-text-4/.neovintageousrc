@@ -1,0 +1,76 @@
+" Type :help nv for help.
+
+let mapleader=<space>
+set winaltkeys=no
+set scrolloff=2
+
+noremap x "_x
+noremap X "_d
+noremap c "_c
+noremap C "_C
+noremap H b
+noremap L e
+nnoremap U <c-r>
+nnoremap ñ ;
+nnoremap Ñ :
+nnoremap · $
+
+noremap <leader>h ^
+noremap <leader>l g_
+noremap <leader>e %
+noremap <leader>a ggvGg_
+
+nnoremap gy "+y
+vnoremap gy "+y
+onoremap gy "+y
+
+nnoremap gp "+p
+vnoremap gp "+p
+onoremap gp "+p
+
+nnoremap <leader>w :write<cr>
+nnoremap <C-s> :write<cr>
+nnoremap <leader>qq :Exit<cr>
+nnoremap <C-l> :noh<cr>
+
+nnoremap gd :GotoDefinition<cr>
+nnoremap gr :GotoReference<cr>
+noremap <M-j> :SwapLineDown<cr>
+noremap <M-k> :SwapLineUp<cr>
+
+nnoremap <leader>bc :close<cr>
+nnoremap <leader>bl :NextViewInStack<cr>
+
+" Search commands
+nnoremap <leader>ñ :ShowOverlay overlay=command_palette<cr>
+nnoremap <leader>F :ShowPanel panel=find_in_files<cr>
+vnoremap <leader>F :SlurpFindString<bar>:ShowPanel panel=find_in_files<cr>
+nnoremap <leader>ff :ShowOverlay overlay=goto show_files=true<cr>
+nnoremap <Leader>fs :ShowOverlay overlay=goto text=@<cr>
+nnoremap <Leader>fS :GotoSymbolInProject<cr>
+nnoremap <leader>bb :OtlOpenTabList<cr>
+
+" Toggle elements
+nnoremap <leader>un :set invnumber<cr>
+nnoremap <leader>ut :ToggleTabs<cr>
+
+" File manager
+nnoremap <leader>da :UseSidebar<cr>
+nnoremap <leader>dd :UserExplorer<cr>
+
+" vim-sneak
+noremap e s
+onoremap e z
+noremap b S
+onoremap b Z
+
+" Manage open tabs
+noremap <leader>m1 :SetTabIndex new_index=0<cr>
+noremap <leader>m2 :SetTabIndex new_index=1<cr>
+noremap <leader>m3 :SetTabIndex new_index=2<cr>
+noremap <leader>m4 :SetTabIndex new_index=3<cr>
+noremap <M-1> :SelectByIndex index=0<cr>
+noremap <M-2> :SelectByIndex index=1<cr>
+noremap <M-3> :SelectByIndex index=2<cr>
+noremap <M-4> :SelectByIndex index=3<cr>
+

@@ -1,0 +1,282 @@
+{
+  "name": "Polaris",
+  "author": "Heiker (https://github.com/VonHeikemen)",
+  "variables": {
+    // Constants
+    "foreground": "#C0CAF5", // white
+    "comment": "#F7768E",    // red
+    "constant": "#BB9AF7",   // magenta
+    "storage": "#7AA2F7",    // blue
+    "string": "#E0AF68",     // yellow
+    "special": "#6B7678",    // dark gray
+    "error": "#F7768E",      // red
+
+    // Colors
+    "green": "#9ECE6A",
+    "magenta": "#BB9AF7",
+    "red": "#F7768E",
+    "cyan": "#73DACA",
+    "yellow": "#E0AF68",
+    "black": "#24283B",
+    "gray": "#565F89",
+    "darkness": "#000",
+    "light": "#FFF",
+    "bright_gray": "#292E42",
+    "bright_white": "#737994",
+
+    // UI: Gutter
+    "git_green": "#9CCC65",
+    "git_orange": "#E2B93D",
+    "git_red": "#EF5350",
+    "git_gray": "#4C566A",
+    "linter_green": "#B39554",
+    "linter_red": "#EF5350",
+    "linter_blue": "#64B5F6",
+  },
+  "globals": {
+    "background": "var(black)",
+    "foreground": "var(foreground)",
+    "caret": "var(bright_white)",
+    "block_caret": "color(var(bright_white) alpha(0.4))",
+    "line_highlight": "var(bright_gray)",
+    "selection": "color(var(bright_white) alpha(0.4))",
+    "inactive_selection": "color(var(bright_gray) lightness(- 25%))",
+    "find_highlight": "var(yellow)",
+    "find_highlight_foreground": "var(darkness)"
+  },
+  "rules": [
+    // Defaults
+    {
+      "name": "Comment",
+      "scope": "comment",
+      "foreground": "var(comment)",
+    },
+    {
+      "name": "Constant",
+      "scope": "constant.language, constant.numeric",
+      "foreground": "var(constant)"
+    },
+    {
+      "name": "Invalid",
+      "scope": "invalid",
+      "background": "var(error)",
+      "foreground": "var(light)"
+    },
+    {
+      "name": "String",
+      "scope": "string",
+      "foreground": "var(string)"
+    },
+    {
+      "name": "Function name",
+      "scope": "support.function, entity.name.function, variable.function",
+      "foreground": "var(storage)"
+    },
+    {
+      "name": "Meta Tag",
+      "scope": "meta.tag punctuation.definition.tag",
+      "foreground": "var(special)"
+    },
+    {
+      "name": "Tag names",
+      "scope": "entity.name.tag",
+      "foreground": "var(storage)",
+    },
+    {
+      "name": "Tag key-val separator",
+      "scope": "meta.tag meta.attribute-with-value punctuation.separator.key-value",
+      "foreground": "var(special)"
+    },
+
+    // Plugin support
+    {
+      "name": "[GitGutter] Inserted",
+      "scope": "markup.inserted.git_gutter",
+      "foreground": "var(git_green)"
+    },
+    {
+      "name": "[GitGutter] Modified",
+      "scope": "markup.changed.git_gutter",
+      "foreground": "var(git_orange)"
+    },
+    {
+      "name": "[GitGutter] Deleted",
+      "scope": "markup.deleted.git_gutter",
+      "foreground": "var(git_red)"
+    },
+    {
+      "name": "[GitGutter] Ignored",
+      "scope": "markup.ignored.git_gutter",
+      "foreground": "var(git_gray)"
+    },
+    {
+      "name": "[SublimeLinter] Warning",
+      "scope": "sublimelinter.mark.warning",
+      "foreground": "var(linter_green)"
+    },
+    {
+      "name": "[SublimeLinter] Error",
+      "scope": "sublimelinter.mark.error",
+      "foreground": "var(linter_red)"
+    },
+    {
+      "name": "[SublimeLinter] Gutter mark",
+      "scope": "sublimelinter.gutter-mark",
+      "foreground": "var(linter_blue)"
+    },
+
+    // Language support
+    {
+      "name": "[HTML] Tag punctuation",
+      "scope": "text.html punctuation.definition.tag",
+      "foreground": "var(special)",
+    },
+
+    {
+      "name": "[HTML-like] Function calls",
+      "scope": "text.html meta.tag meta.function-call",
+      "foreground": "var(storage)",
+    },
+    {
+      "name": "[HTML-like] String - function parameters",
+      "scope": "text.html string meta.tag punctuation.definition.parameters",
+      "foreground": "var(foreground)"
+    },
+    {
+      "name": "[HTML-like] String - function parameters - string",
+      "scope": "text.html string meta.tag meta.function.arguments string",
+      "foreground": "var(string)"
+    },
+    {
+      "name": "[HTML-like] Comment - function",
+      "scope": "text.html comment meta.tag meta.function-call",
+      "foreground": "var(comment)",
+    },
+    {
+      "name": "[HTML-like] Comment - string",
+      "scope": "text.html comment string",
+      "foreground": "var(comment)",
+    },
+
+    {
+      "name": "[CSS] Value prefix",
+      "scope": "source.css punctuation.definition.constant.css",
+      "foreground": "var(constant)"
+    },
+    {
+      "name": "[CSS] Value",
+      "scope": "source.css meta.property-value.css constant.other.color.rgb-value.css",
+      "foreground": "var(constant)"
+    },
+    {
+      "name": "[CSS] Unit",
+      "scope": "source.css keyword.other.unit.css",
+      "foreground": "var(constant)"
+    },
+
+    {
+      "name": "[PHP] Function variable",
+      "scope": "embedding.php meta.function-call.invoke.php variable.other.php",
+      "foreground": "var(storage)"
+    },
+    {
+      "name": "[lua] Table key",
+      "scope": "string.unquoted.key.lua",
+      "foreground": "var(foreground)"
+    },
+
+    {
+      "name": "[Markdown] Headings",
+      "scope": "text.html.markdown entity.name.section.markdown, text.html.markdown punctuation.definition.heading.begin.markdown",
+      "foreground": "var(storage)"
+    },
+    {
+      "name": "[Markdown] Punctuation",
+      "scope": "text.html.markdown punctuation",
+      "foreground": "var(special)"
+    },
+    {
+      "name": "[Markdown] Description",
+      "scope": "text.html.markdown meta.image.inline.description, text.html.markdown meta.link.inline.description",
+      "foreground": "var(string)"
+    },
+
+    {
+      "name": "[Diff] From file",
+      "scope": "source.diff meta.diff.header.from-file",
+      "foreground": "var(cyan)"
+    },
+    {
+      "name": "[Diff] To file",
+      "scope": "source.diff meta.diff.header.to-file",
+      "foreground": "var(cyan)"
+    },
+    {
+      "name": "[Diff] Inserted",
+      "scope": "source.diff markup.inserted.diff",
+      "foreground": "var(git_green)"
+    },
+    {
+      "name": "[Diff] Deleted",
+      "scope": "source.diff markup.deleted.diff",
+      "foreground": "var(red)"
+    },
+    {
+      "name": "[Diff] Range",
+      "scope": "source.diff punctuation.definition.range.diff",
+      "foreground": "var(magenta)"
+    },
+    {
+      "name": "[Diff] Line number",
+      "scope": "source.diff meta.toc-list.line-number.diff",
+      "foreground": "var(magenta)"
+    },
+
+    {
+      "name": "[Git commit message] From file",
+      "scope": "text.git-commit meta.diff.header.from-file",
+      "foreground": "var(cyan)"
+    },
+    {
+      "name": "[Git commit message] To file",
+      "scope": "text.git-commit meta.diff.header.to-file",
+      "foreground": "var(cyan)"
+    },
+    {
+      "name": "[Git commit message] Inserted",
+      "scope": "text.git-commit markup.inserted.diff",
+      "foreground": "var(git_green)"
+    },
+    {
+      "name": "[Git commit message] Deleted",
+      "scope": "text.git-commit markup.deleted.diff",
+      "foreground": "var(red)"
+    },
+    {
+      "name": "[Git commit message] Range",
+      "scope": "text.git-commit punctuation.definition.range.diff",
+      "foreground": "var(cyan)"
+    },
+    {
+      "name": "[Git commit message] Line number",
+      "scope": "text.git-commit meta.toc-list.line-number.diff",
+      "foreground": "var(cyan)"
+    },
+
+    {
+      "name": "[Find-in-files] Filename",
+      "scope": "text.find-in-files entity.name.filename",
+      "foreground": "var(string)"
+    },
+    {
+      "name": "[Find-in-files] Number match",
+      "scope": "text.find-in-files constant.numeric.line-number.match",
+      "foreground": "var(constant)"
+    },
+    {
+      "name": "[Find-in-files] Number",
+      "scope": "text.find-in-files constant.numeric.line-number",
+      "foreground": "var(special)"
+    },
+  ]
+}
