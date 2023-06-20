@@ -17,6 +17,13 @@ bind('t', '<M-l>', '<C-\\><C-n>')
 bind('c', '<M-l>', '<Esc>')
 bind('i', '<M-l>', '<Esc>')
 
+-- Basic clipboard interaction
+bind({'n', 'x', 'o'}, 'gy', '"+y')
+bind({'n', 'x', 'o'}, 'gp', '"+p')
+
+-- Redo
+bind('n', 'U', '<C-r>')
+
 -- Select all text in current buffer
 bind('n', '<leader>a', '<cmd>keepjumps normal! ggVG<cr>')
 
@@ -53,10 +60,13 @@ bind('i', '<M-Space>', '<Enter><Up><Esc>o')
 
 -- Whatever you delete, make it go away
 bind({'n', 'x'}, 'c','"_c')
-bind({'n', 'x'}, 'C','"_C')
+bind('n', 'C','"_C')
+bind('x', 'C', '"_c')
+bind('x', 'cc', '"_c')
 
 bind({'n', 'x'}, 'x','"_x')
 bind({'n', 'x'}, 'X','"_d')
+
 
 -- ========================================================================== --
 -- ==                           COMMAND MAPPINGS                           == --
