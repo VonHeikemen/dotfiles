@@ -10,10 +10,15 @@ noremap c "_c
 noremap C "_C
 noremap H b
 noremap L e
+noremap s /
+noremap r :ShowPanel panel=replace reverse=false<cr>
 nnoremap U <c-r>
 nnoremap ñ ;
 nnoremap Ñ :
 nnoremap · $
+
+nnoremap x "_x
+nnoremap X "_d
 
 noremap <leader>h ^
 noremap <leader>l g_
@@ -38,7 +43,7 @@ nnoremap gr :GotoReference<cr>
 noremap <M-j> :SwapLineDown<cr>
 noremap <M-k> :SwapLineUp<cr>
 
-nnoremap <leader>bc :close<cr>
+nnoremap <leader>bc :CloseFile<cr>
 nnoremap <leader>bl :NextViewInStack<cr>
 
 " Search commands
@@ -58,12 +63,6 @@ nnoremap <leader>ut :ToggleTabs<cr>
 nnoremap <leader>da :UseSidebar<cr>
 nnoremap <leader>dd :UserExplorer<cr>
 
-" vim-sneak
-noremap e s
-onoremap e z
-noremap b S
-onoremap b Z
-
 " Manage open tabs
 noremap <leader>m1 :SetTabIndex new_index=0<cr>
 noremap <leader>m2 :SetTabIndex new_index=1<cr>
@@ -73,4 +72,12 @@ noremap <M-1> :SelectByIndex index=0<cr>
 noremap <M-2> :SelectByIndex index=1<cr>
 noremap <M-3> :SelectByIndex index=2<cr>
 noremap <M-4> :SelectByIndex index=3<cr>
+
+" Acejump
+noremap e :AceJumpWord<cr>
+vnoremap e :AceJumpSelect<bar>:AceJumpWord<cr>
+noremap E :AceJumpLine<cr>
+vnoremap E :AceJumpSelect<bar>:AceJumpLine<cr>
+noremap <M-e> :AceJumpChar<cr>
+vnoremap <M-e> :AceJumpSelect<bar>:AceJumpChar<cr>
 
