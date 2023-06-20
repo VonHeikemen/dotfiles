@@ -69,6 +69,7 @@ function Plugin.config()
           ['<esc>'] = actions.close,
           ['<M-k>'] = actions.move_selection_previous,
           ['<M-j>'] = actions.move_selection_next,
+          ['<M-b>'] = actions.select_default,
         }
       },
 
