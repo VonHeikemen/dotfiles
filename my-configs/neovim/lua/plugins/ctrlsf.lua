@@ -1,7 +1,7 @@
 -- Project Search
 local Plugin = {'dyng/ctrlsf.vim'}
 
-Plugin.cmd = 'Find'
+Plugin.cmd = {'Find', 'CtrlSFToggle'}
 
 function Plugin.init()
   local bind = vim.keymap.set
@@ -9,6 +9,7 @@ function Plugin.init()
   bind('n', '<leader>F', '<cmd>FineCmdline Find <cr>')
   bind('x', '<leader>F', "<Esc><cmd>GetSelection<cr><cmd>exe 'Find' getreg('/')<cr>")
   bind('n', '<leader>fw', "<Esc><cmd>exe 'Find' expand('<cword>')<cr>")
+  bind('n', '<leader>uf', '<cmd>CtrlSFToggle<cr>')
 
   vim.g.ctrlsf_default_root = 'cwd'
   vim.g.ctrlsf_auto_focus = {at = 'start'}
@@ -16,7 +17,7 @@ function Plugin.init()
   vim.g.ctrlsf_preview_position = 'inside'
 
   vim.g.ctrlsf_mapping = {
-    open = {'<cr>'},
+    open = {'<cr>', 'gl'},
     openb = 'gf',
     split = 'ss',
     vsplit = 'sv',
@@ -30,8 +31,8 @@ function Plugin.init()
     quit = 'q',
     next = '<M-j>',
     prev = '<M-k>',
-    nfile = 'H',
-    pfile = 'L',
+    nfile = ']f',
+    pfile = '[f',
 
     chgmode = 'M',
     stop = '<C-c>'
