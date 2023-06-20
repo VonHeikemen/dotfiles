@@ -21,6 +21,10 @@ bind('i', '<M-l>', '<Esc>')
 bind({'n', 'x', 'o'}, 'gy', '"+y')
 bind({'n', 'x', 'o'}, 'gp', '"+p')
 
+-- Comfy enter
+bind('n', '<M-b>', '<Enter>')
+bind('i', '<M-b>', '<Enter>')
+
 -- Redo
 bind('n', 'U', '<C-r>')
 
