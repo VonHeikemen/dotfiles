@@ -72,8 +72,8 @@ Plug {
   'echasnovski/mini.bracketed',
   branch = 'stable',
   keys = {
-    {'[c', "<cmd>lua MiniBracketed.conflict('backward')<cr>", mode = {'n', 'x'}},
-    {']c', "<cmd>lua MiniBracketed.conflict('forward')<cr>", mode = {'n', 'x'}},
+    {'[g', "<cmd>lua MiniBracketed.conflict('backward')<cr>", mode = {'n', 'x'}},
+    {']g', "<cmd>lua MiniBracketed.conflict('forward')<cr>", mode = {'n', 'x'}},
 
     {'[q', "<cmd>lua MiniBracketed.quickfix('backward')<cr>"},
     {']q', "<cmd>lua MiniBracketed.quickfix('forward')<cr>"},
