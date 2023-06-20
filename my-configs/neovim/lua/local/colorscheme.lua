@@ -323,6 +323,7 @@ function M.apply_links()
   link('@tag', 'Function')
   link('@text.uri.html', 'String')
   link('@text.literal', cs_none)
+  link('@text.literal.vimdoc', 'Normal')
 end
 
 function M.terminal(theme)
