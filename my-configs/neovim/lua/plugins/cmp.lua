@@ -72,8 +72,8 @@ function Plugin.config()
       end,
     },
     mapping = {
-      ['<C-u>'] = cmp.mapping.scroll_docs(-5),
-      ['<C-d>'] = cmp.mapping.scroll_docs(5),
+      ['<C-k>'] = cmp.mapping.scroll_docs(-5),
+      ['<C-j>'] = cmp.mapping.scroll_docs(5),
 
       ['<Up>'] = cmp.mapping.select_prev_item(select_opts),
       ['<Down>'] = cmp.mapping.select_next_item(select_opts),
