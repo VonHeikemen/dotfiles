@@ -35,7 +35,7 @@ Plug {
 Plug {
   'echasnovski/mini.bufremove',
   branch = 'stable',
-  keys = {{'<leader>bc', '<cmd>lua MiniBufremove.delete()<cr>'}},
+  keys = {{'<leader>bc', '<cmd>lua pcall(MiniBufremove.delete)<cr>'}},
   config = function()
     require('mini.bufremove').setup()
   end,
@@ -45,17 +45,17 @@ Plug {
   'echasnovski/mini.surround',
   branch = 'stable',
   keys = {
-    {'ds', "v:lua.MiniSurround.operator('delete') . ' '", expr = true},
-    {'cs', "v:lua.MiniSurround.operator('replace') . ' '", expr = true},
-    {'ys', "v:lua.MiniSurround.operator('add')", expr = true},
+    'ds',
+    'cs',
+    'ys',
     {'Y', "<Esc><cmd>lua MiniSurround.add('visual')<cr>", mode = 'x'},
   },
   opts = {
-    search_method = 'cover',
+    search_method = 'cover_or_next',
     mappings = {
-      add = '',
-      delete = '',
-      replace = '',
+      add = 'ys',
+      delete = 'ds',
+      replace = 'cs',
       find = '',
       find_left = '',
       highlight = '',
@@ -64,6 +64,7 @@ Plug {
   },
   config = function(_, opts)
     require('mini.surround').setup(opts)
+    vim.keymap.del('x', 'ys')
   end,
 } 
 
