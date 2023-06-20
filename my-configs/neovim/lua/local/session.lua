@@ -103,10 +103,21 @@ function M.read_name(dir)
     join(dir, '.session-nvim')
   }
 
-  for _, file in pairs(paths) do
+  for _, file in ipairs(paths) do
     if vim.fn.filereadable(file) == 1 then
       return vim.fn.readfile(file, '', 1)[1]
     end
+  end
+end
+
+local function restore(input)
+  local name = M.read_name(vim.fn.getcwd())
+  if name then
+    M.load_current(name)
+  elseif input.bang then
+    vim.cmd('quitall')
+  else
+    vim.notify('Session not available')
   end
 end
 
@@ -164,6 +175,7 @@ command('SessionNew', M.new_session, {})
 command('SessionNewBranch', new_branch, {nargs = 1})
 command('SessionLoadBranch', load_branch, {nargs = 1})
 command('SessionConfig', session_config, {})
+command('SessionRestore', restore, {bang = true})
 
 return M
 
