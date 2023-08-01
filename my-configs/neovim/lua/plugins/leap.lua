@@ -32,6 +32,8 @@ function Plugin.keys()
   bind('E', user.line_forward, 'Jump to line below cursor')
   bind('B', user.line_backward, 'Jump to line above cursor')
 
+  -- bind('W', user.jump_to_word, 'Jump to word')
+
   return keys
 end
 
@@ -105,6 +107,25 @@ function user.line_targets(winid, comp)
   end)
 
   return targets
+end
+
+function user.jump_to_word()
+  local winid = vim.api.nvim_get_current_win()
+  local wininfo =  vim.fn.getwininfo(winid)[1]
+
+  local ch = require('leap.util')['get-input-by-keymap']({str = ">"})
+  local search = require('leap.search')
+
+  local pattern = string.format(
+    [[\%%>%sl\%%<%sl\<%s]],
+    wininfo.topline,
+    wininfo.botline,
+    ch
+  )
+
+  local targets = search['get-targets'](pattern, {['target-windows'] = {winid}})
+
+  require('leap').leap({targets = targets})
 end
 
 return Plugin
