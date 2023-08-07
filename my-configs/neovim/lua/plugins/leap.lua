@@ -15,8 +15,10 @@ Plugin.opts = {
 }
 
 function Plugin.init()
-  vim.keymap.set({'n', 'x', 'o'}, 'gL', 'e')
-  vim.keymap.set({'n', 'x', 'o'}, 'gB', 'ge')
+  vim.keymap.set({'n', 'x', 'o'}, 'gw', 'e')
+  vim.keymap.set({'n', 'x', 'o'}, 'gW', 'E')
+  vim.keymap.set({'n', 'x', 'o'}, 'gb', 'H')
+  vim.keymap.set({'n', 'x', 'o'}, 'gB', 'L')
 end
 
 function Plugin.keys()
@@ -26,8 +28,8 @@ function Plugin.keys()
     table.insert(keys, {l, r, desc = d, mode = mode})
   end
 
-  bind('ge', '<Plug>(leap-forward)')
-  bind('gb', '<Plug>(leap-backward)')
+  bind('gH', '<Plug>(leap-backward)')
+  bind('gL', '<Plug>(leap-forward)')
 
   bind('H', user.line_backward, 'Jump to line above cursor')
   bind('L', user.line_forward, 'Jump to line below cursor')
