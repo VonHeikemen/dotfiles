@@ -110,20 +110,22 @@ function user.line_targets(winid, comp)
 end
 
 function user.jump_to_word()
-  local winid = vim.api.nvim_get_current_win()
-  local wininfo =  vim.fn.getwininfo(winid)[1]
-
-  local ch = require('leap.util')['get-input-by-keymap']({str = ">"})
   local search = require('leap.search')
 
-  local pattern = string.format(
-    [[\%%>%sl\%%<%sl\<%s]],
-    wininfo.topline,
-    wininfo.botline,
-    ch
-  )
+  local ch = vim.fn.getcharstr()
+  local pattern = ch
 
+  if string.match(ch, '[a-zA-Z]') then
+    pattern = string.format('\\<%s', ch)
+  end
+
+  local winid = vim.api.nvim_get_current_win()
   local targets = search['get-targets'](pattern, {['target-windows'] = {winid}})
+
+  if targets == nil then
+    print('No targets found')
+    return
+  end
 
   require('leap').leap({targets = targets})
 end
