@@ -15,7 +15,8 @@ Plugin.opts = {
 }
 
 function Plugin.init()
-  vim.keymap.set({'n', 'x', 'o'}, 'W', 'e')
+  vim.keymap.set({'n', 'x', 'o'}, 'gL', 'e')
+  vim.keymap.set({'n', 'x', 'o'}, 'gB', 'ge')
 end
 
 function Plugin.keys()
@@ -24,14 +25,15 @@ function Plugin.keys()
   local bind = function(l, r, d)
     table.insert(keys, {l, r, desc = d, mode = mode})
   end
-  
+
   bind('ge', '<Plug>(leap-forward)')
   bind('gb', '<Plug>(leap-backward)')
 
-  bind('e', user.jump_to_word, 'Jump to word')
-
   bind('H', user.line_backward, 'Jump to line above cursor')
   bind('L', user.line_forward, 'Jump to line below cursor')
+
+  bind('e', function() user.jump_to_word(false) end, 'Jump to word')
+  bind('E', function() user.jump_to_word(true) end, 'Jump to word (ignore _)')
 
   return keys
 end
@@ -108,18 +110,34 @@ function user.line_targets(winid, comp)
   return targets
 end
 
-function user.jump_to_word()
+function user.jump_to_word(ignore_underscore)
   local search = require('leap.search')
+  local modify_keyword = false
 
   local ch = vim.fn.getcharstr()
-  local pattern = ch
 
-  if string.match(ch, '[a-zA-Z]') then
+  if ch == ' ' then
+    print('Must insert a non-whitespace character')
+    return
+  end
+
+  local pattern = string.format('\\V%s', ch)
+
+  if string.match(ch, '[a-zA-Z0-9]') then
+    modify_keyword = ignore_underscore
     pattern = string.format('\\<%s', ch)
+  end
+
+  if modify_keyword then
+    vim.opt.iskeyword:remove('_')
   end
 
   local winid = vim.api.nvim_get_current_win()
   local targets = search['get-targets'](pattern, {['target-windows'] = {winid}})
+
+  if modify_keyword then
+    vim.opt.iskeyword:append('_')
+  end
 
   if targets == nil then
     print('No targets found')
