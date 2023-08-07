@@ -125,9 +125,13 @@ function user.jump_to_word(ignore_underscore)
 
   local pattern = string.format('\\V%s', ch)
 
-  if string.match(ch, '[a-zA-Z0-9]') then
-    modify_keyword = ignore_underscore
+  if ch:match('[a-z0-9]') then
     pattern = string.format('\\<%s', ch)
+    modify_keyword = ignore_underscore
+  elseif ch:match('[A-Z]') then
+    local regex = [[\<%s\|\<%s\|[a-z]\@<=%s]]
+    pattern = regex:format(ch:lower(), ch, ch)
+    modify_keyword = ignore_underscore
   end
 
   if modify_keyword then
