@@ -4,7 +4,7 @@ local uv = vim.loop or vim.uv
 
 M.window = nil
 s.empty = true
-s.mounted = true
+s.mounted = false
 
 function M.setup()
   local command = vim.api.nvim_create_user_command
@@ -12,10 +12,12 @@ function M.setup()
   command('BufferNav', s.buffer_nav, {nargs = 1})
   command('BufferNavRead', s.read_content, {nargs = 1})
   command('BufferNavSave', s.save_content, {nargs = '?'})
+  command('BufferNavMenu', M.show_menu, {})
+  command('BufferNavMark', M.add_file, {})
 
   s.save_keymap = '<leader>w'
-  vim.keymap.set('n', '<F3>', M.show_menu)
-  vim.keymap.set('n', '<leader>m', M.add_file)
+  vim.keymap.set('n', 'M', '<cmd>BufferNavMenu<cr>')
+  vim.keymap.set('n', '<leader>m', '<cmd>BufferNavMark<cr>')
   vim.keymap.set('n', '<M-1>', '<cmd>BufferNav 1<cr>')
   vim.keymap.set('n', '<M-2>', '<cmd>BufferNav 2<cr>')
   vim.keymap.set('n', '<M-3>', '<cmd>BufferNav 3<cr>')
