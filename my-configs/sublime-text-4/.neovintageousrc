@@ -3,22 +3,28 @@
 let mapleader=<space>
 set winaltkeys=no
 set scrolloff=2
+set nohlsearch
 
 noremap x "_x
 noremap X "_d
 noremap c "_c
 noremap C "_C
+
 noremap H b
 noremap L e
 noremap s /
-noremap r :ShowPanel panel=replace reverse=false<cr>
+nnoremap r :ShowPanel panel=replace reverse=false<cr>
+vnoremap r :ShowPanel panel=replace reverse=false in_selection=true<cr>
 nnoremap U <c-r>
 nnoremap ñ ;
 nnoremap Ñ :
+vnoremap Ñ :
 nnoremap · $
-
-nnoremap x "_x
-nnoremap X "_d
+inoremap <M-b> <Enter>
+nnoremap <Tab> >>
+vnoremap <Tab> >gv
+nnoremap <S-Tab> <<
+vnoremap <S-Tab> <gv
 
 noremap <leader>h ^
 noremap <leader>l g_
@@ -42,6 +48,8 @@ nnoremap gd :GotoDefinition<cr>
 nnoremap gr :GotoReference<cr>
 noremap <M-j> :SwapLineDown<cr>
 noremap <M-k> :SwapLineUp<cr>
+nnoremap [f :PrevResult<cr>
+nnoremap ]f :NextResult<cr>
 
 nnoremap <leader>bc :CloseFile<cr>
 nnoremap <leader>bl :NextViewInStack<cr>
@@ -58,6 +66,7 @@ nnoremap <leader>bb :OtlOpenTabList<cr>
 " Toggle elements
 nnoremap <leader>un :set invnumber<cr>
 nnoremap <leader>ut :ToggleTabs<cr>
+nnoremap <leader>us :set scrolloff=2<cr>
 
 " File manager
 nnoremap <leader>da :UseSidebar<cr>
@@ -76,8 +85,8 @@ noremap <M-4> :SelectByIndex index=3<cr>
 " Acejump
 noremap e :AceJumpWord<cr>
 vnoremap e :AceJumpSelect<bar>:AceJumpWord<cr>
-noremap E :AceJumpLine<cr>
-vnoremap E :AceJumpSelect<bar>:AceJumpLine<cr>
-noremap <M-e> :AceJumpChar<cr>
-vnoremap <M-e> :AceJumpSelect<bar>:AceJumpChar<cr>
+noremap E :AceJumpChar<cr>
+vnoremap E :AceJumpSelect<bar>:AceJumpChar<cr>
+noremap L :AceJumpLine<cr>
+vnoremap L :AceJumpSelect<bar>:AceJumpLine<cr>
 
