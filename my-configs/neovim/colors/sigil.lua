@@ -10,6 +10,7 @@ local color = {
   magenta = {gui = '#D3869B', cterm = 174},
   yellow  = {gui = '#D8A657', cterm = 179},
 
+  sad_blue      = {gui = '#5B8DD7', cterm = 109},
   orange        = {gui = '#BD6F3E', cterm = 131},
   light_green   = {gui = '#3D4C3E', cterm = 238},
   bright_black  = {gui = '#191C1D', cterm = 233},
@@ -17,7 +18,7 @@ local color = {
   gray        = {gui = '#958272', cterm = 8  },
   light_gray  = {gui = '#212425', cterm = 235},
   bright_gray = {gui = '#2A2D2E', cterm = 236},
-  dark_gray   = {gui = '#232728', cterm = 235},
+  dark_gray   = {gui = '#45494A', cterm = 235},
 }
 
 local theme = {
@@ -42,7 +43,7 @@ local theme = {
     dark_text     = color.dark_gray,
     line_nr       = color.dark_gray,
     line_bg       = color.bright_black,
-    folds         = color.dark_gray,
+    folds         = color.gray,
     menu_item     = color.bright_black,
     menu_selected = color.light_gray,
     search        = color.yellow,
@@ -83,6 +84,8 @@ hi('DiffText', color.cyan)
 
 hi('htmlTag', color.orange)
 hi('@tag.delimiter', color.orange)
+
+hi('Underlined', color.sad_blue, nil, {'underline'})
 
 local statusline = require('local.statusline').higroups()
 
