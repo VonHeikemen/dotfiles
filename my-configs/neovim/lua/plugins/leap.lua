@@ -7,18 +7,18 @@ Plugin.opts = {
   labels = {
     'w', 's', 'a',
     'j', 'k', 'l', 'o', 'i', 'q', 'd', 'h', 'g',
-    'u', 't',
-    'm', 'v', 'c', 'n', '.', 'z',
-    '/', 'D', 'L', 'N', 'H', 'G', 'M', 'U', 'T', '?', 'Z',
-    'J', 'K', 'O', 'I'
+    'u', 'y',
+    'm', 'v', 'c', 'n', '.', 'x',
+    'Q', 'D', 'L', 'N', 'H', 'G', 'M', 'U', 'Y', 'X',
+    'J', 'K', 'O', 'I', 'A', 'S', 'W'
   },
 }
 
 function Plugin.init()
-  vim.keymap.set({'n', 'x', 'o'}, 'gw', 'e')
-  vim.keymap.set({'n', 'x', 'o'}, 'gW', 'E')
-  vim.keymap.set({'n', 'x', 'o'}, 'gb', 'H')
-  vim.keymap.set({'n', 'x', 'o'}, 'gB', 'L')
+  vim.keymap.set({'n', 'x', 'o'}, 'H', 'b')
+  vim.keymap.set({'n', 'x', 'o'}, 'L', 'e')
+  vim.keymap.set({'n', 'x', 'o'}, 'gH', 'B')
+  vim.keymap.set({'n', 'x', 'o'}, 'gL', 'E')
 end
 
 function Plugin.keys()
@@ -28,11 +28,11 @@ function Plugin.keys()
     table.insert(keys, {l, r, desc = d, mode = mode})
   end
 
-  bind('gH', '<Plug>(leap-backward)')
-  bind('gL', '<Plug>(leap-forward)')
+  bind('gb', '<Plug>(leap-backward-to)')
+  bind('gB', '<Plug>(leap-forward-to)')
 
-  bind('H', user.line_backward, 'Jump to line above cursor')
-  bind('L', user.line_forward, 'Jump to line below cursor')
+  bind('b', user.line_backward, 'Jump to line above cursor')
+  bind('B', user.line_forward, 'Jump to line below cursor')
 
   bind('e', function() user.jump_to_word(false) end, 'Jump to word')
   bind('E', function() user.jump_to_word(true) end, 'Jump to word (ignore _)')
