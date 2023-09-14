@@ -66,7 +66,6 @@ bind('i', '<M-Space>', '<Enter><Up><Esc>o')
 bind({'n', 'x'}, 'c','"_c')
 bind('n', 'C','"_C')
 bind('x', 'C', '"_c')
-bind('x', 'cc', '"_c')
 
 bind({'n', 'x'}, 'x','"_x')
 bind({'n', 'x'}, 'X','"_d')

@@ -4,18 +4,18 @@ local Plug = function(s) table.insert(Plugins, s) end
 Plug {
   'echasnovski/mini.ai',
   branch = 'stable',
+  main = 'mini.ai',
+  config = true,
   keys = {
     {'a', mode = {'x', 'o'}},
     {'i', mode = {'x', 'o'}},
   },
-  config = function()
-    require('mini.ai').setup()
-  end,
 }
 
 Plug {
   'echasnovski/mini.comment',
   branch = 'stable',
+  main = 'mini.comment',
   keys = {
     'gcc',
     {'gc', mode = {'n', 'x', 'o'}},
@@ -27,50 +27,43 @@ Plug {
       end,
     },
   },
-  config = function(_, opts)
-    require('mini.comment').setup(opts)
-  end,
 }
 
 Plug {
   'echasnovski/mini.bufremove',
   branch = 'stable',
+  main = 'mini.bufremove',
+  config = true,
   keys = {{'<leader>bc', '<cmd>lua pcall(MiniBufremove.delete)<cr>'}},
-  config = function()
-    require('mini.bufremove').setup()
-  end,
 }
 
 Plug {
   'echasnovski/mini.surround',
   branch = 'stable',
+  main = 'mini.surround',
   keys = {
-    'ds',
-    'cs',
-    'ys',
-    {'Y', "<Esc><cmd>lua MiniSurround.add('visual')<cr>", mode = 'x'},
+    'sa',
+    'sd',
+    'ss',
   },
   opts = {
     search_method = 'cover_or_next',
     mappings = {
-      add = 'ys',
-      delete = 'ds',
-      replace = 'cs',
+      add = 'sa',
+      delete = 'sd',
+      replace = 'ss',
       find = '',
       find_left = '',
       highlight = '',
       update_n_lines = '',
     },
   },
-  config = function(_, opts)
-    require('mini.surround').setup(opts)
-    vim.keymap.del('x', 'ys')
-  end,
 } 
 
 Plug {
   'echasnovski/mini.bracketed',
   branch = 'stable',
+  main = 'mini.bracketed',
   keys = {
     {'[g', "<cmd>lua MiniBracketed.conflict('backward')<cr>", mode = {'n', 'x'}},
     {']g', "<cmd>lua MiniBracketed.conflict('forward')<cr>", mode = {'n', 'x'}},
@@ -94,9 +87,6 @@ Plug {
     window     = {suffix = ''},
     yank       = {suffix = ''},
   },
-  config = function(_, opts)
-    require('mini.bracketed').setup(opts)
-  end
 }
 
 return Plugins

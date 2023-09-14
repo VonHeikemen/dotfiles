@@ -22,10 +22,10 @@ Plugin.cmd = {
 function Plugin.init()
   local bind = vim.keymap.set
 
-  bind('n', 's', '<cmd>SearchBoxIncSearch<cr>')
-  bind('x', 's', "<Esc><cmd>'<,'>SearchBoxIncSearch visual_mode=true<cr>")
-  bind('n', 'S', "<cmd>SearchBoxMatchAll title=' Match '<cr>")
-  bind('x', 'S', "<Esc><cmd>'<,'>SearchBoxMatchAll title=' Match ' visual_mode=true<cr>")
+  bind('n', 'si', '<cmd>SearchBoxIncSearch<cr>')
+  bind('x', 'si', "<Esc><cmd>'<,'>SearchBoxIncSearch visual_mode=true<cr>")
+  bind('n', 'sj', "<cmd>SearchBoxMatchAll title=' Match '<cr>")
+  bind('x', 'sj', "<Esc><cmd>'<,'>SearchBoxMatchAll title=' Match ' visual_mode=true<cr>")
   bind('n', '<leader>s', '<cmd>SearchBoxClear<cr>')
 
   bind('n', 'r', "<cmd>SearchBoxReplace <CR>")
