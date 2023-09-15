@@ -13,19 +13,21 @@ function Project.nvim_config()
   vim.cmd('Lsp')
 
   local lsp_zero = require('lsp-zero')
-  local lua_opts = lsp_zero.nvim_lua_ls({
+  local lua_opts = {
     settings = {
       Lua = {
-        ['workspace.library'] = {
-          vim.fn.expand('$VIMRUNTIME/lua'),
-          vim.fn.stdpath('config') .. '/lua',
+        workspace = {
+          library = {
+            vim.fn.expand('$VIMRUNTIME/lua'),
+            vim.fn.stdpath('config') .. '/lua',
+          }
         },
       }
     }
-  })
+  }
 
   cmp_lua()
-  lsp_zero.use('lua_ls', lua_opts)
+  lsp_zero.use('nvim_lua', lua_opts)
 end
 
 function Project.nvim_plugin(opts)
@@ -42,16 +44,18 @@ function Project.nvim_plugin(opts)
     end
   end
 
-  local lua_opts = lsp_zero.nvim_lua_ls({
+  local lua_opts = {
     settings = {
       Lua = {
-        ['workspace.library'] = dependencies,
+        workspace = {
+          library = dependencies
+        },
       }
     }
-  })
+  }
 
   cmp_lua()
-  lsp_zero.use('lua_ls', lua_opts)
+  lsp_zero.use('nvim_lua', lua_opts)
 end
 
 return Project

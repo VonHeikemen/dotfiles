@@ -17,10 +17,10 @@ function Plugin.init()
 end
 
 function Plugin.config()
-  local lsp_zero = require('lsp-zero')
+  local lz = require('lsp-zero')
 
-  user.lspconfig(lsp_zero)
-  user.diagnostics(lsp_zero)
+  user.lspconfig(lz)
+  user.diagnostics(lz)
 
   require('fidget').setup({
     text = {
@@ -40,7 +40,7 @@ function Plugin.config()
         return
       end
 
-      lsp_zero.use(input.args, {})
+      lz.use(input.args, {})
     end,
     {desc = 'Initialize a language server', nargs = '?'}
   )
@@ -68,6 +68,15 @@ function user.lspconfig(lsp)
       }
     }
   })
+
+  local configs = require('lspconfig.configs')
+
+  configs.nvim_lua = {
+    default_config = lsp.nvim_lua_ls({
+      cmd = {'lua-language-server'},
+      filetypes = {'lua'},
+    })
+  }
 end
 
 function user.lsp_attach(_, bufnr)
