@@ -133,22 +133,40 @@ tme ()
 tz ()
 {
   if [ -z "$1" ]; then
-    echo "Provide an argument"
+    command tz
     return
   fi
 
   case "$1" in
-    it|italy)
-      TZ_LIST="Etc/GMT-2,Italy" command tz
+    -l|-list)
+      command tz -list
     ;;
-    cal|california)
-      TZ_LIST="Etc/GMT+7,USA California" command tz
+    -n)
+      TZ_LIST="$2" command tz
     ;;
-    uk|london)
-      TZ_LIST="Etc/GMT-1,UK" command tz
+    cet|cest)
+      TZ_LIST="CET,Central European Time" command tz
+    ;;
+    pt|pdt|pst)
+      TZ_LIST="US/Pacific,US Pacific Time" command tz
+    ;;
+    uk|bst)
+      TZ_LIST="Europe/London,UK" command tz
+    ;;
+    ch|chile)
+      TZ_LIST="America/Santiago,Chile" command tz
+    ;;
+    mt|mst|mdt)
+      TZ_LIST="MST7MDT,Mountain Time" command tz
+    ;;
+    et|est)
+      TZ_LIST="EST,US Eastern Time" command tz
+    ;;
+    ct|cdt)
+      TZ_LIST="US/Central,US Central" command tz
     ;;
     *)
-      echo "Wrong argument"
+      echo "$1 was not found"
     ;;
   esac
 }
