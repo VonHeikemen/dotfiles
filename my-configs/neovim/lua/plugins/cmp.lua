@@ -9,6 +9,8 @@ Plugin.dependencies = {
   {'saadparwaiz1/cmp_luasnip'},
   {'hrsh7th/cmp-nvim-lsp'},
   {'hrsh7th/cmp-nvim-lua'},
+  {'hrsh7th/cmp-omni'},
+  {'quangnguyen30192/cmp-nvim-tags'},
 
   -- Snippets
   {'L3MON4D3/LuaSnip'},
@@ -25,6 +27,16 @@ function Plugin.config()
 
   local select_opts = {behavior = cmp.SelectBehavior.Select}
   local cmp_enable = cmp.get_config().enabled
+
+  local icon = {
+    nvim_lsp = 'λ',
+    luasnip = '⋗',
+    buffer = 'Ω',
+    path = '🖫',
+    nvim_lua = 'Π',
+    omni = 'Π',
+    tags = 't',
+  }
 
   user.config = {
     enabled = function()
@@ -48,6 +60,11 @@ function Plugin.config()
       {name = 'buffer', keyword_length = 3},
       {name = 'luasnip', keyword_length = 2},
     },
+    view = {
+      docs = {
+        auto_open = false,
+      }
+    },
     window = {
       documentation = {
         border = 'rounded',
@@ -59,27 +76,30 @@ function Plugin.config()
     formatting = {
       fields = {'menu', 'abbr', 'kind'},
       format = function(entry, item)
-        local menu_icon = {
-          nvim_lsp = 'λ',
-          luasnip = '⋗',
-          buffer = 'Ω',
-          path = '🖫',
-          nvim_lua = 'Π',
-        }
-
-        item.menu = menu_icon[entry.source.name]
+        item.menu = icon[entry.source.name]
         return item
       end,
     },
     mapping = {
       ['<C-k>'] = cmp.mapping.scroll_docs(-5),
       ['<C-j>'] = cmp.mapping.scroll_docs(5),
+      ['<C-g>'] = cmp.mapping(function(fallback)
+        if cmp.visible_docs() then
+          cmp.close_docs()
+        elseif cmp.visible() then
+          cmp.open_docs()
+        else
+          fallback()
+        end
+      end),
 
       ['<Up>'] = cmp.mapping.select_prev_item(select_opts),
       ['<Down>'] = cmp.mapping.select_next_item(select_opts),
 
       ['<M-k>'] = cmp.mapping.select_prev_item(select_opts),
       ['<M-j>'] = cmp.mapping.select_next_item(select_opts),
+      ['<C-p>'] = cmp.mapping.select_prev_item(select_opts),
+      ['<C-n>'] = cmp.mapping.select_next_item(select_opts),
 
       ['<C-a>'] = cmp.mapping(function(fallback)
         if luasnip.jumpable(-1) then
@@ -122,7 +142,7 @@ function Plugin.config()
 
       ['<S-Tab>'] = cmp.mapping(function()
         if luasnip.jumpable(-1) then
-          luasnip.jump(-1) 
+          luasnip.jump(-1)
         else
           user.insert_tab()
         end
@@ -184,7 +204,7 @@ function user.insert_tab()
   vim.api.nvim_feedkeys(
     vim.api.nvim_replace_termcodes('<Tab>', true, true, true),
     'n',
-    true 
+    true
   )
 end
 
