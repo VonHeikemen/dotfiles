@@ -2,7 +2,7 @@
 local Plugin = {'akinsho/toggleterm.nvim'}
 local open_mapping = '<M-i>'
 
-Plugin.cmd = {'ToggleTerm', 'Term'}
+Plugin.cmd = {'Term', 'ToggleTerm', 'TermExec'}
 
 function Plugin.init()
   vim.keymap.set({'n', 'i', 'x'}, open_mapping, '<cmd>Term<cr>', {desc = 'Toggle terminal'})
