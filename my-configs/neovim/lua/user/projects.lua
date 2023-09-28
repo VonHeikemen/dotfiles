@@ -1,33 +1,21 @@
 local Project = {}
 
-local function cmp_lua()
+local function cmp_source(ft, new_source)
   local cmp = require('cmp')
   local sources = vim.deepcopy(cmp.get_config().sources)
-  table.insert(sources, {name = 'nvim_lua'})
 
-  -- Setup autocomplete for nvim's lua api
-  cmp.setup.filetype('lua', {sources = sources})
+  for _, s in pairs(new_source) do
+    table.insert(sources, {name = s, keyword_length = 3})
+  end
+
+  cmp.setup.filetype(ft, {sources = sources})
 end
 
 function Project.nvim_config()
   vim.cmd('Lsp')
+  cmp_source('lua', {'nvim_lua'})
 
-  local lsp_zero = require('lsp-zero')
-  local lua_opts = {
-    settings = {
-      Lua = {
-        workspace = {
-          library = {
-            vim.fn.expand('$VIMRUNTIME/lua'),
-            vim.fn.stdpath('config') .. '/lua',
-          }
-        },
-      }
-    }
-  }
-
-  cmp_lua()
-  lsp_zero.use('nvim_lua', lua_opts)
+  require('lsp-zero').use('nvim_lua', {})
 end
 
 function Project.nvim_plugin(opts)
@@ -54,8 +42,29 @@ function Project.nvim_plugin(opts)
     }
   }
 
-  cmp_lua()
+  cmp_source('lua', {'nvim_lua'})
+
   lsp_zero.use('nvim_lua', lua_opts)
+end
+
+function Project.legacy_php()
+  local cmp = require('cmp')
+  local config = {}
+  config.sources = {
+    {name = 'omni'},
+    {name = 'tags'},
+  }
+
+  cmp.setup.filetype('php', {
+    mapping = {
+      ['<C-l>'] = cmp.mapping(function()
+        vim.cmd('UserCmpEnable')
+        cmp.complete({config = config})
+      end)
+    }
+  })
+
+  vim.keymap.set('n', 'gd', "<cmd>exe 'tjump' expand('<cword>')<cr>")
 end
 
 return Project
