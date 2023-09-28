@@ -124,7 +124,7 @@ autocmd('CmdWinEnter', {group = augroup, command = 'quit'})
 
 autocmd('FileType', {
   group = augroup,
-  pattern = {'qf', 'help', 'man', 'lspinfo', 'harpoon', 'null-ls-info'},
+  pattern = {'qf', 'help', 'man', 'lspinfo'},
   command = 'nnoremap <buffer> q <cmd>quit<cr>'
 })
 
