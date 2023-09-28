@@ -7,21 +7,26 @@ s.empty = true
 s.mounted = false
 
 function M.setup()
-  local command = vim.api.nvim_create_user_command
-
-  command('BufferNav', s.buffer_nav, {nargs = 1})
-  command('BufferNavRead', s.read_content, {nargs = 1})
-  command('BufferNavSave', s.save_content, {nargs = '?'})
-  command('BufferNavMenu', M.show_menu, {})
-  command('BufferNavMark', M.add_file, {})
+  M.plugin()
 
   s.save_keymap = '<leader>w'
   vim.keymap.set('n', 'M', '<cmd>BufferNavMenu<cr>')
   vim.keymap.set('n', '<leader>m', '<cmd>BufferNavMark<cr>')
+  vim.keymap.set('n', '<leader>M', '<cmd>BufferNavMark!<cr>')
   vim.keymap.set('n', '<M-1>', '<cmd>BufferNav 1<cr>')
   vim.keymap.set('n', '<M-2>', '<cmd>BufferNav 2<cr>')
   vim.keymap.set('n', '<M-3>', '<cmd>BufferNav 3<cr>')
   vim.keymap.set('n', '<M-4>', '<cmd>BufferNav 4<cr>')
+end
+
+function M.plugin()
+  local command = vim.api.nvim_create_user_command
+
+  command('BufferNav', s.buffer_nav, {nargs = 1})
+  command('BufferNavMenu', M.show_menu, {})
+  command('BufferNavMark', s.add_file, {bang = true})
+  command('BufferNavRead', s.read_content, {nargs = 1, complete = 'file'})
+  command('BufferNavSave', s.save_content, {nargs = '?', complete = 'file'})
 end
 
 function M.show_menu()
@@ -37,7 +42,7 @@ function M.show_menu()
   end
 end
 
-function M.add_file()
+function s.add_file(input)
   local name = vim.fn.bufname('%')
   local should_mount = M.window == nil
 
@@ -61,6 +66,10 @@ function M.add_file()
     false,
     {vim.fn.fnamemodify(name, ':.')}
   )
+
+  if input.bang == false then
+    return
+  end
 
   if should_mount then
     M.window:mount()
