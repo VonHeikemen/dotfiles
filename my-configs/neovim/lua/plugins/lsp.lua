@@ -80,12 +80,6 @@ function user.lspconfig(lsp)
 end
 
 function user.lsp_attach(_, bufnr)
-  if vim.b.lsp_attached then
-    return
-  end
-
-  vim.b.lsp_attached = true
-
   local telescope = require('telescope.builtin')
   local lsp = vim.lsp.buf
   local bind = vim.keymap.set

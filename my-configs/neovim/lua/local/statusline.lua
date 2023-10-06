@@ -212,6 +212,7 @@ function M.setup()
     once = true,
     desc = 'Show diagnostic sign',
     callback = function()
+      vim.b.lsp_attached = 1
       state.show_diagnostic = true
     end
   })
