@@ -20,13 +20,6 @@ Plug {
     'gcc',
     {'gc', mode = {'n', 'x', 'o'}},
   },
-  opts = {
-    hooks = {
-      pre = function()
-        require('ts_context_commentstring.internal').update_commentstring()
-      end,
-    },
-  },
 }
 
 Plug {

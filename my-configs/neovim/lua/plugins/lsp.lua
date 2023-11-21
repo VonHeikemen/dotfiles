@@ -5,7 +5,6 @@ local user = {}
 Plugin.dependencies = {
   {'hrsh7th/cmp-nvim-lsp'},
   {'williamboman/mason-lspconfig.nvim'},
-  {'j-hui/fidget.nvim', tag = 'legacy'},
   {'VonHeikemen/lsp-zero.nvim', branch = 'v3.x'},
 }
 
@@ -21,15 +20,6 @@ function Plugin.config()
 
   user.lspconfig(lz)
   user.diagnostics(lz)
-
-  require('fidget').setup({
-    text = {
-      spinner = 'moon'
-    },
-    window = {
-      blend = 0
-    },
-  })
 
   require('mason-lspconfig').setup({})
 

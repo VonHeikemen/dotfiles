@@ -3,7 +3,6 @@ Plugin.pin = true
 
 Plugin.dependencies = {
   {'nvim-treesitter/nvim-treesitter-textobjects', pin = true},
-  {'JoosepAlviste/nvim-ts-context-commentstring'},
 }
 
 Plugin.opts = {
@@ -62,10 +61,6 @@ Plugin.opts = {
         ['[C'] = '@class.outer',
       },
     },
-  },
-  context_commentstring = {
-    enable = true,
-    enable_autocmd = false,
   },
   ensure_installed = {
     'javascript',
