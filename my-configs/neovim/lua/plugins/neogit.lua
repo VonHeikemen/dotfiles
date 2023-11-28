@@ -1,10 +1,12 @@
 -- Git
-local Plugin = {'TimUntersberger/neogit'}
+local Plugin = {'NeogitOrg/neogit'}
 local user = {}
 
 Plugin.name = 'neogit'
 
 Plugin.dependencies = {
+  {'nvim-lua/plenary.nvim'},
+  {'nvim-telescope/telescope.nvim'},
   {
     'sindrets/diffview.nvim',
     cmd = {'DiffviewOpen'},
@@ -12,21 +14,22 @@ Plugin.dependencies = {
   }
 }
 
+Plugin.cmd = 'Neogit'
+
 Plugin.keys = {{'<leader>g', '<cmd>Neogit<cr>'}}
 
 Plugin.opts = {
   disable_hint = true,
   auto_refresh = false,
-  integrations = {diffview = true},
+  disable_context_highlighting = true,
+  integrations = {
+    telescope = true,
+    diffview = true
+  },
   signs = {
     section = {'»', '-'},
     item = {'+', '*'}
   },
-  mappings = {
-    status = {
-      [';'] = 'RefreshBuffer'
-    }
-  }
 }
 
 function user.diffview()
