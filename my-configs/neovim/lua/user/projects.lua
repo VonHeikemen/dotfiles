@@ -67,5 +67,42 @@ function Project.legacy_php()
   vim.keymap.set('n', 'gd', "<cmd>exe 'tjump' expand('<cword>')<cr>")
 end
 
+function Project.zk()
+  vim.opt.path = {'.', '', '**'}
+
+  vim.keymap.set('n', 'gd', function()
+    local fmt = string.format
+    local delimeter = '/,-,:'
+
+    vim.cmd(fmt('set iskeyword+=%s', delimeter))
+    local file = fmt('%s.md', vim.fn.expand('<cword>'))
+    vim.cmd(fmt('set iskeyword-=%s', delimeter))
+
+    vim.cmd({cmd = 'find', args = {file}})
+  end, {desc = 'Go to linked file'})
+end
+
+function Project.worktask()
+  Project.zk()
+  vim.opt.textwidth = 80
+
+  vim.keymap.set('n', 'gw', 'mt0cl><esc>`t', {desc = 'Mark current task'})
+  vim.keymap.set('n', 'ge', 'mt0cl <esc>`t', {nowait = true, desc = 'Delete mark'})
+  vim.keymap.set('n', 'gu', 'mt0cl?<esc>`t', {desc = 'Mark task as paused'})
+  vim.keymap.set('n', 'gt', 'gg/^><cr>zz', {desc = 'Go to current task'})
+
+  vim.keymap.set('n', 'gs', function()
+    local line = vim.api.nvim_get_current_line()
+    local index = line:find('%d+.')
+    if index == nil then
+      return
+    end
+
+    local pattern = '\\[%s\\]'
+    vim.fn.setreg('/', pattern:format(vim.trim(line:sub(2, index))))
+    vim.api.nvim_feedkeys('nzz', 'n', false)
+  end, {desc = 'Go to task note'})
+end
+
 return Project
 
