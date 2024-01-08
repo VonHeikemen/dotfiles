@@ -12,7 +12,9 @@ function Plugin.config()
   local snippets = require('luasnip.loaders.from_vscode')
 
   luasnip.config.set_config({
-    history = false,
+    keep_roots = false,
+    link_roots = false,
+    link_children = false,
     region_check_events = 'InsertEnter',
     delete_check_events = 'InsertLeave'
   })
