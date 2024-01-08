@@ -8,7 +8,8 @@ Plugin.dependencies = {
 Plugin.opts = {
   highlight = {
     enable = true,
-    additional_vim_regex_highlighting = {'html', 'html.twig', 'vimdoc'},
+    disable = {'vue'},
+    additional_vim_regex_highlighting = {'html', 'vimdoc'},
   },
   incremental_selection = {
     enable = true,
@@ -68,6 +69,7 @@ Plugin.opts = {
     'tsx',
     'php',
     'html',
+    'twig',
     'css',
     'json',
     'lua',
