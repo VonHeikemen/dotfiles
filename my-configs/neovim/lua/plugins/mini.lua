@@ -13,12 +13,32 @@ Plug {
 }
 
 Plug {
+  'JoosepAlviste/nvim-ts-context-commentstring',
+  main = 'ts_context_commentstring',
+  lazy = true,
+  opts = {
+    enable_autocmd = false,
+  },
+  init = function()
+    vim.g.skip_ts_context_commentstring_module = true
+  end,
+}
+
+Plug {
   'echasnovski/mini.comment',
   branch = 'stable',
   main = 'mini.comment',
   keys = {
     'gcc',
     {'gc', mode = {'n', 'x', 'o'}},
+  },
+  opts = {
+    options = {
+      custom_commentstring = function()
+        local cs = require('ts_context_commentstring').calculate_commentstring()
+        return cs or vim.bo.commentstring
+      end,
+    },
   },
 }
 
