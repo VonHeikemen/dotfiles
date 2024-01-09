@@ -82,8 +82,8 @@ hi('DiffChange', color.yellow)
 hi('DiffDelete', color.red)
 hi('DiffText', color.cyan)
 
-hi('htmlTag', color.orange)
-hi('@tag.delimiter', color.orange)
+hi('htmlTag', color.magenta)
+hi('@tag.delimiter', color.magenta)
 
 hi('Underlined', color.sad_blue, nil, {'underline'})
 

@@ -191,6 +191,10 @@ function M.apply_links()
   -- Plugin: lir.nvim
   link('LirDir', 'Function')
 
+  -- Language: help page
+  -- Syntax: built-in
+  link('helpExample', cs_none)
+
   -- Language: lua
   -- Syntax: built-in
   link('luaFunction', cs_none)
@@ -200,6 +204,7 @@ function M.apply_links()
   link('htmlTag',            'Special')
   link('htmlEndTag',         'Special')
   link('htmlTagName',        'Function')
+  link('htmlTagN',           'Function')
   link('htmlSpecialTagName', 'Function')
   link('htmlArg',            cs_none)
   link('htmlLink',           cs_none)
@@ -233,8 +238,9 @@ function M.apply_links()
   -- Syntax: built-in
   link('javaScriptNumber',   'Number')
   link('javaScriptNull',     'Number')
-  link('javaScriptBraces',   cs_none)
-  link('javaScriptFunction', cs_none)
+  link('javaScriptBraces',    cs_none)
+  link('javaScriptFunction',  cs_none)
+  link('javaScript',        cs_normal)
 
 
   -- Language: Javascript
@@ -323,7 +329,9 @@ function M.apply_links()
   link('@tag', 'Function')
   link('@text.uri.html', 'String')
   link('@text.literal', cs_none)
-  link('@text.literal.vimdoc', 'Normal')
+  link('@text.literal.vimdoc', cs_normal)
+  link('@tag.delimiter.twig', cs_normal)
+  link('@punctuation.bracket.twig', cs_normal)
 end
 
 function M.terminal(theme)
