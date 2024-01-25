@@ -41,7 +41,7 @@ lazy.opts = {
 }
 
 lazy.setup({
-  -- Load them from the lua/plugins folder
-  {import = 'plugins'}
+  -- Load them from the lua/specs folder
+  {import = 'specs'}
 })
 
