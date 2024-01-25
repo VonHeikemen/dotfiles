@@ -23,4 +23,4 @@ require('user.keymaps')
 require('user.plugins')
 
 -- Apply theme
-vim.cmd('colorscheme polaris')
+vim.cmd('colorscheme sigil')
