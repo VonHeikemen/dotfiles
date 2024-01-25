@@ -14,3 +14,9 @@ vim.keymap.set(nx, 'g+', 'g]')
 vim.keymap.set(nxo, '<C-+>', '<C-]>')
 vim.keymap.set(i, '<C-x><C-+>', '<C-x><C-]>')
 
+vim.keymap.set(nxo, 'à', '`a')
+vim.keymap.set(nxo, 'è', '`e')
+vim.keymap.set(nxo, 'ì', '`i')
+vim.keymap.set(nxo, 'ò', '`o')
+vim.keymap.set(nxo, 'ù', '`u')
+
