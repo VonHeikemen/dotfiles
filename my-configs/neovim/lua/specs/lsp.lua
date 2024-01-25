@@ -13,6 +13,17 @@ Plugin.cmd = 'Lsp'
 function Plugin.init()
   vim.g.lsp_zero_extend_cmp = 0
   vim.g.lsp_zero_extend_lspconfig = 0
+
+  -- disable lsp semantic highlights
+  vim.api.nvim_create_autocmd('ColorScheme', {
+    desc = 'Clear LSP highlight groups',
+    callback = function()
+      local higroups = vim.fn.getcompletion('@lsp', 'highlight')
+      for _, name in ipairs(higroups) do
+        vim.api.nvim_set_hl(0, name, {})
+      end
+    end,
+  })
 end
 
 function Plugin.config()
@@ -43,9 +54,6 @@ function user.lspconfig(lsp)
 
   lsp.set_server_config({
     single_file_support = false,
-    on_init = function(client)
-      client.server_capabilities.semanticTokensProvider = nil
-    end,
     root_dir = function()
       return vim.fn.getcwd()
     end,
@@ -122,14 +130,14 @@ function user.diagnostics(lsp)
     group = group,
     pattern = {'n:i', 'v:s'},
     desc = 'Disable diagnostics while typing',
-    callback = function() vim.diagnostic.disable(0) end
+    callback = function(e) vim.diagnostic.disable(e.buf) end
   })
 
   autocmd('ModeChanged', {
     group = group,
     pattern = 'i:n',
     desc = 'Enable diagnostics when leaving insert mode',
-    callback = function() vim.diagnostic.enable(0) end
+    callback = function(e) vim.diagnostic.enable(e.buf) end
   })
 end
 
