@@ -1,5 +1,6 @@
 -- File explorer
 local Plugin = {'tamago324/lir.nvim'}
+local user = {}
 
 Plugin.dependencies = {
   {'nvim-lua/plenary.nvim'}
@@ -9,31 +10,18 @@ function Plugin.init()
   -- disable netrw
   vim.g.loaded_netrw = 1
   vim.g.loaded_netrwPlugin = 1
-  local fns = require('user.functions')
   local bind = vim.keymap.set
+  local toggle = user.toggle
 
   -- Open file manager
-  bind('n', '<leader>dd', fns.file_explorer)
-  bind('n', '<leader>da', function() fns.file_explorer(vim.fn.getcwd()) end)
-end
+  bind('n', '<leader>dd', '<cmd>FileExplorer<cr>')
+  bind('n', '<leader>da', '<cmd>FileExplorer!<cr>')
 
-local function lir_init()
-  local noremap = {remap = false, silent = true, buffer = true}
-  local remap = {remap = true, silent = true, buffer = true}
-  local bind = vim.keymap.set
-
-  local mark = "<Esc><cmd>lua require('lir.mark.actions').toggle_mark('v')<cr>gv<C-c>"
-
-  bind('n', 'v', 'V', noremap)
-  bind('x', 'q', '<Esc>', noremap)
-
-  bind('x', '<Tab>', mark, noremap)
-  bind('x', 'cc', mark .. 'cc', remap)
-  bind('x', 'cx', mark .. 'cx', remap)
-
-  bind('n', '<S-Tab>', 'gv<Tab>', remap)
-
-  vim.wo.statusline = require('local.statusline').get_status('short')
+  vim.api.nvim_create_user_command(
+    'FileExplorer',
+    function(input) toggle(input.bang) end,
+    {bang = true}
+  )
 end
 
 function Plugin.config()
@@ -44,7 +32,7 @@ function Plugin.config()
   local clipboard = require('lir.clipboard.actions')
 
   lir.setup({
-    on_init = lir_init,
+    on_init = user.on_init,
     mappings = {
       ['l']  = actions.edit,
       ['es'] = actions.split,
@@ -77,6 +65,36 @@ function Plugin.config()
       end
     }
   })
+end
+
+function user.on_init()
+  local noremap = {remap = false, silent = true, buffer = true}
+  local remap = {remap = true, silent = true, buffer = true}
+  local bind = vim.keymap.set
+
+  local mark = "<esc><cmd>lua require('lir.mark.actions').toggle_mark('v')<cr>gv<C-c>"
+
+  bind('n', 'v', 'V', noremap)
+  bind('x', 'q', '<esc>', noremap)
+
+  bind('x', '<Tab>', mark, noremap)
+  bind('x', 'cc', mark .. 'cc', remap)
+  bind('x', 'cx', mark .. 'cx', remap)
+
+  bind('n', '<S-Tab>', 'gv<Tab>', remap)
+
+  vim.wo.statusline = require('local.statusline').get_status('short')
+end
+
+function user.toggle(cwd)
+  local env = require('user.env')
+  local path = cwd and vim.fn.getcwd() or vim.fn.expand('%:p:h')
+
+  if vim.o.lines > env.small_screen_lines then
+    require('lir.float').toggle(path)
+  else
+    vim.cmd({cmd = 'edit', args = {path}})
+  end
 end
 
 return Plugin

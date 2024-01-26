@@ -1,5 +1,3 @@
-local fns = require('user.functions')
-
 -- Bind options
 local bind = vim.keymap.set
 local remap = {remap = true}
@@ -125,10 +123,10 @@ bind('x', '<leader>Y', '<Esc><cmd>GetSelection<cr><cmd>set hlsearch<cr>')
 bind('n', '<leader>uh', '<cmd>set invhlsearch<cr>')
 
 -- Tabline
-bind('n', '<leader>ut', fns.toggle_opt('showtabline', 'o', 1, 0))
+bind('n', '<leader>ut', '<cmd>ToggleOpt! showtabline o 1 0<cr>')
 
 -- Line length ruler
-bind('n', '<leader>ul', fns.toggle_opt('colorcolumn', 'wo', '81', '0'))
+bind('n', '<leader>ul', '<cmd>ToggleOpt colorcolumn wo 81 0<cr>')
 
 -- Cursorline highlight
 bind('n', '<leader>uc', '<cmd>set invcursorline<cr>')

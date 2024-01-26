@@ -1,5 +1,4 @@
 local env = require('user.env')
-local fns = require('user.functions')
 
 local command = vim.api.nvim_create_user_command
 local autocmd = vim.api.nvim_create_autocmd
@@ -110,6 +109,28 @@ command(
     end)
   end,
   {desc = 'Create/Edit macro in an input'}
+)
+
+command(
+  'ToggleOpt',
+  function(input)
+    local prop = input.fargs[1]
+    local scope = input.fargs[2]
+    local on =  input.fargs[3]
+    local off = input.fargs[4]
+
+    if input.bang then
+      on = tonumber(on)
+      off = tonumber(off)
+    end
+
+    if vim[scope][prop] == on then
+      vim[scope][prop] = off
+    else
+      vim[scope][prop] = on
+    end
+  end,
+  {nargs = '*', bang = true, desc = 'Toggle vim option'}
 )
 
 autocmd('TextYankPost', {

@@ -69,7 +69,7 @@ function Plugin.opts()
     display = 'e',
     keys = 'e',
     fn = function()
-      require('user.functions').file_explorer(vim.fn.getcwd())
+      vim.cmd('FileExplorer!')
     end
   }
 
