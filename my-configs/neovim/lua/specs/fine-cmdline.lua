@@ -3,8 +3,6 @@ local Plugin = {'VonHeikemen/fine-cmdline.nvim'}
 
 Plugin.dependencies = {{'MunifTanjim/nui.nvim'}}
 
-Plugin.name = 'fine-cmdline'
-
 Plugin.opts = {
   cmdline = {
     prompt = ' '
