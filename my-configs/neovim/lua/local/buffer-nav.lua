@@ -5,6 +5,7 @@ local uv = vim.loop or vim.uv
 M.window = nil
 s.empty = true
 s.mounted = false
+s.augroup = vim.api.nvim_create_augroup('buffernav_cmds', {clear = true})
 
 function M.setup()
   M.plugin()
@@ -21,12 +22,66 @@ end
 
 function M.plugin()
   local command = vim.api.nvim_create_user_command
+  local autocmd = vim.api.nvim_create_autocmd
 
   command('BufferNav', s.buffer_nav, {nargs = 1})
   command('BufferNavMenu', M.show_menu, {})
   command('BufferNavMark', s.add_file, {bang = true})
   command('BufferNavRead', s.read_content, {nargs = 1, complete = 'file'})
   command('BufferNavSave', s.save_content, {nargs = '?', complete = 'file'})
+
+  autocmd('FileType', {
+    pattern = 'BufferNav',
+    group = s.augroup,
+    callback = M.after_mount
+  })
+end
+
+function M.after_mount(event)
+  if M.window == nil then
+    return
+  end
+
+  local window = M.window
+
+  local close = function() window:hide() end
+
+  local accept = function()
+    local index = vim.fn.line('.')
+    close()
+    M.go_to_file(index)
+  end
+
+  local resize = function(e)
+    if M.window and M.window.bufnr == e.buf then
+      close()
+    end
+
+    M.window:update_layout({position = position, size = size})
+  end
+
+  local opts = {buffer = event.buf}
+  vim.keymap.set('n', '<esc>', close, opts)
+  vim.keymap.set('n', 'q', close, opts)
+  vim.keymap.set('n', '<C-c>', close, opts)
+
+  vim.keymap.set('n', s.save_keymap, '<cmd>BufferNavSave<cr>', opts)
+
+  vim.keymap.set('n', '<cr>', accept, opts)
+  vim.keymap.set('n', '<M-b>', accept, opts)
+
+  vim.api.nvim_create_autocmd('BufLeave', {
+    group = s.augroup,
+    buffer = event.buf,
+    once = true,
+    callback = close,
+  })
+
+  vim.api.nvim_create_autocmd('VimResized', {
+    group = s.augroup,
+    buffer = event.buf,
+    callback = resize,
+  })
 end
 
 function M.show_menu()
@@ -122,6 +177,7 @@ function M.load_content(path)
     vim.cmd.read(path)
     s.filepath = path
     vim.api.nvim_buf_set_lines(window.bufnr, 0, 1, false, {})
+    s.empty = false
   end)
 
   M.window = window
@@ -153,32 +209,9 @@ function s.create_window()
     },
     win_options = {
       number = true,
+      cursorline = vim.o.cursorline,
     },
   })
-
-  local opts = {noremap = true}
-  local close = function() window:hide() end
-
-  window:map('n', '<esc>', close, opts)
-  window:map('n', 'q', close, opts)
-  window:map('n', '<C-c>', close, opts)
-  window:map('n', s.save_keymap, '<cmd>BufferNavSave<cr>')
-  window:on('BufLeave', close, {once = true})
-
-  window:map('n', '<cr>', function()
-    local index = vim.fn.line('.')
-    close()
-    M.go_to_file(index)
-  end, opts)
-
-  window:on('VimResized', function()
-    local bufnr = vim.api.nvim_get_current_buf()
-    if M.window and M.window.bufnr == bufnr then
-      close()
-    end
-
-    window:update_layout({position = position, size = size})
-  end, {})
 
   s.mounted = false
 
