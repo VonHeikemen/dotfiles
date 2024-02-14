@@ -15,10 +15,8 @@ Plugin.opts = {
 }
 
 function Plugin.init()
-  vim.keymap.set({'n', 'x', 'o'}, 'H', 'b')
-  vim.keymap.set({'n', 'x', 'o'}, 'L', 'e')
-  vim.keymap.set({'n', 'x', 'o'}, 'gH', 'B')
-  vim.keymap.set({'n', 'x', 'o'}, 'gL', 'E')
+  vim.keymap.set({'n', 'x', 'o'}, 'gH', 'H')
+  vim.keymap.set({'n', 'x', 'o'}, 'gL', 'L')
 end
 
 function Plugin.keys()
@@ -28,14 +26,13 @@ function Plugin.keys()
     table.insert(keys, {l, r, desc = d, mode = mode})
   end
 
-  bind('gb', '<Plug>(leap-backward-to)')
-  bind('gB', '<Plug>(leap-forward-to)')
+  bind('su', '<Plug>(leap-backward-to)')
+  bind('sj', '<Plug>(leap-forward-to)')
 
-  bind('b', user.line_backward, 'Jump to line above cursor')
-  bind('B', user.line_forward, 'Jump to line below cursor')
+  bind('H', user.line_backward, 'Jump to line above cursor')
+  bind('L', user.line_forward, 'Jump to line below cursor')
 
-  bind('e', function() user.jump_to_word(false) end, 'Jump to word')
-  bind('E', function() user.jump_to_word(true) end, 'Jump to word (ignore _)')
+  bind('ge', function() user.jump_to_word(true) end, 'Jump to word')
 
   return keys
 end
