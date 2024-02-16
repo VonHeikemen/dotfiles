@@ -37,13 +37,12 @@ function Plugin.opts()
       hl = 'comment'
     }
   }
+
   action.new_file = {
     name = 'New File',
     display = 'n',
     keys = 'n',
-    fn = function()
-      vim.cmd('enew')
-    end
+    fn = '<cmd>enew<cr>'
   }
 
   action.search_file = {
@@ -68,9 +67,7 @@ function Plugin.opts()
     name = 'Explore',
     display = 'e',
     keys = 'e',
-    fn = function()
-      vim.cmd('FileExplorer!')
-    end
+    fn = '<cmd>FileExplorer!<cr>'
   }
 
   action.restore_session = {
@@ -101,9 +98,7 @@ function Plugin.opts()
     name = 'Quit',
     display = 'q',
     keys = 'q',
-    fn = function()
-      vim.cmd('quitall')
-    end
+    fn = '<cmd>quitall<cr>'
   }
 
   action.execute = {
@@ -119,9 +114,14 @@ function Plugin.opts()
     name = 'Open lazy.nvim UI',
     display = 'L',
     keys = 'L',
-    fn = function()
-      vim.cmd('Lazy')
-    end
+    fn = '<cmd>Lazy<cr>'
+  }
+
+  action.open_last = {
+    name = 'Open last file',
+    display = 'o',
+    keys = 'o',
+    fn = '<C-o><C-o>'
   }
 
   -- Add buttons
@@ -178,7 +178,6 @@ function Plugin.opts()
 end
 
 function Plugin.config(_, opts)
-  local env = require('user.env')
   local augroup = vim.api.nvim_create_augroup('alpha_cmds', {clear = true})
   local autocmd = vim.api.nvim_create_autocmd
 
@@ -191,7 +190,7 @@ function Plugin.config(_, opts)
           'n',
           item.keys,
           item.fn,
-          {silent = true, buffer = true}
+          {silent = true, buffer = true, nowait = true}
         )
       end
 
