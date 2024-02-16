@@ -3,7 +3,6 @@ local s = {}
 local uv = vim.loop or vim.uv
 
 M.window = nil
-s.empty = true
 s.mounted = false
 s.augroup = vim.api.nvim_create_augroup('buffernav_cmds', {clear = true})
 
@@ -108,10 +107,11 @@ function s.add_file(input)
   local start_row = vim.api.nvim_buf_line_count(M.window.bufnr)
   local end_row = start_row
 
-  if s.empty then
-    s.empty = false
-    start_row = 0
-    end_row = 1
+  if start_row == 1 then
+    local line = vim.api.nvim_buf_get_lines(M.window.bufnr, 0, 1, true)
+    if vim.trim(line[1]) == '' then
+      start_row = 0
+    end
   end
 
   vim.api.nvim_buf_set_lines(
@@ -177,7 +177,6 @@ function M.load_content(path)
     vim.cmd.read(path)
     s.filepath = path
     vim.api.nvim_buf_set_lines(window.bufnr, 0, 1, false, {})
-    s.empty = false
   end)
 
   M.window = window
