@@ -1,5 +1,5 @@
 local M = {}
-local pane_id = 'main:cmd'
+local pane_id = 'main:zsh'
 local cmd = ''
 
 local command = vim.api.nvim_create_user_command
@@ -25,7 +25,7 @@ function M.tmux_run(val, exec)
   vim.fn.jobstart(args)
 end
 
-function M.tmux_cmd(val)
+function M.tmux_cache_cmd(val)
   if #val > 0 then
     cmd = val
     return
@@ -40,7 +40,23 @@ function M.tmux_cmd(val)
   end)
 end
 
-function M.tmux_pane(val)
+function M.tmux_cmd(val, exec)
+  local run = ''
+
+  if #val > 0 then
+    run = val
+  end
+
+  if run == '' then
+    vim.notify('[tmux] Need to specify a command', vim.log.levels.WARN)
+    return
+  end
+
+  local args = {'tmux', run}
+  vim.fn.jobstart(args)
+end
+
+function M.tmux_cache_pane(val)
   if #val > 0 then
     pane_id = val
     return
@@ -71,11 +87,12 @@ local function parse_cmd(input)
   end
 
   local valid = {
+    cmd = M.tmux_cmd,
+    pwd = M.tmux_pwd,
     run = function(val) M.tmux_run(val, true) end,
     send = function(val) M.tmux_run(val, false) end,
-    cmd = M.tmux_cmd,
-    pane = M.tmux_pane,
-    pwd = M.tmux_pwd
+    ['cache-cmd'] = M.tmux_cache_cmd,
+    ['cache-pane'] = M.tmux_cache_pane,
   }
 
   local fn = valid[action]
