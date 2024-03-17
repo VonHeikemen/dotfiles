@@ -45,9 +45,9 @@ function Plugin.config()
       ['za'] = actions.toggle_show_hidden,
       ['i'] = actions.newfile,
       ['o'] = actions.mkdir,
-      ['r'] = actions.rename,
       ['d'] = actions.delete,
       ['Y'] = actions.yank_path,
+      ['cl'] = actions.rename,
 
       ['<Tab>'] = marks.toggle_mark,
 

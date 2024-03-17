@@ -21,6 +21,7 @@ function Plugin.init()
   local bind = vim.keymap.set
 
   bind('n', 's', '<nop>')
+  bind('n', 'S', '/')
 
   bind('n', 'si', '<cmd>SearchBoxIncSearch<cr>')
   bind('x', 'si', "<Esc><cmd>'<,'>SearchBoxIncSearch visual_mode=true<cr>")

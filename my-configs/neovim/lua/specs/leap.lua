@@ -32,7 +32,7 @@ function Plugin.keys()
   bind('H', user.line_backward, 'Jump to line above cursor')
   bind('L', user.line_forward, 'Jump to line below cursor')
 
-  bind('ge', function() user.jump_to_word(true) end, 'Jump to word')
+  bind('r', function() user.jump_to_word(true) end, 'Jump to word')
 
   return keys
 end
