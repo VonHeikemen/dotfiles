@@ -102,5 +102,29 @@ Plug {
   },
 }
 
+Plug {
+  'echasnovski/mini.notify',
+  branch = 'stable',
+  main = 'mini.notify',
+  lazy = true,
+  opts = {
+    lsp_progress = {
+      enable = false,
+    },
+  },
+  init = function()
+    vim.notify = function(...)
+      local notify = require('mini.notify').make_notify()
+      vim.notify = notify
+      return notify(...)
+    end   
+
+    vim.keymap.set('n', '<leader><space>', function()
+      vim.cmd("echo ''")
+      require('mini.notify').clear()
+    end)
+  end,
+}
+
 return Plugins
 
