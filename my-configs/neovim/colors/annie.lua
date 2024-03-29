@@ -21,7 +21,8 @@ local color = {
   dim_gray       = {gui = '#62686F', cterm = 242},
   silver         = {gui = '#B0AEB0', cterm = 145},
   bright_yellow  = {gui = '#F2CA27', cterm = 220},
-  metal_blue     = {gui = '#272E38', cterm = 236},
+  metal_gray     = {gui = '#2E363E', cterm = 236},
+  darkness       = {gui = '#272E35', cterm = 237},
 }
 
 local theme = {
@@ -40,7 +41,7 @@ local theme = {
     error_bg = nil
   },
   ui = {
-    cursorline    = color.metal_blue,
+    cursorline    = color.metal_gray,
     selection     = color.bright_gray,
     colorcolumn   = color.dark_blue,
     dark_text     = color.silver,
@@ -76,18 +77,22 @@ local link = cs.link
 local hs = cs.set_hl
 local hi = cs.highlight
 
-link('TelescopeMatching', 'Boolean')
-link('TelescopeSelection', 'CursorLine')
 link('NormalFloat', 'Normal')
 link('markdownError', cs.no_color)
-
-hi('TelescopeSelectionCaret', color.orange, color.metal_blue)
 
 hi('DiffAdd', color.green)
 hi('DiffChange', color.yellow)
 hi('DiffDelete', color.red)
 hi('DiffText', color.cyan)
 
+link('TelescopeMatching', 'Boolean')
+link('TelescopeSelection', 'CursorLine')
+hi('TelescopeSelectionCaret', color.orange, color.metal_gray)
+
 hs('IndentBlanklineChar', {fg = '#494E5B'})
 hs('IndentBlanklineContextChar', {fg = '#6D717C'})
+
+hi('MiniJump2dSpot', color.black, color.green)
+
+hi('TermBg', color.white, color.darkness)
 

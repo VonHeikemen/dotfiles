@@ -20,6 +20,7 @@ local color = {
   gray       = {gui = '#565F89', cterm = 60},
   light_gray = {gui = '#292E42', cterm = 236},
   dark_gray  = {gui = '#6B7678', cterm = 243},
+  darkness   = {gui = '#1F2233', cterm = 235},
 }
 
 local theme = {
@@ -73,15 +74,21 @@ local hi = cs.highlight
 hi('PmenuThumb', {}, color.blue_two)
 hi('PmenuSbar', {}, color.gray_two)
 hi('Search', {}, color.bright_blue)
+hi('helpHyperTextJump', color.magenta, {})
+hi('helpHyperTextEntry', color.yellow, {})
 
 link('TelescopeMatching', 'Boolean')
 link('TelescopeSelection', 'CursorLine')
 link('markdownError', cs.no_color)
 
+hi('MiniJump2dSpot', color.black, color.green)
+
 hi('DiffAdd', color.green)
 hi('DiffChange', color.yellow)
 hi('DiffDelete', color.red)
 hi('DiffText', color.cyan)
+
+hi('helpHeader', color.blue)
 
 local statusline = require('local.statusline').higroups()
 
@@ -92,4 +99,6 @@ hi(statusline['STATUS-BLOCK'], color.white, color.blue_two)
 local tabline = require('local.tabline').higroups()
 
 link(tabline['TABLINE-SEPARATOR'], 'Function')
+
+hi('TermBg', color.white, color.darkness)
 

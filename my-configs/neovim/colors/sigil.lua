@@ -14,6 +14,7 @@ local color = {
   orange        = {gui = '#BD6F3E', cterm = 131},
   light_green   = {gui = '#3D4C3E', cterm = 238},
   bright_black  = {gui = '#191C1D', cterm = 233},
+  eerie_black   = {gui = '#171A1A', cterm = 234},
 
   gray        = {gui = '#958272', cterm = 8  },
   light_gray  = {gui = '#212425', cterm = 235},
@@ -71,10 +72,6 @@ local hi = cs.highlight
 
 hi('Search', color.white, color.light_green)
 hi('MatchParen', color.orange, color.bright_gray)
-hi('TelescopeMatching', color.magenta)
-hi('TelescopeSelectionCaret', color.orange)
-
-link('TelescopeSelection', 'CursorLine')
 link('markdownError', cs.no_color)
 
 hi('DiffAdd', color.green)
@@ -82,7 +79,14 @@ hi('DiffChange', color.yellow)
 hi('DiffDelete', color.red)
 hi('DiffText', color.cyan)
 
+hi('TelescopeMatching', color.magenta)
+hi('TelescopeSelectionCaret', color.orange)
+link('TelescopeSelection', 'CursorLine')
+
+hi('MiniJump2dSpot', color.eerie_black, color.yellow)
+
 hi('htmlTag', color.magenta)
+
 hi('@tag.delimiter', color.magenta)
 
 hi('Underlined', color.sad_blue, nil, {'underline'})
@@ -97,4 +101,6 @@ hi(statusline['DEFAULT'], color.black, color.orange)
 local tabline = require('local.tabline').higroups()
 
 link(tabline['TABLINE-SEPARATOR'], 'Function')
+
+hi('TermBg', color.white, color.eerie_black)
 
