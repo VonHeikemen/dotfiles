@@ -169,13 +169,16 @@ local function session_config()
   vim.cmd({cmd = 'edit', args ={path .. 'x.vim'}})
 end
 
-command('SessionSave', M.save_current, {})
-command('SessionLoad', load_session, {nargs = '?'})
-command('SessionNew', M.new_session, {})
-command('SessionNewBranch', new_branch, {nargs = 1})
-command('SessionLoadBranch', load_branch, {nargs = 1})
-command('SessionConfig', session_config, {})
-command('SessionRestore', restore, {bang = true})
+function M.setup()
+  command('SessionSave', M.save_current, {})
+  command('SessionLoad', load_session, {nargs = '?'})
+  command('SessionNew', M.new_session, {})
+  command('SessionNewBranch', new_branch, {nargs = 1})
+  command('SessionLoadBranch', load_branch, {nargs = 1})
+  command('SessionConfig', session_config, {})
+  command('SessionRestore', restore, {bang = true})
+  M.autosave()
+end
 
 return M
 

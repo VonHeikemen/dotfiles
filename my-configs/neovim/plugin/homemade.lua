@@ -3,7 +3,7 @@
 -- ========================================================================== --
 
 require('local.tmux')
-require('local.session')
+require('local.session').setup()
 require('local.tabline').setup()
 require('local.terminal').setup()
 require('local.buffer-nav').setup()
