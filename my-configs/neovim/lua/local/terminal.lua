@@ -15,11 +15,12 @@ s.config = {
 function M.setup()
   vim.keymap.set({'n', 'i', 'x', 't'}, '<M-i>', '<cmd>Term<cr>')
 
-  vim.keymap.set('t', '<C-o>w', '<C-\\><C-n><C-w>w')
-  vim.keymap.set('t', '<C-o>h', '<C-\\><C-n><C-w>h')
-  vim.keymap.set('t', '<C-o>k', '<C-\\><C-n><C-w>k')
-  vim.keymap.set('t', '<C-o>j', '<C-\\><C-n><C-w>j')
-  vim.keymap.set('t', '<C-o>l', '<C-\\><C-n><C-w>l')
+  vim.keymap.set('t', '<C-w>w', '<C-w>')
+  vim.keymap.set('t', '<C-w>o', '<C-\\><C-n><C-w>w')
+  vim.keymap.set('t', '<C-w>h', '<C-\\><C-n><C-w>h')
+  vim.keymap.set('t', '<C-w>k', '<C-\\><C-n><C-w>k')
+  vim.keymap.set('t', '<C-w>j', '<C-\\><C-n><C-w>j')
+  vim.keymap.set('t', '<C-w>l', '<C-\\><C-n><C-w>l')
 
   vim.keymap.set('t', '<C-o>t', '<C-\\><C-n>gt')
   vim.keymap.set('t', '<C-o>T', '<C-\\><C-n>gT')
