@@ -82,6 +82,7 @@ link('TelescopeSelection', 'CursorLine')
 link('markdownError', cs.no_color)
 
 hi('MiniJump2dSpot', color.black, color.green)
+link('MiniJump2dSpotAhead', 'MiniJump2dSpot')
 
 hi('DiffAdd', color.green)
 hi('DiffChange', color.yellow)

@@ -93,6 +93,7 @@ hs('IndentBlanklineChar', {fg = '#494E5B'})
 hs('IndentBlanklineContextChar', {fg = '#6D717C'})
 
 hi('MiniJump2dSpot', color.black, color.green)
+link('MiniJump2dSpotAhead', 'MiniJump2dSpot')
 
 hi('TermBg', color.white, color.darkness)
 

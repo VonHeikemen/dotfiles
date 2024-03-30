@@ -84,6 +84,7 @@ hi('TelescopeSelectionCaret', color.orange)
 link('TelescopeSelection', 'CursorLine')
 
 hi('MiniJump2dSpot', color.eerie_black, color.yellow)
+link('MiniJump2dSpotAhead', 'MiniJump2dSpot')
 
 hi('htmlTag', color.magenta)
 
