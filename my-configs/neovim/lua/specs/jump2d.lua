@@ -38,9 +38,7 @@ function Plugin.keys()
 end
 
 function user.jump_line(dir)
-  local jump = require('mini.jump2d')
-
-  local opts = vim.deepcopy(jump.builtin_opts.line_start)
+  local opts = {hooks = {}} 
 
   opts.labels = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL'
 
@@ -51,30 +49,34 @@ function user.jump_line(dir)
     cursor_after = false,
   }
 
+  opts.hooks.before_start = function()
+    local ls = require('mini.jump2d').builtin_opts.line_start
+
+    opts.spotter = ls.spotter
+    opts.hooks.after_jump = ls.hooks.after_jump
+    opts.hooks.before_start = nil
+  end
+
   if dir == 'down' then
     opts.allowed_lines.cursor_before = false
     opts.allowed_lines.cursor_after = true
   end
 
   return function()
-    jump.start(opts)
+    require('mini.jump2d').start(opts)
   end
 end
 
 function user.jump_char()
-  local jump = require('mini.jump2d')
-  local opts = jump.builtin_opts.single_character
   return function()
-    jump.start(opts)
+    local jump = require('mini.jump2d')
+    jump.start(jump.builtin_opts.single_character)
   end
 end
 
 function user.jump_word()
-  local jump = require('mini.jump2d')
-
   local opts = {hooks = {}}
   local noop = function() return {} end
-  local word_start = jump.builtin_opts.word_start.spotter
 
   opts.spotter = noop
 
@@ -84,6 +86,9 @@ function user.jump_word()
       opts.spotter = noop
       return
     end
+
+    local jump = require('mini.jump2d')
+    local word_start = jump.builtin_opts.word_start.spotter
 
     local char
     local skip_word_filter = true
@@ -123,7 +128,7 @@ function user.jump_word()
   end
 
   return function()
-    jump.start(opts)
+    require('mini.jump2d').start(opts)
   end
 end
 
