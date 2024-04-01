@@ -14,6 +14,9 @@ Plugin.opts = {
   allowed_windows = {
     not_current = false
   },
+  mappings = {
+    start_jumping = '',
+  },
 }
 
 function Plugin.init()
