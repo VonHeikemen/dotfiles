@@ -29,12 +29,16 @@ function Plugin.keys()
   end
 
   bind('r', user.jump_word(), 'Jump to word')
-  bind('R', user.jump_char(), 'Jump to character')
+  bind('R', user.jump_char(), 'Two characters search')
 
   bind('H', user.jump_line('up'), 'Jump to line above cursor')
   bind('L', user.jump_line('down'), 'Jump to line below cursor')
 
   return keys
+end
+
+function user.noop()
+  return {}
 end
 
 function user.jump_line(dir)
@@ -68,15 +72,38 @@ function user.jump_line(dir)
 end
 
 function user.jump_char()
+  local opts = {hooks = {}}
+  local noop = user.noop
+
+  opts.hooks.before_start = function()
+    local input = ''
+    local total = 2
+
+    for i=1, total, 1 do
+      local ok, ch = pcall(vim.fn.getcharstr)
+      if ok == false or ch == nil then
+        opts.spotter = noop
+        return
+      end
+
+      if ch:match('[a-zA-Z]') then
+        input = string.format('%s[%s%s]', input, ch:lower(), ch:upper())
+      else
+        input = string.format('%s%s', input, vim.pesc(ch))
+      end
+    end
+
+    opts.spotter = require('mini.jump2d').gen_pattern_spotter(input)
+  end
+
   return function()
-    local jump = require('mini.jump2d')
-    jump.start(jump.builtin_opts.single_character)
+    require('mini.jump2d').start(opts)
   end
 end
 
 function user.jump_word()
   local opts = {hooks = {}}
-  local noop = function() return {} end
+  local noop = user.noop
 
   opts.spotter = noop
 
