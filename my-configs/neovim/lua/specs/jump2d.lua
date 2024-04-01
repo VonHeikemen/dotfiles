@@ -77,26 +77,36 @@ end
 function user.jump_char()
   local opts = {hooks = {}}
   local noop = user.noop
+  local fmt = string.format
 
   opts.hooks.before_start = function()
     local input = ''
-    local total = 2
+    local prompt = '> '
+    local max_chars = 2
 
-    for i=1, total, 1 do
+    vim.api.nvim_echo({{prompt}}, false, {})
+    for i=1, max_chars, 1 do
       local ok, ch = pcall(vim.fn.getcharstr)
       if ok == false or ch == nil then
         opts.spotter = noop
         return
       end
 
+      prompt = fmt('%s%s', prompt, ch)
+      vim.api.nvim_echo({{prompt}}, false, {})
+
       if ch:match('[a-zA-Z]') then
-        input = string.format('%s[%s%s]', input, ch:lower(), ch:upper())
+        input = fmt('%s[%s%s]', input, ch:lower(), ch:upper())
       else
-        input = string.format('%s%s', input, vim.pesc(ch))
+        input = fmt('%s%s', input, vim.pesc(ch))
       end
     end
 
     opts.spotter = require('mini.jump2d').gen_pattern_spotter(input)
+  end
+
+  opts.hooks.after_jump = function()
+    vim.cmd("echo '' | redraw")
   end
 
   return function()
