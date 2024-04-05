@@ -142,10 +142,10 @@ bind('n', '<leader>ur', '<cmd>set invrelativenumber<cr>')
 -- ========================================================================== --
 
 -- Add word to search then replace
-bind('n', '<leader>j', [[<cmd>let @/='\<'.expand('<cword>').'\>'<cr>"_ciw]])
+bind('n', 'sj', [[<cmd>let @/='\<'.expand('<cword>').'\>'<cr>"_ciw]])
 
 -- Add selection to search then replace
-bind('x', '<leader>j', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>"_cgn]])
+bind('x', 'sj', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>"_cgn]])
 
 -- Begin a "searchable" macro
 bind('x', 'qi', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>gvqi]])
