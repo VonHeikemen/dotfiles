@@ -36,9 +36,11 @@ function M.create(name)
   M.autosave()
 end
 
-function M.source(name)
-  local file = join(session_dir, name .. '.vim')
+function M.source(name, dir)
+  local path = dir or session_dir
+  local file = join(path, name .. '.vim')
 
+  vim.g.session_name = name
   vim.cmd({cmd = 'source', args = {file}})
   M.autosave()
 end
@@ -47,8 +49,9 @@ function M.is_readable(name)
   return vim.fn.filereadable(join(session_dir, name .. '.vim')) == 1
 end
 
-function M.save(name)
-  mksession(join(session_dir, name .. '.vim'), true)
+function M.save(name, dir)
+  local path = dir or session_dir
+  mksession(join(path, name .. '.vim'), true)
 end
 
 function M.save_current()
@@ -131,7 +134,8 @@ local function new_branch(input)
   M.save_current()
 
   local branch = '%s::%s'
-  local name = vim.split(vim.g.session_name, '::')[1]
+  local current = vim.fn.fnamemodify(vim.v.this_session, ':t:r')
+  local name = vim.split(current, '::')[1]
   M.create(branch:format(name, input.args))
 end
 
@@ -145,8 +149,9 @@ local function load_branch(input)
   M.save_current()
 
   local branch = '%s::%s'
+  local current = vim.fn.fnamemodify(vim.v.this_session, ':t:r')
   local name = branch:format(
-    vim.split(vim.g.session_name, '::')[1],
+    vim.split(current, '::')[1],
     input.args
   )
 

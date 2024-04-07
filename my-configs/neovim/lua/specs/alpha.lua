@@ -74,15 +74,7 @@ function Plugin.opts()
     name = 'Restore Session',
     display = 's',
     keys = 's',
-    fn = function()
-      local session = require('local.session')
-      local name = session.read_name(vim.fn.getcwd())
-      if name then
-        session.load_current(name)
-      else
-        vim.notify('There is no session available')
-      end
-    end
+    fn = '<cmd>ResumeWork<cr>'
   }
 
   action.help = {

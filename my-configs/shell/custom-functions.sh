@@ -96,16 +96,17 @@ j ()
 code ()
 {
   if [ -z "$1" ]; then
-    if [ -f "./.git/session-nvim" ] || [ -f "./.session-nvim" ]; then
-      vi -c "SessionRestore!"
-      return
+    vi -c "ResumeWork!"
+    if [ $? -eq 2 ]; then
+      echo "\nThere is no project or session available"
     fi
+    return
   fi
 
-  local file="$HOME/.local/share/nvim/sessions/$1.vim"
+  local dir="$HOME/.local/share/nvim/project-store/$1/"
 
-  if [ -f "$file" ]; then
-    vi -c "SessionLoad $1"
+  if [ -d "$dir" ]; then
+    vi -c "ProjectLoad $1"
     return
   fi
 

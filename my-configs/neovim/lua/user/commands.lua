@@ -75,13 +75,43 @@ command(
       arg = vim.json.decode(input.args:sub(index + 1))
     end
 
-    local settings = require('user.projects')[name]
+    local settings = require('user.project-config')[name]
 
     if settings then
       settings(arg)
     end
   end,
   {desc = 'Use project settings', nargs = 1}
+)
+
+command(
+  'ResumeWork',
+  function(input)
+    local project = require('local.project')
+    local name = project.get_current()
+
+    if name then
+      project.load({name = name})
+      return
+    end
+
+    local session = require('local.session')
+    name = session.read_name(vim.fn.getcwd())
+
+    if name then
+      session.load_current(name)
+      return
+    end
+
+    if input.bang then
+      vim.cmd('cquit 2')
+      return
+    end
+
+    local msg = 'There is no session or project available in the current folder'
+    vim.notify(msg, vim.log.levels.WARN)
+  end,
+  {bang = true, desc = 'Load project or session in current folder'}
 )
 
 command(

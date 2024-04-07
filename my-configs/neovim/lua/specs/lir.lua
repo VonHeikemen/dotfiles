@@ -19,8 +19,8 @@ function Plugin.init()
 
   vim.api.nvim_create_user_command(
     'FileExplorer',
-    function(input) toggle(input.bang) end,
-    {bang = true}
+    function(input) toggle(input.args, input.bang) end,
+    {bang = true, nargs = '?'}
   )
 end
 
@@ -86,9 +86,17 @@ function user.on_init()
   vim.wo.statusline = require('local.statusline').get_status('short')
 end
 
-function user.toggle(cwd)
+function user.toggle(cwd, root)
   local env = require('user.env')
-  local path = cwd and vim.fn.getcwd() or vim.fn.expand('%:p:h')
+  local path = ''
+
+  if root then
+    path = vim.fn.getcwd()
+  elseif cwd == '' then
+    path = vim.fn.expand('%:p:h')
+  else
+    path = cwd
+  end
 
   if vim.o.lines > env.small_screen_lines then
     require('lir.float').toggle(path)
