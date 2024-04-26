@@ -332,6 +332,7 @@ function M.apply_links()
   link('@text.literal.vimdoc', cs_normal)
   link('@tag.delimiter.twig', cs_normal)
   link('@punctuation.bracket.twig', cs_normal)
+  link('@string.special.url.html', 'String')
 end
 
 function M.terminal(theme)

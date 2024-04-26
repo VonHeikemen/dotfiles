@@ -14,13 +14,16 @@ local color = {
   bright_white  = {gui = '#DADFE1', cterm = 253},
   bright_blue   = {gui = '#3D59A1', cterm = 62 },
   blue_two      = {gui = '#3B4261', cterm = 239},
-  blue_three    = {gui = '#364A82', cterm = 239},
+  blue_three    = {gui = '#2E3C64', cterm = 239},
+  blue_four     = {gui = '#4B5581', cterm = 60 },
   gray_two      = {gui = '#222229', cterm = 235},
 
-  gray       = {gui = '#565F89', cterm = 60},
+  gray       = {gui = '#565F89', cterm = 60 },
   light_gray = {gui = '#292E42', cterm = 236},
   dark_gray  = {gui = '#6B7678', cterm = 243},
   darkness   = {gui = '#1F2233', cterm = 235},
+  black_two  = {gui = '#151828', cterm = 234},
+  space_blue = {gui = '#272F49', cterm = 236},
 }
 
 local theme = {
@@ -46,8 +49,8 @@ local theme = {
     line_nr       = color.dark_gray,
     line_bg       = color.bright_black,
     folds         = color.dark_gray,
-    menu_item     = color.bright_black,
-    menu_selected = color.light_gray,
+    menu_item     = color.black_two,
+    menu_selected = color.space_blue,
     search        = color.yellow,
     matchparen    = color.cyan,
     info          = color.cyan,
@@ -63,6 +66,8 @@ local theme = {
     magenta = color.magenta.gui,
     yellow  = color.yellow.gui,
     cyan    = color.cyan.gui,
+
+    bright_black = color.blue_four.gui,
   },
 }
 
