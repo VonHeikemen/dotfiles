@@ -2,10 +2,16 @@ local M = {}
 local pane_id = 'main:zsh'
 local cmd = ''
 
-local command = vim.api.nvim_create_user_command
+function M.setup()
+  local command = vim.api.nvim_create_user_command
+  
+  command('Tmux', M.parse_cmd, {nargs = 1})
+end
 
-function M.tmux_run(val, exec)
+function M.run(val, opts)
   local run = cmd
+  local opts = opts or {}
+  local cwd = opts.cwd or vim.fn.getcwd()
 
   if #val > 0 then
     run = val
@@ -18,14 +24,14 @@ function M.tmux_run(val, exec)
 
   local args = {'tmux', 'send-keys', '-t', pane_id, run}
 
-  if exec then
+  if opts.exec then
     table.insert(args, 'C-m')
   end
 
-  vim.fn.jobstart(args)
+  vim.fn.jobstart(args, {cwd = cwd})
 end
 
-function M.tmux_cache_cmd(val)
+function M.cache_cmd(val)
   if #val > 0 then
     cmd = val
     return
@@ -40,7 +46,7 @@ function M.tmux_cache_cmd(val)
   end)
 end
 
-function M.tmux_cmd(val, exec)
+function M.cmd(val, exec)
   local run = ''
 
   if #val > 0 then
@@ -56,7 +62,7 @@ function M.tmux_cmd(val, exec)
   vim.fn.jobstart(args)
 end
 
-function M.tmux_cache_pane(val)
+function M.cache_pane(val)
   if #val > 0 then
     pane_id = val
     return
@@ -71,12 +77,12 @@ function M.tmux_cache_pane(val)
   end)
 end
 
-function M.tmux_pwd()
+function M.pwd()
   local cd = ' cd %s'
-  M.tmux_run(cd:format(vim.fn.getcwd()), true)
+  M.run(cd:format(vim.fn.getcwd()), true)
 end
 
-local function parse_cmd(input)
+function M.parse_cmd(input)
   local index = input.args:find(' ') or 1
   local action = input.args:sub(1, index - 1)
   local args = input.args:sub(index + 1)
@@ -87,12 +93,12 @@ local function parse_cmd(input)
   end
 
   local valid = {
-    cmd = M.tmux_cmd,
-    pwd = M.tmux_pwd,
-    run = function(val) M.tmux_run(val, true) end,
-    send = function(val) M.tmux_run(val, false) end,
-    ['cache-cmd'] = M.tmux_cache_cmd,
-    ['cache-pane'] = M.tmux_cache_pane,
+    cmd = M.cmd,
+    pwd = M.pwd,
+    run = function(val) M.run(val, {exec = true}) end,
+    send = function(val) M.run(val, {exec = false}) end,
+    ['cache-cmd'] = M.cache_cmd,
+    ['cache-pane'] = M.cache_pane,
   }
 
   local fn = valid[action]
@@ -102,8 +108,6 @@ local function parse_cmd(input)
     vim.notify('[tmux] Invalid command', vim.log.levels.ERROR)
   end
 end
-
-command('Tmux', parse_cmd, {nargs = 1})
 
 return M
 
