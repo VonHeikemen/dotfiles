@@ -1,4 +1,4 @@
-local cs = require('local.colorscheme')
+local cs = require('colorscheme')
 
 local color = {
   white   = {gui = '#D4BE98', cterm = 180},
@@ -92,14 +92,14 @@ hi('@tag.delimiter', color.magenta)
 
 hi('Underlined', color.sad_blue, nil, {'underline'})
 
-local statusline = require('local.statusline').higroups()
+local statusline = require('statusline').higroups()
 
 hi(statusline['NORMAL'], color.black, color.blue)
 hi(statusline['COMMAND'], color.black, color.magenta)
 hi(statusline['INSERT'], color.black, color.green)
 hi(statusline['DEFAULT'], color.black, color.orange)
 
-local tabline = require('local.tabline').higroups()
+local tabline = require('tabline').higroups()
 
 link(tabline['TABLINE-SEPARATOR'], 'Function')
 

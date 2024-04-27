@@ -1,42 +1,19 @@
 local function join(...) return table.concat({...}, '/') end
-local env = require('user.env')
 
 local M = {store = {}, cmd = {}}
 local warn = vim.log.levels.WARN
 
 local project_store
-if env.project_store then
-  project_store = env.project_store
+if vim.g.project_store_path then
+  project_store = vim.g.project_store_path
 else
   project_store = join(vim.fn.stdpath('data'), 'project-store')
 end
 
-function M.setup()
-  M.plugin()
-
-  vim.keymap.set('n', '<leader>de', '<cmd>ProjectStore<cr>')
-  vim.keymap.set('n', '<leader>dp', '<cmd>ProjectEditConfig<cr>')
-end
-
-function M.plugin()
-  local command = vim.api.nvim_create_user_command
-
-  command('ProjectCreate', M.cmd.create, {nargs = '?'})
-  command('ProjectChange', M.cmd.set, {nargs = '?'})
-  command('ProjectLoad', M.cmd.load, {nargs = '?'})
-  command('ProjectStore', M.cmd.browse_store, {})
-
-  command('ProjectMakeSession', M.cmd.make_session, {nargs = '?'})
-  command('ProjectSaveBuffers', M.cmd.save_buffers, {bang = true, nargs = '?'})
-  command('ProjectReadBuffers', M.cmd.read_buffers, {nargs = '?'})
-  command('ProjectEditConfig', M.cmd.edit_luarc, {nargs = '?'})
-end
-
-
 ---
 -- Read/Save project
 ---
-local function set(name, state)
+function M.set(name, state)
   local project_dir = join(project_store, name)
 
   if state == 'validate' and vim.fn.isdirectory(project_dir) == 0 then
@@ -77,7 +54,7 @@ function M.get_current()
 end
 
 function M.create(name)
-  return set(name, 'empty')
+  return M.set(name, 'empty')
 end
 
 function M.load(opts)
@@ -95,18 +72,24 @@ function M.load(opts)
       vim.notify(msg, warn)
       return
     end
-
-    local parts = vim.split(name, '::')
-    if parts[2] then
-      name = parts[1]
-      branch = parts[2]
-    end
   end
 
-  local ok = set(name, 'validate')
+  local parts = vim.split(name, '::')
+  if parts[2] then
+    name = parts[1]
+    branch = parts[2]
+  end
+
+  local ok = M.set(name, 'validate')
   if not ok then
+    if opts.quit then
+      vim.cmd('cquit 2')
+    end
+
     return
   end
+
+  M.store.branch = branch
 
   if luarc then
     M.source_luarc(opts.luarc)
@@ -143,7 +126,7 @@ function M.make_session(name)
   end
 
   name = type(name) == 'string' and name or 'Session'
-  require('local.session').save(name, M.store.dir)
+  require('session').save(name, M.store.dir)
 end
 
 function M.load_session(name, branch)
@@ -165,7 +148,7 @@ function M.load_session(name, branch)
     return
   end
 
-  require('local.session').source(name, M.store.dir)
+  require('session').source(name, M.store.dir)
 
   if vim.v.this_session then
     M.store.session = vim.v.this_session
@@ -209,65 +192,6 @@ function M.load_buffer_list(name)
   end
 end
 
-
----
--- Commands
----
-function M.cmd.set(input)
-  if input.args == '' then
-    local msg = 'Must provide a name for the project folder'
-    vim.notify(msg, warn)
-    return
-  end
-
-  set(input.args, 'validate')
-end
-
-function M.cmd.create(input)
-  if input.args == '' then
-    local msg = 'Must provide a name for the project folder'
-    vim.notify(msg, warn)
-    return
-  end
-
-  M.create(input.args)
-end
-
-function M.cmd.save_buffers(input)
-  local name = input.args == '' and 'current' or input.args
-  M.save_buffer_list(name)
-end
-
-function M.cmd.read_buffers(input)
-  local name = input.args == '' and 'current' or input.args
-  M.load_buffer_list(name)
-end
-
-function M.cmd.edit_luarc(input)
-  local name = input.args == '' and 'rc' or input.args
-  local path = join(M.store.dir, name .. '.lua')
-
-  vim.cmd.edit(path)
-end
-
-function M.cmd.load(input)
-  M.load({name = input.args})
-end
-
-function M.cmd.make_session(input)
-  local name = input.args == '' and 'Session' or input.args
-  M.make_session(name)
-end
-
-function M.cmd.browse_store()
-  if M.store.current == nil then
-    local msg = 'Project folder has not been set'
-    vim.notify(msg, warn)
-    return
-  end
-
-  vim.cmd.FileExplorer(M.store.dir)
-end
 
 return M
 

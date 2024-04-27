@@ -1,20 +1,20 @@
 local Project = {}
 
-local function cmp_source(ft, new_source)
-  local cmp = require('cmp')
-  local sources = vim.deepcopy(cmp.get_config().sources)
-
-  for _, s in pairs(new_source) do
-    table.insert(sources, {name = s, keyword_length = 3})
+function Project.store_dir()
+  local store = require('project').store
+  if store.dir then
+    return store.dir
   end
 
-  cmp.setup.filetype(ft, {sources = sources})
+  return ''
+end
+
+function Project.buffers(name)
+  require('project').load_buffer_list(name)
 end
 
 function Project.nvim_config()
   vim.cmd('Lsp')
-  cmp_source('lua', {'nvim_lua'})
-
   require('lsp-zero').use('nvim_lua', {})
 end
 
@@ -42,8 +42,6 @@ function Project.nvim_plugin(opts)
     }
   }
 
-  cmp_source('lua', {'nvim_lua'})
-
   lsp_zero.use('nvim_lua', lua_opts)
 end
 
@@ -69,17 +67,49 @@ end
 
 function Project.zk()
   vim.opt.path = {'.', '', '**'}
-
-  vim.keymap.set('n', 'gd', function()
-    local fmt = string.format
+  local get_path = function()
     local delimeter = '/,-,:'
-
+    local fmt = string.format
     vim.cmd(fmt('set iskeyword+=%s', delimeter))
     local file = fmt('%s.md', vim.fn.expand('<cword>'))
     vim.cmd(fmt('set iskeyword-=%s', delimeter))
+    return file
+  end
 
-    vim.cmd({cmd = 'find', args = {file}})
+  vim.keymap.set('n', 'gd', function()
+    local file = get_path()
+    local ok = pcall(vim.cmd, {cmd = 'find', args = {file}})
+    if not ok then
+      local msg = string.format('Could not find "%s"', file)
+      vim.notify(msg, vim.log.levels.WARN)
+    end
   end, {desc = 'Go to linked file'})
+
+  vim.keymap.set('n', '<C-g>g', function()
+    local file = get_path()
+    local exec = {cmd = 'edit', args = {file}}
+    if vim.fn.filereadable(file) == 1 then
+      vim.cmd(exec)
+      return
+    end
+
+    vim.fn.system({'zk', 'new', '--no-input', '--print-path', file})
+    vim.cmd(exec)
+  end, {desc = 'Edit linked file under cursor'})
+
+  local function new(input)
+    local file = input.args
+    local zk_cmd = {'zk', 'new', '--no-input', '--print-path'}
+
+    if file ~= '' then
+      table.insert(zk_cmd, file)
+    end
+
+    local path = vim.fn.system(zk_cmd)
+    vim.cmd({cmd = 'edit', args = {vim.trim(path)}})
+  end
+
+  vim.api.nvim_create_user_command('New', new, {nargs = '?'})
 end
 
 function Project.worktask()
@@ -87,7 +117,7 @@ function Project.worktask()
   vim.opt.textwidth = 80
 
   vim.keymap.set('n', 'gw', 'mt0cl><esc>`t', {desc = 'Mark current task'})
-  vim.keymap.set('n', 'ge', 'mt0cl <esc>`t', {nowait = true, desc = 'Delete mark'})
+  vim.keymap.set('n', 'gx', 'mt0cl <esc>`t', {nowait = true, desc = 'Delete mark'})
   vim.keymap.set('n', 'gu', 'mt0cl?<esc>`t', {desc = 'Mark task as paused'})
   vim.keymap.set('n', 'gt', 'gg/^><cr>zz', {desc = 'Go to current task'})
 

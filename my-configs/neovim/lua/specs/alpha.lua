@@ -192,7 +192,7 @@ function Plugin.config(_, opts)
       end
 
       vim.w.status_style = 'short'
-      vim.wo.statusline = require('local.statusline').get_status('short')
+      vim.wo.statusline = require('statusline').get_status('short')
     end
   })
 

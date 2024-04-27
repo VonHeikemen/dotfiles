@@ -87,7 +87,7 @@ command(
 command(
   'ResumeWork',
   function(input)
-    local project = require('local.project')
+    local project = require('project')
     local name = project.get_current()
 
     if name then
@@ -95,7 +95,7 @@ command(
       return
     end
 
-    local session = require('local.session')
+    local session = require('session')
     name = session.read_name(vim.fn.getcwd())
 
     if name then

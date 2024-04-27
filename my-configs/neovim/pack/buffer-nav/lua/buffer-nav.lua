@@ -4,37 +4,7 @@ local uv = vim.loop or vim.uv
 
 M.window = nil
 s.mounted = false
-s.augroup = vim.api.nvim_create_augroup('buffernav_cmds', {clear = true})
-
-function M.setup()
-  M.plugin()
-
-  s.save_keymap = '<leader>w'
-  vim.keymap.set('n', 'M', '<cmd>BufferNavMenu<cr>')
-  vim.keymap.set('n', '<leader>m', '<cmd>BufferNavMark<cr>')
-  vim.keymap.set('n', '<leader>M', '<cmd>BufferNavMark!<cr>')
-  vim.keymap.set('n', '<M-1>', '<cmd>BufferNav 1<cr>')
-  vim.keymap.set('n', '<M-2>', '<cmd>BufferNav 2<cr>')
-  vim.keymap.set('n', '<M-3>', '<cmd>BufferNav 3<cr>')
-  vim.keymap.set('n', '<M-4>', '<cmd>BufferNav 4<cr>')
-end
-
-function M.plugin()
-  local command = vim.api.nvim_create_user_command
-  local autocmd = vim.api.nvim_create_autocmd
-
-  command('BufferNav', s.buffer_nav, {nargs = 1})
-  command('BufferNavMenu', M.show_menu, {})
-  command('BufferNavMark', s.add_file, {bang = true})
-  command('BufferNavRead', s.read_content, {nargs = 1, complete = 'file'})
-  command('BufferNavSave', s.save_content, {nargs = '?', complete = 'file'})
-
-  autocmd('FileType', {
-    pattern = 'BufferNav',
-    group = s.augroup,
-    callback = M.after_mount
-  })
-end
+s.augroup = 'buffernav_cmds'
 
 function M.after_mount(event)
   if M.window == nil then
@@ -64,7 +34,9 @@ function M.after_mount(event)
   vim.keymap.set('n', 'q', close, opts)
   vim.keymap.set('n', '<C-c>', close, opts)
 
-  vim.keymap.set('n', s.save_keymap, '<cmd>BufferNavSave<cr>', opts)
+  if vim.g.buffer_nav_save then
+    vim.keymap.set('n', vim.g.buffer_nav_save, '<cmd>BufferNavSave<cr>', opts)
+  end
 
   vim.keymap.set('n', '<cr>', accept, opts)
   vim.keymap.set('n', '<M-b>', accept, opts)
@@ -96,9 +68,11 @@ function M.show_menu()
   end
 end
 
-function s.add_file(input)
+function M.add_file(opts)
+  opts = opts or {}
   local name = vim.fn.bufname('%')
   local should_mount = M.window == nil
+  local show_buffers = opts.show_buffers == true
 
   if should_mount then
     M.window = s.create_window()
@@ -122,7 +96,7 @@ function s.add_file(input)
     {vim.fn.fnamemodify(name, ':.')}
   )
 
-  if input.bang == false then
+  if show_buffers == false then
     return
   end
 
@@ -217,30 +191,11 @@ function s.create_window()
   return window
 end
 
-function s.buffer_nav(input)
-  local index = tonumber(input.args)
-  if index == nil then
-    return
-  end
 
-  M.go_to_file(index)
-end
-
-function s.read_content(input)
-  local path = input.args
-  if path == nil then
-    return
-  end
-
-  M.load_content(path)
-end
-
-function s.save_content(input)
+function M.save_content(path)
   if vim.bo.filetype ~= 'BufferNav' then
     return
   end
-
-  local path = input.args
 
   if path == '' then
     path = s.filepath

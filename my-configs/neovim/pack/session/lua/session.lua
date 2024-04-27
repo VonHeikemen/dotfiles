@@ -1,10 +1,8 @@
 local M = {}
 
-local augroup = vim.api.nvim_create_augroup('session_cmds', {clear = true})
 local autocmd = vim.api.nvim_create_autocmd
 local command = vim.api.nvim_create_user_command
 
-local set_autocmd = nil
 local function join(...) return table.concat({...}, '/') end
 local session_dir = join(vim.fn.stdpath('data'),  'sessions')
 
@@ -33,7 +31,6 @@ function M.create(name)
   end
 
   vim.g.session_name = name
-  M.autosave()
 end
 
 function M.source(name, dir)
@@ -42,7 +39,6 @@ function M.source(name, dir)
 
   vim.g.session_name = name
   vim.cmd({cmd = 'source', args = {file}})
-  M.autosave()
 end
 
 function M.is_readable(name)
@@ -63,18 +59,6 @@ function M.save_current()
   mksession(file, true)
 end
 
-function M.autosave()
-  if set_autocmd then
-    return
-  end
-
-  set_autocmd = autocmd('VimLeavePre', {
-    group = augroup,
-    desc = 'Save active session on exit',
-    callback = M.save_current
-  })
-end
-
 function M.load_current(name)
   if name == nil then
     return
@@ -86,18 +70,53 @@ function M.load_current(name)
   end
 end
 
-local function load_session(input)
-  M.load_current(input.args)
+function M.load_branch(session_name)
+  if vim.g.session_name == nil then
+    local msg = 'There is no active session.'
+    vim.notify(msg, vim.log.levels.ERROR)
+    return
+  end
+
+  if session_name == '' then
+    return
+  end
+
+  M.save_current()
+
+  local branch = '%s::%s'
+  local current = vim.fn.fnamemodify(vim.v.this_session, ':t:r')
+  local name = branch:format(
+    vim.split(current, '::')[1],
+    session_name
+  )
+
+  if not M.is_readable(name) then
+    local msg = 'Could not find branch %s'
+    vim.notify(msg:format(name), vim.log.levels.ERROR)
+    return
+  end
+
+  M.load_current(name)
 end
 
-function M.new_session()
-  vim.ui.input({prompt = 'Session name:'}, function(value)
-    if value == nil then
-      return
-    end
+function M.new_branch(branch_name)
+  if vim.g.session_name == nil then
+    local msg = 'There is no active session.'
+    vim.notify(msg, vim.log.levels.ERROR)
+    return
+  end
 
-    M.create(value)
-  end)
+  if branch_name == '' then
+    return
+  end
+
+  M.save_current()
+
+  local branch = '%s::%s'
+  local current = vim.fn.fnamemodify(vim.v.this_session, ':t:r')
+  local name = vim.split(current, '::')[1]
+
+  M.create(branch:format(name, branch_name))
 end
 
 function M.read_name(dir)
@@ -111,78 +130,6 @@ function M.read_name(dir)
       return vim.fn.readfile(file, '', 1)[1]
     end
   end
-end
-
-local function restore(input)
-  local name = M.read_name(vim.fn.getcwd())
-  if name then
-    M.load_current(name)
-  elseif input.bang then
-    vim.cmd('quitall')
-  else
-    vim.notify('Session not available')
-  end
-end
-
-local function new_branch(input)
-  if vim.g.session_name == nil then
-    local msg = 'There is no active session.'
-    vim.notify(msg, vim.log.levels.ERROR)
-    return
-  end
-
-  M.save_current()
-
-  local branch = '%s::%s'
-  local current = vim.fn.fnamemodify(vim.v.this_session, ':t:r')
-  local name = vim.split(current, '::')[1]
-  M.create(branch:format(name, input.args))
-end
-
-local function load_branch(input)
-  if vim.g.session_name == nil then
-    local msg = 'There is no active session.'
-    vim.notify(msg, vim.log.levels.ERROR)
-    return
-  end
-
-  M.save_current()
-
-  local branch = '%s::%s'
-  local current = vim.fn.fnamemodify(vim.v.this_session, ':t:r')
-  local name = branch:format(
-    vim.split(current, '::')[1],
-    input.args
-  )
-
-  if not M.is_readable(name) then
-    local msg = 'Could not find branch %s'
-    vim.notify(msg:format(name), vim.log.levels.ERROR)
-    return
-  end
-
-  M.load_current(name)
-end
-
-local function session_config()
-  local session = vim.v.this_session
-  if session == '' then
-    return
-  end
-
-  local path = vim.fn.fnamemodify(session, ':r')
-  vim.cmd({cmd = 'edit', args ={path .. 'x.vim'}})
-end
-
-function M.setup()
-  command('SessionSave', M.save_current, {})
-  command('SessionLoad', load_session, {nargs = '?'})
-  command('SessionNew', M.new_session, {})
-  command('SessionNewBranch', new_branch, {nargs = 1})
-  command('SessionLoadBranch', load_branch, {nargs = 1})
-  command('SessionConfig', session_config, {})
-  command('SessionRestore', restore, {bang = true})
-  M.autosave()
 end
 
 return M

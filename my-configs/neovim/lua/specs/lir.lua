@@ -83,7 +83,7 @@ function user.on_init()
 
   bind('n', '<S-Tab>', 'gv<Tab>', remap)
 
-  vim.wo.statusline = require('local.statusline').get_status('short')
+  vim.wo.statusline = require('statusline').get_status('short')
 end
 
 function user.toggle(cwd, root)

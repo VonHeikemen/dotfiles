@@ -1,4 +1,4 @@
-local cs = require('local.colorscheme')
+local cs = require('colorscheme')
 
 local color = {
   white   = {gui = '#D8DEE9', cterm = 253},

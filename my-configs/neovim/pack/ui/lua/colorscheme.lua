@@ -90,7 +90,6 @@ end
 function M.ui(theme)
   local underline = {'underline'}
 
-  hi('Cursor',       {fg = BG,              bg = FG                 })
   hi('CursorLine',   {fg = none,            bg = theme.cursorline   })
   hi('CursorLineNr', {fg = none,            bg = BG                 })
   hi('ColorColumn',  {fg = none,            bg = theme.colorcolumn  })
@@ -138,14 +137,20 @@ function M.ui(theme)
 end
 
 function M.apply_links()
+  -- UI: Misc
+  link('Conceal', 'Visual')
+
+
   -- UI: Diff
   link('DiffAdd',    'DiagnosticWarn')
   link('DiffChange', 'DiagnosticInfo')
   link('DiffDelete', 'DiagnosticError')
   link('DiffText',   'Visual')
 
+
   -- UI: search
   link('CurSearch', 'IncSearch')
+
 
   -- UI: window
   link('FloatBorder', 'Normal')
@@ -316,23 +321,27 @@ function M.apply_links()
   link('TSKeywordFunction', cs_none)
 
   -- Treesitter
-  link('@function.call', 'Function')
-  link('@function.builtin', 'Function')
-  link('@punctuation.bracket', cs_none)
-  link('@constant.builtin', 'Number')
-  link('@constructor', cs_none)
-  link('@type.css', 'Function')
-  link('@constructor.php', 'Function')
-  link('@method.vue', cs_none)
-  link('@tag.delimiter', 'Special')
-  link('@tag.attribute', cs_none)
-  link('@tag', 'Function')
-  link('@text.uri.html', 'String')
-  link('@text.literal', cs_none)
-  link('@text.literal.vimdoc', cs_normal)
-  link('@tag.delimiter.twig', cs_normal)
-  link('@punctuation.bracket.twig', cs_normal)
-  link('@string.special.url.html', 'String')
+  if vim.fn.has('nvim-0.9') == 1 then
+    link('@function.call', 'Function')
+    link('@function.builtin', 'Function')
+    link('@punctuation.bracket', cs_none)
+    link('@constant.builtin', 'Number')
+    link('@constructor', cs_none)
+    link('@type.css', 'Function')
+    link('@constructor.php', 'Function')
+    link('@method.vue', cs_none)
+    link('@tag.delimiter', 'Special')
+    link('@tag.attribute', cs_none)
+    link('@tag', 'Function')
+    link('@text.uri.html', 'String')
+    link('@text.literal', cs_none)
+    link('@text.literal.vimdoc', cs_normal)
+
+    link('@tag.delimiter.twig', cs_normal)
+    link('@punctuation.bracket.twig', cs_normal)
+
+    link('@string.special.url.html', 'String')
+  end
 end
 
 function M.terminal(theme)

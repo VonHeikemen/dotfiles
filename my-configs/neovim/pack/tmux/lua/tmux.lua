@@ -2,12 +2,6 @@ local M = {}
 local pane_id = 'main:zsh'
 local cmd = ''
 
-function M.setup()
-  local command = vim.api.nvim_create_user_command
-  
-  command('Tmux', M.parse_cmd, {nargs = 1})
-end
-
 function M.run(val, opts)
   local run = cmd
   local opts = opts or {}

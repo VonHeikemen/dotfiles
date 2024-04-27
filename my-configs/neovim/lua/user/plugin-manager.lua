@@ -1,3 +1,4 @@
+local snapshot_dir = vim.fn.stdpath('data') .. '/plugin-snapshot'
 local env = require('user.env')
 local lazy = {}
 
@@ -13,6 +14,9 @@ function lazy.install(path)
       path,
     })
     print('Done.')
+
+    -- create folder for backup lockfiles
+    vim.fn.mkdir(snapshot_dir, 'p')
   end
 end
 
@@ -41,12 +45,14 @@ lazy.opts = {
 }
 
 lazy.setup({
-  -- Load them from the lua/specs folder
-  {import = 'specs'}
+  -- Load plugin config from the lua/specs folder
+  {import = 'specs'},
+
+  -- Load config for local plugins from lua/specs/homemade
+  {import = 'specs.homemade'},
 })
 
 local augroup = vim.api.nvim_create_augroup('lazy_cmds', {clear = true})
-local snapshot_dir = vim.fn.stdpath('data') .. '/plugin-snapshot'
 local lockfile = vim.fn.stdpath('config') .. '/lazy-lock.json'
 
 vim.api.nvim_create_user_command('LazySnapshot', function()
@@ -59,9 +65,7 @@ vim.api.nvim_create_autocmd('User', {
   pattern = 'LazyUpdatePre',
   desc = 'Backup lazy.nvim lockfile',
   callback = function()
-    vim.fn.mkdir(snapshot_dir, 'p')
     local snapshot = snapshot_dir .. os.date('/%Y-%m-%dT%H:%M:%S.json')
-
     vim.loop.fs_copyfile(lockfile, snapshot)
   end,
 })

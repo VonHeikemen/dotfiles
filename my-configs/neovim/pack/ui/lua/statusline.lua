@@ -209,7 +209,6 @@ function M.setup()
   })
   autocmd('LspAttach', {
     group = augroup,
-    once = true,
     desc = 'Show diagnostic sign',
     callback = function()
       vim.b.lsp_attached = 1

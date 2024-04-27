@@ -1,4 +1,4 @@
-local cs = require('local.colorscheme')
+local cs = require('colorscheme')
 
 local color = {
   white   = {gui = '#C0CAF5', cterm = 153},
@@ -96,13 +96,13 @@ hi('DiffText', color.cyan)
 
 hi('helpHeader', color.blue)
 
-local statusline = require('local.statusline').higroups()
+local statusline = require('statusline').higroups()
 
 hi(statusline['COMMAND'], color.black, color.cyan)
 hi(statusline['INSERT'], color.black, color.green)
 hi(statusline['STATUS-BLOCK'], color.white, color.blue_two)
 
-local tabline = require('local.tabline').higroups()
+local tabline = require('tabline').higroups()
 
 link(tabline['TABLINE-SEPARATOR'], 'Function')
 
