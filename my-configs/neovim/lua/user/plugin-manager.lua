@@ -36,7 +36,7 @@ lazy.opts = {
   },
   install = {
     missing = true,            -- install missing plugins on startup.
-    colorscheme = {'nightly'}  -- use this theme during first install process
+    colorscheme = {'habamax'}  -- use this theme during first install process
   },
   change_detection = {
     enabled = true, -- check for config file changes
