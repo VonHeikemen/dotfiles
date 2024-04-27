@@ -44,10 +44,10 @@ autocmd('TermClose', {
     end
 
     if vim.v.event.status == 0
-      and vim.api.nvim_buf_is_valid(current.buffer)
+      and vim.api.nvim_buf_is_valid(state.buffer)
     then
-      pcall(vim.api.nvim_win_close, vim.fn.bufwinid(current.buffer), true)
-      pcall(vim.api.nvim_buf_delete, current.buffer, {force = true})
+      pcall(vim.api.nvim_win_close, vim.fn.bufwinid(state.buffer), true)
+      pcall(vim.api.nvim_buf_delete, state.buffer, {force = true})
     end
 
     state.buffer = nil
