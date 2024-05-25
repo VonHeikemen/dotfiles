@@ -1,7 +1,6 @@
-local function join(...) return table.concat({...}, '/') end
-
 local M = {store = {}, cmd = {}}
 local warn = vim.log.levels.WARN
+local join = vim.fs.joinpath
 
 local project_store
 if vim.g.project_store_path then

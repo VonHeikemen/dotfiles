@@ -1,10 +1,11 @@
 local M = {}
 
-local none = {gui = 'NONE',    cterm = 'NONE'}
+local cs_normal = 'UserNormal'
+local cs_none = 'UserNone'
+
+local none = {gui = 'NONE', cterm = 'NONE'}
 local FG   = {gui = '#DCE0DD', cterm = 253   }
 local BG = none
-local cs_normal = 'LWNormal'
-local cs_none = 'LWNone'
 
 local function hs(group, colors, style)
   local opts = {
@@ -44,9 +45,6 @@ end
 
 function M.base_syntax(theme)
   local ebg = theme.error_bg or none
-
-  hi(cs_none,   {fg = none, bg = none})
-  hi(cs_normal, {fg = FG,   bg = none})
 
   hi('Normal',      {fg = FG,             bg = BG  })
   hi('Comment',     {fg = theme.comment,  bg = none})
@@ -97,6 +95,7 @@ function M.ui(theme)
   hi('NonText',      {fg = theme.line_nr,   bg = BG                 })
   hi('EndOfBuffer',  {fg = theme.dark_text, bg = BG                 })
   hi('VertSplit',    {fg = theme.line_bg,   bg = BG                 })
+  hi('WinSeparator', {fg = theme.line_bg,   bg = BG                 })
   hi('Folded',       {fg = theme.folds,     bg = BG                 })
   hi('FoldColumn',   {fg = theme.folds,     bg = BG                 })
   hi('SignColumn',   {fg = none,            bg = BG                 })
@@ -322,6 +321,7 @@ function M.apply_links()
 
   -- Treesitter
   if vim.fn.has('nvim-0.9') == 1 then
+    link('@variable', cs_normal)
     link('@function.call', 'Function')
     link('@function.builtin', 'Function')
     link('@punctuation.bracket', cs_none)
@@ -337,10 +337,16 @@ function M.apply_links()
     link('@text.literal', cs_none)
     link('@text.literal.vimdoc', cs_normal)
 
+    link('@variable.builtin.php', cs_normal)
+
     link('@tag.delimiter.twig', cs_normal)
     link('@punctuation.bracket.twig', cs_normal)
 
     link('@string.special.url.html', 'String')
+
+    link('@markup.link.markdown_inline', cs_normal)
+    link('@markup.link.label.markdown_inline', cs_normal)
+    link('@markup.link.url.markdown_inline', cs_normal)
   end
 end
 
@@ -389,12 +395,15 @@ function M.init(name, args)
 
   vim.opt.background = args.type
   vim.g.colors_name = name
+
+  hi(cs_normal, {fg = FG, bg = none  })
+  hi(cs_none,   {fg = none, bg = none})
 end
 
 function M.apply(name, theme)
-  M.init(name, theme.globals)
   M.set_foreground(theme.globals.foreground)
   M.set_background(theme.globals.background)
+  M.init(name, theme.globals)
   M.ui(theme.ui)
   M.base_syntax(theme.syntax)
   M.apply_links()

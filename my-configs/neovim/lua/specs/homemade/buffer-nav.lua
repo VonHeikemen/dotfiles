@@ -1,10 +1,9 @@
-local function join(arg) return table.concat(arg, '/') end
 local path =  vim.fn.stdpath('config')
 
 local Plugin = {}
 
 Plugin.name = 'buffer-nav'
-Plugin.dir = join({path, 'pack', Plugin.name})
+Plugin.dir = vim.fs.joinpath(path, 'pack', Plugin.name)
 
 function Plugin.init()
   vim.g.buffer_nav_save = '<leader>w'

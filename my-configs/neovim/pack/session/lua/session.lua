@@ -2,8 +2,8 @@ local M = {}
 
 local autocmd = vim.api.nvim_create_autocmd
 local command = vim.api.nvim_create_user_command
+local join = vim.fs.joinpath
 
-local function join(...) return table.concat({...}, '/') end
 local session_dir = join(vim.fn.stdpath('data'),  'sessions')
 
 local function mksession(file, bang)

@@ -26,11 +26,10 @@ function Plugin.opts()
   section.footer = {
     type = 'text',
     val = string.format(
-      'v%s.%s.%s%s',
+      'v%s.%s.%s',
       version.major,
       version.minor,
-      version.patch,
-      version.api_prerelease and ' (Nightly)' or ''
+      version.patch
     ),
     opts = {
       position = 'center',

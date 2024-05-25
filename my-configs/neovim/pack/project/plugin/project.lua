@@ -1,6 +1,6 @@
-local command = vim.api.nvim_create_user_command
-local function join(...) return table.concat({...}, '/') end
 local cmd = {}
+local join = vim.fs.joinpath
+local command = vim.api.nvim_create_user_command
 
 function cmd.set(input)
   if input.args == '' then

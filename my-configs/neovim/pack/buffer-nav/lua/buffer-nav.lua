@@ -1,6 +1,6 @@
 local M = {}
 local s = {}
-local uv = vim.loop or vim.uv
+local uv = vim.uv
 
 M.window = nil
 s.mounted = false

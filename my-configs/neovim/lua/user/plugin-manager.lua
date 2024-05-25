@@ -1,12 +1,12 @@
 local snapshot_dir = vim.fn.stdpath('data') .. '/plugin-snapshot'
 local env = require('user.env')
-local lazy = {}
+ocal lazy = {}
 
-function lazy.install(path)
-  if not vim.loop.fs_stat(path) then
-    print('Installing lazy.nvim....')
-    vim.fn.system({
-      'git',
+unction lazy.install(path)
+ if not vim.uv.fs_stat(path) then
+   print('Installing lazy.nvim....')
+   vim.fn.system({
+     'git',
       'clone',
       '--filter=blob:none',
       'https://github.com/folke/lazy.nvim.git',
@@ -66,7 +66,7 @@ vim.api.nvim_create_autocmd('User', {
   desc = 'Backup lazy.nvim lockfile',
   callback = function()
     local snapshot = snapshot_dir .. os.date('/%Y-%m-%dT%H:%M:%S.json')
-    vim.loop.fs_copyfile(lockfile, snapshot)
+    vim.uv.fs_copyfile(lockfile, snapshot)
   end,
 })
 
