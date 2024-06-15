@@ -1,4 +1,5 @@
-local snapshot_dir = vim.fn.stdpath('data') .. '/plugin-snapshot'
+local join = vim.fs.joinpath
+local snapshot_dir = join(vim.fn.stdpath('data'), 'plugin-snapshot')
 local env = require('user.env')
 ocal lazy = {}
 
@@ -28,7 +29,7 @@ function lazy.setup(plugins)
   require('lazy').setup(plugins, lazy.opts)
 end
 
-lazy.path = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+lazy.path = join(vim.fn.stdpath('data'), 'lazy', 'lazy.nvim')
 lazy.opts = {
   ui = {
     icons = env.lazy_icons,
@@ -53,7 +54,7 @@ lazy.setup({
 })
 
 local augroup = vim.api.nvim_create_augroup('lazy_cmds', {clear = true})
-local lockfile = vim.fn.stdpath('config') .. '/lazy-lock.json'
+local lockfile = join(vim.fn.stdpath('config'), 'lazy-lock.json')
 
 vim.api.nvim_create_user_command('LazySnapshot', function()
   vim.cmd.edit(snapshot_dir)
@@ -65,7 +66,7 @@ vim.api.nvim_create_autocmd('User', {
   pattern = 'LazyUpdatePre',
   desc = 'Backup lazy.nvim lockfile',
   callback = function()
-    local snapshot = snapshot_dir .. os.date('/%Y-%m-%dT%H:%M:%S.json')
+    local snapshot = join(snapshot_dir, os.date('%Y-%m-%dT%H:%M:%S.json'))
     vim.uv.fs_copyfile(lockfile, snapshot)
   end,
 })

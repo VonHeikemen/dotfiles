@@ -19,11 +19,13 @@ function Project.nvim_config()
 end
 
 function Project.nvim_plugin(opts)
+  local join = vim.fs.joinpath
+
   vim.cmd('Lsp')
 
   local lsp_zero = require('lsp-zero')
-  local dependencies = {vim.fn.expand('$VIMRUNTIME/lua')}
-  local lua = vim.fn.stdpath('data') .. '/lazy/*/lua/%s'
+  local dependencies = {join(vim.env.VIMRUNTIME, 'lua')}
+  local lua = join(vim.fn.stdpath('data'), 'lazy', '*', 'lua', '%s')
 
   if opts.dependencies then
     for i, mod in ipairs(opts.dependencies) do
