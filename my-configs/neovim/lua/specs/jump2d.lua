@@ -32,7 +32,7 @@ function Plugin.keys()
   end
 
   bind('r', user.jump_word(), 'Jump to word')
-  bind('<leader>j', user.jump_char(), 'Two characters search')
+  bind('<leader>j', user.jump_char(), '2-character search')
 
   bind('H', user.jump_line('up'), 'Jump to line above cursor')
   bind('L', user.jump_line('down'), 'Jump to line below cursor')
