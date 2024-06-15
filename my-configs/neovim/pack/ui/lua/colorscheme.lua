@@ -152,6 +152,7 @@ function M.apply_links()
 
 
   -- UI: window
+  link('NormalFloat', 'Normal')
   link('FloatBorder', 'Normal')
 
 
@@ -336,6 +337,7 @@ function M.apply_links()
     link('@text.uri.html', 'String')
     link('@text.literal', cs_none)
     link('@text.literal.vimdoc', cs_normal)
+    link('@text.literal.vimdoc', cs_normal)
 
     link('@variable.builtin.php', cs_normal)
 
@@ -347,6 +349,7 @@ function M.apply_links()
     link('@markup.link.markdown_inline', cs_normal)
     link('@markup.link.label.markdown_inline', cs_normal)
     link('@markup.link.url.markdown_inline', cs_normal)
+    link('@markup.raw.block.markdown', cs_normal)
   end
 end
 
