@@ -1,9 +1,9 @@
 local join = vim.fs.joinpath
 local snapshot_dir = join(vim.fn.stdpath('data'), 'plugin-snapshot')
 local env = require('user.env')
-ocal lazy = {}
+local lazy = {}
 
-unction lazy.install(path)
+function lazy.install(path)
  if not vim.uv.fs_stat(path) then
    print('Installing lazy.nvim....')
    vim.fn.system({
