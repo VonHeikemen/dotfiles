@@ -50,7 +50,7 @@ function UI.select_opts()
       style = 'rounded',
       highlight = 'Normal',
       text = {
-        top = '[Choose an Item]',
+        top = '[Select Item]',
         top_align = 'left',
       },
     },
@@ -65,7 +65,7 @@ function UI.new_input()
   local input_ui = nil
 
   function Input:init(opts, on_done)
-    local default_value = type(opts.default)
+    local default_value = type(opts.default) == 'string'
       and opts.default
       or ''
 
@@ -136,7 +136,6 @@ function UI.new_select()
       return tostring(item.__raw_item or item)
     end
 
-    local prompt_text = '[Select Item]'
     if opts.prompt then
       local text = vim.trim(opts.prompt)
 
@@ -144,8 +143,7 @@ function UI.new_select()
         text = text:sub(1, -2)
       end
 
-      prompt_text = string.format('[%s]', text)
-      popup_opts.border.text.top = prompt_text
+      popup_opts.border.text.top = string.format('[%s]', text)
     end
 
     if kind == 'codeaction' then
@@ -173,7 +171,7 @@ function UI.new_select()
     end
 
     local menu_opts = {
-      min_width = vim.api.nvim_strwidth(prompt_text),
+      min_width = vim.api.nvim_strwidth(popup_opts.border.text.top),
       max_width = max_width,
       max_height = max_height,
       lines = menu_items,
