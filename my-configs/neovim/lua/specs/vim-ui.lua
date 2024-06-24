@@ -2,16 +2,16 @@
 local Plugin = {'MunifTanjim/nui.nvim'}
 local UI = {}
 
-Plugin.lazy = true
-
 function Plugin.init()
   vim.ui.select = function(...)
-    UI.select()
-    return vim.ui.select(...)
+    local select_item = UI.new_select()
+    vim.ui.select = select_item
+    select_item(...)
   end
   vim.ui.input = function(...)
-    UI.input()
-    return vim.ui.input(...)
+    local input = UI.new_input()
+    vim.ui.input = input
+    input(...)
   end
 end
 
@@ -60,143 +60,157 @@ function UI.select_opts()
   }
 end
 
-function UI.input()
-  local Input = require('nui.input')
-  local event = require('nui.utils.autocmd').event
+function UI.new_input()
+  local Input = require('nui.input'):extend('VimInput')
+  local input_ui = nil
 
-  local input_ui
-
-  vim.ui.input = function(opts, on_confirm)
-    if input_ui then
-      -- ensure single ui.input operation
-      vim.notify('Another input is pending!', vim.log.levels.ERROR)
-      return
-    end
-
-    local on_done = function(value)
-      if input_ui then
-        -- if it's still mounted, unmount it
-        input_ui:unmount()
-      end
-
-      -- indicate the operation is done
-      input_ui = nil
-
-      -- pass the input value
-      local ok, err = pcall(on_confirm, value)
-
-      -- report error if there is any
-      if not ok then vim.notify(err, vim.log.levels.ERROR) end
-    end
+  function Input:init(opts, on_done)
+    local default_value = type(opts.default)
+      and opts.default
+      or ''
 
     local popup_opts = UI.input_opts()
 
     if opts.prompt then
-      popup_opts.border.text.top = string.format(' %s ', opts.prompt)
+      local text = vim.trim(opts.prompt)
+
+      if text:sub(-1) == ':' then
+        text = text:sub(1, -2)
+      end
+
+      popup_opts.border.text.top = string.format('[%s]', text)
     end
 
-    input_ui = Input(popup_opts, {
+    Input.super.init(self, popup_opts, {
       prompt = ' ',
-      default_value = opts.default,
-      on_close = function() on_done(nil) end,
-      on_submit = function(value) on_done(value) end,
+      default_value = default_value,
+      on_close = function()
+        on_done(nil)
+      end,
+      on_submit = function(value)
+        on_done(value)
+      end
     })
 
-    input_ui:mount()
-
     -- cancel operation if cursor leaves input
-    input_ui:on(event.BufLeave, function() on_done(nil) end, {once = true})
+    self:on('BufLeave', function()
+      on_done(nil)
+    end, {once = true})
 
     -- cancel operation if <Esc> is pressed
-    input_ui:map('n', '<Esc>', function()
+    self:map('n', '<Esc>', function()
       on_done(nil)
     end, {noremap = true, nowait = true})
   end
-end
 
-function UI.select()
-  local Menu = require('nui.menu')
-  local event = require('nui.utils.autocmd').event
-
-  local select_ui = nil
-
-  vim.ui.select = function(items, opts, on_choice)
-    if select_ui then
-      -- ensure single ui.select operation
-      vim.notify('Another select is pending!', vim.log.levels.ERROR)
+  return function(opts, on_confirm)
+    if input_ui then
+      -- ensure single ui.input operation
+      vim.api.nvim_err_writeln('[ui] another input is pending!')
       return
     end
 
-    local on_done = function(item, index)
-      if select_ui then
-        -- if it's still mounted, unmount it
-        select_ui:unmount()
+    input_ui = Input(opts, function(value)
+      if input_ui then
+        input_ui:unmount()
       end
-      -- pass the select value
-      local ok, err = pcall(on_choice, item, index)
-      if not ok then vim.notify(err, vim.log.levels.ERROR) end
 
-      -- indicate the operation is done
-      select_ui = nil
-    end
+      on_confirm(value)
 
+      input_ui = nil
+    end)
+
+    input_ui:mount()
+  end
+end
+
+function UI.new_select()
+  local Menu = require('nui.menu')
+  local Select = Menu:extend('VimSelect')
+  local select_ui = nil
+
+  function Select:init(items, opts, on_done)
     local popup_opts = UI.select_opts()
-
-    local format_item = function(item)
-      return string.format('* %s', tostring(item))
-    end
-
-    if type(opts.format_item) == 'function' then
-      format_item = opts.format_item
-    end
-
     local kind = opts.kind or 'unknown'
+    local format_item = opts.format_item or function(item)
+      return tostring(item.__raw_item or item)
+    end
+
+    local prompt_text = '[Select Item]'
+    if opts.prompt then
+      local text = vim.trim(opts.prompt)
+
+      if text:sub(-1) == ':' then
+        text = text:sub(1, -2)
+      end
+
+      prompt_text = string.format('[%s]', text)
+      popup_opts.border.text.top = prompt_text
+    end
 
     if kind == 'codeaction' then
       -- change position for codeaction selection
       popup_opts.relative = 'cursor'
-      popup_opts.position = {
-        row = 1,
-        col = 0,
-      }
-
-      format_item = function(...)
-        local text = opts.format_item(...)
-        return string.format('* %s', text)
-      end
+      popup_opts.position = {row = 1, col = 0}
     end
 
-    if opts.prompt then
-      popup_opts.border.text.top = string.format(' %s ', opts.prompt)
-    end
+    local max_width = popup_opts.relative == 'editor' 
+      and vim.o.columns - 4
+      or vim.api.nvim_win_get_width(0) - 4
 
-    local max_width = vim.api.nvim_win_get_width(0)
+    local max_height = popup_opts.relative == 'editor'
+      and math.floor(vim.o.lines * 80 / 100)
+      or vim.api.nvim_win_get_height(0)
+
     local menu_items = {}
-
     for index, item in ipairs(items) do
-      local data = {index = index, value = item}
-      local text = string.sub(format_item(item), 0, max_width - 2)
-      table.insert(menu_items, Menu.item(text, data))
+      if type(item) ~= 'table' then
+        item = { __raw_item = item }
+      end
+      item.index = index
+      local item_text = string.sub(format_item(item), 0, max_width)
+      menu_items[index] = Menu.item(item_text, item)
     end
 
-    select_ui = Menu(popup_opts, {
+    local menu_opts = {
+      min_width = vim.api.nvim_strwidth(prompt_text),
+      max_width = max_width,
+      max_height = max_height,
       lines = menu_items,
-      min_width = popup_opts.border.text.top:len() + 2,
       on_close = function()
         on_done(nil, nil)
       end,
       on_submit = function(item)
-        on_done(item.value, item.index)
+        on_done(item.__raw_item or item, item.index)
       end,
-    })
+    }
 
-    select_ui:mount()
+    Select.super.init(self, popup_opts, menu_opts)
 
     -- cancel operation if cursor leaves select
-    select_ui:on(event.BufLeave, function()
+    self:on('BufLeave', function()
       on_done(nil, nil)
-    end, { once = true })
+    end, {once = true})
+  end
+  
+  return function(items, opts, on_choice)
+    if select_ui then
+      -- ensure single ui.select operation
+      vim.api.nvim_err_writeln('[ui] another select is pending!')
+      return
+    end
 
+    select_ui = Select(items, opts, function(item, index)
+      if select_ui then
+        select_ui:unmount()
+      end
+
+      on_choice(item, index)
+
+      select_ui = nil
+    end)
+
+    select_ui:mount()
   end
 end
 
