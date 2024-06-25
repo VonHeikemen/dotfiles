@@ -40,8 +40,14 @@ lazy.opts = {
     colorscheme = {'habamax'}  -- use this theme during first install process
   },
   change_detection = {
-    enabled = true, -- check for config file changes
-    notify = true,  -- get a notification when changes are found
+    enabled = false, -- check for config file changes
+    notify = false,  -- get a notification when changes are found
+  },
+  pkg = {
+    enabled = false, -- automatic install of plugin defined dependencies
+  },
+  rocks = {
+    enabled = false, -- luarocks integration
   },
 }
 
