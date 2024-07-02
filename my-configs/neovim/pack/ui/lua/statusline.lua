@@ -3,8 +3,8 @@ local state = {}
 
 local function default_hl(name, style, opts)
   opts = opts or {}
-  local ok, hl = pcall(vim.api.nvim_get_hl_by_name, name, 1)
-  if ok and (hl.background or hl.foreground) then
+  local ok, hl = pcall(vim.api.nvim_get_hl, 0, {name = name})
+  if ok and (hl.bg or hl.fg) then
     return
   end
 
@@ -13,10 +13,10 @@ local function default_hl(name, style, opts)
     return
   end
 
-  local normal = vim.api.nvim_get_hl_by_name('Normal', 1)
-  local fallback = vim.api.nvim_get_hl_by_name(style, 1)
+  local normal = vim.api.nvim_get_hl(0, {name = 'Normal'})
+  local fallback = vim.api.nvim_get_hl(0, {name = style})
 
-  vim.api.nvim_set_hl(0, name, {fg = normal.background, bg = fallback.foreground})
+  vim.api.nvim_set_hl(0, name, {fg = normal.bg, bg = fallback.fg})
 end
 
 local mode_higroups = {
@@ -107,13 +107,15 @@ local function show_sign(mode)
     return ok
   end
 
-  local levels = vim.diagnostic.severity
-  local errors = #vim.diagnostic.get(0, {severity = levels.ERROR})
+  local level = vim.diagnostic.severity
+  local bufnr = vim.api.nvim_get_current_buf()
+
+  local errors = #vim.diagnostic.count(bufnr, {severity = level.ERROR})
   if errors > 0 then
     return ' ✘ '
   end
 
-  local warnings = #vim.diagnostic.get(0, {severity = levels.WARN})
+  local warnings = #vim.diagnostic.count(bufnr, {severity = level.WARN})
   if warnings > 0 then
     return ' ▲ '
   end
