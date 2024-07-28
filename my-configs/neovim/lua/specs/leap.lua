@@ -1,12 +1,6 @@
----
--- Plugin is disabled for now. I'm trying out `mini.jump2d`.
----
-
 -- Jump anywhere
 local Plugin = {'ggandor/leap.nvim'}
 local user = {}
-
-Plugin.enabled = false
 
 Plugin.opts = {
   safe_labels = {},

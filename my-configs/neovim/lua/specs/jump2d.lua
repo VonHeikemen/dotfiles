@@ -1,6 +1,12 @@
+---
+-- Plugin is disabled for now.
+---
+
 -- Jump anywhere
 local Plugin = {'echasnovski/mini.jump2d'}
 local user = {}
+
+Plugin.enabled = false
 
 Plugin.branch = 'stable'
 
