@@ -1,8 +1,19 @@
 -- Jump anywhere
 local Plugin = {'ggandor/leap.nvim'}
-local user = {}
 
 Plugin.lazy = false
+
+Plugin.dependencies = {
+  {
+    name = 'leap-ext',
+    config = false,
+    dir = vim.fs.joinpath(
+      vim.fn.stdpath('config'),
+      'pack',
+      'leap-ext'
+    )
+  },
+}
 
 Plugin.opts = {
   safe_labels = '',
