@@ -141,6 +141,9 @@ bind('n', '<leader>ur', '<cmd>set invrelativenumber<cr>')
 -- ==                            MISCELLANEOUS                             == --
 -- ========================================================================== --
 
+-- Show line diagnostics
+bind('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
+
 -- Add word to search then replace
 bind('n', 'sj', [[<cmd>let @/='\<'.expand('<cword>').'\>'<cr>"_ciw]])
 
