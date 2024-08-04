@@ -1,44 +1,47 @@
 local M = {}
 local state = {}
 
-local function default_hl(name, style, opts)
-  opts = opts or {}
-  local ok, hl = pcall(vim.api.nvim_get_hl, 0, {name = name})
-  if ok and (hl.bg or hl.fg) then
-    return
-  end
+local fmt = string.format
+local hi_pattern = '%%#%s#%s%%*'
 
-  if opts.link then
-    vim.api.nvim_set_hl(0, name, {link = style})
-    return
-  end
+state.default_pattern = table.concat({
+  '%{%g:stl_mode%} ',
+  '%t',
+  '%r',
+  '%m',
+  '%=',
+  '%{&filetype} ',
+  '%2p%% ',
+  '%{%g:stl_position%}'
+}, '')
 
-  local normal = vim.api.nvim_get_hl(0, {name = 'Normal'})
-  local fallback = vim.api.nvim_get_hl(0, {name = style})
+state.short_pattern = table.concat({
+  '%{%g:stl_mode%}',
+  '%=',
+  '%2p%% ',
+  '%{%g:stl_position%}'
+}, '')
 
-  vim.api.nvim_set_hl(0, name, {fg = normal.bg, bg = fallback.fg})
-end
+state.inactive_pattern = table.concat({
+  ' %t',
+  '%r',
+  '%m',
+  '%=',
+  '%{&filetype} |',
+  ' %2p%% | ',
+  '%3l:%-2c ',
+}, '')
 
 local mode_higroups = {
+  ['DEFAULT'] = 'UserStatusMode_DEFAULT',
   ['NORMAL'] = 'UserStatusMode_NORMAL',
   ['VISUAL'] = 'UserStatusMode_VISUAL',
   ['V-BLOCK'] = 'UserStatusMode_V_BLOCK',
   ['V-LINE'] = 'UserStatusMode_V_LINE',
   ['INSERT'] = 'UserStatusMode_INSERT',
   ['COMMAND'] = 'UserStatusMode_COMMAND',
+  ['O-PENDING'] = 'UserStatusMode_O_PENDING'
 }
-
-local function apply_hl()
-  default_hl('UserStatusBlock', 'StatusLine', {link = true})
-  default_hl('UserStatusMode_DEFAULT', 'Comment')
-
-  default_hl(mode_higroups['NORMAL'],  'Directory')
-  default_hl(mode_higroups['VISUAL'],  'Number')
-  default_hl(mode_higroups['V-BLOCK'], 'Number')
-  default_hl(mode_higroups['V-LINE'],  'Number')
-  default_hl(mode_higroups['INSERT'],  'String')
-  default_hl(mode_higroups['COMMAND'], 'Special')
-end
 
 -- mode_map copied from:
 -- https://github.com/nvim-lualine/lualine.nvim/blob/5113cdb32f9d9588a2b56de6d1df6e33b06a554a/lua/lualine/utils/mode.lua
@@ -80,53 +83,7 @@ local mode_map = {
   ['t']      = 'TERMINAL',
 }
 
-local fmt = string.format
-local hi_pattern = '%%#%s#%s%%*'
-
-function _G._statusline_component(name)
-  return state[name]()
-end
-
-local function show_sign(mode)
-  local empty = ' '
-
-  -- This just checks a user defined variable
-  -- it ignores completely if there are active clients
-  if vim.b.lsp_attached == nil then
-    return empty
-  end
-
-  local ok = ' λ '
-  local ignore = {
-    ['INSERT'] = true,
-    ['COMMAND'] = true,
-    ['TERMINAL'] = true
-  }
-
-  if ignore[mode] then
-    return ok
-  end
-
-  local level = vim.diagnostic.severity
-  local bufnr = vim.api.nvim_get_current_buf()
-
-  local errors = #vim.diagnostic.count(bufnr, {severity = level.ERROR})
-  if errors > 0 then
-    return ' ✘ '
-  end
-
-  local warnings = #vim.diagnostic.count(bufnr, {severity = level.WARN})
-  if warnings > 0 then
-    return ' ▲ '
-  end
-
-  return ok
-end
-
-state.show_diagnostic = false
-state.mode_group = mode_higroups['NORMAL']
-
-function state.mode()
+function state.set_mode()
   local mode = vim.api.nvim_get_mode().mode
   local mode_name = mode_map[mode]
   local text = ' '
@@ -135,139 +92,173 @@ function state.mode()
 
   if higroup then
     state.mode_group = higroup
-    if state.show_diagnostic then text = show_sign(mode_name) end
 
-    return fmt(hi_pattern, higroup, text)
+    if M.show_diagnostic then
+      text = state.show_sign(mode_name)
+    end
+
+    vim.g.stl_mode = fmt(hi_pattern, higroup, text)
+    return
   end
 
-  state.mode_group = 'UserStatusMode_DEFAULT'
+  state.mode_group = mode_higroups['DEFAULT']
   text = fmt(' %s ', mode_name)
-  return fmt(hi_pattern, state.mode_group, text)
+
+  vim.g.stl_mode = fmt(hi_pattern, state.mode_group, text)
 end
 
 function state.position()
-  return fmt(hi_pattern, state.mode_group, ' %3l:%-2c ')
+  vim.g.stl_position = fmt(hi_pattern, state.mode_group, ' %3l:%-2c ')
 end
 
-state.percent = fmt(hi_pattern, 'UserStatusBlock', ' %2p%% ')
+function state.show_sign(mode)
+  local empty = ' '
+  local bufnr = vim.api.nvim_get_current_buf()
 
-state.full_status = {
-  '%{%v:lua._statusline_component("mode")%} ',
-  '%t',
-  '%r',
-  '%m',
-  '%=',
-  '%{&filetype} ',
-  state.percent,
-  '%{%v:lua._statusline_component("position")%}'
-}
+  -- This just checks a user defined variable
+  -- it ignores completely if there are linters
+  if vim.b[bufnr].linter_attached == nil then
+    return empty
+  end
 
-state.short_status = {
-  state.full_status[1],
-  '%=',
-  state.percent,
-  state.full_status[8]
-}
+  local ok = ' λ '
+  local ignore = {
+    'INSERT',
+    'COMMAND',
+    'TERMINAL'
+  }
 
-state.inactive_status = {
-  ' %t',
-  '%r',
-  '%m',
-  '%=',
-  '%{&filetype} |',
-  ' %2p%% | ',
-  '%3l:%-2c ',
-}
+  if vim.tbl_contains(ignore, mode) then
+    return ok
+  end
+
+  local errors = #vim.diagnostic.count(bufnr, {severity = 1})
+  if errors > 0 then
+    return ' ✘ '
+  end
+
+  local warnings = #vim.diagnostic.count(bufnr, {severity = 2})
+  if warnings > 0 then
+    return ' ▲ '
+  end
+
+  return ok
+end
+
+function M.higroups()
+  return mode_higroups
+end
+
+function M.apply_default_hl()
+  local get = vim.api.nvim_get_hl
+  local set = vim.api.nvim_set_hl
+  local normal = get(0, {name = 'Normal'})
+
+  local default_hl = function(name, style)
+    local hl = next(get(0, {name = name}))
+    if hl then
+      return
+    end
+
+    local fallback = get(0, {name = style, link = false})
+
+    set(0, name, {fg = normal.bg, bg = fallback.fg})
+  end
+
+  local group = mode_higroups
+  default_hl(group['DEFAULT'], 'Comment')
+  default_hl(group['NORMAL'], 'Directory')
+  default_hl(group['INSERT'], 'String')
+  default_hl(group['COMMAND'], 'Special')
+  default_hl(group['VISUAL'], 'Number')
+  default_hl(group['V-BLOCK'], 'Number')
+  default_hl(group['V-LINE'], 'Number')
+  default_hl(group['O-PENDING'], 'Number')
+end
 
 function M.setup()
+  state.set_mode()
+  state.position()
+
+  vim.o.showmode = false
+  vim.o.statusline = state.default_pattern
+
   local augroup = vim.api.nvim_create_augroup('statusline_cmds', {clear = true})
   local autocmd = vim.api.nvim_create_autocmd
-  vim.opt.showmode = false
-
-  apply_hl()
-  local pattern = M.get_status('full')
-  if pattern then
-    vim.o.statusline = pattern
-  end
 
   autocmd('ColorScheme', {
     group = augroup,
-    desc = 'Apply statusline highlights',
-    callback = apply_hl
+    desc = 'Ensure statusline highlights',
+    callback = M.apply_default_hl,
   })
+
+  autocmd({'ModeChanged', 'BufEnter', 'DiagnosticChanged'}, {
+    group = augroup,
+    desc = 'Update statusline highlights',
+    callback = function()
+      state.set_mode()
+      state.position()
+      vim.cmd('redrawstatus')
+    end
+  })
+
   autocmd('FileType', {
     group = augroup,
-    pattern = {'ctrlsf', 'Neogit*'},
-    desc = 'Apply short statusline',
+    desc = 'Apply "short" statusline pattern',
+    pattern = {'lir', 'ctrlsf', 'Neogit*', 'alpha'},
     callback = function()
-      vim.w.status_style = 'short'
-      vim.wo.statusline = M.get_status('short')
-    end
+      vim.wo.statusline = state.short_pattern
+    end,
   })
-  autocmd('InsertEnter', {
-    group = augroup,
-    desc = 'Clear message area',
-    command = "echo ''"
-  })
+
   autocmd('LspAttach', {
     group = augroup,
-    desc = 'Show diagnostic sign',
+    once = true,
+    desc = 'Enable diagnostic check in statusline';
     callback = function()
-      vim.b.lsp_attached = 1
-      state.show_diagnostic = true
-    end
+      M.show_diagnostic = true
+    end,
   })
+
+  autocmd('LspAttach', {
+    group = augroup,
+    desc = 'Show diagnostic sign in statusline',
+    command = 'let b:linter_attached = 1'
+  })
+
+  autocmd('WinLeave', {
+    group = augroup,
+    desc = 'Store previous window id',
+    callback = function()
+      state.prev_win = vim.api.nvim_get_current_win()
+    end,
+  })
+
   autocmd('WinEnter', {
     group = augroup,
-    desc = 'Change statusline',
+    desc = 'Handle inactive state',
     callback = function()
+      -- don't do anything if its a floating window
       local winconfig = vim.api.nvim_win_get_config(0)
       if winconfig.relative ~= '' then
         return
       end
 
-      local style = vim.w.status_style
-      if style == nil then
-        style = 'full'
-        vim.w.status_style = style
+      -- restore pattern of current window
+      local get = vim.api.nvim_get_option_value
+      local current_pattern = get('statusline', {scope = 'local'})
+      if current_pattern == state.inactive_pattern then
+        vim.wo.statusline = nil
       end
 
-      vim.wo.statusline = M.get_status(style)
-
-      local winnr = vim.fn.winnr('#')
-      if winnr == 0 then
-        return
+      -- apply inactive state in previous window
+      local winid = state.prev_win
+      if winid and vim.api.nvim_win_is_valid(winid) then
+        vim.wo[winid].statusline = state.inactive_pattern
       end
-
-      local curwin = vim.api.nvim_get_current_win()
-      local winid = vim.fn.win_getid(winnr)
-      if winid == 0 or winid == curwin then
-        return
-      end
-
-      if vim.api.nvim_win_is_valid(winid) then
-        vim.wo[winid].statusline = M.get_status('inactive')
-      end
-    end
+    end,
   })
 end
-
-function M.get_status(name)
-  return table.concat(state[fmt('%s_status', name)], '')
-end
-
-function M.apply(name)
-  vim.o.statusline = M.get_status(name)
-end
-
-function M.higroups()
-  local res = vim.deepcopy(mode_higroups)
-  res['DEFAULT'] = 'UserStatusMode_DEFAULT'
-  res['STATUS-BLOCK'] = 'UserStatusBlock'
-  return res
-end
-
-M.default_hl = apply_hl
 
 return M
 

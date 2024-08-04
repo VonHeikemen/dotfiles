@@ -189,9 +189,6 @@ function Plugin.config(_, opts)
         vim.cmd('highlight UserHideChar guifg=' .. vim.g.terminal_color_background)
         vim.cmd('setlocal winhl=EndOfBuffer:UserHideChar')
       end
-
-      vim.w.status_style = 'short'
-      vim.wo.statusline = require('statusline').get_status('short')
     end
   })
 

@@ -19,9 +19,6 @@ function Plugin.config()
   vim.keymap.set('t', '<C-o>T', '<C-\\><C-n>gT')
 
   local on_open = function()
-    vim.w.status_style = 'short'
-    vim.wo.statusline = require('statusline').get_status('short')
-
     local hl_term = vim.api.nvim_get_hl(0, {name = 'TermBg'})
     if hl_term.bg then
       vim.wo.winhighlight = 'Normal:TermBg,SignColumn:TermBg'
