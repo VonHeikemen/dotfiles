@@ -69,6 +69,12 @@ end
 
 function Project.zk()
   vim.opt.path = {'.', '', '**'}
+
+  local root_dir = vim.env.ZK_NOTEBOOK_DIR
+  if root_dir then
+    vim.cmd.lcd(root_dir)
+  end
+
   local get_path = function()
     local delimeter = '/,-,:'
     local fmt = string.format
@@ -99,7 +105,7 @@ function Project.zk()
     vim.cmd(exec)
   end, {desc = 'Edit linked file under cursor'})
 
-  local function new(input)
+  local function cmd_new(input)
     local file = input.args
     local zk_cmd = {'zk', 'new', '--no-input', '--print-path'}
 
@@ -111,29 +117,63 @@ function Project.zk()
     vim.cmd({cmd = 'edit', args = {vim.trim(path)}})
   end
 
-  vim.api.nvim_create_user_command('New', new, {nargs = '?'})
+  vim.api.nvim_create_user_command('New', cmd_new, {nargs = '?'})
+
+  local function cmd_goto(input)
+    local title = input.args
+    local zk_cmd = {
+      'zk', 'list', 
+      '--quiet',
+      '--format', 'path',
+      '--match', string.format('title: %s', title)
+    }
+
+    local paths = vim.fn.system(zk_cmd)
+    paths = vim.split(paths, '\n')
+
+    if #paths <= 1 then
+      vim.notify('No results')
+      return
+    end
+
+    if #paths == 2 then
+      local result = vim.trim(paths[1])
+      vim.cmd({cmd = 'edit', args = {result}})
+      return
+    end
+
+    zk_cmd[5] = '{{title}}'
+    local titles = vim.fn.system(zk_cmd)
+    titles = vim.split(titles, '\n')
+
+    titles[#titles] = nil
+
+    vim.ui.select(titles, {prompt = 'Select item'}, function(choice, i)
+      if choice == nil then
+        return
+      end
+
+      local result = paths[i]
+
+      if result == nil then
+        return
+      end
+
+      vim.cmd({cmd = 'edit', args = {result}})
+    end)
+  end
+
+  vim.api.nvim_create_user_command('Goto', cmd_goto, {nargs = 1})
+
+  vim.keymap.set('n', '<leader>x', 'mt0f[lclx<esc>`t', {desc = 'Mark task as done'})
+  vim.keymap.set('i', '<C-g>x', '- [ ] ', {desc = 'Create task'})
+  vim.keymap.set('n', '<leader>ux', 'mt0f[lcl <esc>`t', {desc = 'Undo task mark'})
+  vim.keymap.set('n', '<leader>1', '<cmd>Goto Index<cr>', {desc = 'Go to index page'})
 end
 
 function Project.worktask()
   Project.zk()
   vim.opt.textwidth = 80
-
-  vim.keymap.set('n', 'gw', 'mt0cl><esc>`t', {desc = 'Mark current task'})
-  vim.keymap.set('n', 'gx', 'mt0cl <esc>`t', {nowait = true, desc = 'Delete mark'})
-  vim.keymap.set('n', 'gu', 'mt0cl?<esc>`t', {desc = 'Mark task as paused'})
-  vim.keymap.set('n', 'gt', 'gg/^><cr>zz', {desc = 'Go to current task'})
-
-  vim.keymap.set('n', 'gs', function()
-    local line = vim.api.nvim_get_current_line()
-    local index = line:find('%d+.')
-    if index == nil then
-      return
-    end
-
-    local pattern = '\\[%s\\]'
-    vim.fn.setreg('/', pattern:format(vim.trim(line:sub(2, index))))
-    vim.api.nvim_feedkeys('nzz', 'n', false)
-  end, {desc = 'Go to task note'})
 end
 
 return Project
