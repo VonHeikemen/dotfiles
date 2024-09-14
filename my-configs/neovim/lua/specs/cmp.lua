@@ -8,7 +8,6 @@ Plugin.dependencies = {
   {'hrsh7th/cmp-path'},
   {'saadparwaiz1/cmp_luasnip'},
   {'hrsh7th/cmp-nvim-lsp'},
-  {'hrsh7th/cmp-nvim-lua'},
   {'hrsh7th/cmp-omni'},
   {'quangnguyen30192/cmp-nvim-tags'},
 
@@ -33,7 +32,6 @@ function Plugin.config()
     luasnip = '⋗',
     buffer = 'Ω',
     path = '🖫',
-    nvim_lua = 'Π',
     omni = 'Π',
     tags = 't',
   }
