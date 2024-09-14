@@ -65,6 +65,27 @@ function Project.legacy_php()
   })
 
   vim.keymap.set('n', 'gd', "<cmd>exe 'tjump' expand('<cword>')<cr>")
+
+  require('user.diagnostics')
+  require('statusline').show_diagnostic = true
+
+  require('lint').linter_by_ft = {php = {'php'}}
+
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'php',
+    callback = function(event)
+      vim.b.linter_attached = 1
+
+      local try_lint = function()
+        require('lint').try_lint('php')
+      end
+
+      vim.api.nvim_create_autocmd('BufWritePost', {
+        buffer = event.buf,
+        callback = try_lint,
+      })
+    end
+  })
 end
 
 function Project.zk()
