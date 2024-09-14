@@ -38,7 +38,7 @@ command(
 
     vim.defer_fn(function()
       local bufnr = vim.fn.bufnr()
-      vim.cmd('silent! bufdo GuessIndent')
+      vim.cmd('bufdo GuessIndent silent')
       vim.cmd({cmd = 'buffer', args = {bufnr}})
     end, 3)
   end,
@@ -112,33 +112,6 @@ command(
     vim.notify(msg, vim.log.levels.WARN)
   end,
   {bang = true, desc = 'Load project or session in current folder'}
-)
-
-command(
-  'EditMacro',
-  function()
-    local register = 'i'
-
-    local opts = {default = vim.g.edit_macro_last or ''}
-
-    if opts.default == '' then
-      opts.prompt = 'Create Macro'
-    else
-      opts.prompt = 'Edit Macro'
-    end
-
-    vim.ui.input(opts, function(value)
-      if value == nil then
-        return
-      end
-
-      local macro = vim.fn.escape(value, '"')
-      vim.cmd(string.format('let @%s="%s"', register, macro))
-
-      vim.g.edit_macro_last = value
-    end)
-  end,
-  {desc = 'Create/Edit macro in an input'}
 )
 
 command(

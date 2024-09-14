@@ -76,9 +76,8 @@ function user.lsp_attach(client, bufnr)
   bind('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
   bind('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
 
-  local telescope = require('telescope.builtin')
-  bind('n', '<leader>fd', telescope.lsp_document_symbols, opts)
-  bind('n', '<leader>fq', telescope.lsp_workspace_symbols, opts)
+  bind('n', '<leader>fd', '<cmd>Telescope lsp_document_symbols<cr>', opts)
+  bind('n', '<leader>fq', '<cmd>Telescope lsp_workspace_symbols<cr>', opts)
 end
 
 function user.float_border(style)
