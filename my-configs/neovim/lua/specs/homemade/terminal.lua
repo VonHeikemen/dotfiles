@@ -38,20 +38,8 @@ function Plugin.config()
   end
 
   local tig_status = function()
-    local env = require('user.env')
-
-    local opts = {
-      cmd = {'tig', 'status'},
-    }
-
-    local term = require('terminal')
-
-    if vim.o.lines < env.small_screen_lines then
-      term.tabnew(opts)
-      return
-    end
-
-    term.float_term(opts)
+    require('terminal').tabnew({cmd = {'tig', 'status'}})
+    vim.opt_local.signcolumn = 'no'
   end
 
   local command = vim.api.nvim_create_user_command
