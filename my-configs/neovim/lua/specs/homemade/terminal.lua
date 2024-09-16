@@ -6,7 +6,7 @@ Plugin.name = 'terminal'
 Plugin.dir = vim.fs.joinpath(path, 'pack', Plugin.name)
 
 function Plugin.config()
-  vim.keymap.set({'n', 'i', 'x', 't'}, '<M-i>', '<cmd>Term<cr>')
+  vim.keymap.set({'n', 'i', 'x', 't'}, '<M-i>', '<cmd>ToggleShell<cr>')
 
   vim.keymap.set('t', '<C-w>w', '<C-w>')
   vim.keymap.set('t', '<C-w>o', '<C-\\><C-n><C-w>w')
@@ -18,35 +18,26 @@ function Plugin.config()
   vim.keymap.set('t', '<C-o>t', '<C-\\><C-n>gt')
   vim.keymap.set('t', '<C-o>T', '<C-\\><C-n>gT')
 
-  local on_open = function()
-    local hl_term = vim.api.nvim_get_hl(0, {name = 'TermBg'})
-    if hl_term.bg then
-      vim.wo.winhighlight = 'Normal:TermBg,SignColumn:TermBg'
-    end
-  end
-
-  local current_direction = 'top'
-  local toggleterm = function(input)
+  local toggle_shell = function(input)
     local env = require('user.env')
-    local opts = {size = 0.3, direction = current_direction}
+    local opts = {
+      size = '30%',
+      name = 'default_shell',
+      display = 'split',
+      direction = 'top',
+    }
 
     if vim.o.lines < env.small_screen_lines then
-      opts.size = 0.4
+      opts.display = 'split'
+      opts.size = '40%'
       opts.direction = 'right'
     end
 
-    if input.args ~= '' then
-      opts.direction = input.args
-    end
-
-    require('terminal').toggle(opts)
-
-    current_direction = opts.direction
+    require('terminal').toggle_shell(opts)
   end
 
-  vim.api.nvim_create_user_command('Term', toggleterm, {nargs = '?'})
-
-  require('terminal.settings').set({on_open = on_open})
+  local command = vim.api.nvim_create_user_command
+  command('ToggleShell', toggle_shell, {nargs = '?'})
 end
 
 return Plugin

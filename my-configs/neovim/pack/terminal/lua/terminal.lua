@@ -1,94 +1,199 @@
 local M = {}
 local s = {}
 
-M.state = {
-  buffer = nil,
-  opened = false,
-}
+M.shell_ids = {}
 
-function M.toggle(opts)
+function M.toggle_shell(opts)
   opts = opts or {}
-  if M.state.buffer == nil then
-    s.create_terminal(opts)
-  elseif M.state.opened then
-    M.hide_terminal()
+
+  if opts.name == nil then
+    local msg = '[terminal] Provide a name for the shell window'
+    vim.notify(msg, vim.log.levels.WARN)
+    return
+  end
+
+  local state = M.shell_ids[opts.name] 
+
+  if state == nil then
+    state = {}
+    state.name = opts.name
+
+    M.shell_ids[opts.name] = state
+  end
+
+  if state.buffer == nil then
+    s.create_shell(state, opts)
+  elseif state.opened then
+    s.hide_shell(state, opts)
   else
-    M.show_terminal(opts)
+    s.show_shell(state, opts)
   end
 end
 
-function s.create_terminal(opts)
-  local config = require('terminal.settings').current
-
+function M.float_term(opts)
   opts = opts or {}
-  local direction = opts.direction or config.direction
-  local size = opts.size or s.config.size
+  local cmd = opts.cmd or ''
+  local win = s.new_float()
 
-  s.make_split({direction = direction, size = size})
-  vim.cmd('terminal')
-end
+  win:mount()
 
-function M.show_terminal(opts)
-  opts = opts or {}
-
-  local direction = opts.direction or s.config.direction
-  local size = opts.size or s.config.size
-
-  if type(M.state.buffer) ~= 'number' then
-    s.create_terminal(opts)
+  if cmd == '' then
+    vim.cmd('terminal')
     return
   end
 
-  s.make_split({direction = direction, size = size})
-  vim.api.nvim_win_set_buf(0, M.state.buffer)
-  M.state.opened = true
+  local on_exit = function()
+    win:unmount()
+  end
+
+  vim.fn.termopen(cmd, {on_exit = on_exit})
 end
 
-function M.hide_terminal()
-  local win_term = vim.fn.bufwinid(M.state.buffer)
-  if win_term == -1 then
+function M.tabnew(opts)
+  opts = opts or {}
+  local cmd = opts.cmd or ''
+  local win = s.new_tab()
+
+  if cmd == '' then
+    vim.cmd('terminal')
     return
   end
 
-  pcall(vim.api.nvim_win_close, win_term, 0)
-  M.state.opened = false
+  local on_exit = function()
+    pcall(vim.api.nvim_win_close, win.winid, 0)
+    pcall(vim.api.nvim_buf_delete, win.bufnr, {force = false})
+  end
+
+  vim.fn.termopen(cmd, {on_exit = on_exit})
 end
 
-function s.make_split(opts)
+function s.create_shell(state, opts)
   opts = opts or {}
-  local size = opts.size or 0.25
 
-  local exec = {
-    range = {},
-    cmd = 'split',
-    mods = {
-      silent = true,
-      keepalt = true,
-      vertical = false,
-    }
+  local display = opts.display
+  local win = {}
+
+  if display == 'split' then
+    win = s.new_split(opts)
+    state.split = win
+    win:mount()
+  elseif display == 'float' then
+    win = s.new_float(opts)
+    state.fterm = win
+    win:mount()
+  elseif display == 'tab' then
+    win = s.new_tab(opts)
+  end
+
+  if win.bufnr == nil then
+    return
+  end
+
+  vim.api.nvim_win_call(win.winid, function()
+    vim.cmd('terminal')
+    state.opened = true
+  end)
+
+  state.winid = win.winid
+  state.buffer = win.bufnr
+end
+
+function s.show_shell(state, opts)
+  opts = opts or {}
+  local display = opts.display
+
+  if display == 'split' then
+    if state.split == nil then
+      return
+    end
+
+    state.split:show()
+    state.opened = true
+  elseif display == 'float' then
+    if state.fterm == nil then
+      return
+    end
+
+    state.fterm:show()
+    state.opened = true
+  elseif display == 'tab' then
+    s.new_tab()
+    state.opened = true
+  end
+end
+
+function s.hide_shell(state, opts)
+  opts = opts or {}
+  local display = opts.display
+
+  if display == 'split' then
+    if state.split == nil then
+      return
+    end
+
+    state.split:hide()
+    state.opened = false
+  elseif display == 'float' then
+    if state.fterm == nil then
+      return
+    end
+
+    state.fterm:hide()
+    state.opened = false
+  elseif display == 'tab' then
+    pcall(vim.api.nvim_win_close, state.winid, 0)
+    state.opened = false
+  end
+end
+
+function s.new_tab(opts)
+  local ok = pcall(vim.cmd, 'tabnew')
+
+  if not ok then
+    return {}
+  end
+
+  return {
+    winid = vim.api.nvim_get_current_win(),
+    bufnr = vim.api.nvim_get_current_buf(),
+  }
+end
+
+function s.new_split(opts)
+  local Split = require("nui.split")
+  local position = opts.direction or 'bottom'
+  local size = opts.size or '30%'
+
+  return Split({
+    relative = 'editor',
+    position = position,
+    size = size,
+  })
+end
+
+function s.new_float(opts)
+  local Popup = require('nui.popup')
+
+  local position = {
+    row = '25%',
+    col = '50%',
   }
 
-  if opts.direction == 'bottom' then
-    exec.mods.vertical = false
-    exec.mods.split = 'botright'
-  elseif opts.direction == 'right' then
-    exec.mods.vertical = true
-    exec.mods.split = 'botright'
-  elseif opts.direction == 'top' then
-    exec.mods.vertical = false
-    exec.mods.split = 'topleft'
-  elseif opts.direction == 'left' then
-    exec.mods.vertical = true
-    exec.mods.split = 'topleft'
-  end
+  local size = {
+    width = '70%',
+    height = '70%',
+  }
 
-  if exec.mods.vertical then
-    exec.range[1] = vim.fn.float2nr(size * math.floor(vim.o.columns - 2))
-  else
-    exec.range[1] = vim.fn.float2nr(size * math.floor(vim.o.lines - 2))
-  end
-
-  vim.cmd(exec)
+  return Popup({
+    position = position,
+    size = size,
+    relative = 'editor',
+    enter = true,
+    focusable = true,
+    border = {
+      style = 'rounded',
+    },
+  })
 end
 
 return M
