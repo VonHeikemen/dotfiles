@@ -7,6 +7,7 @@ Plugin.dir = vim.fs.joinpath(path, 'pack', Plugin.name)
 
 function Plugin.config()
   vim.keymap.set({'n', 'i', 'x', 't'}, '<M-i>', '<cmd>ToggleShell<cr>')
+  vim.keymap.set('n', '<leader>g', '<cmd>Tig<cr>')
 
   vim.keymap.set('t', '<C-w>w', '<C-w>')
   vim.keymap.set('t', '<C-w>o', '<C-\\><C-n><C-w>w')
@@ -36,8 +37,26 @@ function Plugin.config()
     require('terminal').toggle_shell(opts)
   end
 
+  local tig_status = function()
+    local env = require('user.env')
+
+    local opts = {
+      cmd = {'tig', 'status'},
+    }
+
+    local term = require('terminal')
+
+    if vim.o.lines < env.small_screen_lines then
+      term.tabnew(opts)
+      return
+    end
+
+    term.float_term(opts)
+  end
+
   local command = vim.api.nvim_create_user_command
   command('ToggleShell', toggle_shell, {nargs = '?'})
+  command('Tig', tig_status, {})
 end
 
 return Plugin
