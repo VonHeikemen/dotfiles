@@ -396,7 +396,7 @@ function M.init(name, args)
     vim.cmd('syntax reset')
   end
 
-  vim.opt.background = args.type
+  vim.o.background = args.type
   vim.g.colors_name = name
 
   hi(cs_normal, {fg = FG, bg = none  })

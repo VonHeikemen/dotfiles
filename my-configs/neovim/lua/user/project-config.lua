@@ -194,7 +194,7 @@ end
 
 function Project.worktask()
   Project.zk()
-  vim.opt.textwidth = 80
+  vim.o.textwidth = 80
 end
 
 return Project

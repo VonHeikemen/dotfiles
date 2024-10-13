@@ -14,8 +14,8 @@ function Plugin.init()
   vim.g.goyo_height = '100%'
 
   local function enter()
-    vim.opt.wrap = true
-    vim.opt.linebreak =  true
+    vim.o.wrap = true
+    vim.o.linebreak =  true
     
     bind({'n', 'x'}, 'k', 'gk')
     bind({'n', 'x'}, 'j', 'gj')
@@ -23,8 +23,8 @@ function Plugin.init()
   end
 
   local function leave()
-    vim.opt.wrap = false
-    vim.opt.linebreak =  false
+    vim.o.wrap = false
+    vim.o.linebreak =  false
 
     unbind({'n', 'x'}, 'k')
     unbind({'n', 'x'}, 'j')
