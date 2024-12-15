@@ -58,7 +58,7 @@ function Plugin.config(_, opts)
   Snacks.setup(opts)
 
   Snacks.toggle.indent():map('<leader>ui')
-  
+
   vim.keymap.set('n', '<leader>db', function()
     Snacks.git.blame_line()
   end, {desc = 'Git blame line'})
@@ -212,7 +212,7 @@ function user.dashboard_actions()
     action.open_last,
     action.help,
   }
-end 
+end
 
 return Plugin
 
