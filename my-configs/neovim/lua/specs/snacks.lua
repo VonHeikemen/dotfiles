@@ -17,6 +17,10 @@ Plugin.opts = function()
       filekey = {
         branch = false,
       },
+      win = {
+        width = 0.7,
+        height = 0.7,
+      },
     },
     indent = {
       enabled = false,
@@ -55,7 +59,7 @@ function Plugin.config(_, opts)
 
   Snacks.toggle.indent():map('<leader>ui')
   
-  vim.keymap.set('n', '<leader>dl', function()
+  vim.keymap.set('n', '<leader>db', function()
     Snacks.git.blame_line()
   end, {desc = 'Git blame line'})
 
@@ -63,7 +67,7 @@ function Plugin.config(_, opts)
     Snacks.bufdelete()
   end, {desc = 'Close buffer'})
 
-  vim.keymap.set('n', '<leader>us', function()
+  vim.keymap.set('n', '<leader>ds', function()
     Snacks.scratch()
   end, {desc = 'Open notes'})
 
@@ -76,16 +80,6 @@ function user.setup_term()
 
   vim.keymap.set({'n', 'i', 'x', 't'}, '<M-i>', '<cmd>ToggleShell<cr>')
   vim.keymap.set('n', '<leader>g', '<cmd>GitStatus<cr>')
-
-  vim.keymap.set('t', '<C-w>w', '<C-w>')
-  vim.keymap.set('t', '<C-w>o', '<C-\\><C-n><C-w>w')
-  vim.keymap.set('t', '<C-w>h', '<C-\\><C-n><C-w>h')
-  vim.keymap.set('t', '<C-w>k', '<C-\\><C-n><C-w>k')
-  vim.keymap.set('t', '<C-w>j', '<C-\\><C-n><C-w>j')
-  vim.keymap.set('t', '<C-w>l', '<C-\\><C-n><C-w>l')
-
-  vim.keymap.set('t', '<C-o>t', '<C-\\><C-n>gt')
-  vim.keymap.set('t', '<C-o>T', '<C-\\><C-n>gT')
 
   local toggle_shell = function()
     local window = {

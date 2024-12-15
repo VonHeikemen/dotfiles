@@ -68,6 +68,16 @@ bind('x', 'C', '"_c')
 bind({'n', 'x'}, 'x','"_x')
 bind({'n', 'x'}, 'X','"_d')
 
+-- Terminal mode mappings
+bind('t', '<C-w>w', '<C-w>')
+bind('t', '<C-w>o', '<C-\\><C-n><C-w>w')
+bind('t', '<C-w>h', '<C-\\><C-n><C-w>h')
+bind('t', '<C-w>k', '<C-\\><C-n><C-w>k')
+bind('t', '<C-w>j', '<C-\\><C-n><C-w>j')
+bind('t', '<C-w>l', '<C-\\><C-n><C-w>l')
+bind('t', '<C-o>t', '<C-\\><C-n>gt')
+bind('t', '<C-o>T', '<C-\\><C-n>gT')
+
 
 -- ========================================================================== --
 -- ==                           COMMAND MAPPINGS                           == --
