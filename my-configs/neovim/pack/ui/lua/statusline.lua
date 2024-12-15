@@ -222,7 +222,7 @@ function M.setup()
   autocmd('FileType', {
     group = augroup,
     desc = 'Apply "short" statusline pattern',
-    pattern = {'lir', 'ctrlsf', 'Neogit*', 'alpha'},
+    pattern = {'lir', 'ctrlsf'},
     callback = function(event)
       vim.w.stl_style = 'short'
       vim.wo.statusline = state.short_pattern
