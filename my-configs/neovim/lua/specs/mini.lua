@@ -43,14 +43,6 @@ Plug {
 }
 
 Plug {
-  'echasnovski/mini.bufremove',
-  branch = 'stable',
-  main = 'mini.bufremove',
-  config = true,
-  keys = {{'<leader>bc', '<cmd>lua pcall(MiniBufremove.delete)<cr>'}},
-}
-
-Plug {
   'echasnovski/mini.surround',
   branch = 'stable',
   main = 'mini.surround',
