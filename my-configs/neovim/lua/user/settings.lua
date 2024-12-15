@@ -1,4 +1,11 @@
-local env = require('user.env')
+-- Try to load "env" file
+local ok, env = pcall(require, 'user.env')
+
+if not ok then
+  local msg = 'lua/user/env.lua not found. You should probably rename env.sample'
+  vim.notify(msg, vim.log.levels.ERROR)
+  return
+end
 
 if not env.tempdir then
   -- Don't use temp files
@@ -44,4 +51,10 @@ vim.o.completeopt = 'menu,menuone'
 
 -- Use the pretty colors
 vim.o.termguicolors = true
+
+-- Disable markdown tab settings
+vim.g.markdown_recommended_style = 0
+
+-- Number of lines for small windows
+vim.g.env_small_screen = env.small_screen_lines
 

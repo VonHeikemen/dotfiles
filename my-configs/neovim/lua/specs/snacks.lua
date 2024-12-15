@@ -1,5 +1,8 @@
+-- A collection of small QoL plugins
 local Plugin = {'folke/snacks.nvim'}
+
 local user = {}
+local small_screen = vim.g.env_small_screen or 17
 
 Plugin.lazy = false
 
@@ -85,14 +88,13 @@ function user.setup_term()
   vim.keymap.set('t', '<C-o>T', '<C-\\><C-n>gT')
 
   local toggle_shell = function()
-    local env = require('user.env')
     local window = {
       position = 'top',
       height = 0.3,
       wo = {winbar = ''},
     }
 
-    if vim.o.lines < env.small_screen_lines then
+    if vim.o.lines < small_screen then
       window.position = 'right'
       window.height = nil
       window.width = 0.4
@@ -102,10 +104,8 @@ function user.setup_term()
   end
 
   local float_term = function(cmd)
-    local env = require('user.env')
-
     local window = {position = 'float', border = 'rounded'}
-    if vim.o.lines < env.small_screen_lines then
+    if vim.o.lines < small_screen then
       window.height = 0.8
     end
 
@@ -134,7 +134,6 @@ function user.nvim_version()
 end
 
 function user.dashboard_actions()
-  local env = require('user.env')
   local action = {
     new_file = {
       icon = '➤',
@@ -202,7 +201,7 @@ function user.dashboard_actions()
   }
 
   -- hide actions in very small screens
-  if vim.o.lines < env.small_screen_lines then
+  if vim.o.lines < small_screen then
     action.new_file.hidden = true
     action.restore_session.hidden = true
     action.quit.hidden = true

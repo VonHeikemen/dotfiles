@@ -1,6 +1,8 @@
 -- File explorer
 local Plugin = {'tamago324/lir.nvim'}
+
 local user = {}
+local small_screen = vim.g.env_small_screen or 17
 
 Plugin.dependencies = {
   {'nvim-lua/plenary.nvim'}
@@ -85,7 +87,6 @@ function user.on_init()
 end
 
 function user.toggle(cwd, root)
-  local env = require('user.env')
   local path = ''
 
   if root then
@@ -96,7 +97,7 @@ function user.toggle(cwd, root)
     path = cwd
   end
 
-  if vim.o.lines > env.small_screen_lines then
+  if vim.o.lines > small_screen then
     require('lir.float').toggle(path)
   else
     vim.cmd({cmd = 'edit', args = {path}})
