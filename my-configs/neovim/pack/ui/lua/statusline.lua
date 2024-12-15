@@ -145,6 +145,23 @@ function state.show_sign(mode)
   return ok
 end
 
+function state.restore_active()
+  if state.transition == 'done' then
+    return
+  end
+
+  -- restore pattern of current window
+  local get = vim.api.nvim_get_option_value
+  local current_pattern = get('statusline', {scope = 'local'})
+  if current_pattern == state.inactive_pattern then
+    if vim.w.stl_style == 'short' then
+      vim.wo.statusline = state.short_pattern
+    else
+      vim.wo.statusline = nil
+    end
+  end
+end
+
 function M.higroups()
   return mode_higroups
 end
@@ -206,8 +223,17 @@ function M.setup()
     group = augroup,
     desc = 'Apply "short" statusline pattern',
     pattern = {'lir', 'ctrlsf', 'Neogit*', 'alpha'},
-    callback = function()
+    callback = function(event)
+      vim.w.stl_style = 'short'
       vim.wo.statusline = state.short_pattern
+
+      autocmd('BufUnload', {
+        buffer = event.buf,
+        callback = function()
+          vim.w.stl_style = nil
+          vim.wo.statusline = nil
+        end,
+      })
     end,
   })
 
@@ -223,7 +249,17 @@ function M.setup()
   autocmd('LspAttach', {
     group = augroup,
     desc = 'Show diagnostic sign in statusline',
-    command = 'let b:linter_attached = 1'
+    callback = function(event)
+      local id = vim.tbl_get(event, 'data', 'client_id')
+      local client = id and vim.lsp.get_client_by_id(id)
+      if client == nil then
+        return
+      end
+
+      if client.supports_method('textDocument/diagnostic') then
+        vim.b.linter_attached = 1
+      end
+    end
   })
 
   autocmd('WinLeave', {
@@ -231,31 +267,34 @@ function M.setup()
     desc = 'Store previous window id',
     callback = function()
       state.prev_win = vim.api.nvim_get_current_win()
+      state.transition = 'leave'
+
+      -- try to restore statusline if WinEnter is never triggered
+      vim.schedule(state.restore_active)
     end,
   })
 
   autocmd('WinEnter', {
     group = augroup,
-    desc = 'Handle inactive state',
+    desc = 'Handle state',
     callback = function()
       -- don't do anything if its a floating window
       local winconfig = vim.api.nvim_win_get_config(0)
       if winconfig.relative ~= '' then
+        state.transition = 'done'
         return
       end
 
-      -- restore pattern of current window
-      local get = vim.api.nvim_get_option_value
-      local current_pattern = get('statusline', {scope = 'local'})
-      if current_pattern == state.inactive_pattern then
-        vim.wo.statusline = nil
-      end
+      -- restore current window pattern
+      state.restore_active()
 
       -- apply inactive state in previous window
       local winid = state.prev_win
       if winid and vim.api.nvim_win_is_valid(winid) then
         vim.wo[winid].statusline = state.inactive_pattern
       end
+
+      state.transition = 'done'
     end,
   })
 end
