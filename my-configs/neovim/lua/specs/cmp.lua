@@ -27,15 +27,6 @@ function Plugin.config()
   local select_opts = {behavior = cmp.SelectBehavior.Select}
   local cmp_enable = cmp.get_config().enabled
 
-  local icon = {
-    nvim_lsp = 'λ',
-    luasnip = '⋗',
-    buffer = 'Ω',
-    path = '🖫',
-    omni = 'Π',
-    tags = 't',
-  }
-
   user.config = {
     enabled = function()
       if user.autocomplete then
@@ -74,11 +65,29 @@ function Plugin.config()
     formatting = {
       fields = {'menu', 'abbr', 'kind'},
       format = function(entry, item)
-        item.menu = icon[entry.source.name]
+        local n = entry.source.name
+
+        if n == 'nvim_lsp' then
+          item.menu = 'λ'
+        elseif n == 'luasnip' then
+          item.menu = '⋗'
+        elseif n == 'buffer' then
+          item.menu = 'Ω'
+        elseif n == 'path' then
+          item.menu = '🖫'
+        elseif n == 'omni' then
+          item.menu = 'Π'
+        elseif n == 'tags' then
+          item.menu = 'Π'
+        else
+          item.menu = '?'
+        end
+
         return item
       end,
     },
     mapping = {
+      ['<M-b>'] = cmp.mapping.confirm({select = true}),
       ['<C-k>'] = cmp.mapping.scroll_docs(-5),
       ['<C-j>'] = cmp.mapping.scroll_docs(5),
       ['<C-g>'] = cmp.mapping(function(fallback)
@@ -100,7 +109,7 @@ function Plugin.config()
       ['<C-n>'] = cmp.mapping.select_next_item(select_opts),
 
       ['<C-a>'] = cmp.mapping(function(fallback)
-        if luasnip.jumpable(-1) then
+        if luasnip.locally_jumpable(-1) then
           luasnip.jump(-1)
         else
           fallback()
@@ -108,7 +117,7 @@ function Plugin.config()
       end, {'i', 's'}),
 
       ['<C-d>'] = cmp.mapping(function(fallback)
-        if luasnip.jumpable(1) then
+        if luasnip.locally_jumpable(1) then
           luasnip.jump(1)
         else
           fallback()
@@ -128,8 +137,6 @@ function Plugin.config()
       ['<Tab>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.confirm({select = true})
-        elseif luasnip.jumpable(1) then
-          luasnip.jump(1)
         elseif user.check_back_space() then
           fallback()
         else
@@ -139,16 +146,17 @@ function Plugin.config()
       end, {'i', 's'}),
 
       ['<S-Tab>'] = cmp.mapping(function()
-        if luasnip.jumpable(-1) then
-          luasnip.jump(-1)
-        else
-          user.insert_tab()
-        end
+        user.insert_tab()
       end, {'i', 's'}),
     }
   }
 
   cmp.setup(user.config)
+
+  cmp.setup.filetype('BufferNav', {
+    enabled = true,
+    sources = {{name = 'path'}},
+  })
 end
 
 function user.set_autocomplete(new_value)
