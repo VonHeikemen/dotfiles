@@ -6,7 +6,7 @@ local small_screen = vim.g.env_small_screen or 17
 
 Plugin.lazy = false
 
-Plugin.opts = function()
+function Plugin.opts()
   return {
     bigfile = {
       enabled = true,
@@ -31,6 +31,11 @@ Plugin.opts = function()
     },
     animate = {
       enabled = false,
+    },
+    terminal = {
+      win = {
+        bo = {filetype = 'term'},
+      },
     },
     toggle = {
       notify = false,
@@ -60,7 +65,8 @@ function Plugin.config(_, opts)
   Snacks.toggle.indent():map('<leader>ui')
 
   vim.keymap.set('n', '<leader>db', function()
-    Snacks.git.blame_line()
+    local env = {DELTA_FEATURES = 'min'}
+    Snacks.git.blame_line({env = env})
   end, {desc = 'Git blame line'})
 
   vim.keymap.set('n', '<leader>bc', function()
@@ -71,10 +77,10 @@ function Plugin.config(_, opts)
     Snacks.scratch()
   end, {desc = 'Open notes'})
 
-  user.setup_term()
+  user.snack_terminal()
 end
 
-function user.setup_term()
+function user.snack_terminal()
   local Snacks = require('snacks')
   local command = vim.api.nvim_create_user_command
 
