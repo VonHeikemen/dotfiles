@@ -98,11 +98,12 @@ function user.setup_term()
   end
 
   local float_term = function(cmd)
-    local window = {position = 'float', border = 'rounded'}
+    local window = {border = 'rounded'}
     if vim.o.lines < small_screen then
-      window.height = 0.8
+      window = {height = 0, width = 0}
     end
 
+    window.position = 'float'
     Snacks.terminal.toggle(cmd, {win = window, interactive = true})
   end
 
