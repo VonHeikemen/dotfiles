@@ -85,12 +85,6 @@ nnoremap <C-k> :move .-2<CR>==
 vnoremap <C-j> :move '>+1<CR>gv=gv
 vnoremap <C-k> :move '<-2<CR>gv=gv
 
-" Moving lines and preserving indentation
-nnoremap <C-j> :move .+1<CR>==
-nnoremap <C-k> :move .-2<CR>==
-vnoremap <C-j> :move '>+1<CR>gv=gv
-vnoremap <C-k> :move '<-2<CR>gv=gv
-
 " Commands
 nnoremap <Leader>w :write<CR>
 nnoremap <Leader>qq :quitall<CR>
