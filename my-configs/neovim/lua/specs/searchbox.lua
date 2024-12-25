@@ -21,20 +21,21 @@ function Plugin.init()
   local bind = vim.keymap.set
 
   bind('n', 's', '<nop>')
-  bind('n', 'S', '/')
 
-  bind('n', 'si', '<cmd>SearchBoxIncSearch<cr>')
-  bind('x', 'si', "<Esc><cmd>'<,'>SearchBoxIncSearch visual_mode=true<cr>")
-  bind('n', 'sw', "<cmd>exe 'SearchBoxIncSearch  --' expand('<cword>')<cr>")
-  bind('x', 'sw', "<Esc><cmd>GetSelection<cr><cmd>exe 'SearchBoxIncSearch --' getreg('/')<cr>")
+  bind('n', 'sb', '<cmd>SearchBoxIncSearch<cr>')
+  bind('x', 'sb', "<Esc><cmd>'<,'>SearchBoxIncSearch visual_mode=true<cr>")
+  bind('n', 's*', "<cmd>exe 'SearchBoxIncSearch  --' expand('<cword>')<cr>")
 
   bind('n', 'sm', '<cmd>SearchBoxMatchAll<cr>')
   bind('x', 'sm', "<Esc><cmd>GetSelection<cr><cmd>exe 'SearchBoxMatchAll --' getreg('/')<cr>")
 
-  bind('n', 'sc', '<cmd>SearchBoxReplace <CR>')
-  bind('x', 'sc', '<Esc><cmd>SearchBoxReplace  visual_mode=true<cr>')
-  bind('n', 'sC', "<cmd>exe 'SearchBoxReplace  --' expand('<cword>')<cr>")
-  bind('x', 'sC', "<Esc><cmd>GetSelection<cr><cmd>exe 'SearchBoxReplace --' getreg('/')<cr>")
+  bind('n', 'sr', '<cmd>SearchBoxReplace<cr>')
+  bind('x', 'sr', '<Esc><cmd>SearchBoxReplace  visual_mode=true<cr>')
+  bind('n', 'sR', "<cmd>exe 'SearchBoxReplace  --' expand('<cword>')<cr>")
+  bind('x', 'sR', "<Esc><cmd>GetSelection<cr><cmd>exe 'SearchBoxReplace --' getreg('/')<cr>")
+
+  -- Search in function (depends on nvim-treesitter-textobjects)
+  bind('n', 'sf', 'vif<Esc><cmd>SearchBoxIncSearch modifier=":\\V\\%V"<cr>', {remap = true})
 end
 
 return Plugin

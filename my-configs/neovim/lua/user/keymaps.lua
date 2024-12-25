@@ -3,7 +3,7 @@ local bind = vim.keymap.set
 local remap = {remap = true}
 
 -- Leader
-vim.g.mapleader = ' '
+vim.g.mapleader = vim.keycode('<Space>')
 
 -- ========================================================================== --
 -- ==                             KEY MAPPINGS                             == --
@@ -148,36 +148,59 @@ bind('n', '<leader>un', '<cmd>set invnumber<cr>')
 bind('n', '<leader>ur', '<cmd>set invrelativenumber<cr>')
 
 -- ========================================================================== --
--- ==                            MISCELLANEOUS                             == --
+-- ==                          SEARCH AND REPLACE                          == --
 -- ========================================================================== --
 
--- Show line diagnostics
-bind('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
+-- Very nomagic search
+bind('n', 'S', '/\\V')
 
 -- Add word to search then replace
-bind('n', 'sj', [[<cmd>let @/='\<'.expand('<cword>').'\>'<cr>"_ciw]])
+bind('n', 'sw', [[<cmd>let @/='\<'.expand('<cword>').'\>'<cr>"_ciw]])
 
 -- Add selection to search then replace
-bind('x', 'sj', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>"_cgn]])
+bind('x', 'sw', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>"_cgn]])
 
--- Begin a "searchable" macro
+-- Begin search and replace with a macro
 bind('x', 'qi', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>gvqi]])
 
 -- Apply macro in the next instance of the search
 bind('n', '<F8>', 'gn@i')
 
 -- Record macro on word
-bind('n', 'sq', [[<cmd>let @/=expand('<cword>')<cr>viwo<Esc>qi]])
+bind('n', 'siw', [[<cmd>let @/=expand('<cword>')<cr>viwo<Esc>qi]])
 
--- Apply @i macro
-bind('n', 'sQ', '@i')
+-- ========================================================================== --
+-- ==                            MISCELLANEOUS                             == --
+-- ========================================================================== --
+
+-- Show line diagnostics
+bind('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
 
 -- Repeat recently used macro
-bind('n', 'Q', '@@')
+bind('n', 'Q', function()
+  local cmd = vim.api.nvim_command
+  if not pcall(cmd, 'normal! @@') then
+    cmd('normal! @i')
+  end
+end)
 
 -- Undo break points
 local break_points = {'<Space>', '-', '_', ':', '.', '/'}
 for _, char in ipairs(break_points) do
   bind('i', char, char .. '<C-g>u')
 end
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = 'init_cmds',
+  desc = 'LSP keymaps',
+  callback = function(event)
+    local opts = {buffer = event.buf}
+
+    bind({'n', 'x'}, 'gq', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+    bind('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+    bind('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+    bind('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+    bind('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+  end,
+})
 

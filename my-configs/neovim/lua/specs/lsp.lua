@@ -60,24 +60,6 @@ end
 function user.lsp_attach(client, bufnr)
   -- Disable semantic highlights
   client.server_capabilities.semanticTokensProvider = nil
-
-  local bind = vim.keymap.set
-  local opts = {silent = true, buffer = bufnr}
-
-  bind({'n', 'x'}, 'gq', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
-
-  bind('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
-  bind('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-  bind('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
-  bind('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
-  bind('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
-  bind('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-  bind('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-  bind('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-  bind('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
-
-  bind('n', '<leader>fd', '<cmd>Telescope lsp_document_symbols<cr>', opts)
-  bind('n', '<leader>fq', '<cmd>Telescope lsp_workspace_symbols<cr>', opts)
 end
 
 function user.float_border(style)
