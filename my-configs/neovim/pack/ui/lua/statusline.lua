@@ -248,11 +248,8 @@ function M.setup()
     callback = function(event)
       local id = vim.tbl_get(event, 'data', 'client_id')
       local client = id and vim.lsp.get_client_by_id(id)
-      if client == nil then
-        return
-      end
 
-      if client.supports_method('textDocument/diagnostic') then
+      if client then
         vim.b.linter_attached = 1
       end
     end
