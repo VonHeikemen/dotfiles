@@ -13,19 +13,12 @@ function Project.buffers(name)
   require('project').load_buffer_list(name)
 end
 
-function Project.nvim_config()
-  vim.cmd('Lsp')
-  require('lsp-zero').use('nvim_lua', {})
-end
-
 function Project.nvim_plugin(opts)
   local join = vim.fs.joinpath
-
-  vim.cmd('Lsp')
-
-  local lsp_zero = require('lsp-zero')
   local dependencies = {join(vim.env.VIMRUNTIME, 'lua')}
-  local lua = join(vim.fn.stdpath('data'), 'lazy', '*', 'lua', '%s')
+  local nvim_data = vim.fn.stdpath('data') --[[@as string]]
+
+  local lua = join(nvim_data, 'lazy', '*', 'lua', '%s')
 
   if opts.dependencies then
     for i, mod in ipairs(opts.dependencies) do
@@ -34,17 +27,18 @@ function Project.nvim_plugin(opts)
     end
   end
 
-  local lua_opts = {
+  require('lspconfig').nvim_lua.setup({
     settings = {
       Lua = {
         workspace = {
           library = dependencies
         },
       }
-    }
-  }
-
-  lsp_zero.use('nvim_lua', lua_opts)
+    },
+    root_dir = function()
+      return vim.fn.getcwd()
+    end,
+  })
 end
 
 function Project.legacy_php()

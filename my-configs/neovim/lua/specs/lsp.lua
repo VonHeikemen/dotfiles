@@ -8,18 +8,16 @@ Plugin.dependencies = {
   {'VonHeikemen/lsp-zero.nvim', branch = 'v4.x'},
 }
 
-Plugin.cmd = 'Lsp'
+Plugin.cmd = 'LspConfig'
 
 function Plugin.config()
-  require('user.diagnostics')
-
+  require('user.lsp')
   user.lspconfig()
-  user.float_border('rounded')
 
   require('mason-lspconfig').setup({})
 
   vim.api.nvim_create_user_command(
-    'Lsp',
+    'LspConfig',
     function(input)
       if input.args == '' then
         return
@@ -35,10 +33,7 @@ function user.lspconfig()
   local lsp = require('lsp-zero')
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-  lsp.extend_lspconfig({
-    lsp_attach = user.lsp_attach,
-    capabilities = capabilities,
-  })
+  lsp.extend_lspconfig({capabilities = capabilities})
 
   lsp.client_config({
     single_file_support = false,
@@ -55,22 +50,6 @@ function user.lspconfig()
       filetypes = {'lua'},
     })
   }
-end
-
-function user.lsp_attach(client, bufnr)
-  -- Disable semantic highlights
-  client.server_capabilities.semanticTokensProvider = nil
-end
-
-function user.float_border(style)
-  vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-    vim.lsp.handlers.hover,
-    {border = style}
-  ) 
-  vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-    vim.lsp.handlers.signature_help,
-    {border = style}
-  )
 end
 
 return Plugin
