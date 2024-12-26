@@ -1,18 +1,5 @@
 local Project = {}
 
-function Project.store_dir()
-  local store = require('project').store
-  if store.dir then
-    return store.dir
-  end
-
-  return ''
-end
-
-function Project.buffers(name)
-  require('project').load_buffer_list(name)
-end
-
 function Project.nvim_plugin(opts)
   local join = vim.fs.joinpath
   local dependencies = {join(vim.env.VIMRUNTIME, 'lua')}
@@ -76,6 +63,7 @@ function Project.legacy_php()
 
       vim.api.nvim_create_autocmd('BufWritePost', {
         buffer = event.buf,
+        desc = 'run php linter',
         callback = try_lint,
       })
     end
@@ -137,14 +125,13 @@ function Project.zk()
   local function cmd_goto(input)
     local title = input.args
     local zk_cmd = {
-      'zk', 'list', 
+      'zk', 'list',
       '--quiet',
       '--format', 'path',
       '--match', string.format('title: %s', title)
     }
 
-    local paths = vim.fn.system(zk_cmd)
-    paths = vim.split(paths, '\n')
+    local paths = vim.split(vim.fn.system(zk_cmd), '\n')
 
     if #paths <= 1 then
       vim.notify('No results')
@@ -158,8 +145,7 @@ function Project.zk()
     end
 
     zk_cmd[5] = '{{title}}'
-    local titles = vim.fn.system(zk_cmd)
-    titles = vim.split(titles, '\n')
+    local titles = vim.split(vim.fn.system(zk_cmd), '\n')
 
     titles[#titles] = nil
 
