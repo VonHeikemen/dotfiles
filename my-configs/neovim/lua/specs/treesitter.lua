@@ -1,8 +1,13 @@
 local Plugin = {'nvim-treesitter/nvim-treesitter'}
+Plugin.version = '0.9.3'
 Plugin.pin = true
 
 Plugin.dependencies = {
-  {'nvim-treesitter/nvim-treesitter-textobjects', pin = true},
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    commit = '3e450cd85243da99dc23ebbf14f9c70e9a0c26a4',
+    pin = true
+  },
 }
 
 Plugin.opts = {
