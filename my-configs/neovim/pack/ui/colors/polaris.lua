@@ -96,15 +96,8 @@ hi('DiffText', color.cyan)
 
 hi('helpHeader', color.blue)
 
-local statusline = require('statusline').higroups()
-
-hi(statusline['COMMAND'], color.black, color.cyan)
-hi(statusline['INSERT'], color.black, color.green)
-hi(statusline['STATUS-BLOCK'], color.white, color.blue_two)
-
-local tabline = require('tabline').higroups()
-
-link(tabline['TABLINE-SEPARATOR'], 'Function')
-
 hi('TermBg', color.white, color.darkness)
+
+hi('MiniStatuslineModeCommand', color.black, color.cyan)
+hi('MiniStatuslineModeInsert', color.black, color.green)
 

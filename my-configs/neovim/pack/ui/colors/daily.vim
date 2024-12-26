@@ -56,7 +56,7 @@ hi PmenuSbar     ctermbg=253   guibg=#D8D8DC
 hi TabLine       ctermfg=fg    guibg=fg       ctermbg=252   guibg=#CECECE  cterm=NONE     gui=NONE
 hi TabLineFill   ctermbg=252   guibg=#CECECE  cterm=NONE     gui=NONE
 hi TabLineSel    ctermfg=NONE  guifg=NONE     ctermbg=254    guibg=#FBFBFB
-hi StatusLine    ctermbg=252   guibg=#CECECE  cterm=NONE     gui=NONE
+hi StatusLine    ctermbg=252   guibg=#CECECE  ctermfg=fg     guifg=fg       cterm=NONE     gui=NONE
 hi StatusLineNC  ctermfg=247   guifg=#989FB1  ctermbg=252    guibg=#CECECE  cterm=NONE       gui=NONE
 hi Visual        ctermfg=NONE  guifg=NONE     ctermbg=250    guibg=#E0E0E0  cterm=NONE       gui=NONE
 hi Search        ctermfg=bg    guifg=bg       ctermbg=247    guibg=#93A1A1 
@@ -72,6 +72,12 @@ hi DiagnosticUnderlineError  ctermfg=131  guifg=#BC5454  ctermbg=NONE  guibg=NON
 hi DiagnosticUnderlineWarn   ctermfg=167  guifg=#C96765  ctermbg=NONE  guibg=NONE cterm=underline gui=underline
 hi DiagnosticUnderlineInfo   ctermfg=30   guifg=#0C969B  ctermbg=NONE  guibg=NONE cterm=underline gui=underline
 hi DiagnosticUnderlineHint   ctermfg=fg   guifg=fg       ctermbg=NONE  guibg=NONE cterm=underline gui=underline
+
+hi MiniStatuslineNormal  ctermfg=bg guifg=bg ctermbg=27  guibg=#4876D6 cterm=NONE gui=NONE
+hi MiniStatuslineVisual  ctermfg=bg guifg=bg ctermbg=131 guibg=#BC5454 cterm=NONE gui=NONE
+hi MiniStatuslineInsert  ctermfg=bg guifg=bg ctermbg=167 guibg=#C96765 cterm=NONE gui=NONE
+hi MiniStatuslineCommand ctermfg=bg guifg=bg ctermbg=247 guibg=#93A1A1 cterm=NONE gui=NONE
+hi MiniStatuslineOther   ctermfg=bg guifg=bg ctermbg=22  guibg=#4E7240 cterm=NONE gui=NONE
 
 hi link WildMenu    Search
 hi link CurSearch   Search

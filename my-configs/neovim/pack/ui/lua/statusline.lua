@@ -33,14 +33,15 @@ state.inactive_pattern = table.concat({
 }, '')
 
 local mode_higroups = {
-  ['DEFAULT'] = 'UserStatusMode_DEFAULT',
-  ['NORMAL'] = 'UserStatusMode_NORMAL',
-  ['VISUAL'] = 'UserStatusMode_VISUAL',
-  ['V-BLOCK'] = 'UserStatusMode_V_BLOCK',
-  ['V-LINE'] = 'UserStatusMode_V_LINE',
-  ['INSERT'] = 'UserStatusMode_INSERT',
-  ['COMMAND'] = 'UserStatusMode_COMMAND',
-  ['O-PENDING'] = 'UserStatusMode_O_PENDING'
+  ['DEFAULT'] = 'MiniStatuslineModeOther',
+  ['NORMAL'] = 'MiniStatuslineModeNormal',
+  ['VISUAL'] = 'MiniStatuslineModeVisual',
+  ['V-BLOCK'] = 'MiniStatuslineModeVisual',
+  ['V-LINE'] = 'MiniStatuslineModeVisual',
+  ['INSERT'] = 'MiniStatuslineModeInsert',
+  ['SELECT'] = 'MiniStatuslineModeInsert',
+  ['REPLACE'] = 'MiniStatuslineModeInsert',
+  ['COMMAND'] = 'MiniStatuslineModeCommand',
 }
 
 -- mode_map copied from:
@@ -162,10 +163,6 @@ function state.restore_active()
   end
 end
 
-function M.higroups()
-  return mode_higroups
-end
-
 function M.apply_default_hl()
   local get = vim.api.nvim_get_hl
   local set = vim.api.nvim_set_hl
@@ -190,7 +187,6 @@ function M.apply_default_hl()
   default_hl(group['VISUAL'], 'Number')
   default_hl(group['V-BLOCK'], 'Number')
   default_hl(group['V-LINE'], 'Number')
-  default_hl(group['O-PENDING'], 'Number')
 end
 
 function M.setup()

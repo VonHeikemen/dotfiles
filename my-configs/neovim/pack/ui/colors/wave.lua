@@ -24,6 +24,7 @@ local color = {
 
   light_green = {gui = '#3D4C3E', cterm = 238},
   dim_gray    = {gui = '#727169', cterm = 243},
+  pale_blue   = {gui = '#8D99C8', cterm = 239},
 }
 
 local theme = {
@@ -76,11 +77,14 @@ cs.apply('wave', theme)
 local link = cs.link
 local hi = cs.highlight
 
+hi('Cursor', color.black, color.pale_blue)
+link('NormalFloat', 'Normal')
+
 hi('Search', color.yellow, color.bright_blue)
 hi('IncSearch', color.yellow, color.bright_blue)
 
-hi('TelescopeMatching', color.orange)
-hi('TelescopeSelectionCaret', color.cyan, color.light_gray)
+hi('TelescopeMatching', color.cyan)
+hi('TelescopeSelectionCaret', color.magenta, color.light_gray)
 
 link('TelescopeSelection', 'CursorLine')
 link('markdownError', cs.no_color)
@@ -92,17 +96,10 @@ hi('DiffText', color.cyan)
 
 hi('MiniJump2dSpot', color.eerie_black, color.yellow)
 link('MiniJump2dSpotAhead', 'MiniJump2dSpot')
-
-local statusline = require('statusline').higroups()
-
-hi(statusline['NORMAL'], color.black, color.blue)
-hi(statusline['COMMAND'], color.black, color.magenta)
-hi(statusline['INSERT'], color.black, color.green)
-hi(statusline['DEFAULT'], color.black, color.orange)
-
-local tabline = require('tabline').higroups()
-
-link(tabline['TABLINE-SEPARATOR'], 'Function')
+link('LeapMatch', 'MiniJump2dSpot')
+link('LeapLabel', 'MiniJump2dSpot')
 
 hi('TermBg', color.white, color.eerie_black)
+
+hi('MiniStatuslineModeOther', color.black, color.orange)
 

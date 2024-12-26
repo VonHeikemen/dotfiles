@@ -1,6 +1,6 @@
 local M = {}
 local concat  = '%s%s'
-local active_tab_highlight = 'UserTablineSeparator'
+local active_tab_highlight = 'Function'
 local separator_active = ''
 
 function M.setup()
@@ -63,12 +63,6 @@ function M.set_separator()
   end
 
   separator_active = '%#' .. active_tab_highlight .. '#▍'
-end
-
-function M.higroups()
-  return {
-    ['TABLINE-SEPARATOR'] = active_tab_highlight
-  }
 end
 
 return M

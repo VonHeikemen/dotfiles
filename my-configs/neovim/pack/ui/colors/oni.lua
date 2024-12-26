@@ -90,17 +90,10 @@ hi('DiffText', color.cyan)
 
 hi('MiniJump2dSpot', color.eerie_black, color.yellow)
 link('MiniJump2dSpotAhead', 'MiniJump2dSpot')
-
-local statusline = require('statusline').higroups()
-
-hi(statusline['NORMAL'], color.black, color.blue)
-hi(statusline['COMMAND'], color.black, color.magenta)
-hi(statusline['INSERT'], color.black, color.green)
-hi(statusline['DEFAULT'], color.black, color.yellow)
-
-local tabline = require('tabline').higroups()
-
-link(tabline['TABLINE-SEPARATOR'], 'Function')
+link('LeapMatch', 'MiniJump2dSpot')
 
 hi('TermBg', color.white, color.eerie_black)
+
+hi('MiniStatuslineModeCommand', color.black, color.magenta)
+hi('MiniStatuslineModeOther', color.black, color.yellow)
 

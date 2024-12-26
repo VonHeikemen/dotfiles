@@ -88,20 +88,12 @@ link('MiniJump2dSpotAhead', 'MiniJump2dSpot')
 
 hi('htmlTag', color.magenta)
 
-hi('@tag.delimiter', color.magenta)
+if vim.fn.has('nvim-0.9') == 1 then
+  hi('@tag.delimiter', color.magenta)
+end
 
 hi('Underlined', color.sad_blue, nil, {'underline'})
 
-local statusline = require('statusline').higroups()
-
-hi(statusline['NORMAL'], color.black, color.blue)
-hi(statusline['COMMAND'], color.black, color.magenta)
-hi(statusline['INSERT'], color.black, color.green)
-hi(statusline['DEFAULT'], color.black, color.orange)
-
-local tabline = require('tabline').higroups()
-
-link(tabline['TABLINE-SEPARATOR'], 'Function')
-
 hi('TermBg', color.white, color.eerie_black)
 
+hi('MiniStatuslineModeOther', color.black, color.orange)

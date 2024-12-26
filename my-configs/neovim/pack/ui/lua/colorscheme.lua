@@ -85,7 +85,7 @@ function M.base_syntax(theme)
   hi('Todo',           {fg = none, bg = none})
 end
 
-function M.ui(theme)
+function M.ui(theme, syntax)
   local underline = {'underline'}
 
   hi('CursorLine',   {fg = none,            bg = theme.cursorline   })
@@ -133,6 +133,13 @@ function M.ui(theme)
   hi('NotifyERRORIcon',   {fg = theme.error,   bg = none})
   hi('NotifyERRORBorder', {fg = theme.error,   bg = none})
   hi('NotifyERRORTitle',  {fg = theme.error,   bg = none})
+
+
+  hi('MiniStatuslineModeNormal',  {fg = BG, bg = syntax.storage })
+  hi('MiniStatuslineModeVisual',  {fg = BG, bg = syntax.constant})
+  hi('MiniStatuslineModeInsert',  {fg = BG, bg = syntax.string  })
+  hi('MiniStatuslineModeCommand', {fg = BG, bg = syntax.special })
+  hi('MiniStatuslineModeOther',   {fg = BG, bg = syntax.comment })
 end
 
 function M.apply_links()
@@ -350,6 +357,8 @@ function M.apply_links()
     link('@markup.link.label.markdown_inline', cs_normal)
     link('@markup.link.url.markdown_inline', cs_normal)
     link('@markup.raw.block.markdown', cs_normal)
+    link('@punctuation.special.markdown', cs_normal)
+    link('@markup.raw.block.vimdoc', cs_normal)
   end
 end
 
@@ -407,7 +416,7 @@ function M.apply(name, theme)
   M.set_foreground(theme.globals.foreground)
   M.set_background(theme.globals.background)
   M.init(name, theme.globals)
-  M.ui(theme.ui)
+  M.ui(theme.ui, theme.syntax)
   M.base_syntax(theme.syntax)
   M.apply_links()
   M.terminal(theme.terminal)

@@ -96,18 +96,9 @@ hi('DiffText', color.cyan)
 hs('IndentBlanklineChar', {fg = '#494E5B'})
 hs('IndentBlanklineContextChar', {fg = '#6D717C'})
 
-local statusline = require('statusline').higroups()
-
-hi(statusline['NORMAL'], color.jet_white, color.blue_gray)
-hi(statusline['VISUAL'], color.jet_white, color.magenta)
-hi(statusline['V-BLOCK'], color.jet_white, color.magenta)
-hi(statusline['V-LINE'], color.jet_white, color.magenta)
-hi(statusline['INSERT'], color.jet_white, color.eton_green)
-hi(statusline['COMMAND'], color.pitch_black, color.crystal_cyan)
-hi(statusline['STATUS-BLOCK'], color.kinda_white, color.other_gray)
-hi(statusline['DEFAULT'], color.pitch_black, color.red)
-
-local tabline = require('tabline').higroups()
-
-link(tabline['TABLINE-SEPARATOR'], 'Function')
+hi('MiniStatuslineModeNormal', color.jet_white, color.blue_gray)
+hi('MiniStatuslineModeVisual', color.jet_white, color.magenta)
+hi('MiniStatuslineModeInsert', color.jet_white, color.eton_green)
+hi('MiniStatuslineModeCommand', color.pitch_black, color.crystal_cyan)
+hi('MiniStatuslineModeOther', color.pitch_black, color.red)
 
