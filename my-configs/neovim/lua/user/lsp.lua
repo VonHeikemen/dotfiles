@@ -25,10 +25,10 @@ if vim.fn.has('nvim-0.11') == 0 then
   vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
     vim.lsp.handlers.hover,
     {border = style}
-  ) 
+  )
   vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
     vim.lsp.handlers.signature_help,
     {border = style}
-  ) 
+  )
 end
 
