@@ -1,15 +1,8 @@
-local M = {}
 local concat  = '%s%s'
 local active_tab_highlight = 'Function'
 local separator_active = ''
 
-function M.setup()
-  M.set_separator()
-  _G._user_tabline = M.tabline
-  vim.o.tabline = '%!v:lua._user_tabline()'
-end
-
-function M.tabpage(opts)
+local function tabpage(opts)
   local highlight = '%#TabLine#'
   local separator = '%#TabLine#▏'
   local label = '[No Name]'
@@ -30,7 +23,7 @@ function M.tabpage(opts)
   return str:format(separator, highlight, label)
 end
 
-function M.tabline()
+local function tabline()
   local line = ''
   local tabs = vim.fn.tabpagenr('$')
 
@@ -41,7 +34,7 @@ function M.tabline()
 
     line = concat:format(
       line,
-      M.tabpage({
+      tabpage({
         selected = vim.fn.tabpagenr() == index,
         bufname = bufname,
       })
@@ -57,7 +50,7 @@ function M.tabline()
   return line
 end
 
-function M.set_separator()
+local function set_separator()
   local hl = vim.api.nvim_get_hl(0, {name = active_tab_highlight})
 
   if next(hl) == nil then
@@ -67,5 +60,11 @@ function M.set_separator()
   separator_active = '%#' .. active_tab_highlight .. '#▍'
 end
 
-return M
+---
+-- Setup
+---
+
+set_separator()
+_G._user_tabline = tabline
+vim.o.tabline = '%!v:lua._user_tabline()'
 

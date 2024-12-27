@@ -13,6 +13,7 @@ require('user.commands')
 require('user.keymaps')
 require('user.plugin-manager')
 
--- Apply theme
 vim.cmd('colorscheme sigil')
+require('user.statusline')
+require('user.tabline')
 
