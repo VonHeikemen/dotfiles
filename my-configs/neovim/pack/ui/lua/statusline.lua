@@ -198,6 +198,27 @@ function M.setup()
 
   local augroup = vim.api.nvim_create_augroup('statusline_cmds', {clear = true})
   local autocmd = vim.api.nvim_create_autocmd
+  local command = vim.api.nvim_create_user_command
+
+  command('StlDiagnostics', function(input)
+    local param = input.args
+
+    if param == 'enable' then
+      M.show_diagnostic = true
+    elseif param == 'disable' then
+      M.show_diagnostic = false
+    elseif param == 'toggle' then
+      M.show_diagnostic = not M.show_diagnostic
+    else
+      local msg = fmt('Invalid command "%s"', param)
+      vim.notify(msg, vim.log.levels.WARN)
+      return
+    end
+
+    if input.bang then
+      vim.cmd('redrawstatus')
+    end
+  end, {nargs = 1, bang = true, desc = 'Manage diagnostic icon in statusline'})
 
   autocmd('ColorScheme', {
     group = augroup,

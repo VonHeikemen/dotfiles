@@ -48,7 +48,7 @@ function Project.legacy_php()
   vim.keymap.set('n', 'gd', "<cmd>exe 'tjump' expand('<cword>')<cr>")
 
   require('user.diagnostics')
-  require('statusline').show_diagnostic = true
+  vim.cmd('StlDiagnostics enable')
 
   require('lint').linter_by_ft = {php = {'php'}}
 
