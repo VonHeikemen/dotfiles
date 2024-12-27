@@ -20,7 +20,10 @@ function M.tabpage(opts)
   end
 
   if opts.bufname ~= '' then
-    label = vim.fn.pathshorten(vim.fn.fnamemodify(opts.bufname, ':p:~:t'))
+    local name = vim.fn.pathshorten(vim.fn.fnamemodify(opts.bufname, ':p:~:t'))
+    if name ~= '' then
+      label = name
+    end
   end
 
   local str = '%s%s%s '
@@ -55,10 +58,9 @@ function M.tabline()
 end
 
 function M.set_separator()
-  local ok, hl = pcall(vim.api.nvim_get_hl_by_name, active_tab_highlight, 1)
-  local valid_highlight = ok and (hl.background or hl.foreground)
+  local hl = vim.api.nvim_get_hl(0, {name = active_tab_highlight})
 
-  if not valid_highlight then
+  if next(hl) == nil then
     vim.api.nvim_set_hl(0, active_tab_highlight, {link = 'Directory'})
   end
 
