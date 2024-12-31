@@ -1,4 +1,3 @@
-local M = {}
 local state = {}
 
 local fmt = string.format
@@ -96,7 +95,7 @@ function state.set_mode()
   if higroup then
     state.mode_group = higroup
 
-    if M.show_diagnostic then
+    if state.show_diagnostic then
       text = state.show_sign(mode_name)
     end
 
@@ -165,30 +164,38 @@ function state.restore_active()
   end
 end
 
-function M.apply_default_hl()
+local function apply_default_hl()
   local get = vim.api.nvim_get_hl
   local set = vim.api.nvim_set_hl
   local normal = get(0, {name = 'Normal'})
 
-  local default_hl = function(name, style)
-    local hl = next(get(0, {name = name}))
-    if hl then
-      return
+  local defaults = {
+    DEFAULT = 'Comment',
+    NORMAL = 'Directory',
+    INSERT = 'String',
+    COMMAND = 'Special',
+    VISUAL = 'Number'
+  }
+
+  for name, style in pairs(defaults) do
+    local group = mode_higroups[name]
+    local hl = next(get(0, {name = group}))
+    if hl == nil then
+      local fallback = get(0, {name = style, link = false})
+      local ctermfg = rawget(normal, 'ctermbg')
+      local ctermbg = rawget(fallback, 'ctermfg')
+
+      local new_hl = {fg = normal.bg, bg = fallback.fg}
+      if ctermfg and ctermbg then
+        new_hl.ctermfg = ctermfg
+        new_hl.ctermbg = ctermbg
+      else
+        new_hl.cterm = {reverse = true}
+      end
+
+      set(0, group, new_hl)
     end
-
-    local fallback = get(0, {name = style, link = false})
-
-    set(0, name, {fg = normal.bg, bg = fallback.fg})
   end
-
-  local group = mode_higroups
-  default_hl(group['DEFAULT'], 'Comment')
-  default_hl(group['NORMAL'], 'Directory')
-  default_hl(group['INSERT'], 'String')
-  default_hl(group['COMMAND'], 'Special')
-  default_hl(group['VISUAL'], 'Number')
-  default_hl(group['V-BLOCK'], 'Number')
-  default_hl(group['V-LINE'], 'Number')
 end
 
 ---
@@ -197,6 +204,7 @@ end
 
 state.set_mode()
 state.position()
+apply_default_hl()
 
 vim.o.showmode = false
 vim.o.statusline = state.default_pattern
@@ -209,11 +217,11 @@ command('StlDiagnostics', function(input)
   local param = input.args
 
   if param == 'enable' then
-    M.show_diagnostic = true
+    state.show_diagnostic = true
   elseif param == 'disable' then
-    M.show_diagnostic = false
+    state.show_diagnostic = false
   elseif param == 'toggle' then
-    M.show_diagnostic = not M.show_diagnostic
+    state.show_diagnostic = not state.show_diagnostic
   else
     local msg = fmt('Invalid command "%s"', param)
     vim.notify(msg, vim.log.levels.WARN)
@@ -228,7 +236,7 @@ end, {nargs = 1, bang = true, desc = 'Manage diagnostic icon in statusline'})
 autocmd('ColorScheme', {
   group = augroup,
   desc = 'Ensure statusline highlights',
-  callback = M.apply_default_hl,
+  callback = apply_default_hl,
 })
 
 autocmd({'ModeChanged', 'BufEnter', 'DiagnosticChanged'}, {
@@ -264,7 +272,7 @@ autocmd('LspAttach', {
   once = true,
   desc = 'Enable diagnostic check in statusline';
   callback = function()
-    M.show_diagnostic = true
+    state.show_diagnostic = true
   end,
 })
 
