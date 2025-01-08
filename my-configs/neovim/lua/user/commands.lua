@@ -32,20 +32,6 @@ command(
 )
 
 command(
-  'AutoIndent',
-  function()
-    require('guess-indent').setup({auto_cmd = true, verbose = 1})
-
-    vim.defer_fn(function()
-      local bufnr = vim.fn.bufnr()
-      vim.cmd('bufdo GuessIndent silent')
-      vim.cmd({cmd = 'buffer', args = {bufnr}})
-    end, 3)
-  end,
-  {desc = 'Guess indentantion in all files'}
-)
-
-command(
   'SyntaxQuery',
   function()
     local f = vim.fn
@@ -172,7 +158,9 @@ command('Termbg', function()
     callback = function() bg('reset') end
   })
 
-  bg('normal')
+  if input.bang then
+    bg('normal')
+  end
 end, {desc = 'Sync terminal background color with Neovim colorscheme'})
 
 autocmd('TextYankPost', {
@@ -187,7 +175,10 @@ autocmd('CmdWinEnter', {group = augroup, command = 'quit'})
 
 autocmd('FileType', {
   group = augroup,
-  pattern = {'qf', 'help', 'man', 'lspinfo'},
+  pattern = {
+    'qf', 'help', 'man', 'lspinfo',
+    'checkhealth', 'mininotify-history'
+  },
   command = 'nnoremap <buffer> q <cmd>quit<cr>'
 })
 
