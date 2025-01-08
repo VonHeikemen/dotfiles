@@ -67,7 +67,7 @@ function H.include(Plugin)
   local is_lazy = type(Plugin.event or Plugin.cmd or Plugin.user_event) ~= 'nil'
   state.loaded[id] = false
 
-  Plugin.is_lazy = is_lazy
+  Plugin.is_lazy = state.lazy_load and is_lazy
 
   if type(Plugin.config) == 'function' then
     local user_config = Plugin.config

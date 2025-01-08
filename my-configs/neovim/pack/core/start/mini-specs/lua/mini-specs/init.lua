@@ -1,7 +1,8 @@
 local M = {}
-local md = require('mini.deps')
-local state = require('mini-specs.state')
+local noop = function() end
+local md = {add = noop, now = noop, later = noop}
 
+local state = require('mini-specs.state')
 M.augroup = state.augroup
 
 function M.setup(opts)
@@ -17,8 +18,12 @@ function M.setup(opts)
     state.config.path.package_path = opts.package_path
   end
 
-  if type(opts.boostrap) == 'boolean' then
-    state.boostrap = opts.boostrap
+  if type(opts.bootstrap) == 'boolean' then
+    state.boostrap = opts.bootstrap
+  end
+
+  if state.import_dir == '' then
+    return
   end
 
   local package_path = state.config.path.package_path
@@ -29,16 +34,20 @@ function M.setup(opts)
     vim.fn.stdpath('config')
   }, ',')
 
-  if state.boostrap then
+  if state.bootstrap then
     M.install(package_path)
   end
 
-  md.setup(state.config)
+  local ok, deps = pcall(require, 'mini.deps')
 
-  if state.import_dir == '' then
+  if not ok then
+    local msg = 'Could not find "mini.deps" module'
+    vim.notify(msg, vim.log.levels.WARN)
     return
   end
 
+  md = deps
+  deps.setup(state.config)
   require('mini-specs.source').scandir(state.import_dir)
 end
 
@@ -66,6 +75,8 @@ function M.install(package_path)
 
   vim.cmd('packadd mini.deps | helptags ALL')
   print('Done.')
+
+  state.lazy_load = false
 end
 
 function M.event(events)
