@@ -1,16 +1,13 @@
+-- Guess indentantion of current file
 local Plugin = {'NMAC427/guess-indent.nvim'}
 
-Plugin.lazy = true
+Plugin.cmd = {'AutoIndent', 'GuessIndent'}
 
-Plugin.cmd = 'GuessIndent'
-
-Plugin.opts = {
-  auto_cmd = false,
-  verbose = 1
-}
-
-function Plugin.config(_, opts)
-  require('guess-indent').setup(opts)
+function Plugin.config()
+  require('guess-indent').setup({
+    auto_cmd = false,
+    verbose = 1
+  })
 
   local autoindent = function()
     local bufnr = vim.fn.bufnr()

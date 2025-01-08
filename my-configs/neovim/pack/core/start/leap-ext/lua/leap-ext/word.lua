@@ -16,7 +16,7 @@ function M.get_targets()
   local pos = vim.fn.getpos('.')
   local cursor_pos = {pos[2], pos[3]}
 
-  local max_column = vim.o.columns
+  local max_column = (not vim.o.wrap) and vim.o.columns or -1
 
   vim.api.nvim_echo({{prompt}}, false, {})
   local ok, ch = pcall(vim.fn.getcharstr)

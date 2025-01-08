@@ -1,10 +1,7 @@
 -- A collection of small QoL plugins
 local Plugin = {'folke/snacks.nvim'}
-
+local small_screen = vim.g.env_small_screen or 19
 local user = {}
-local small_screen = vim.g.env_small_screen or 17
-
-Plugin.lazy = false
 
 function Plugin.opts()
   return {
@@ -58,9 +55,9 @@ function Plugin.opts()
   }
 end
 
-function Plugin.config(_, opts)
+function Plugin.config(opts)
   local Snacks = require('snacks')
-  Snacks.setup(opts)
+  Snacks.setup(opts())
 
   Snacks.toggle.indent():map('<leader>ui')
 
@@ -192,11 +189,11 @@ function user.dashboard_actions()
       action = '<C-o><C-o>',
       hidden = true
     },
-    lazy_ui = {
+    specs_actions = {
       icon = '',
       key = 'L',
-      desc = 'Lazy',
-      action = ':Lazy',
+      desc = 'Plugin manager',
+      action = ':Spec',
       hidden = true
     },
   }
@@ -215,9 +212,9 @@ function user.dashboard_actions()
     action.explore,
     action.restore_session,
     action.quit,
-    action.lazy_ui,
     action.open_last,
     action.help,
+    action.specs_actions,
   }
 end
 

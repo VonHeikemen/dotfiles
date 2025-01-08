@@ -1,19 +1,21 @@
 -- LSP support
 local Plugin = {'neovim/nvim-lspconfig'}
-local user = {}
-
-Plugin.dependencies = {
-  {'hrsh7th/cmp-nvim-lsp'},
-  {'williamboman/mason-lspconfig.nvim'},
-  {'VonHeikemen/lsp-zero.nvim', branch = 'v4.x'},
+Plugin.depends = {
+  'hrsh7th/cmp-nvim-lsp',
+  'williamboman/mason.nvim',
+  'williamboman/mason-lspconfig.nvim',
+  {'VonHeikemen/lsp-zero.nvim', rev = 'v4.x'},
 }
 
-Plugin.cmd = 'LspConfig'
+Plugin.cmd = {'LspConfig'}
+Plugin.user_event = {'lspconfig'}
+
+local user = {}
 
 function Plugin.config()
   require('user.lsp')
-  user.lspconfig()
 
+  user.lspconfig()
   require('mason-lspconfig').setup({})
 
   vim.api.nvim_create_user_command(
@@ -31,8 +33,8 @@ end
 
 function user.lspconfig()
   local lsp = require('lsp-zero')
-  local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
   lsp.extend_lspconfig({capabilities = capabilities})
 
   lsp.client_config({

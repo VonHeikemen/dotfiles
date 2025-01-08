@@ -1,12 +1,9 @@
 -- File explorer
 local Plugin = {'tamago324/lir.nvim'}
+Plugin.depends = {'nvim-lua/plenary.nvim'}
 
 local user = {}
-local small_screen = vim.g.env_small_screen or 17
-
-Plugin.dependencies = {
-  {'nvim-lua/plenary.nvim'}
-}
+local small_screen = vim.g.env_small_screen or 19
 
 function Plugin.init()
   -- disable netrw
@@ -84,6 +81,8 @@ function user.on_init()
   bind('x', 'cx', mark .. 'cx', remap)
 
   bind('n', '<S-Tab>', 'gv<Tab>', remap)
+
+  bind('n', 'ff', '<cmd>Telescope find_files<cr>', noremap)
 end
 
 function user.toggle(cwd, root)

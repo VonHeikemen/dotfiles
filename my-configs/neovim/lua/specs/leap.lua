@@ -1,19 +1,7 @@
 -- Jump anywhere
 local Plugin = {'ggandor/leap.nvim'}
 
-Plugin.lazy = false
-
-Plugin.dependencies = {
-  {
-    name = 'leap-ext',
-    config = false,
-    dir = vim.fs.joinpath(
-      vim.fn.stdpath('config'),
-      'pack',
-      'leap-ext'
-    )
-  },
-}
+Plugin.event = {'BufReadPre', 'BufNewFile', 'ModeChanged'}
 
 Plugin.opts = {
   safe_labels = '',
@@ -30,6 +18,7 @@ Plugin.opts = {
 
 function Plugin.init()
   local mode = {'n', 'x', 'o'} 
+  local keys = {}
   local bind = function(l, r, d)
     vim.keymap.set(mode, l, r, {desc = d})
   end
@@ -37,6 +26,7 @@ function Plugin.init()
   bind('gH', 'H')
   bind('gL', 'L')
 
+  -- note: leap-ext is a module from pack/core/start/leap-ext
   bind('r', function()
     require('leap-ext.word').start()
   end, 'Jump to word')
@@ -50,6 +40,10 @@ function Plugin.init()
   end, 'Jump to line below cursor')
 
   bind('<leader>j', '<Plug>(leap)', '2-character search')
+end
+
+function Plugin.config(opts)
+  require('leap').setup(opts)
 end
 
 return Plugin

@@ -8,10 +8,14 @@
 -- tig        - https://jonas.github.io/tig/
 -- c compiler - gcc or tcc or zig
 
+-- use neovim's lua module loader (experimental)
+-- see :help vim.loader.enable()
+vim.loader.enable()
+
 require('user.settings')
 require('user.commands')
 require('user.keymaps')
-require('user.plugin-manager')
+require('user.pack')
 
 vim.cmd('colorscheme sigil')
 require('user.statusline')

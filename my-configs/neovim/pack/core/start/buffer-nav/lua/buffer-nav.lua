@@ -58,6 +58,8 @@ end
 function M.show_menu()
   if M.window == nil then
     M.window = s.create_window()
+  elseif M.window.bufnr == nil and s.filepath then
+    M.load_content(s.filepath)
   end
 
   if s.mounted then
@@ -71,11 +73,14 @@ end
 function M.add_file(opts)
   opts = opts or {}
   local name = vim.fn.bufname('%')
-  local should_mount = M.window == nil
   local show_buffers = opts.show_buffers == true
 
-  if should_mount then
+  if M.window == nil then
     M.window = s.create_window()
+  elseif M.window.bufnr == nil then
+    if s.filepath then
+      M.load_content(s.filepath)
+    end
   end
 
   local start_row = vim.api.nvim_buf_line_count(M.window.bufnr)

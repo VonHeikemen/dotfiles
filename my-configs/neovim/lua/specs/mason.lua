@@ -1,10 +1,13 @@
+-- Installs and update commandline tools
 local Plugin = {'williamboman/mason.nvim'}
 
-Plugin.lazy = false
+Plugin.user_event = {'SpecDefer', 'mason'}
 
-Plugin.opts = {
-  ui = {border = 'rounded'}
-}
+function Plugin.config()
+  require('mason').setup({
+    ui = {border = 'rounded'}
+  })
+end
 
 return Plugin
 

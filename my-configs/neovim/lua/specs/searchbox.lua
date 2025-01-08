@@ -1,7 +1,12 @@
 -- Buffer search prompt
 local Plugin = {'VonHeikemen/searchbox.nvim'}
+Plugin.depends = {'MunifTanjim/nui.nvim'}
 
-Plugin.dependencies = {{'MunifTanjim/nui.nvim'}}
+Plugin.cmd = {
+  'SearchBoxIncSearch',
+  'SearchBoxMatchAll',
+  'SearchBoxReplace',
+}
 
 Plugin.opts = {
   defaults = {
@@ -11,12 +16,6 @@ Plugin.opts = {
   },
 }
 
-Plugin.cmd = {
-  'SearchBoxIncSearch',
-  'SearchBoxMatchAll',
-  'SearchBoxReplace'
-}
-
 function Plugin.init()
   local bind = vim.keymap.set
 
@@ -24,7 +23,7 @@ function Plugin.init()
 
   bind('n', 'sb', '<cmd>SearchBoxIncSearch<cr>')
   bind('x', 'sb', "<Esc><cmd>'<,'>SearchBoxIncSearch visual_mode=true<cr>")
-  bind('n', 's*', "<cmd>exe 'SearchBoxIncSearch  --' expand('<cword>')<cr>")
+  bind('n', 's+', "<cmd>exe 'SearchBoxIncSearch  --' expand('<cword>')<cr>")
 
   bind('n', 'sm', '<cmd>SearchBoxMatchAll<cr>')
   bind('x', 'sm', "<Esc><cmd>GetSelection<cr><cmd>exe 'SearchBoxMatchAll --' getreg('/')<cr>")
@@ -36,6 +35,10 @@ function Plugin.init()
 
   -- Search in function (depends on nvim-treesitter-textobjects)
   bind('n', 'sf', 'vif<Esc><cmd>SearchBoxIncSearch modifier=":\\V\\%V"<cr>', {remap = true})
+end
+
+function Plugin.config(opts)
+  require('searchbox').setup(opts)
 end
 
 return Plugin

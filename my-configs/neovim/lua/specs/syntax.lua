@@ -1,7 +1,4 @@
-local Plugins = {
+return {
   {'othree/html5.vim'},
   {'pangloss/vim-javascript'},
 }
-
-return Plugins
-

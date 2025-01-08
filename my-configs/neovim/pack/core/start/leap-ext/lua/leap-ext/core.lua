@@ -49,14 +49,13 @@ function M.find_pattern(str, pattern, max_column)
     if match then
       local match_index = ends or index
 
-      -- add match only if index is still visible on screen
-      -- else, stop searching
-      if match_index < max_column then
+      if max_column == -1 or match_index < max_column then
         res[#res + 1] = match_index
         last = match_index + 1
       else
         match = false
       end
+
     end
   end
 

@@ -1,6 +1,7 @@
+-- Work with variants of a word
 local Plugin = {'tpope/vim-abolish'}
 
-Plugin.keys = {'st'}
+Plugin.event = {'BufReadPre', 'BufNewFile', 'ModeChanged'}
 
 function Plugin.init()
   vim.g.abolish_no_mappings = 1

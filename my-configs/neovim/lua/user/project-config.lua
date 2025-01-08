@@ -1,6 +1,8 @@
 local Project = {}
 
 function Project.nvim_plugin(opts)
+  vim.cmd('SpecEvent mason lspconfig')
+
   local join = vim.fs.joinpath
   local dependencies = {join(vim.env.VIMRUNTIME, 'lua')}
   local nvim_data = vim.fn.stdpath('data') --[[@as string]]
@@ -29,6 +31,8 @@ function Project.nvim_plugin(opts)
 end
 
 function Project.legacy_php()
+  vim.cmd('SpecEvent nvim-cmp')
+
   local cmp = require('cmp')
   local config = {}
   config.sources = {

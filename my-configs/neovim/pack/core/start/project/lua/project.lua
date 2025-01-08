@@ -73,7 +73,7 @@ function M.load(opts)
     end
   end
 
-  local parts = vim.split(name, '::')
+  local parts = vim.split(name, ' ')
   if parts[2] then
     name = parts[1]
     branch = parts[2]
@@ -84,7 +84,6 @@ function M.load(opts)
     if opts.quit then
       vim.cmd('cquit 2')
     end
-
     return
   end
 
@@ -190,7 +189,6 @@ function M.load_buffer_list(name)
     M.store.buffer_list = path
   end
 end
-
 
 return M
 

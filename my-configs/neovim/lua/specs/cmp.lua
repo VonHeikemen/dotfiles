@@ -1,33 +1,16 @@
 -- Autocompletion
 local Plugin = {'hrsh7th/nvim-cmp'}
-local user = {autocomplete = true}
 
-Plugin.dependencies = {
-  -- Sources
-  {'hrsh7th/cmp-buffer'},
-  {'hrsh7th/cmp-path'},
-  {'saadparwaiz1/cmp_luasnip'},
-  {'hrsh7th/cmp-nvim-lsp'},
-  {'hrsh7th/cmp-omni'},
-  {'quangnguyen30192/cmp-nvim-tags'},
+Plugin.event = {'InsertEnter'}
+Plugin.user_event = {'nvim-cmp'}
 
-  -- Snippets
-  {'L3MON4D3/LuaSnip'},
-}
+local user = {}
 
-Plugin.event = 'InsertEnter'
-
-function Plugin.config()
-  user.augroup = vim.api.nvim_create_augroup('compe_cmds', {clear = true})
-  vim.api.nvim_create_user_command('UserCmpEnable', user.enable_cmd, {})
-
-  local cmp = require('cmp')
-  local luasnip = require('luasnip')
-
+function Plugin.opts(cmp)  
   local select_opts = {behavior = cmp.SelectBehavior.Select}
   local cmp_enable = cmp.get_config().enabled
 
-  user.config = {
+  return {
     enabled = function()
       if user.autocomplete then
         return cmp_enable()
@@ -40,7 +23,7 @@ function Plugin.config()
     },
     snippet = {
       expand = function(args)
-        luasnip.lsp_expand(args.body)
+        require('luasnip').lsp_expand(args.body)
       end,
     },
     sources = {
@@ -109,6 +92,8 @@ function Plugin.config()
       ['<C-n>'] = cmp.mapping.select_next_item(select_opts),
 
       ['<C-a>'] = cmp.mapping(function(fallback)
+        local luasnip = require('luasnip')
+
         if luasnip.locally_jumpable(-1) then
           luasnip.jump(-1)
         else
@@ -117,6 +102,8 @@ function Plugin.config()
       end, {'i', 's'}),
 
       ['<C-d>'] = cmp.mapping(function(fallback)
+        local luasnip = require('luasnip')
+
         if luasnip.locally_jumpable(1) then
           luasnip.jump(1)
         else
@@ -150,8 +137,17 @@ function Plugin.config()
       end, {'i', 's'}),
     }
   }
+end
 
-  cmp.setup(user.config)
+function Plugin.config(opts)
+  local cmp = require('cmp')
+
+  user.autocomplete = true
+  user.tab_keycode = vim.keycode('<Tab>')
+  user.augroup = vim.api.nvim_create_augroup('compe_cmds', {clear = true})
+  vim.api.nvim_create_user_command('UserCmpEnable', user.enable_cmd, {})
+
+  cmp.setup(opts(cmp))
 
   cmp.setup.filetype('BufferNav', {
     enabled = true,
@@ -187,7 +183,6 @@ function user.set_autocomplete(new_value)
   user.autocomplete = new_value
 end
 
-
 function user.check_back_space()
   local col = vim.fn.col('.') - 1
   if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
@@ -207,12 +202,21 @@ function user.enable_cmd()
 end
 
 function user.insert_tab()
-  vim.api.nvim_feedkeys(
-    vim.api.nvim_replace_termcodes('<Tab>', true, true, true),
-    'n',
-    true
-  )
+  vim.api.nvim_feedkeys(user.tab_keycode, 'n', true)
 end
 
-return Plugin
+local function ext(spec)
+  spec.event = Plugin.event
+  return spec
+end
+
+return {
+  Plugin,
+  ext({'hrsh7th/cmp-buffer'}),
+  ext({'hrsh7th/cmp-path'}),
+  ext({'saadparwaiz1/cmp_luasnip'}),
+  ext({'hrsh7th/cmp-omni'}),
+  ext({'quangnguyen30192/cmp-nvim-tags'}),
+  ext({'hrsh7th/cmp-nvim-lsp'}),
+}
 

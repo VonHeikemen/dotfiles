@@ -1,9 +1,7 @@
 -- Distraction free mode
 local Plugin = {'junegunn/goyo.vim'}
 
-Plugin.keys = {
-  {'<leader>uz', '<cmd>Goyo<cr>'}
-}
+Plugin.cmd = {'Goyo'}
 
 function Plugin.init()
   local augroup = vim.api.nvim_create_augroup('goyo_cmds', {clear = true})
@@ -11,12 +9,14 @@ function Plugin.init()
   local bind = vim.keymap.set
   local unbind = vim.keymap.del
 
+  bind('n', '<leader>uz', '<cmd>Goyo<cr>')
+
   vim.g.goyo_height = '100%'
 
   local function enter()
     vim.o.wrap = true
     vim.o.linebreak =  true
-    
+
     bind({'n', 'x'}, 'k', 'gk')
     bind({'n', 'x'}, 'j', 'gj')
     bind('n', 'O', 'O<Enter><Up>')

@@ -1,56 +1,18 @@
 local Plugins = {}
-local Plug = function(s) table.insert(Plugins, s) end
+local Plug = function(spec) table.insert(Plugins, spec) end
+local start_edit = {'BufReadPre', 'BufNewFile', 'ModeChanged'}
 
 Plug {
   'echasnovski/mini.ai',
-  branch = 'stable',
-  main = 'mini.ai',
-  config = true,
-  keys = {
-    {'a', mode = {'x', 'o'}},
-    {'i', mode = {'x', 'o'}},
-  },
-}
-
-Plug {
-  'JoosepAlviste/nvim-ts-context-commentstring',
-  main = 'ts_context_commentstring',
-  lazy = true,
-  opts = {
-    enable_autocmd = false,
-  },
-  init = function()
-    vim.g.skip_ts_context_commentstring_module = true
-  end,
-}
-
-Plug {
-  'echasnovski/mini.comment',
-  branch = 'stable',
-  main = 'mini.comment',
-  keys = {
-    'gcc',
-    {'gc', mode = {'n', 'x', 'o'}},
-  },
-  opts = {
-    options = {
-      custom_commentstring = function()
-        local cs = require('ts_context_commentstring').calculate_commentstring()
-        return cs or vim.bo.commentstring
-      end,
-    },
-  },
+  event = start_edit,
+  config = function()
+    require('mini.ai').setup({})
+  end
 }
 
 Plug {
   'echasnovski/mini.surround',
-  branch = 'stable',
-  main = 'mini.surround',
-  keys = {
-    'sa',
-    'sd',
-    'ss',
-  },
+  event = start_edit,
   opts = {
     search_method = 'cover_or_next',
     mappings = {
@@ -63,58 +25,62 @@ Plug {
       update_n_lines = '',
     },
   },
+  config = function(opts)
+    require('mini.surround').setup(opts)
+  end
 } 
 
 Plug {
-  'echasnovski/mini.bracketed',
-  branch = 'stable',
-  main = 'mini.bracketed',
-  keys = {
-    {'[g', "<cmd>lua MiniBracketed.conflict('backward')<cr>", mode = {'n', 'x'}},
-    {']g', "<cmd>lua MiniBracketed.conflict('forward')<cr>", mode = {'n', 'x'}},
-
-    {'[q', "<cmd>lua MiniBracketed.quickfix('backward')<cr>"},
-    {']q', "<cmd>lua MiniBracketed.quickfix('forward')<cr>"},
-  },
-  opts = {
-    buffer     = {suffix = ''},
-    comment    = {suffix = ''},
-    conflict   = {suffix = ''},
-    diagnostic = {suffix = ''},
-    file       = {suffix = ''},
-    indent     = {suffix = ''},
-    jump       = {suffix = ''},
-    location   = {suffix = ''},
-    oldfile    = {suffix = ''},
-    quickfix   = {suffix = ''},
-    treesitter = {suffix = ''},
-    undo       = {suffix = ''},
-    window     = {suffix = ''},
-    yank       = {suffix = ''},
-  },
-}
-
-Plug {
   'echasnovski/mini.notify',
-  branch = 'stable',
-  main = 'mini.notify',
-  lazy = true,
-  opts = {
-    lsp_progress = {
-      enable = false,
-    },
-  },
-  init = function()
-    vim.notify = function(...)
-      local notify = require('mini.notify').make_notify()
-      vim.notify = notify
-      return notify(...)
-    end   
+  config = function()
+    require('mini.notify').setup({
+      lsp_progress = {
+        enable = false,
+      },
+    })
+
+    vim.notify = require('mini.notify').make_notify()
 
     vim.keymap.set('n', '<leader><space>', function()
       vim.cmd("echo ''")
       require('mini.notify').clear()
     end)
+
+    vim.api.nvim_create_user_command(
+      'Notifications',
+      'lua MiniNotify.show_history()',
+      {}
+    )
+  end,
+}
+
+Plug {
+  'echasnovski/mini.comment',
+  event = start_edit,
+  opts = {
+    options = {
+      custom_commentstring = function()
+        local cs = require('ts_context_commentstring')
+        return cs.calculate_commentstring() or vim.bo.commentstring
+      end,
+    },
+  },
+  config = function(opts)
+    require('mini.comment').setup(opts)
+  end,
+}
+
+Plug {
+  'JoosepAlviste/nvim-ts-context-commentstring',
+  event = start_edit,
+  opts = {
+    enable_autocmd = false,
+  },
+  init = function()
+    vim.g.skip_ts_context_commentstring_module = true
+  end,
+  config = function(opts)
+    require('ts_context_commentstring').setup(opts)
   end,
 }
 
