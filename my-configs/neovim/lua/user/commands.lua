@@ -122,46 +122,50 @@ command(
   {nargs = '*', bang = true, desc = 'Toggle vim option'}
 )
 
-command('Termbg', function(input)
-  -- g:sync_bg must be the original background color of the terminal
-  if type(vim.g.sync_bg) ~= 'string' then
-    vim.notify('[termbg] Must define g:sync_bg')
-    return
-  end
-
-  local normal = vim.api.nvim_get_hl_by_name('Normal', true)
-  if normal.background == nil then
-    return
-  end
-
-  local colors = {bg = normal.background, reset = vim.g.sync_bg}
-
-  local bg = function(run)
-    if run == 'normal' then
-      io.stdout:write(string.format('\027]11;#%06x\007', colors.bg))
+command(
+  'Termbg',
+  function(input)
+    -- g:sync_bg must be the original background color of the terminal
+    if type(vim.g.sync_bg) ~= 'string' then
+      vim.notify('[termbg] Must define g:sync_bg')
       return
     end
 
-    if run == 'reset' then
-      io.stdout:write(string.format('\027]11;%s\007', colors.reset))
+    local normal = vim.api.nvim_get_hl_by_name('Normal', true)
+    if normal.background == nil then
       return
     end
-  end
 
-  local group = vim.api.nvim_create_augroup('termbg_cmds', {clear = true})
-  vim.api.nvim_create_autocmd({'ColorScheme', 'VimResume'}, {
-    group = group,
-    callback = function() bg('normal') end
-  })
-  vim.api.nvim_create_autocmd({'VimLeavePre', 'VimSuspend'}, {
-    group = group,
-    callback = function() bg('reset') end
-  })
+    local colors = {bg = normal.background, reset = vim.g.sync_bg}
 
-  if input.bang then
-    bg('normal')
-  end
-end, {desc = 'Sync terminal background with Neovim colorscheme', bang = true})
+    local bg = function(run)
+      if run == 'normal' then
+        io.stdout:write(string.format('\027]11;#%06x\007', colors.bg))
+        return
+      end
+
+      if run == 'reset' then
+        io.stdout:write(string.format('\027]11;%s\007', colors.reset))
+        return
+      end
+    end
+
+    local group = vim.api.nvim_create_augroup('termbg_cmds', {clear = true})
+    vim.api.nvim_create_autocmd({'ColorScheme', 'VimResume'}, {
+      group = group,
+      callback = function() bg('normal') end
+    })
+    vim.api.nvim_create_autocmd({'VimLeavePre', 'VimSuspend'}, {
+      group = group,
+      callback = function() bg('reset') end
+    })
+
+    if input.bang then
+      bg('normal')
+    end
+  end,
+  {desc = 'Sync terminal background with Neovim colorscheme', bang = true}
+)
 
 autocmd('TextYankPost', {
   desc = 'highlight text after is copied',
