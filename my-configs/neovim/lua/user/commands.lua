@@ -122,7 +122,7 @@ command(
   {nargs = '*', bang = true, desc = 'Toggle vim option'}
 )
 
-command('Termbg', function()
+command('Termbg', function(input)
   -- g:sync_bg must be the original background color of the terminal
   if type(vim.g.sync_bg) ~= 'string' then
     vim.notify('[termbg] Must define g:sync_bg')
@@ -161,7 +161,7 @@ command('Termbg', function()
   if input.bang then
     bg('normal')
   end
-end, {desc = 'Sync terminal background color with Neovim colorscheme'})
+end, {desc = 'Sync terminal background with Neovim colorscheme', bang = true})
 
 autocmd('TextYankPost', {
   desc = 'highlight text after is copied',
