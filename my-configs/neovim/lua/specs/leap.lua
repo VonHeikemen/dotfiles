@@ -3,18 +3,31 @@ local Plugin = {'ggandor/leap.nvim'}
 
 Plugin.user_event = {'SpecVimEdit'}
 
-Plugin.opts = {
-  safe_labels = '',
-  labels = {
-    'w', 's', 'a',
-    'j', 'k', 'l', 'o', 'i', 'q', 'd', 'h', 'g',
-    'u', 'y',
-    'm', 'v', 'c', 'n', '.', 'x',
-    'Q', 'D', 'L', 'N', 'H', 'G', 'M', 'U', 'Y', 'X',
-    'J', 'K', 'O', 'I', 'A', 'S', 'W',
-    '1', '2', '3', '4', '5', '6'
-  },
-}
+function Plugin.opts()
+  local opts = {
+    safe_labels = '',
+    labels = {
+      'w', 's', 'a',
+      'j', 'k', 'l', 'o', 'i', 'q', 'd', 'h', 'g',
+      'u', 'y',
+      'm', 'v', 'c', 'n', '.', 'x',
+      'Q', 'D', 'L', 'N', 'H', 'G', 'M', 'U', 'Y', 'X',
+      'J', 'K', 'O', 'I', 'A', 'S', 'W',
+      '1', '2', '3', '4', '5', '6'
+    },
+  }
+
+  if vim.g.latam_qwerty == 1 then
+    opts.special_keys = {
+      next_target = 'ñ',
+      prev_target = 'Ñ',
+      next_group = '<Tab>',
+      prev_group = '<S-Tab>',
+    }
+  end
+
+  return opts
+end
 
 function Plugin.init()
   local mode = {'n', 'x', 'o'} 

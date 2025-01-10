@@ -58,3 +58,6 @@ vim.g.markdown_recommended_style = 0
 -- Number of lines for small windows
 vim.g.env_small_screen = env.small_screen_lines
 
+-- Make it easier to use latam qwerty keyboard
+vim.g.latam_qwerty = env.latam_keyboard and 1 or 0
+
