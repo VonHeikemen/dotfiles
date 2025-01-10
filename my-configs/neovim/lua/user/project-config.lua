@@ -1,7 +1,7 @@
 local Project = {}
 
 function Project.nvim_plugin(opts)
-  vim.cmd('SpecEvent mason lspconfig')
+  vim.cmd('SpecEvent lspconfig')
 
   local join = vim.fs.joinpath
   local dependencies = {join(vim.env.VIMRUNTIME, 'lua')}

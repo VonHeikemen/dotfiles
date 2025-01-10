@@ -1,10 +1,11 @@
 local Plugins = {}
 local Plug = function(spec) table.insert(Plugins, spec) end
-local start_edit = {'BufReadPre', 'BufNewFile', 'ModeChanged'}
+
+local event = {'SpecVimEdit'}
 
 Plug {
   'echasnovski/mini.ai',
-  event = start_edit,
+  user_event = event,
   config = function()
     require('mini.ai').setup({})
   end
@@ -12,7 +13,7 @@ Plug {
 
 Plug {
   'echasnovski/mini.surround',
-  event = start_edit,
+  user_event = event,
   opts = {
     search_method = 'cover_or_next',
     mappings = {
@@ -32,12 +33,13 @@ Plug {
 
 Plug {
   'echasnovski/mini.notify',
-  config = function()
-    require('mini.notify').setup({
-      lsp_progress = {
-        enable = false,
-      },
-    })
+  opts = {
+    lsp_progress = {
+      enable = false,
+    },
+  },
+  config = function(opts)
+    require('mini.notify').setup(opts)
 
     vim.notify = require('mini.notify').make_notify()
 
@@ -56,7 +58,7 @@ Plug {
 
 Plug {
   'echasnovski/mini.comment',
-  event = start_edit,
+  user_event = event,
   opts = {
     options = {
       custom_commentstring = function()
@@ -72,10 +74,8 @@ Plug {
 
 Plug {
   'JoosepAlviste/nvim-ts-context-commentstring',
-  event = start_edit,
-  opts = {
-    enable_autocmd = false,
-  },
+  user_event = event,
+  opts = {enable_autocmd = false},
   init = function()
     vim.g.skip_ts_context_commentstring_module = true
   end,

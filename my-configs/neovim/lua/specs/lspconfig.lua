@@ -13,6 +13,7 @@ Plugin.user_event = {'lspconfig'}
 local user = {}
 
 function Plugin.config()
+  vim.cmd('SpecEvent mason')
   require('user.lsp')
 
   user.lspconfig()

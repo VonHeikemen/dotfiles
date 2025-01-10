@@ -2,7 +2,9 @@
 local Plugin = {'MunifTanjim/nui.nvim'}
 local UI = {}
 
-function Plugin.init()
+Plugin.user_event = {'SpecDefer'}
+
+function Plugin.config()
   vim.ui.select = function(...)
     local select_item = UI.new_select()
     vim.ui.select = select_item

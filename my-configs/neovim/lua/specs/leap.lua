@@ -1,7 +1,7 @@
 -- Jump anywhere
 local Plugin = {'ggandor/leap.nvim'}
 
-Plugin.event = {'BufReadPre', 'BufNewFile', 'ModeChanged'}
+Plugin.user_event = {'SpecVimEdit'}
 
 Plugin.opts = {
   safe_labels = '',
