@@ -29,3 +29,4 @@ local function parse_cmd(input)
 end
 
 command('Tmux', parse_cmd, {nargs = 1})
+

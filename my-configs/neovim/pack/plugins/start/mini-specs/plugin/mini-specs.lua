@@ -29,12 +29,29 @@ else
   later(emit('User', 'LazySpec'))
 end
 
-vim.api.nvim_create_autocmd('InsertEnter', {
+local autocmd = vim.api.nvim_create_autocmd
+
+autocmd('InsertEnter', {
   once = true,
   group = specs.augroup,
   desc = 'Ensure InsertEnter autocommands',
   callback = function()
     later(emit('InsertEnter'))
+  end
+})
+
+local vim_edit = 0
+autocmd({'BufNew', 'BufNewFile', 'BufReadPre', 'ModeChanged'}, {
+  once = true,
+  group = specs.augroup,
+  desc = 'Emit SpecVimEdit event',
+  callback = function()
+    if vim_edit == 1 then
+      return
+    end
+
+    emit('User', 'SpecVimEdit')()
+    vim_edit = 1
   end
 })
 

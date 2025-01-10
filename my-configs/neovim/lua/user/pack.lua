@@ -1,5 +1,5 @@
 ---
--- Config for local plugins in "pack/core/start/"
+-- Config for local plugins in "pack/plugins/start/"
 ---
 
 local env = require('user.env')

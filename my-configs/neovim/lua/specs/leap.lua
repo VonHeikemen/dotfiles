@@ -26,7 +26,7 @@ function Plugin.init()
   bind('gH', 'H')
   bind('gL', 'L')
 
-  -- note: leap-ext is a module from pack/core/start/leap-ext
+  -- note: leap-ext is a module from pack/plugins/start/leap-ext
   bind('r', function()
     require('leap-ext.word').start()
   end, 'Jump to word')
