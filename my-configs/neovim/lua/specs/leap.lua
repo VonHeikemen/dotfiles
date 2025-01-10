@@ -56,7 +56,7 @@ function Plugin.init()
 end
 
 function Plugin.config(opts)
-  require('leap').setup(opts)
+  require('leap').setup(opts())
 end
 
 return Plugin
