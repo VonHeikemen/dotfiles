@@ -124,7 +124,7 @@ function Plugin.opts(cmp)
       ['<Tab>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.confirm({select = true})
-        elseif user.check_back_space() then
+        elseif user.is_whitespace() then
           fallback()
         else
           user.set_autocomplete(true)
@@ -133,7 +133,7 @@ function Plugin.opts(cmp)
       end, {'i', 's'}),
 
       ['<S-Tab>'] = cmp.mapping(function()
-        user.insert_tab()
+        vim.api.nvim_feedkeys(user.tab_keycode, 'n', true)
       end, {'i', 's'}),
     }
   }
@@ -183,13 +183,14 @@ function user.set_autocomplete(new_value)
   user.autocomplete = new_value
 end
 
-function user.check_back_space()
+function user.is_whitespace()
   local col = vim.fn.col('.') - 1
-  if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+  if col == 0 then
     return true
-  else
-    return false
   end
+
+  local char = vim.fn.getline('.'):sub(col, col)
+  return type(char:match('%s')) == 'string'
 end
 
 function user.enable_cmd()
@@ -199,10 +200,6 @@ function user.enable_cmd()
 
   pcall(vim.api.nvim_buf_del_keymap, 0, 'i', '<Space>')
   user.set_autocomplete(true)
-end
-
-function user.insert_tab()
-  vim.api.nvim_feedkeys(user.tab_keycode, 'n', true)
 end
 
 local function ext(spec)

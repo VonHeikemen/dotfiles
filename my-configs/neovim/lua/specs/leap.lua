@@ -38,6 +38,7 @@ function Plugin.init()
 
   bind('gH', 'H')
   bind('gL', 'L')
+  bind('gW', 'gw')
 
   -- note: leap-ext is a module from pack/plugins/start/leap-ext
   bind('r', function()
@@ -52,7 +53,7 @@ function Plugin.init()
     require('leap-ext.line').forward()
   end, 'Jump to line below cursor')
 
-  bind('<leader>j', '<Plug>(leap)', '2-character search')
+  bind('gw', '<Plug>(leap)', '2-character search')
 end
 
 function Plugin.config(opts)

@@ -6,8 +6,15 @@ local event = {'SpecVimEdit'}
 Plug {
   'echasnovski/mini.ai',
   user_event = event,
-  config = function()
-    require('mini.ai').setup({})
+  opts = {
+    custom_textobjects = {
+      b = {{'%b()'}, '^.().*().$'},
+      B = {{'%b{}'}, '^.().*().$'},
+      s = {{'%b[]'}, '^.().*().$'},
+    },
+  },
+  config = function(opts)
+    require('mini.ai').setup(opts)
   end
 }
 

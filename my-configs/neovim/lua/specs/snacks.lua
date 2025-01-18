@@ -5,26 +5,22 @@ local user = {}
 
 function Plugin.opts()
   return {
-    bigfile = {
+    bigfile = user.bigfile(),
+    dashboard = user.dashboard_opts(),
+    picker = {
       enabled = true,
-      notify = true,
+      ui_select = true,
     },
-    scratch = {
-      ft = 'markdown',
-      filekey = {
-        branch = false,
-      },
-      win = {
-        width = 0.7,
-        height = 0.7,
-      },
+    input = {
+      enabled = true,
+      icon = '❯',
     },
     indent = {
       enabled = false,
       char = '▏',
     },
     scope = {
-      enabled = true,
+      enabled = false,
     },
     animate = {
       enabled = false,
@@ -37,19 +33,14 @@ function Plugin.opts()
     toggle = {
       notify = false,
     },
-    dashboard = {
-      enabled = true,
-      formats = {
-        header = {'%s', align = 'center', hl = 'String'},
+    scratch = {
+      ft = 'markdown',
+      filekey = {
+        branch = false,
       },
-      preset = {
-        header = 'NEOVIM',
-        keys = user.dashboard_actions(),
-      },
-      sections = {
-        {section = 'header'},
-        {section = 'keys', gap = 1, padding = 1},
-        user.nvim_version(),
+      win = {
+        width = 0.7,
+        height = 0.7,
       },
     },
   }
@@ -75,6 +66,31 @@ function Plugin.config(opts)
   end, {desc = 'Open notes'})
 
   user.snack_terminal()
+end
+
+function user.bigfile()
+  return {
+    enabled = true,
+    notify = false,
+    size = 1024 * 1024,
+    setup = function(ctx)
+      if vim.fn.has('nvim-0.11') == 0 then
+        vim.cmd('syntax clear')
+        vim.opt_local.syntax = 'OFF'
+        vim.treesitter.stop(ctx.buf)
+        vim.bo.filetype = 'bigfile'
+      end
+
+      vim.opt_local.foldmethod = 'manual'
+      vim.opt_local.undolevels = -1
+      vim.opt_local.undoreload = 0
+      vim.opt_local.list = false
+
+      if vim.fn.exists(':NoMatchParen') ~= 0 then
+        vim.cmd('NoMatchParen')
+      end
+    end,
+  }
 end
 
 function user.snack_terminal()
@@ -119,16 +135,30 @@ function user.snack_terminal()
   end, {})
 end
 
-function user.nvim_version()
+function user.dashboard_opts()
   local version = vim.version()
-  local str = string.format(
+  local version_str = string.format(
     'v%s.%s.%s',
     version.major,
     version.minor,
     version.patch
   )
 
-  return {text = {str, hl = 'Comment'}, align = 'center'}
+  return {
+    enabled = true,
+    formats = {
+      header = {'%s', align = 'center', hl = 'String'},
+    },
+    preset = {
+      header = 'NEOVIM',
+      keys = user.dashboard_actions(),
+    },
+    sections = {
+      {section = 'header'},
+      {section = 'keys', gap = 1, padding = 1},
+      {text = {version_str, hl = 'Comment'}, align = 'center'},
+    },
+  }
 end
 
 function user.dashboard_actions()

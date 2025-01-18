@@ -14,6 +14,14 @@ Plugin.opts = {
     confirm = 'native',
     show_matches = '[T:{total}]'
   },
+  hooks = {
+    after_mount = function(input)
+      local opts = {buffer = input.bufnr}
+
+      -- delete word
+      vim.keymap.set('i', '<c-w>', '<c-s-w>', opts)
+    end
+  }
 }
 
 function Plugin.init()

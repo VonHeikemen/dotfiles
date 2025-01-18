@@ -8,6 +8,14 @@ Plugin.opts = {
   cmdline = {
     prompt = ' '
   },
+  hooks = {
+    after_mount = function(input)
+      local opts = {buffer = input.bufnr}
+
+      -- delete word
+      vim.keymap.set('i', '<c-w>', '<c-s-w>', opts)
+    end
+  }
 }
 
 function Plugin.init()
