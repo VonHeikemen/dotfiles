@@ -69,28 +69,30 @@ function Plugin.config(opts)
 end
 
 function user.bigfile()
-  return {
+  local opts = {
     enabled = true,
     notify = false,
-    size = 1024 * 1024,
-    setup = function(ctx)
-      if vim.fn.has('nvim-0.11') == 0 then
-        vim.cmd('syntax clear')
-        vim.opt_local.syntax = 'OFF'
-        vim.treesitter.stop(ctx.buf)
-        vim.bo.filetype = 'bigfile'
-      end
-
-      vim.opt_local.foldmethod = 'manual'
-      vim.opt_local.undolevels = -1
-      vim.opt_local.undoreload = 0
-      vim.opt_local.list = false
-
-      if vim.fn.exists(':NoMatchParen') ~= 0 then
-        vim.cmd('NoMatchParen')
-      end
-    end,
+    size = 1024 * 1024, -- 1MB
   }
+
+  opts.setup = function(ctx)
+    if vim.fn.has('nvim-0.11') == 0 then
+      vim.cmd('syntax clear')
+      vim.opt_local.syntax = 'OFF'
+      vim.treesitter.stop(ctx.buf)
+    end
+
+    vim.opt_local.foldmethod = 'manual'
+    vim.opt_local.undolevels = -1
+    vim.opt_local.undoreload = 0
+    vim.opt_local.list = false
+
+    if vim.fn.exists(':NoMatchParen') ~= 0 then
+      vim.cmd('NoMatchParen')
+    end
+  end
+
+  return opts 
 end
 
 function user.snack_terminal()
