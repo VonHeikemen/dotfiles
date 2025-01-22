@@ -31,8 +31,8 @@ function Plugin.init()
     quit = 'q',
     next = '<M-j>',
     prev = '<M-k>',
-    nfile = '+f',
-    pfile = 'çf',
+    nfile = ']f',
+    pfile = '[f',
 
     chgmode = 'M',
     stop = '<C-c>'
