@@ -46,13 +46,14 @@ Plug {
     },
   },
   config = function(opts)
-    require('mini.notify').setup(opts)
+    local notify = require('mini.notify') 
 
-    vim.notify = require('mini.notify').make_notify()
+    notify.setup(opts)
+    vim.notify = notify.make_notify()
 
     vim.keymap.set('n', '<leader><space>', function()
       vim.cmd("echo ''")
-      require('mini.notify').clear()
+      notify.clear()
     end)
 
     vim.api.nvim_create_user_command(
@@ -66,22 +67,26 @@ Plug {
 Plug {
   'echasnovski/mini.comment',
   user_event = event,
-  opts = {
-    options = {
-      custom_commentstring = function()
-        local cs = require('ts_context_commentstring')
-        return cs.calculate_commentstring() or vim.bo.commentstring
-      end,
-    },
-  },
+  opts = function(ts_context)
+    local config = {options = {}}
+    local cs = ts_context.calculate_commentstring
+
+    config.options.custom_commentstring = function()
+      return cs() or vim.bo.commentstring
+    end
+
+    return config
+  end,
   config = function(opts)
-    require('mini.comment').setup(opts)
+    vim.cmd('SpecEvent ts-comment')
+    local ts = require('ts_context_commentstring')
+    require('mini.comment').setup(opts(ts))
   end,
 }
 
 Plug {
   'JoosepAlviste/nvim-ts-context-commentstring',
-  user_event = event,
+  user_event = {'ts-comment'},
   opts = {enable_autocmd = false},
   init = function()
     vim.g.skip_ts_context_commentstring_module = true
