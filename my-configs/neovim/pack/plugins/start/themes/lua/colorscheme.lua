@@ -92,7 +92,7 @@ function M.ui(theme, syntax)
   hi('CursorLineNr', {fg = none,            bg = BG                 })
   hi('ColorColumn',  {fg = none,            bg = theme.colorcolumn  })
   hi('LineNr',       {fg = theme.line_nr,   bg = none               })
-  hi('NonText',      {fg = theme.line_nr,   bg = BG                 })
+  hi('NonText',      {fg = theme.line_nr,   bg = none               })
   hi('EndOfBuffer',  {fg = theme.dark_text, bg = BG                 })
   hi('VertSplit',    {fg = theme.line_bg,   bg = BG                 })
   hi('WinSeparator', {fg = theme.line_bg,   bg = BG                 })
@@ -202,6 +202,9 @@ function M.apply_links()
 
   -- Plugin: lir.nvim
   link('LirDir', 'Function')
+
+  -- Plugin: snacks.nvim
+  link('SnacksPickerDir', cs_none)
 
   -- Language: help page
   -- Syntax: built-in
