@@ -6,11 +6,8 @@ local user = {}
 function Plugin.opts()
   return {
     bigfile = user.bigfile(),
-    dashboard = user.dashboard_opts(),
-    picker = {
-      enabled = true,
-      ui_select = true,
-    },
+    picker = user.picker(),
+    dashboard = user.dashboard(),
     input = {
       enabled = true,
       icon = '❯',
@@ -47,23 +44,25 @@ function Plugin.opts()
 end
 
 function Plugin.config(opts)
+  local bind = vim.keymap.set
   local Snacks = require('snacks')
+
   Snacks.setup(opts())
 
   Snacks.toggle.indent():map('<leader>ui')
 
-  vim.keymap.set('n', '<leader>db', function()
-    local env = {DELTA_FEATURES = 'min'}
-    Snacks.git.blame_line({env = env})
-  end, {desc = 'Git blame line'})
+  bind('n', '<leader>bc', '<cmd>lua Snacks.bufdelete()<cr>')
+  bind('n', '<leader>ds', '<cmd>lua Snacks.scratch()<cr>')
 
-  vim.keymap.set('n', '<leader>bc', function()
-    Snacks.bufdelete()
-  end, {desc = 'Close buffer'})
+  bind('n', '<leader>bb', '<cmd>lua Snacks.picker("buffers")<cr>')
+  bind('n', '<leader>ff', '<cmd>lua Snacks.picker("files")<cr>')
+  bind('n', '<leader>fs', '<cmd>lua Snacks.picker("lines")<cr>')
+  bind('n', '<leader>fh', '<cmd>lua Snacks.picker("recent")<cr>')
+  bind('n', '<leader>fu', '<cmd>lua Snacks.picker("undo")<cr>')
+  bind('n', '<leader>?', '<cmd>lua Snacks.picker("keymaps")<cr>')
+  bind('n', '<leader>/', '<cmd>lua Snacks.picker("pickers")<cr>')
 
-  vim.keymap.set('n', '<leader>ds', function()
-    Snacks.scratch()
-  end, {desc = 'Open notes'})
+  bind('n', '<leader>fb', '<cmd>lua Snacks.picker("git_log_line")<cr>')
 
   user.snack_terminal()
 end
@@ -79,7 +78,10 @@ function user.bigfile()
     if vim.fn.has('nvim-0.11') == 0 then
       vim.cmd('syntax clear')
       vim.opt_local.syntax = 'OFF'
-      vim.treesitter.stop(ctx.buf)
+      local buf = vim.b[ctx.buf]
+      if buf.ts_highlight then
+        vim.treesitter.stop(ctx.buf)
+      end
     end
 
     vim.opt_local.foldmethod = 'manual'
@@ -137,7 +139,83 @@ function user.snack_terminal()
   end, {})
 end
 
-function user.dashboard_opts()
+function user.picker()
+  local opts = {
+    enabled = true,
+    prompt = ' ',
+    layouts = {},
+    win = {},
+    icons = {
+      files = {
+        enabled = false,
+      },
+    },
+    formatters = {
+      file = {
+        truncate = 78,
+      },
+    },
+    actions = {
+      noop = function() end,
+    },
+  }
+
+  opts.layouts.palette = {
+    preview = false,
+    layout = {
+      backdrop = false,
+      row = 0.08,
+      width = 0.4,
+      min_width = 80,
+      height = 0.4,
+      min_height = 10,
+      box = 'vertical',
+      border = 'rounded',
+      title = '{source} {live} {flags}',
+      title_pos = 'center',
+      {win = 'input', height = 1, border = 'bottom'},
+      {win = 'list', border = 'none'},
+    },
+  }
+
+  opts.sources = {
+    files = {layout = 'palette'},
+    buffers = {layout = 'palette'},
+    recent = {layout = 'palette'},
+    keymaps = {
+      layout = {
+        preview = false,
+        preset = 'dropdown'
+      }
+    },
+  }
+
+  opts.win.input = {
+    keys = {
+      ['<Esc>'] = {'close', mode = {'n', 'i'}},
+      ['<M-b>'] = {'confirm', mode = {'n', 'i'}},
+      ['<M-k>'] = {'list_up', mode = {'n', 'i'}},
+      ['<M-j>'] = {'list_down', mode = {'n', 'i'}},
+      ['<C-l>'] = {'noop', mode = {'n', 'i'}},
+      ['<C-l>d'] = {'inspect', mode = {'n', 'i'}},
+      ['<C-l>i'] = {'toggle_ignored', mode = {'n', 'i'}},
+      ['<C-l>h'] = {'toggle_hidden', mode = {'n', 'i'}},
+      ['<C-l>l'] = {'toggle_live', mode = {'n', 'i'}},
+      ['<C-l>w'] = {'toggle_focus', mode = {'n', 'i'}},
+      ['<C-l>p'] = {'toggle_preview', mode = {'n', 'i'}},
+    }
+  }
+
+  opts.win.list = {keys = opts.win.input.keys}
+
+  if vim.o.lines < small_screen then
+    opts.layouts.palette.layout.row = 1
+  end
+
+  return opts
+end
+
+function user.dashboard()
   local version = vim.version()
   local version_str = string.format(
     'v%s.%s.%s',
@@ -175,25 +253,19 @@ function user.dashboard_actions()
       icon = '➤',
       key = 'ff',
       desc = 'Find File',
-      action = function()
-        require('telescope.builtin').find_files()
-      end,
+      action = ':lua Snacks.picker("files")'
     },
     recently_used = {
       icon = '➤',
       key = 'fh',
       desc = 'History',
-      action = function()
-        require('telescope.builtin').oldfiles()
-      end,
+      action = ':lua Snacks.picker("recent")'
     },
     help = {
       icon = '➤',
       key = 'H',
       desc = 'Get Help',
-      action = function()
-        require('telescope.builtin').help_tags()
-      end,
+      action = ':lua Snacks.picker("help")',
       hidden = true,
     },
     explore = {

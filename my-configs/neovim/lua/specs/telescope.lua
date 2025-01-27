@@ -1,5 +1,8 @@
 -- Fuzzy Finder
 local Plugin = {'nvim-telescope/telescope.nvim'}
+
+Plugin.enabled = false
+
 Plugin.depends = {
   'nvim-lua/plenary.nvim',
   'natecraddock/telescope-zf-native.nvim',
