@@ -81,8 +81,6 @@ function user.on_init()
   bind('x', 'cx', mark .. 'cx', remap)
 
   bind('n', '<S-Tab>', 'gv<Tab>', remap)
-
-  bind('n', 'ff', '<cmd>Telescope find_files<cr>', noremap)
 end
 
 function user.toggle(cwd, root)
