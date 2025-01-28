@@ -1,0 +1,36 @@
+[colors]
+background = "#1D2021"
+foreground = "#D3BE98"
+
+cursor_bg = "#8D99C8"
+cursor_border = "#8D99C8"
+cursor_fg = "#1D2021"
+
+ansi = [
+  "#1D2021", # 00 Black
+  "#EA6962", # 01 Red
+  "#A9B665", # 02 Green
+  "#D8A657", # 03 Yellow
+  "#7DAEA3", # 04 Blue
+  "#D3869B", # 05 Magenta
+  "#89B482", # 06 Cyan
+  "#D4BE98", # 07 White
+]
+brights = [
+  "#958272", # 08 Black
+  "#EA6962", # 09 Red
+  "#A9B665", # 10 Green
+  "#D8A657", # 11 Yellow
+  "#7DAEA3", # 12 Blue
+  "#D3869B", # 13 Magenta
+  "#89B482", # 14 Cyan
+  "#D4BE98", # 15 White
+]
+
+[colors.indexed]
+233 = "#191C1D"
+
+[metadata]
+aliases = []
+name = "Sigil"
+
