@@ -201,12 +201,19 @@ function user.picker()
       ['<C-l>i'] = {'toggle_ignored', mode = {'n', 'i'}},
       ['<C-l>h'] = {'toggle_hidden', mode = {'n', 'i'}},
       ['<C-l>l'] = {'toggle_live', mode = {'n', 'i'}},
-      ['<C-l>w'] = {'toggle_focus', mode = {'n', 'i'}},
+      ['<C-l>w'] = {'cycle_win', mode = {'n', 'i'}},
       ['<C-l>p'] = {'toggle_preview', mode = {'n', 'i'}},
+      ['<C-l>?'] = {'toggle_help', mode = {'n', 'i'}},
+      ['<C-l>1'] = {'focus_input', mode = {'n', 'i'}},
+      ['<C-l>2'] = {'focus_list', mode = {'n', 'i'}},
+      ['<C-l>3'] = {'focus_preview', mode = {'n', 'i'}},
+      ['<PageUp>'] = {'preview_scroll_up', mode = {'n', 'i'}},
+      ['<PageDown>'] = {'preview_scroll_down', mode = {'n', 'i'}},
     }
   }
 
   opts.win.list = {keys = opts.win.input.keys}
+  opts.win.preview = {keys = opts.win.input.keys}
 
   if vim.o.lines < small_screen then
     opts.layouts.palette.layout.row = 1
