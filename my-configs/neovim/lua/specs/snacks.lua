@@ -1,4 +1,4 @@
--- A collection of small QoL plugins
+-- A collection of QoL plugins
 local Plugin = {'folke/snacks.nvim'}
 local small_screen = vim.g.env_small_screen or 19
 local user = {}
