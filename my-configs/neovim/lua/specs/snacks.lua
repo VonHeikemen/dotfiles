@@ -62,7 +62,9 @@ function Plugin.config(opts)
   bind('n', '<leader>?', '<cmd>lua Snacks.picker("keymaps")<cr>')
   bind('n', '<leader>/', '<cmd>lua Snacks.picker("pickers")<cr>')
 
-  bind('n', '<leader>fb', '<cmd>lua Snacks.picker("git_log_line")<cr>')
+  bind('n', 'gi', '<nop>')
+  bind('n', 'gib', '<cmd>lua Snacks.picker("git_log_line")<cr>')
+  bind('n', 'giB', '<cmd>lua Snacks.picker("git_log_file")<cr>')
 
   user.snack_terminal()
 end
@@ -102,7 +104,7 @@ function user.snack_terminal()
   local command = vim.api.nvim_create_user_command
 
   vim.keymap.set({'n', 'i', 'x', 't'}, '<M-i>', '<cmd>ToggleShell<cr>')
-  vim.keymap.set('n', '<leader>g', '<cmd>GitStatus<cr>')
+  vim.keymap.set('n', 'gis', '<cmd>GitStatus<cr>')
 
   local toggle_shell = function()
     local window = {
@@ -120,22 +122,32 @@ function user.snack_terminal()
     Snacks.terminal.toggle(nil, {win = window})
   end
 
-  local float_term = function(cmd)
+  local float = function(cmd)
     local window = {border = 'rounded'}
     if vim.o.lines < small_screen then
       window = {height = 0, width = 0}
     end
 
     window.position = 'float'
-    Snacks.terminal.toggle(cmd, {win = window, interactive = true})
+    return window 
   end
 
   command('ToggleShell', toggle_shell, {nargs = '?'})
 
-  command('GitStatus', function() float_term({'tig', 'status'}) end, {})
+  command('GitStatus', function()
+    local cmd = {'tig', 'status'}
+    local win = float()
+
+    win.on_win = function()
+      vim.api.nvim_exec_autocmds('User', {pattern = 'TigStatus'})
+    end
+
+    Snacks.terminal.toggle(cmd, {win = win, interactive = true})
+  end, {})
 
   command('GitBlame', function()
-    float_term({'tig', 'blame', vim.fn.expand('%:p')})
+    local cmd = {'tig', 'blame', vim.fn.expand('%:p')}
+    Snacks.terminal.toggle(cmd, {win = float(), interactive = true})
   end, {})
 end
 
