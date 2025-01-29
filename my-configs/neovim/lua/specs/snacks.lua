@@ -149,6 +149,9 @@ function user.picker()
       files = {
         enabled = false,
       },
+      git = {
+        commit = '',
+      },
     },
     formatters = {
       file = {
@@ -182,6 +185,12 @@ function user.picker()
     files = {layout = 'palette'},
     buffers = {layout = 'palette'},
     recent = {layout = 'palette'},
+    git_diff = {
+      layout = {
+        preview = 'main',
+        preset = 'ivy',
+      },
+    },
     keymaps = {
       layout = {
         preview = false,
@@ -218,6 +227,11 @@ function user.picker()
   if vim.o.lines < small_screen then
     opts.layouts.palette.layout.row = 1
   end
+
+  opts.sources.git_status = opts.sources.git_diff
+  opts.sources.git_log = opts.sources.git_diff
+  opts.sources.git_log_line = opts.sources.git_diff
+  opts.sources.git_log_file = opts.sources.git_diff
 
   return opts
 end
