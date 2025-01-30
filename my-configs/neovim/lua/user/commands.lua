@@ -167,6 +167,63 @@ command(
   {desc = 'Sync terminal background with Neovim colorscheme', bang = true}
 )
 
+command(
+  'GitPush',
+  function()
+    local branch = vim.fn.system({'git', 'branch', '--show-current'})
+    branch = vim.trim(branch)
+
+    if branch == '' then
+      vim.notify('Could not retrieve branch name', vim.log.levels.ERROR)
+      return
+    end
+
+    local remote = vim.fn.system({
+      'git',
+      'config',
+      string.format('branch.%s.remote', branch)
+    })
+
+    if remote == '' then
+      vim.notify('Could not find remote', vim.log.levels.ERROR)
+      return
+    end
+
+    remote = vim.trim(remote)
+    local value = string.format('%s %s', remote, branch)
+    vim.ui.input({prompt = 'Git push', default = value}, function(input)
+      if input == nil then
+        vim.notify('Git push aborted', vim.log.levels.WARN)
+        return
+      end
+
+      if value ~= input then
+        vim.notify('Git push canceled', vim.log.levels.WARN)
+        return
+      end
+
+      if vim.fn.exists(':Git') == 2 then
+        local args = {'push', remote, branch}
+        vim.cmd({cmd = 'Git', args = args})
+        return
+      end
+
+      local cmd = {'git', 'push', remote, branch}
+      local opts = {}
+      opts.on_exit = function(id, code)
+        if code ~= 0 then
+          vim.notify('Git push failed', vim.log.levels.ERROR)
+          return
+        end
+
+        vim.notify('Git push completed')
+      end
+      vim.fn.jobstart(cmd, opts)
+    end)
+  end, 
+  {desc = 'Git push with a confirm input'}
+)
+
 autocmd('TextYankPost', {
   desc = 'highlight text after is copied',
   group = augroup,
