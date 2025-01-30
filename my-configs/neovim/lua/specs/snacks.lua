@@ -136,13 +136,7 @@ function user.snack_terminal()
 
   command('GitStatus', function()
     local cmd = {'tig', 'status'}
-    local win = float()
-
-    win.on_win = function()
-      vim.api.nvim_exec_autocmds('User', {pattern = 'TigStatus'})
-    end
-
-    Snacks.terminal.toggle(cmd, {win = win, interactive = true})
+    Snacks.terminal.toggle(cmd, {win = float(), interactive = true})
   end, {})
 
   command('GitBlame', function()

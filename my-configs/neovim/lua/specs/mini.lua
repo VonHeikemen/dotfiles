@@ -96,5 +96,32 @@ Plug {
   end,
 }
 
+Plug {
+  'echasnovski/mini-git',
+  user_event = event,
+  init = function()
+    vim.g.minigit_disable = true
+  end,
+  config = function()
+    local bind = vim.keymap.set
+    local autocmd = vim.api.nvim_create_autocmd
+    local group = vim.api.nvim_create_augroup('minigit_cmds', {clear = true})
+
+    require('mini.git').setup({})
+
+    bind('n', 'gid', '<cmd>Git diff<cr>')
+    bind('n', 'gic', '<cmd>Git commit<cr>')
+    bind('n', 'gil', '<cmd>lua MiniGit.show_at_cursor()<cr>')
+
+    autocmd('User', {
+      pattern = 'MiniGitCommandSplit',
+      group = group,
+      callback = function(event)
+        bind('n', 'q', '<cmd>close<cr>', {buffer = event.buf})
+      end
+    })
+  end,
+}
+
 return Plugins
 
