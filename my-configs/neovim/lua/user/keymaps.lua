@@ -176,6 +176,10 @@ bind('n', 'siw', [[<cmd>let @/=expand('<cword>')<cr>viwo<Esc>qi]])
 -- Show line diagnostics
 bind('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
 
+-- `gi` will be a prefix for git related commands
+bind('n', 'gi', '<Nop>')
+bind('n', 'giu', '<cmd>GitPush<cr>')
+
 -- Repeat recently used macro
 bind('n', 'Q', function()
   local cmd = vim.api.nvim_command

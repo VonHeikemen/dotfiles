@@ -110,7 +110,6 @@ Plug {
     require('mini.git').setup({})
 
     bind('n', 'gid', '<cmd>Git diff<cr>')
-    bind('n', 'gic', '<cmd>Git commit<cr>')
     bind('n', 'gil', '<cmd>lua MiniGit.show_at_cursor()<cr>')
 
     autocmd('User', {
