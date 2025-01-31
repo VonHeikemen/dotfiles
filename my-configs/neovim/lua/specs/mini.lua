@@ -105,18 +105,44 @@ Plug {
   config = function()
     local bind = vim.keymap.set
     local autocmd = vim.api.nvim_create_autocmd
+    local command = vim.api.nvim_create_user_command
     local group = vim.api.nvim_create_augroup('minigit_cmds', {clear = true})
 
     require('mini.git').setup({})
 
     bind('n', 'gid', '<cmd>Git diff<cr>')
-    bind('n', 'gil', '<cmd>lua MiniGit.show_at_cursor()<cr>')
+    bind('n', 'gi*', '<cmd>GitShowDiff<cr>')
+    bind('n', 'gib', '<cmd>GitBlameLine<cr>')
+
+    command('GitShowDiff', function()
+      require('mini.git').show_at_cursor()
+    end, {})
+
+    command('GitBlameLine', function()
+      local line = vim.api.nvim_win_get_cursor(0)[1]
+      local location = string.format('-L%s,%s:%%', line, line)
+
+      vim.cmd({
+        cmd = 'Git',
+        args = {'log', '--no-patch', location},
+      })
+    end, {})
 
     autocmd('User', {
       pattern = 'MiniGitCommandSplit',
       group = group,
       callback = function(event)
         bind('n', 'q', '<cmd>close<cr>', {buffer = event.buf})
+      end
+    })
+
+    autocmd('FileType', {
+      pattern = {'git'},
+      group = group,
+      callback = function(event)
+        local opts = {buffer = event.buf}
+        bind('n', 'gib', '<Nop>', opts)
+        bind('n', 'gd', '<cmd>GitShowDiff<cr>', opts)
       end
     })
   end,
