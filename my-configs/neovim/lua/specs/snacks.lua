@@ -5,8 +5,9 @@ local user = {}
 
 function Plugin.opts()
   return {
-    bigfile = user.bigfile(),
+    zen = user.zen(),
     picker = user.picker(),
+    bigfile = user.bigfile(),
     dashboard = user.dashboard(),
     input = {
       enabled = true,
@@ -50,6 +51,7 @@ function Plugin.config(opts)
   Snacks.setup(opts())
 
   Snacks.toggle.indent():map('<leader>ui')
+  Snacks.toggle.zen():map('<leader>uz')
 
   bind('n', '<leader>bc', '<cmd>lua Snacks.bufdelete()<cr>')
   bind('n', '<leader>ds', '<cmd>lua Snacks.scratch()<cr>')
@@ -93,6 +95,41 @@ function user.bigfile()
   end
 
   return opts 
+end
+
+function user.zen()
+  local opts = {}
+
+  opts.toggles = {dim = false}
+
+  opts.win = {
+    width = 80,
+    height = 0.95,
+    backdrop = {
+      blend = 99,
+      transparent = false,
+    },
+  }
+
+  opts.on_open = function()
+    vim.o.wrap = true
+    vim.o.linebreak =  true
+
+    vim.keymap.set({'n', 'x'}, 'k', 'gk')
+    vim.keymap.set({'n', 'x'}, 'j', 'gj')
+    vim.keymap.set('n', 'O', 'O<Enter><Up>')
+  end
+
+  opts.on_close = function()
+    vim.o.wrap = false
+    vim.o.linebreak =  false
+
+    vim.keymap.del({'n', 'x'}, 'k')
+    vim.keymap.del({'n', 'x'}, 'j')
+    vim.keymap.del('n', 'O')
+  end
+
+  return opts
 end
 
 function user.snack_terminal()

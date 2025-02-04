@@ -1,6 +1,8 @@
 -- Distraction free mode
 local Plugin = {'junegunn/goyo.vim'}
 
+Plugin.enabled = false
+
 Plugin.cmd = {'Goyo'}
 
 function Plugin.init()
