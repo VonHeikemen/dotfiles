@@ -67,20 +67,20 @@ Plug {
 Plug {
   'echasnovski/mini.comment',
   user_event = event,
-  opts = function(ts_context)
-    local config = {options = {}}
-    local cs = ts_context.calculate_commentstring
+  opts = function()
+    local options = {}
+    local ts = require('ts_context_commentstring')
+    local cs = ts.calculate_commentstring
 
-    config.options.custom_commentstring = function()
+    options.custom_commentstring = function()
       return cs() or vim.bo.commentstring
     end
 
-    return config
+    return {options = options}
   end,
   config = function(opts)
     vim.cmd('SpecEvent ts-comment')
-    local ts = require('ts_context_commentstring')
-    require('mini.comment').setup(opts(ts))
+    require('mini.comment').setup(opts())
   end,
 }
 
