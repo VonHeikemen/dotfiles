@@ -71,36 +71,6 @@ command(
 )
 
 command(
-  'ResumeWork',
-  function(input)
-    local project = require('project')
-    local name = project.get_current()
-
-    if name then
-      project.load({name = name})
-      return
-    end
-
-    local session = require('session')
-    name = session.read_name(vim.fn.getcwd())
-
-    if name then
-      session.load_current(name)
-      return
-    end
-
-    if input.bang then
-      vim.cmd('cquit 2')
-      return
-    end
-
-    local msg = 'There is no session or project available in the current folder'
-    vim.notify(msg, vim.log.levels.WARN)
-  end,
-  {bang = true, desc = 'Load project or session in current folder'}
-)
-
-command(
   'ToggleOpt',
   function(input)
     local prop = input.fargs[1]

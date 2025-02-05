@@ -347,11 +347,11 @@ function user.dashboard_actions()
       desc = 'Explore',
       action = ':FileExplorer!'
     },
-    restore_session = {
+    project_settings = {
       icon = '➤',
       key = 's',
-      desc = 'Restore Session',
-      action = ':ResumeWork'
+      desc = 'Project settings',
+      action = ':ProjectLoad'
     },
     quit = {
       icon = '➤',
@@ -378,7 +378,7 @@ function user.dashboard_actions()
   -- hide actions in very small screens
   if vim.o.lines < small_screen then
     action.new_file.hidden = true
-    action.restore_session.hidden = true
+    action.project_settings.hidden = true
     action.quit.hidden = true
   end
 
@@ -387,7 +387,7 @@ function user.dashboard_actions()
     action.search_file,
     action.recently_used,
     action.explore,
-    action.restore_session,
+    action.project_settings,
     action.quit,
     action.open_last,
     action.help,

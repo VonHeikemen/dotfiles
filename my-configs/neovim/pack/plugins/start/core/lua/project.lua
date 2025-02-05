@@ -12,7 +12,7 @@ end
 ---
 -- Read/Save project
 ---
-function M.set(name, state)
+function M.set_store(name, state)
   local project_dir = join(project_store, name)
 
   if state == 'validate' and vim.fn.isdirectory(project_dir) == 0 then
@@ -53,49 +53,60 @@ function M.get_current()
 end
 
 function M.create(name)
-  return M.set(name, 'empty')
+  return M.set_store(name, 'empty')
 end
 
-function M.load(opts)
-  opts = opts or {}
-  local branch = ''
-
-  local name = opts.name
-  local luarc = opts.luarc == nil and true or opts.luarc
-  local session = opts.session == nil and true or opts.session
-
-  if name == '' or type(name) ~= 'string' then
-    name = M.get_current()
-    if name == nil then
-      local msg = 'Could not read project name for current folder'
-      vim.notify(msg, warn)
-      return
-    end
-  end
-
-  local parts = vim.split(name, ' ')
-  if parts[2] then
-    name = parts[1]
-    branch = parts[2]
-  end
-
-  local ok = M.set(name, 'validate')
-  if not ok then
-    if opts.quit then
-      vim.cmd('cquit 2')
-    end
+function M.set(opts)
+  local opts = opts or {}
+  if opts.project == nil then
     return
   end
 
-  M.store.branch = branch
+  M.store.current = opts.project
+  M.store.dir = join(project_store, opts.project)
 
-  if luarc then
-    M.source_luarc(opts.luarc)
+  local callback = function()
+    if opts.buffers then
+      M.load_buffer_list(opts.buffers)
+    end
+
+    if opts.luarc then
+      M.source_luarc('rc')
+    end
+
+    if opts.session then
+      M.load_session(opts.session, '')
+    end
   end
 
-  if session then
-    M.load_session(opts.session, branch)
+  if vim.v.vim_did_enter == 1 then
+    vim.schedule(callback)
+    return
   end
+
+  vim.api.nvim_create_autocmd('VimEnter', {
+    once = true,
+    callback = vim.schedule_wrap(callback)
+  })
+end
+
+function M.load()
+  local rc = vim.secure.read('./nvimrc.json')
+
+  if rc == nil then
+    local msg = '[project] Could not read nvimrc.json'
+    vim.notify(msg, vim.log.levels.WARN)
+    return
+  end
+
+  local config = vim.json.decode(rc)
+  if type(config) ~= 'table' then
+    local msg = '[project] Invalid format'
+    vim.notify(msg, vim.log.levels.WARN)
+    return
+  end
+
+  M.set(config)
 end
 
 function M.source_luarc(name)
@@ -129,7 +140,7 @@ end
 
 function M.load_session(name, branch)
   if M.store.current == nil then
-    local msg = 'Project folder has not been set'
+    local msg = '[session] Project folder has not been set'
     vim.notify(msg, warn)
     return
   end
@@ -141,7 +152,6 @@ function M.load_session(name, branch)
   end
 
   local path = join(M.store.dir, name .. '.vim')
-
   if vim.fn.filereadable(path) == 0 then
     return
   end
@@ -159,7 +169,7 @@ end
 ---
 function M.save_buffer_list(name)
   if M.store.current == nil then
-    local msg = 'Project folder has not been set'
+    local msg = '[buffers] Project folder has not been set'
     vim.notify(msg, warn)
     return
   end
@@ -171,13 +181,13 @@ function M.save_buffer_list(name)
 
   local file = join(path, name or 'current')
 
-  vim.cmd.BufferNavSave(file)
+  require('buffer-nav').save_content(file)
   M.store.buffer_list = file
 end
 
 function M.load_buffer_list(name)
   if M.store.current == nil then
-    local msg = 'Project folder has not been set'
+    local msg = '[buffers] Project folder has not been set'
     vim.notify(msg, warn)
     return
   end
@@ -185,7 +195,7 @@ function M.load_buffer_list(name)
   name = name or 'current'
   local path = join(M.store.dir, 'buffers', name)
   if vim.fn.filereadable(path) == 1 then
-    vim.cmd.BufferNavRead(path)
+    require('buffer-nav').load_content(path)
     M.store.buffer_list = path
   end
 end

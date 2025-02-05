@@ -9,7 +9,7 @@ function cmd.set(input)
     return
   end
 
-  require('project').set(input.args, 'validate')
+  require('project').set_store(input.args, 'validate')
 end
 
 function cmd.create(input)
@@ -40,8 +40,8 @@ function cmd.edit_luarc(input)
   vim.cmd.edit(path)
 end
 
-function cmd.load(input)
-  require('project').load({name = input.args, quit = input.bang})
+function cmd.load()
+  require('project').load()
 end
 
 function cmd.make_session(input)
@@ -61,28 +61,13 @@ function cmd.browse_store()
   vim.cmd.FileExplorer(store.dir)
 end
 
-function cmd.set_folder()
-  local cwd = vim.fn.getcwd()
-  local path = join(cwd, '.git')
-
-  if vim.fn.isdirectory(path) == 1 then
-    path = join(path, 'project-nvim')
-  else
-    path = join(cwd, '.project-nvim')
-  end
-
-  vim.cmd.edit(path)
-end
-
 command('ProjectCreate', cmd.create, {nargs = '?'})
 command('ProjectChange', cmd.set, {nargs = '?'})
 command('ProjectStore', cmd.browse_store, {})
-command('ProjectLoad', cmd.load, {nargs = '?', bang = true})
+command('ProjectLoad', cmd.load, {})
 
 command('ProjectMakeSession', cmd.make_session, {nargs = '?'})
 command('ProjectSaveBuffers', cmd.save_buffers, {bang = true, nargs = '?'})
 command('ProjectReadBuffers', cmd.read_buffers, {nargs = '?'})
 command('ProjectEditConfig', cmd.edit_luarc, {nargs = '?'})
-
-command('ProjectSetFolder', cmd.set_folder, {nargs = '?'})
 
