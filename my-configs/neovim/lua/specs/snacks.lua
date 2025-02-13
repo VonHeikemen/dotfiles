@@ -238,6 +238,12 @@ function user.picker()
     files = {layout = 'palette'},
     buffers = {layout = 'palette'},
     recent = {layout = 'palette'},
+    treesitter = {
+      layout = {
+        preview = 'main',
+        preset = 'ivy',
+      },
+    },
     git_diff = {
       layout = {
         preview = 'main',
