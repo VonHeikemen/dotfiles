@@ -1,6 +1,7 @@
 -- Jump anywhere
 local Plugin = {'ggandor/leap.nvim'}
 
+Plugin.depends = {'ggandor/flit.nvim'}
 Plugin.user_event = {'SpecVimEdit'}
 
 function Plugin.opts()
@@ -31,7 +32,6 @@ end
 
 function Plugin.init()
   local mode = {'n', 'x', 'o'} 
-  local keys = {}
   local bind = function(l, r, d)
     vim.keymap.set(mode, l, r, {desc = d})
   end
@@ -58,6 +58,7 @@ end
 
 function Plugin.config(opts)
   require('leap').setup(opts())
+  require('flit').setup({multiline = false})
 end
 
 return Plugin
