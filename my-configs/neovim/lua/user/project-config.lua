@@ -53,7 +53,7 @@ function Project.legacy_php()
 
   vim.cmd([[
     StlDiagnostics enable
-    LintSave php php'
+    LintSave php php
     LintSave quick-lint-js javascript
   ]])
 end
