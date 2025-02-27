@@ -20,10 +20,18 @@ function Plugin.config()
   end, {nargs = '?'})
 
   command('LintSave', function(input)
-    local linter = input.fargs[1]
+    local name = input.fargs[1]
     local ft = input.fargs[2]
+    local linter = (require('lint').linters[name] or {}).cmd
+    local available = false
 
-    if vim.fn.executable(linter) == 0 then
+    if type(linter) == 'string' then
+      available = vim.fn.executable(linter) == 1
+    elseif type(linter) == 'function' then
+      available = vim.fn.executable(linter()) == 1
+    end
+
+    if not available then
       return
     end
 
@@ -36,7 +44,7 @@ function Plugin.config()
         autocmd('BufWritePost', {
           group = augroup,
           buffer = event.buf,
-          command = string.format('Lint %s', linter)
+          command = string.format('Lint %s', name)
         })
       end
     })
