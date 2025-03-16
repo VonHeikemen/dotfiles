@@ -123,7 +123,6 @@ bind('n', '<leader>cd', '<cmd>lcd %:p:h<cr><cmd>pwd<cr>')
 
 -- Put selected text in register '/'
 bind('x', '<leader>y', '<Esc><cmd>GetSelection<cr>gv')
-bind('x', '<leader>Y', '<Esc><cmd>GetSelection<cr><cmd>set hlsearch<cr>')
 
 -- ========================================================================== --
 -- ==                           TOGGLE ELEMENTS                            == --
@@ -154,20 +153,39 @@ bind('n', '<leader>ur', '<cmd>set invrelativenumber<cr>')
 -- Very nomagic search
 bind('n', 'S', '/\\V')
 
+-- Search inside selected text
+bind('n', 'siv', [[/\%V\V]])
+bind('x', 'siv', [[<Esc>/\%V\V]])
+
+-- Search inside parenthesis
+bind('n', 'sib', [[vib<Esc>/\%V\V]])
+
+-- Search inside curly braces
+bind('n', 'siB', [[viB<Esc>/\%V\V]])
+
+-- Search selected text
+bind('x', 'siy', '<Esc><cmd>GetSelection<cr>gv')
+
+-- Highlight selected text
+bind('x', 'sy', '<Esc><cmd>GetSelection<cr><cmd>set hlsearch<cr>')
+
+-- Highlight word under the cursor
+bind('n', 'syw', [[<cmd>let @/='\<'.expand('<cword>').'\>'<cr><cmd>set hlsearch<cr>]])
+
 -- Add word to search then replace
-bind('n', 'sw', [[<cmd>let @/='\<'.expand('<cword>').'\>'<cr>"_ciw]])
+bind('n', 'sx', [[<cmd>let @/='\<'.expand('<cword>').'\>'<cr>"_ciw]])
 
 -- Add selection to search then replace
-bind('x', 'sw', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>"_cgn]])
+bind('x', 'sx', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>"_cgn]])
+
+-- Record macro on word
+bind('n', 'siq', [[<cmd>let @/=expand('<cword>')<cr>viwo<Esc>qi]])
 
 -- Begin search and replace with a macro
-bind('x', 'qi', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>gvqi]])
+bind('x', 'siq', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>gvqi]])
 
 -- Apply macro in the next instance of the search
 bind('n', '<F8>', 'gn@i')
-
--- Record macro on word
-bind('n', 'siw', [[<cmd>let @/=expand('<cword>')<cr>viwo<Esc>qi]])
 
 -- ========================================================================== --
 -- ==                            MISCELLANEOUS                             == --

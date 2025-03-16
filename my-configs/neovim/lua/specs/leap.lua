@@ -36,24 +36,23 @@ function Plugin.init()
     vim.keymap.set(mode, l, r, {desc = d})
   end
 
-  bind('gH', 'H')
-  bind('gL', 'L')
   bind('gW', 'gw')
 
   -- note: leap-ext is a module from pack/plugins/start/leap-ext
-  bind('r', function()
+  bind('gw', function()
     require('leap-ext.word').start()
   end, 'Jump to word')
 
-  bind('H',function()
+  bind('sH',function()
     require('leap-ext.line').backward()
   end, 'Jump to line above cursor')
 
-  bind('L',function()
+  bind('sL',function()
     require('leap-ext.line').forward()
   end, 'Jump to line below cursor')
 
-  bind('gw', '<Plug>(leap)', '2-character search')
+  bind('sh', '<Plug>(leap-backward)', 'Jump backward')
+  bind('sl', '<Plug>(leap-forward)', 'Jump forward')
 end
 
 function Plugin.config(opts)
