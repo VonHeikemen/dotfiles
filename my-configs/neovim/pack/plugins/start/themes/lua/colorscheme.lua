@@ -203,16 +203,29 @@ function M.apply_links()
   -- Plugin: lir.nvim
   link('LirDir', 'Function')
 
+
   -- Plugin: snacks.nvim
   link('SnacksPickerDir', cs_none)
+  link('SnacksPickerListCursorLine', 'CursorLine')
+
+
+  -- Plugin: mini.snippets
+  link('MiniSnippetsCurrent', cs_none)
+  link('MiniSnippetsCurrentReplace', 'Visual')
+  link('MiniSnippetsFinal', cs_none)
+  link('MiniSnippetsUnvisited', cs_none)
+  link('MiniSnippetsVisited', cs_none)
+
 
   -- Language: help page
   -- Syntax: built-in
   link('helpExample', cs_none)
 
+
   -- Language: lua
   -- Syntax: built-in
   link('luaFunction', cs_none)
+
 
   -- Language: HTML
   -- Syntax: built-in
