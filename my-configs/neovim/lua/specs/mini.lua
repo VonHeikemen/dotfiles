@@ -111,6 +111,7 @@ Plug {
     require('mini.git').setup({})
 
     bind('n', 'gid', '<cmd>Git diff<cr>')
+    bind('n', 'giD', '<cmd>Git diff --staged<cr>')
     bind('n', 'gi*', '<cmd>GitShowDiff<cr>')
     bind('n', 'gib', '<cmd>GitBlameLine<cr>')
 
@@ -141,7 +142,7 @@ Plug {
       group = group,
       callback = function(event)
         local opts = {buffer = event.buf}
-        bind('n', 'gib', '<Nop>', opts)
+        bind('n', 'gib', '<nop>', opts)
         bind('n', 'gd', '<cmd>GitShowDiff<cr>', opts)
       end
     })
