@@ -210,7 +210,7 @@ autocmd('FileType', {
     'qf', 'help', 'man', 'lspinfo',
     'checkhealth', 'mininotify-history'
   },
-  command = 'nnoremap <buffer> q <cmd>quit<cr>'
+  command = 'nnoremap <buffer> q <cmd>close<cr>'
 })
 
 if env.preserve_beam_cursor then
