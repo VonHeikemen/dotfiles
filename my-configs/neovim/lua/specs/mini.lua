@@ -36,7 +36,7 @@ Plug {
   config = function(opts)
     require('mini.surround').setup(opts)
   end
-} 
+}
 
 Plug {
   'echasnovski/mini.notify',
@@ -46,7 +46,7 @@ Plug {
     },
   },
   config = function(opts)
-    local notify = require('mini.notify') 
+    local notify = require('mini.notify')
 
     notify.setup(opts)
     vim.notify = notify.make_notify()
@@ -147,6 +147,61 @@ Plug {
       end
     })
   end,
+}
+
+Plug {
+  'echasnovski/mini.snippets',
+  depends = {'VonHeikemen/the-good-snippets'},
+  user_event = {'mini-snippets'},
+  config = function()
+    local ms = require('mini.snippets')
+    local autocmd = vim.api.nvim_create_autocmd
+    local command = vim.api.nvim_create_user_command
+    local group = vim.api.nvim_create_augroup('minisnip_cmds', {clear = true})
+
+    local langs = {twig = ''}
+    local from_filetype = function(context)
+      local ft = vim.bo[context.buf_id].filetype
+      local current = langs[ft]
+      if not current then
+        return
+      end
+
+      if current == '' then
+        local pattern = string.format('snippets/%s.json', ft)
+        current = vim.api.nvim_get_runtime_file(pattern, false)[1]
+        langs[ft] = current
+      end
+
+      return ms.read_file(current)
+    end
+
+    ms.setup({
+      snippets = {
+        from_filetype,
+        ms.gen_loader.from_lang(),
+      },
+    })
+
+    command('SnippetSessionStop', function()
+      while ms.session.get() do
+        ms.session.stop()
+      end
+    end, {})
+
+    autocmd('User', {
+      group = group,
+      pattern = 'MiniSnippetsSessionStart',
+      callback = function()
+        autocmd('ModeChanged', {
+          group = group,
+          pattern = '*:n',
+          once = true,
+          command = 'SnippetSessionStop'
+        })
+      end
+    })
+  end
 }
 
 return Plugins

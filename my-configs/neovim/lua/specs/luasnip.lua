@@ -1,7 +1,10 @@
 -- Snippet engine
+-- Note: disabled for now. trying out mini.snippets
+
 local Plugin = {'L3MON4D3/LuaSnip'}
 Plugin.depends = {'VonHeikemen/the-good-snippets'}
 
+Plugin.enabled = false
 Plugin.user_event = {'CmpReady'}
 
 Plugin.opts = {

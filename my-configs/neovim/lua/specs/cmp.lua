@@ -23,14 +23,16 @@ function Plugin.opts(cmp)
     },
     snippet = {
       expand = function(args)
-        require('luasnip').lsp_expand(args.body)
+        require('mini.snippets').default_insert({body = args.body})
+        cmp.resubscribe({'TextChangedI', 'TextChangedP'})
+        require('cmp.config').set_onetime({sources = {}})
       end,
     },
     sources = {
       {name = 'path'},
       {name = 'nvim_lsp', keyword_length = 3},
       {name = 'buffer', keyword_length = 3},
-      {name = 'luasnip', keyword_length = 2},
+      {name = 'mini_snippets', keyword_length = 2},
     },
     view = {
       docs = {
@@ -52,7 +54,7 @@ function Plugin.opts(cmp)
 
         if n == 'nvim_lsp' then
           item.menu = 'λ'
-        elseif n == 'luasnip' then
+        elseif n == 'mini_snippets' then
           item.menu = '⋗'
         elseif n == 'buffer' then
           item.menu = 'Ω'
@@ -91,26 +93,6 @@ function Plugin.opts(cmp)
       ['<C-p>'] = cmp.mapping.select_prev_item(select_opts),
       ['<C-n>'] = cmp.mapping.select_next_item(select_opts),
 
-      ['<C-a>'] = cmp.mapping(function(fallback)
-        local luasnip = require('luasnip')
-
-        if luasnip.locally_jumpable(-1) then
-          luasnip.jump(-1)
-        else
-          fallback()
-        end
-      end, {'i', 's'}),
-
-      ['<C-d>'] = cmp.mapping(function(fallback)
-        local luasnip = require('luasnip')
-
-        if luasnip.locally_jumpable(1) then
-          luasnip.jump(1)
-        else
-          fallback()
-        end
-      end, {'i', 's'}),
-
       ['<M-u>'] = cmp.mapping(function()
         if cmp.visible() then
           user.set_autocomplete(false)
@@ -140,6 +122,7 @@ function Plugin.opts(cmp)
 end
 
 function Plugin.config(opts)
+  vim.cmd('SpecEvent mini-snippets')
   local cmp = require('cmp')
 
   user.autocomplete = true
@@ -211,7 +194,7 @@ return {
   Plugin,
   ext({'hrsh7th/cmp-buffer'}),
   ext({'hrsh7th/cmp-path'}),
-  ext({'saadparwaiz1/cmp_luasnip'}),
+  ext({'abeldekat/cmp-mini-snippets'}),
   ext({'hrsh7th/cmp-omni'}),
   ext({'quangnguyen30192/cmp-nvim-tags'}),
   ext({'hrsh7th/cmp-nvim-lsp'}),
