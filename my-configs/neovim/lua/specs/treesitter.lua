@@ -84,7 +84,6 @@ Plug {
     vim.cmd('TSUpdate')
   end,
   config = function(opts)
-    opts.ensure_installed = nil
     require('nvim-treesitter.configs').setup(opts)
   end,
 }
