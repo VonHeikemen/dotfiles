@@ -2,6 +2,7 @@ local state = {}
 
 local fmt = string.format
 local hi_pattern = '%%#%s#%s%%*'
+local get_option = vim.api.nvim_get_option_value
 
 state.default_pattern = table.concat({
   '%{%g:stl_mode%} ',
@@ -37,6 +38,7 @@ local mode_higroups = {
   ['DEFAULT'] = 'MiniStatuslineModeOther',
   ['NORMAL'] = 'MiniStatuslineModeNormal',
   ['VISUAL'] = 'MiniStatuslineModeVisual',
+  ['O-PENDING'] = 'MiniStatuslineModeVisual',
   ['V-BLOCK'] = 'MiniStatuslineModeVisual',
   ['V-LINE'] = 'MiniStatuslineModeVisual',
   ['INSERT'] = 'MiniStatuslineModeInsert',
@@ -153,8 +155,7 @@ function state.restore_active()
   end
 
   -- restore pattern of current window
-  local get = vim.api.nvim_get_option_value
-  local current_pattern = get('statusline', {scope = 'local'})
+  local current_pattern = get_option('statusline', {scope = 'local'})
   if current_pattern == state.inactive_pattern then
     if vim.w.stl_style == 'short' then
       vim.wo.statusline = state.short_pattern
@@ -254,15 +255,14 @@ autocmd('FileType', {
   desc = 'Apply "short" statusline pattern',
   pattern = {'lir', 'ctrlsf'},
   callback = function(event)
-    vim.w.stl_style = 'short'
     vim.wo.statusline = state.short_pattern
+    vim.w.stl_style = 'short'
 
     autocmd('BufUnload', {
       buffer = event.buf,
       callback = function()
-        vim.w.stl_style = nil
-        vim.wo.statusline = nil
-      end,
+        vim.w.stl_style = 'default'
+      end
     })
   end,
 })
@@ -270,9 +270,18 @@ autocmd('FileType', {
 autocmd('LspAttach', {
   group = augroup,
   once = true,
-  desc = 'Enable diagnostic check in statusline';
-  callback = function()
-    state.show_diagnostic = true
+  desc = 'Enable diagnostic check in statusline',
+  callback = function(event)
+    local id = vim.tbl_get(event, 'data', 'client_id')
+    local client = id and vim.lsp.get_client_by_id(id)
+    if client == nil then
+      return
+    end
+
+    if client:supports_method('textDocument/publishDiagnostics') then
+      state.show_diagnostic = true
+      vim.cmd('redrawstatus')
+    end
   end,
 })
 
@@ -282,8 +291,11 @@ autocmd('LspAttach', {
   callback = function(event)
     local id = vim.tbl_get(event, 'data', 'client_id')
     local client = id and vim.lsp.get_client_by_id(id)
+    if client == nil then
+      return
+    end
 
-    if client then
+    if client:supports_method('textDocument/publishDiagnostics') then
       vim.b.linter_attached = 1
     end
   end

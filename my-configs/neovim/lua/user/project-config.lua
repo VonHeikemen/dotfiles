@@ -1,7 +1,7 @@
 local Project = {}
 
 function Project.nvim_plugin(opts)
-  vim.cmd('SpecEvent lspconfig')
+  require('user.lsp')
 
   local join = vim.fs.joinpath
   local dependencies = {join(vim.env.VIMRUNTIME, 'lua')}
@@ -16,7 +16,7 @@ function Project.nvim_plugin(opts)
     end
   end
 
-  require('lspconfig').nvim_lua.setup({
+  vim.lsp.config('nvim-lua', {
     settings = {
       Lua = {
         workspace = {
@@ -24,9 +24,7 @@ function Project.nvim_plugin(opts)
         },
       }
     },
-    root_dir = function()
-      return vim.fn.getcwd()
-    end,
+    root_markers = {'nvimrc.json'},
   })
 end
 

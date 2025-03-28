@@ -3,7 +3,7 @@ local Plug = function(spec) table.insert(Plugins, spec) end
 
 Plug {
   'nvim-treesitter/nvim-treesitter',
-  rev = 'v0.9.3',
+  rev = '55c5c762fee2e813b4e43bbfaf5b91d182bd2875',
   user_event = {'LazySpec'},
   opts = {
     highlight = {
@@ -84,14 +84,14 @@ Plug {
     vim.cmd('TSUpdate')
   end,
   config = function(opts)
+    opts.ensure_installed = nil
     require('nvim-treesitter.configs').setup(opts)
   end,
 }
 
 Plug {
   'nvim-treesitter/nvim-treesitter-textobjects',
-  depends = {'nvim-treesitter/nvim-treesitter'},
-  rev = '3e450cd85243da99dc23ebbf14f9c70e9a0c26a4',
+  rev = '8b2d4d519f3516d09910f5baf48d1a47b594f0ce',
   user_event = {'LazySpec'},
 }
 

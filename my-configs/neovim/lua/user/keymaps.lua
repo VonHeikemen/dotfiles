@@ -219,10 +219,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local opts = {buffer = event.buf}
 
     bind({'n', 'x'}, 'gq', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
-    bind('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
     bind('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
     bind('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
     bind('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+
+    bind('n', 'K', '<cmd>lua vim.lsp.buf.hover({border = "rounded"})<cr>', opts)
+    bind({'i', 'n'}, '<C-s>', '<cmd>lua vim.lsp.buf.signature_help({border = "rounded"})<cr>', opts)
   end,
 })
 

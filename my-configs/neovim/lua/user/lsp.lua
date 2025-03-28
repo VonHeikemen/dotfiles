@@ -16,19 +16,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = lsp_attach,
 })
 
-if package.loaded['user.diagnostics'] == nil then
-  require('user.diagnostics')
-end
+require('user.diagnostics')
 
-if vim.fn.has('nvim-0.11') == 0 then
-  local style = 'rounded'
-  vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-    vim.lsp.handlers.hover,
-    {border = style}
-  )
-  vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-    vim.lsp.handlers.signature_help,
-    {border = style}
-  )
-end
+vim.cmd('SpecEvent nvim-cmp')
 

@@ -6,7 +6,7 @@ Plugin.user_event = {'nvim-cmp'}
 
 local user = {}
 
-function Plugin.opts(cmp)  
+function Plugin.opts(cmp)
   local select_opts = {behavior = cmp.SelectBehavior.Select}
   local cmp_enable = cmp.get_config().enabled
 
@@ -138,6 +138,11 @@ function Plugin.config(opts)
   })
 end
 
+function user.lsp_capabilities()
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  vim.lsp.config('*', {capabilities = capabilities})
+end
+
 function user.set_autocomplete(new_value)
   local old_value = user.autocomplete
 
@@ -187,6 +192,7 @@ end
 
 local function ext(spec)
   spec.event = Plugin.event
+  spec.user_event = Plugin.user_event
   return spec
 end
 
@@ -197,6 +203,6 @@ return {
   ext({'abeldekat/cmp-mini-snippets'}),
   ext({'hrsh7th/cmp-omni'}),
   ext({'quangnguyen30192/cmp-nvim-tags'}),
-  ext({'hrsh7th/cmp-nvim-lsp'}),
+  ext({'hrsh7th/cmp-nvim-lsp', config = user.lsp_capabilities}),
 }
 
