@@ -90,8 +90,8 @@ command(
   function(input)
     local prop = input.fargs[1]
     local scope = input.fargs[2]
-    local on =  input.fargs[3]
-    local off = input.fargs[4]
+    local on =  input.fargs[3] --[[@as string | number?]]
+    local off = input.fargs[4] --[[@as string | number?]]
 
     if input.bang then
       on = tonumber(on)
@@ -116,12 +116,12 @@ command(
       return
     end
 
-    local normal = vim.api.nvim_get_hl_by_name('Normal', true)
-    if normal.background == nil then
+    local normal = vim.api.nvim_get_hl(0, {name = 'Normal'})
+    if normal.bg == nil then
       return
     end
 
-    local colors = {bg = normal.background, reset = vim.g.sync_bg}
+    local colors = {bg = normal.bg, reset = vim.g.sync_bg}
 
     local bg = function(run)
       if run == 'normal' then
@@ -195,7 +195,7 @@ command(
 
       local cmd = {'git', 'push', remote, branch}
       local opts = {}
-      opts.on_exit = function(id, code)
+      opts.on_exit = function(_, code)
         if code ~= 0 then
           vim.notify('Git push failed', vim.log.levels.ERROR)
           return
@@ -205,7 +205,7 @@ command(
       end
       vim.fn.jobstart(cmd, opts)
     end)
-  end, 
+  end,
   {desc = 'Git push with a confirm input'}
 )
 
