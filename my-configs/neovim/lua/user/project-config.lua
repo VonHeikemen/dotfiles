@@ -1,7 +1,7 @@
 local Project = {}
 
 function Project.nvim_plugin(opts)
-  require('user.lsp')
+  require('user.diagnostics')
 
   local join = vim.fs.joinpath
   local dependencies = {join(vim.env.VIMRUNTIME, 'lua')}

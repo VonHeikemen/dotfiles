@@ -7,7 +7,7 @@ local augroup = vim.api.nvim_create_augroup('init_cmds', {clear = true})
 command(
   'LspEnable',
   function(input)
-    require('user.lsp')
+    require('user.diagnostics')
 
     vim.lsp.enable(input.fargs)
     local has_filetype = vim.bo.filetype ~= ''
@@ -226,6 +226,20 @@ autocmd('FileType', {
     'checkhealth', 'mininotify-history'
   },
   command = 'nnoremap <buffer> q <cmd>close<cr>'
+})
+
+autocmd('LspAttach', {
+  group = augroup,
+  desc = 'disable semantic highlights',
+  callback = function(event)
+    local id = vim.tbl_get(event, 'data', 'client_id')
+    local client = id and vim.lsp.get_client_by_id(id)
+    if client == nil then
+      return
+    end
+
+    client.server_capabilities.semanticTokensProvider = nil
+  end,
 })
 
 if env.preserve_beam_cursor then
