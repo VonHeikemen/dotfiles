@@ -4,6 +4,9 @@ local level = vim.diagnostic.severity
 
 vim.diagnostic.config({
   virtual_text = false,
+  float = {
+    border = 'rounded',
+  },
   signs = {
     text = {
       [level.ERROR] = '✘',
