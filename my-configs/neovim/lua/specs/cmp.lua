@@ -203,6 +203,10 @@ return {
   ext({'abeldekat/cmp-mini-snippets'}),
   ext({'hrsh7th/cmp-omni'}),
   ext({'quangnguyen30192/cmp-nvim-tags'}),
-  ext({'hrsh7th/cmp-nvim-lsp', config = user.lsp_capabilities}),
+  {
+    'hrsh7th/cmp-nvim-lsp',
+    user_event = {'SpecVimEdit'},
+    config = user.lsp_capabilities,
+  },
 }
 

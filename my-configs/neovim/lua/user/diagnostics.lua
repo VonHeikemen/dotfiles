@@ -33,5 +33,3 @@ autocmd('ModeChanged', {
   callback = function(e) vim.diagnostic.enable(true, {bufnr = e.buf}) end
 })
 
-vim.cmd('SpecEvent nvim-cmp')
-
