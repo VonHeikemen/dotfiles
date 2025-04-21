@@ -1,33 +1,5 @@
 local Project = {}
 
-function Project.nvim_plugin(opts)
-  require('user.diagnostics')
-
-  local join = vim.fs.joinpath
-  local dependencies = {join(vim.env.VIMRUNTIME, 'lua')}
-  local nvim_data = vim.fn.stdpath('data') --[[@as string]]
-
-  local lua = join(nvim_data, 'lazy', '*', 'lua', '%s')
-
-  if opts.dependencies then
-    for i, mod in ipairs(opts.dependencies) do
-      local path = vim.fn.glob(lua:format(mod))
-      dependencies[i + 1] = path == '' and nil or path
-    end
-  end
-
-  vim.lsp.config('nvim-lua', {
-    settings = {
-      Lua = {
-        workspace = {
-          library = dependencies
-        },
-      }
-    },
-    root_markers = {'nvimrc.json'},
-  })
-end
-
 function Project.legacy_php()
   vim.cmd('SpecEvent nvim-cmp')
 
