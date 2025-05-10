@@ -278,9 +278,8 @@ autocmd('LspAttach', {
       return
     end
 
-    if client:supports_method('textDocument/publishDiagnostics') then
+    if client:supports_method('textDocument/diagnostics') then
       state.show_diagnostic = true
-      vim.cmd('redrawstatus')
     end
   end,
 })
@@ -295,8 +294,9 @@ autocmd('LspAttach', {
       return
     end
 
-    if client:supports_method('textDocument/publishDiagnostics') then
+    if client:supports_method('textDocument/diagnostics') then
       vim.b.linter_attached = 1
+      vim.cmd('redrawstatus')
     end
   end
 })
