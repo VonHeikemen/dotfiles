@@ -6,6 +6,10 @@ command('BufferNavMenu', function()
   require('buffer-nav').show_menu()
 end, {})
 
+command('BufferNavPicker', function()
+  require('buffer-nav').picker()
+end, {})
+
 command('BufferNav', function(input)
   local index = tonumber(input.args)
   if index == nil then
