@@ -126,6 +126,7 @@ function M.ui(theme, syntax)
   hs('DiagnosticUnderlineInfo',  {fg = theme.info,    bg = none}, underline)
   hs('DiagnosticUnderlineHint',  {fg = FG,            bg = none}, underline)
 
+  hi('UserTablineActive', {fg = syntax.storage, bg = BG})
 
   hi('NotifyWARNIcon',    {fg = theme.warning, bg = none})
   hi('NotifyWARNBorder',  {fg = theme.warning, bg = none})

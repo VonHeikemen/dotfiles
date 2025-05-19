@@ -1,5 +1,5 @@
 local concat  = '%s%s'
-local active_tab_highlight = 'Function'
+local active_tab_highlight = 'UserTablineActive'
 local separator_active = ''
 
 local function tabpage(opts)
