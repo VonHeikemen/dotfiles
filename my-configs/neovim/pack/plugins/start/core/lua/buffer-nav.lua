@@ -6,6 +6,7 @@ M.window = nil
 s.mounted = false
 s.augroup = 'buffernav_cmds'
 s.last_buf = {}
+s.last_buf_autocmd = 0
 
 function M.after_mount(event)
   if M.window == nil then
@@ -225,6 +226,39 @@ function M.save_content(path)
   vim.cmd.write({args = {path}, bang = true})
 end
 
+function M.go_to_last_buf()
+  if s.last_buf[1] then
+    vim.cmd.buffer(s.last_buf[1])
+  else
+    vim.notify('No recent buffer saved')
+  end
+end
+
+function M.update_last_buf()
+  if M.window == nil then
+    return
+  end
+
+  local current = vim.api.nvim_get_current_buf()
+  local list = vim.api.nvim_buf_get_lines(M.window.bufnr, 0, 3, false)
+
+  local in_list = false
+  for i, item in ipairs(list) do
+    local bufnr = vim.fn.bufnr(item)
+
+    if current == bufnr then
+      in_list = true
+    end
+  end
+
+  if not in_list then
+    local name = vim.fn.bufname(current)
+    if name ~= '' then
+      s.last_buf = {current, name}
+    end
+  end
+end
+
 function M.picker()
   if M.window == nil then
     return
@@ -329,6 +363,13 @@ function M.picker()
   menu:on('BufLeave', function()
     menu:unmount()
   end)
+
+  if s.last_buf_autocmd == 0 then
+    s.last_buf_autocmd = vim.api.nvim_create_autocmd('BufEnter', {
+      group = s.augroup,
+      callback = M.update_last_buf,
+    })
+  end
 end
 
 return M

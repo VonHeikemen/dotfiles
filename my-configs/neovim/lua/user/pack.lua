@@ -21,11 +21,12 @@ vim.g.mini_specs = {
 vim.keymap.set('n', '<leader>de', '<cmd>ProjectStore<cr>')
 vim.keymap.set('n', '<leader>dc', '<cmd>ProjectEditConfig<cr>')
 
+vim.keymap.set('n', 'so', '<cmd>BufferNavPicker<cr>')
 vim.keymap.set('n', 'M', '<cmd>BufferNavMenu<cr>')
 vim.keymap.set('n', '<leader>m', '<cmd>BufferNavMark<cr>')
 vim.keymap.set('n', '<leader>M', '<cmd>BufferNavMark!<cr>')
 vim.keymap.set('n', '<M-1>', '<cmd>BufferNav 1<cr>')
 vim.keymap.set('n', '<M-2>', '<cmd>BufferNav 2<cr>')
 vim.keymap.set('n', '<M-3>', '<cmd>BufferNav 3<cr>')
-vim.keymap.set('n', '<M-4>', '<cmd>BufferNav 4<cr>')
+vim.keymap.set('n', '<M-4>', '<cmd>BufferNav x<cr>')
 

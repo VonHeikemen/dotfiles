@@ -13,6 +13,10 @@ end, {})
 command('BufferNav', function(input)
   local index = tonumber(input.args)
   if index == nil then
+    if input.args == 'x' then
+      require('buffer-nav').go_to_last_buf()
+    end
+
     return
   end
 
