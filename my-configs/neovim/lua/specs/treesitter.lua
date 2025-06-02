@@ -1,98 +1,91 @@
-local Plugins = {}
-local Plug = function(spec) table.insert(Plugins, spec) end
+local Plugin = {'nvim-treesitter/nvim-treesitter'}
+local user = {}
 
-Plug {
-  'nvim-treesitter/nvim-treesitter',
-  rev = '55c5c762fee2e813b4e43bbfaf5b91d182bd2875',
-  user_event = {'LazySpec'},
-  opts = {
-    highlight = {
-      enable = true,
-      disable = {'vue'},
-      additional_vim_regex_highlighting = {'html', 'vimdoc'},
-    },
-    indent = {
-      enable = true,
-    },
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = 'ga',
-        node_incremental = 'ga',
-        node_decremental = 'gz',
-      },
-    },
-    textobjects = {
-      select = {
-        enable = true,
-        lookahead = true,
-        keymaps = {
-          ['af'] = '@function.outer',
-          ['if'] = '@function.inner',
-          ['ac'] = '@class.outer',
-          ['ic'] = '@class.inner',
-          ['ia'] = '@parameter.inner',
-        }
-      },
-      swap = {
-        enable = true,
-        swap_previous = {
-          ['{a'] = '@parameter.inner',
-        },
-        swap_next = {
-          ['}a'] = '@parameter.inner',
-        },
-      },
-      move = {
-        enable = true,
-        set_jumps = true,
-        goto_next_start = {
-          [']f'] = '@function.outer',
-          [']c'] = '@class.outer',
-          [']a'] = '@parameter.inner',
-        },
-        goto_next_end = {
-          [']F'] = '@function.outer',
-          [']C'] = '@class.outer',
-        },
-        goto_previous_start = {
-          ['[f'] = '@function.outer',
-          ['[c'] = '@class.outer',
-          ['[a'] = '@parameter.inner',
-        },
-        goto_previous_end = {
-          ['[F'] = '@function.outer',
-          ['[C'] = '@class.outer',
-        },
-      },
-    },
-    ensure_installed = {
-      'javascript',
-      'typescript',
-      'tsx',
-      'php',
-      'html',
-      'twig',
-      'css',
-      'json',
-      'lua',
-      'vim',
-      'vimdoc',
-    },
+Plugin.rev = 'main'
+
+Plugin.opts = {
+  parsers = {
+    'javascript',
+    'typescript',
+    'tsx',
+    'php',
+    'html',
+    'twig',
+    'css',
+    'json',
+    'lua',
+    'vim',
+    'vimdoc',
   },
-  update = function()
-    vim.cmd('TSUpdate')
-  end,
-  config = function(opts)
-    require('nvim-treesitter.configs').setup(opts)
-  end,
+  ft = {
+    vimdoc = {'help'},
+    tsx = {'javascriptreact', 'typescriptreact'}
+  },
 }
 
-Plug {
-  'nvim-treesitter/nvim-treesitter-textobjects',
-  rev = '8b2d4d519f3516d09910f5baf48d1a47b594f0ce',
-  user_event = {'LazySpec'},
-}
+function Plugin.config(opts)
+  local group = vim.api.nvim_create_augroup('treesitter_cmds', {clear = true})
+  local textobject = user.textobject
+  local autocmd = vim.api.nvim_create_autocmd
 
-return Plugins
+  user.ensure_installed(opts.parsers)
+
+  textobject('af', '@function.outer')
+  textobject('if', '@function.inner')
+  textobject('ac', '@class.outer')
+  textobject('ic', '@class.inner')
+
+  autocmd('FileType', {
+    pattern = user.get_filetypes(opts),
+    group = group,
+    callback = function()
+      vim.treesitter.start()
+      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end,
+  })
+end
+
+function user.textobject(lhs, ts_capture)
+  vim.keymap.set({'x', 'o'}, lhs, function()
+    require('nvim-treesitter-textobjects.select')
+      .select_textobject(ts_capture, 'textobjects')
+  end)
+end
+
+function user.get_filetypes(opts)
+  local filetypes = {}
+  for i, lang in pairs(opts.parsers) do
+    local map = opts.ft[lang]
+    if map then
+      vim.list_extend(filetypes, map)
+    else
+      table.insert(filetypes, lang)
+    end
+  end
+
+  return filetypes
+end
+
+function user.ensure_installed(parsers)
+  local ts = require('nvim-treesitter')
+  local installed_parsers = ts.get_installed()
+  local missing = {}
+
+  for _, parser in ipairs(parsers) do
+    local installed = vim.tbl_contains(installed_parsers, parser)
+
+    if not installed then
+      table.insert(missing, parser)
+    end
+  end
+
+  if not vim.tbl_isempty(missing) then
+    ts.install(missing)
+  end
+end
+
+return {
+  Plugin,
+  {'nvim-treesitter/nvim-treesitter-textobjects', rev = 'main'},
+}
 
