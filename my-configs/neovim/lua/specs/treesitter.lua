@@ -17,18 +17,27 @@ Plugin.opts = {
     'vim',
     'vimdoc',
   },
-  ft = {
-    vimdoc = {'help'},
-    tsx = {'javascriptreact', 'typescriptreact'}
-  },
+  filetypes = {
+    php = true,
+    css = true,
+    html = true,
+    twig = true,
+    javascript = true,
+    javascriptreact = true,
+    typescript = true,
+    typescriptreact = true,
+    lua = {indent = true},
+    json = {highlight = true},
+  }
 }
 
 function Plugin.config(opts)
   local group = vim.api.nvim_create_augroup('treesitter_cmds', {clear = true})
-  local textobject = user.textobject
   local autocmd = vim.api.nvim_create_autocmd
+  local textobject = user.textobject
+  local enable = user.enable_feature
 
-  user.ensure_installed(opts.parsers)
+  require('nvim-treesitter').install(opts.parsers)
 
   textobject('af', '@function.outer')
   textobject('if', '@function.inner')
@@ -36,12 +45,9 @@ function Plugin.config(opts)
   textobject('ic', '@class.inner')
 
   autocmd('FileType', {
-    pattern = user.get_filetypes(opts),
+    pattern = vim.tbl_keys(opts.filetypes),
     group = group,
-    callback = function()
-      vim.treesitter.start()
-      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-    end,
+    callback = function(event) enable(event, opts.filetypes) end,
   })
 end
 
@@ -52,35 +58,24 @@ function user.textobject(lhs, ts_capture)
   end)
 end
 
-function user.get_filetypes(opts)
-  local filetypes = {}
-  for i, lang in pairs(opts.parsers) do
-    local map = opts.ft[lang]
-    if map then
-      vim.list_extend(filetypes, map)
-    else
-      table.insert(filetypes, lang)
-    end
+function user.enable_feature(event, filetypes)
+  local ft = filetypes[event.match]
+
+  if ft == true then
+    ft = {highlight = true, indent = true}
   end
 
-  return filetypes
-end
 
-function user.ensure_installed(parsers)
-  local ts = require('nvim-treesitter')
-  local installed_parsers = ts.get_installed()
-  local missing = {}
-
-  for _, parser in ipairs(parsers) do
-    local installed = vim.tbl_contains(installed_parsers, parser)
-
-    if not installed then
-      table.insert(missing, parser)
-    end
+  if ft.highlight then
+    vim.treesitter.start()
   end
 
-  if not vim.tbl_isempty(missing) then
-    ts.install(missing)
+  if ft.regex then
+    vim.bo.syntax = 'on'
+  end
+
+  if ft.indent then
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
   end
 end
 
