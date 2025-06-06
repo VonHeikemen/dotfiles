@@ -12,6 +12,7 @@ Plugin.opts = {
     'html',
     'twig',
     'css',
+    'bash',
     'json',
     'lua',
     'vim',
@@ -20,6 +21,7 @@ Plugin.opts = {
     'markdown_inline',
   },
   filetypes = {
+    vim = true,
     php = true,
     css = true,
     html = true,
@@ -39,6 +41,9 @@ function Plugin.config(opts)
   local autocmd = vim.api.nvim_create_autocmd
   local textobject = user.textobject
   local enable = user.enable_feature
+
+  -- use bash parser for zsh. it should be good enough.
+  vim.treesitter.language.register('bash', 'zsh')
 
   require('nvim-treesitter').install(opts.parsers)
 
