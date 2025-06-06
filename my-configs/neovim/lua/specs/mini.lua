@@ -159,6 +159,10 @@ Plug {
     local command = vim.api.nvim_create_user_command
     local group = vim.api.nvim_create_augroup('minisnip_cmds', {clear = true})
 
+    local patterns = {
+      markdown_inline = {'**/markdown.json'},
+    }
+
     local langs = {twig = ''}
     local from_filetype = function(context)
       local ft = vim.bo[context.buf_id].filetype
@@ -179,7 +183,7 @@ Plug {
     ms.setup({
       snippets = {
         from_filetype,
-        ms.gen_loader.from_lang(),
+        ms.gen_loader.from_lang({lang_patterns = patterns}),
       },
     })
 
@@ -203,6 +207,5 @@ Plug {
     })
   end
 }
-
 return Plugins
 
