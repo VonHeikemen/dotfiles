@@ -2,7 +2,7 @@
 -- Config for local plugins in "pack/plugins/start/"
 ---
 
-local env = require('user.env')
+local env = vim.g.env or {}
 
 vim.g.buffer_nav_save = '<leader>w'
 vim.g.project_store_path = env.project_store

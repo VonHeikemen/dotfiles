@@ -1,10 +1,10 @@
 -- Try to load "env" file
-local ok, env = pcall(require, 'user.env')
+local ok_env = pcall(require, 'user.env')
+local env = vim.g.env or {}
 
-if not ok then
-  local msg = 'lua/user/env.lua not found. You should probably rename env.sample'
-  vim.notify(msg, vim.log.levels.ERROR)
-  return
+if not ok_env then
+  local msg = 'lua/user/env.lua not found.\nYou should probably rename env.sample.\n\n'
+  vim.schedule(function() vim.notify(msg, vim.log.levels.ERROR) end)
 end
 
 if not env.tempdir then
@@ -54,10 +54,4 @@ vim.o.termguicolors = true
 
 -- Disable markdown tab settings
 vim.g.markdown_recommended_style = 0
-
--- Number of lines for small windows
-vim.g.env_small_screen = env.small_screen_lines
-
--- Make it easier to use latam qwerty keyboard
-vim.g.latam_qwerty = env.latam_keyboard and 1 or 0
 

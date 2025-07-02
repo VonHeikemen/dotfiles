@@ -4,6 +4,32 @@ local Plug = function(spec) table.insert(Plugins, spec) end
 local event = {'SpecVimEdit'}
 
 Plug {
+  'echasnovski/mini.notify',
+  opts = {
+    lsp_progress = {
+      enable = false,
+    },
+  },
+  config = function(opts)
+    local notify = require('mini.notify')
+
+    notify.setup(opts)
+    vim.notify = notify.make_notify()
+
+    vim.keymap.set('n', '<leader><space>', function()
+      vim.cmd("echo ''")
+      notify.clear()
+    end)
+
+    vim.api.nvim_create_user_command(
+      'Notifications',
+      'lua MiniNotify.show_history()',
+      {}
+    )
+  end,
+}
+
+Plug {
   'echasnovski/mini.ai',
   user_event = event,
   opts = {
@@ -39,34 +65,12 @@ Plug {
 }
 
 Plug {
-  'echasnovski/mini.notify',
-  opts = {
-    lsp_progress = {
-      enable = false,
-    },
-  },
-  config = function(opts)
-    local notify = require('mini.notify')
-
-    notify.setup(opts)
-    vim.notify = notify.make_notify()
-
-    vim.keymap.set('n', '<leader><space>', function()
-      vim.cmd("echo ''")
-      notify.clear()
-    end)
-
-    vim.api.nvim_create_user_command(
-      'Notifications',
-      'lua MiniNotify.show_history()',
-      {}
-    )
-  end,
-}
-
-Plug {
   'echasnovski/mini.comment',
   user_event = event,
+  depends = {'JoosepAlviste/nvim-ts-context-commentstring'},
+  init = function()
+    vim.g.skip_ts_context_commentstring_module = true
+  end,
   opts = function()
     local options = {}
     local ts = require('ts_context_commentstring')
@@ -79,20 +83,8 @@ Plug {
     return {options = options}
   end,
   config = function(opts)
-    vim.cmd('SpecEvent ts-comment')
     require('mini.comment').setup(opts())
-  end,
-}
-
-Plug {
-  'JoosepAlviste/nvim-ts-context-commentstring',
-  user_event = {'ts-comment'},
-  opts = {enable_autocmd = false},
-  init = function()
-    vim.g.skip_ts_context_commentstring_module = true
-  end,
-  config = function(opts)
-    require('ts_context_commentstring').setup(opts)
+    require('ts_context_commentstring').setup({enable_autocmd = false})
   end,
 }
 

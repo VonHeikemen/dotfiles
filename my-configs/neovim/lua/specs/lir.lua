@@ -3,7 +3,8 @@ local Plugin = {'tamago324/lir.nvim'}
 Plugin.depends = {'nvim-lua/plenary.nvim'}
 
 local user = {}
-local small_screen = vim.g.env_small_screen or 19
+local env = vim.g.env or {}
+local small_screen = env.small_screen or 19
 
 function Plugin.init()
   -- disable netrw

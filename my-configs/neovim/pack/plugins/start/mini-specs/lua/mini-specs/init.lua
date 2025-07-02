@@ -19,7 +19,7 @@ function M.setup(opts)
   end
 
   if type(opts.bootstrap) == 'boolean' then
-    state.boostrap = opts.bootstrap
+    state.bootstrap = opts.bootstrap
   end
 
   if state.import_dir == '' then

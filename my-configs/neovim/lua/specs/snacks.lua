@@ -1,7 +1,8 @@
 -- A collection of QoL plugins
 local Plugin = {'folke/snacks.nvim'}
-local small_screen = vim.g.env_small_screen or 19
 local user = {}
+local env = vim.g.env or {}
+local small_screen = env.small_screen or 19
 
 function Plugin.opts()
   return {

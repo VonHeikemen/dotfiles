@@ -1,4 +1,4 @@
-local env = require('user.env')
+local env = vim.g.env or {}
 
 local command = vim.api.nvim_create_user_command
 local autocmd = vim.api.nvim_create_autocmd
