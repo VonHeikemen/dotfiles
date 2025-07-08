@@ -5,6 +5,7 @@ Plugin.depends = {'ggandor/flit.nvim'}
 Plugin.user_event = {'SpecVimEdit'}
 
 function Plugin.opts()
+  local env = vim.g.env or {}
   local opts = {
     safe_labels = '',
     labels = {
@@ -18,8 +19,8 @@ function Plugin.opts()
     },
   }
 
-  if vim.g.latam_qwerty == 1 then
-    opts.special_keys = {
+  if env.latam_qwerty == 1 then
+    opts.keys = {
       next_target = 'ñ',
       prev_target = 'Ñ',
       next_group = '<Tab>',
