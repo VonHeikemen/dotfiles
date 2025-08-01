@@ -19,7 +19,7 @@ function Plugin.opts()
     },
   }
 
-  if env.latam_qwerty == 1 then
+  if env.latam_qwerty then
     opts.keys = {
       next_target = 'ñ',
       prev_target = 'Ñ',
