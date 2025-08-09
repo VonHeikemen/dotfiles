@@ -59,7 +59,12 @@ end
 
 function M.show_menu()
   if M.window == nil then
-    M.window = s.create_window()
+    local new_window = s.create_window()
+    if new_window == nil then
+      return
+    end
+
+    M.window = new_window
   elseif M.window.bufnr == nil and s.filepath then
     M.load_content(s.filepath)
   end
@@ -164,7 +169,13 @@ function M.load_content(path)
 end
 
 function s.create_window()
-  local Popup = require('nui.popup')
+  local ok, Popup = pcall(require, 'nui.popup')
+
+  if not ok then
+    vim.notify('module "nui.poup" not found', vim.log.levels.WARN)
+    return
+  end
+
   local position = {
     row = '20%',
     col = '50%',
@@ -264,7 +275,12 @@ function M.picker()
     return
   end
 
-  local Menu = require('nui.menu')
+  local ok, Menu = pcall(require, 'nui.menu')
+  if not ok then
+    vim.notify('module "nui.menu" not found', vim.log.levels.WARN)
+    return
+  end
+
   local current = vim.api.nvim_get_current_buf()
   local list = vim.api.nvim_buf_get_lines(M.window.bufnr, 0, 3, false)
   local in_list = false
