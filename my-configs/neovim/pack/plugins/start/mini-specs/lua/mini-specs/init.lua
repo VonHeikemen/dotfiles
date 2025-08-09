@@ -1,4 +1,4 @@
-local M = {did_setup = false}
+local M = {}
 local noop = function() end
 local md = {add = noop, now = noop, later = noop}
 
@@ -25,16 +25,11 @@ function M.bootstrap()
 end
 
 function M.setup(opts)
-  if M.did_setup then
-    return
-  end
-
   if type(opts.import_dir) == 'string'  then
     state.import_dir = opts.import_dir
   end
 
   if state.import_dir == '' then
-    M.did_setup = true
     return
   end
 
@@ -44,17 +39,17 @@ function M.setup(opts)
     vim.fn.stdpath('config')
   }, ',')
 
-  local ok, deps = pcall(require, 'mini.deps')
+  local ok = pcall(function()
+    package.loaded['mini.deps'] = nil
+    local deps = require('mini.deps')
+    deps.setup(state.config)
+    md = deps
+  end)
 
   if not ok then
-    M.did_setup = true
     return
   end
 
-  md = deps
-  deps.setup(state.config)
-
-  M.did_setup = true
   require('mini-specs.source').scandir(state.import_dir)
 end
 
@@ -80,10 +75,18 @@ function M.install()
     path,
   })
 
-  vim.cmd('packadd mini.deps | helptags ALL')
-  print('Done.')
+  vim.cmd('packadd mini.deps')
+  local added = #vim.api.nvim_get_runtime_file('doc/mini-deps.txt', false) > 0
 
-  state.lazy_load = false
+  if vim.uv.fs_stat(path) then
+    if not added then
+      vim.opt.runtimepath:append(path)
+    end
+
+    vim.cmd('helptags ALL')
+    print('Done.')
+    state.lazy_load = false
+  end
 end
 
 function M.event(events)
