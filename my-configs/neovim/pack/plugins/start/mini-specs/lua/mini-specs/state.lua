@@ -3,7 +3,6 @@ local nvim_data = vim.fn.stdpath('data') --[[@as string]]
 
 return {
   augroup = group,
-  bootstrap = false,
   lazy_load = true,
   all_plugins = {},
   loaded = {},

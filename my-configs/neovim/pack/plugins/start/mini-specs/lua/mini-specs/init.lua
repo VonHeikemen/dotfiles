@@ -1,59 +1,66 @@
-local M = {}
+local M = {did_setup = false}
 local noop = function() end
 local md = {add = noop, now = noop, later = noop}
 
 local state = require('mini-specs.state')
 M.augroup = state.augroup
 
+function M.bootstrap()
+  local config = vim.g.mini_specs
+  if type(config) ~= 'table' then
+    config = {}
+  end
+
+  if type(config.package_path) == 'string' then
+    state.config.path.package_path = config.package_path
+  end
+
+  M.install()
+
+  if vim.tbl_isempty(config) then
+    return
+  end
+
+  M.setup(config)
+end
+
 function M.setup(opts)
-  if type(opts) ~= 'table' then
-    opts = {}
+  if M.did_setup then
+    return
   end
 
   if type(opts.import_dir) == 'string'  then
     state.import_dir = opts.import_dir
   end
 
-  if type(opts.package_path) == 'string' then
-    state.config.path.package_path = opts.package_path
-  end
-
-  if type(opts.bootstrap) == 'boolean' then
-    state.bootstrap = opts.bootstrap
-  end
-
   if state.import_dir == '' then
+    M.did_setup = true
     return
   end
 
-  local package_path = state.config.path.package_path
-
   vim.go.packpath = table.concat({
     vim.env.VIMRUNTIME,
-    package_path,
+    state.config.path.package_path,
     vim.fn.stdpath('config')
   }, ',')
-
-  if state.bootstrap then
-    M.install(package_path)
-  end
 
   local ok, deps = pcall(require, 'mini.deps')
 
   if not ok then
-    local msg = 'Could not find "mini.deps" module'
-    vim.notify(msg, vim.log.levels.WARN)
+    M.did_setup = true
     return
   end
 
   md = deps
   deps.setup(state.config)
+
+  M.did_setup = true
   require('mini-specs.source').scandir(state.import_dir)
 end
 
-function M.install(package_path)
+function M.install()
   local path = vim.fs.joinpath(
-    package_path,
+    state.config.path.package_path,
     'pack',
     'deps',
     'start',

@@ -8,8 +8,6 @@ vim.g.buffer_nav_save = '<leader>w'
 vim.g.project_store_path = env.project_store
 
 vim.g.mini_specs = {
-  -- install `mini.deps` if it's missing
-  bootstrap = env.bootstrap_plugins,
   -- path to plugin configs
   import_dir = vim.fs.joinpath(
     vim.fn.stdpath('config') --[[@as string]],

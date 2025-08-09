@@ -5,6 +5,15 @@ local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup('init_cmds', {clear = true})
 
 command(
+  'InstallPlugins',
+  function()
+    require('user.pack')
+    require('mini-specs').bootstrap()
+  end,
+  {}
+)
+
+command(
   'LspEnable',
   function(input)
     require('user.diagnostics')
