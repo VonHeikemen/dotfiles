@@ -8,6 +8,11 @@
 -- tig        - https://jonas.github.io/tig/
 -- c compiler - gcc or tcc or zig
 
+-- NOTE:
+-- To complete installation you must
+-- 1) rename lua/user/env.sample to lua/user/env.lua
+-- 2) execute the command :InstallPlugins
+
 -- use neovim's lua module loader (experimental)
 -- see :help vim.loader.enable()
 vim.loader.enable()
