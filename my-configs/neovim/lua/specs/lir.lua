@@ -7,9 +7,6 @@ local env = vim.g.env or {}
 local small_screen = env.small_screen or 19
 
 function Plugin.init()
-  -- disable netrw
-  vim.g.loaded_netrw = 1
-  vim.g.loaded_netrwPlugin = 1
   local bind = vim.keymap.set
   local toggle = user.toggle
 

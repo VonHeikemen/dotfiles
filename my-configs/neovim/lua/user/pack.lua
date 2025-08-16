@@ -31,3 +31,9 @@ vim.keymap.set('n', '<M-2>', '<cmd>BufferNav 2<cr>')
 vim.keymap.set('n', '<M-3>', '<cmd>BufferNav 3<cr>')
 vim.keymap.set('n', '<M-4>', '<cmd>BufferNav x<cr>')
 
+if pcall(require, 'mini.deps') then
+  -- disable netrw if plugins are installed
+  vim.g.loaded_netrw = 1
+  vim.g.loaded_netrwPlugin = 1
+end
+
