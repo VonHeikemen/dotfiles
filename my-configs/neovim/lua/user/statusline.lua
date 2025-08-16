@@ -246,7 +246,15 @@ autocmd({'ModeChanged', 'BufEnter', 'DiagnosticChanged'}, {
   callback = function()
     state.set_mode()
     state.position()
-    vim.cmd('redrawstatus')
+    state.update_done = false
+    vim.schedule(function()
+      if state.update_done then
+        return
+      end
+
+      state.update_done = true
+      vim.cmd('redrawstatus')
+    end)
   end
 })
 
