@@ -7,7 +7,15 @@ local augroup = vim.api.nvim_create_augroup('init_cmds', {clear = true})
 command(
   'InstallPlugins',
   function()
-    require('user.pack')
+    if vim.g.env == nil then
+      local msg = 'vim.g.env is not defined.\n' 
+        .. 'You should probably load the "user.env" module.\n'
+        .. 'Rename lua/user/env.sample if necessary.\n\n'
+
+      vim.notify(msg, vim.log.levels.ERROR)
+      return
+    end
+
     require('mini-specs').bootstrap()
   end,
   {}

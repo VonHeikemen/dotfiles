@@ -1,11 +1,6 @@
 -- Try to load "env" file
-local ok_env = pcall(require, 'user.env')
+pcall(require, 'user.env')
 local env = vim.g.env or {}
-
-if not ok_env then
-  local msg = 'lua/user/env.lua not found.\nYou should probably rename env.sample.\n\n'
-  vim.schedule(function() vim.notify(msg, vim.log.levels.ERROR) end)
-end
 
 if not env.tempdir then
   -- Don't use temp files
