@@ -3,11 +3,14 @@
 ---
 
 local env = vim.g.env or {}
+local nvim_data = vim.fn.stdpath('data') --[[@as string]]
 
 vim.g.buffer_nav_save = '<leader>w'
 vim.g.project_store_path = env.project_store
 
 vim.g.mini_specs = {
+  -- path to "pack" directory
+  package_path = vim.fs.joinpath(nvim_data, 'site'),
   -- path to plugin configs
   import_dir = vim.fs.joinpath(
     vim.fn.stdpath('config') --[[@as string]],

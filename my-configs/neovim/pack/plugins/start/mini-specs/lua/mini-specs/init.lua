@@ -11,11 +11,7 @@ function M.bootstrap()
     config = {}
   end
 
-  if type(config.package_path) == 'string' then
-    state.config.path.package_path = config.package_path
-  end
-
-  M.install()
+  M.install(config)
 
   if vim.tbl_isempty(config) then
     return
@@ -25,6 +21,10 @@ function M.bootstrap()
 end
 
 function M.setup(opts)
+  if type(opts.package_path) ~= 'string' then
+    return
+  end
+
   if type(opts.import_dir) == 'string'  then
     state.import_dir = opts.import_dir
   end
@@ -35,14 +35,16 @@ function M.setup(opts)
 
   vim.go.packpath = table.concat({
     vim.env.VIMRUNTIME,
-    state.config.path.package_path,
-    vim.fn.stdpath('config')
+    opts.package_path,
+    vim.fn.stdpath('config'),
   }, ',')
+
+  local settings = {path = {package = opts.package_path}}
 
   local ok = pcall(function()
     package.loaded['mini.deps'] = nil
     local deps = require('mini.deps')
-    deps.setup(state.config)
+    deps.setup(settings)
     md = deps
   end)
 
@@ -53,9 +55,13 @@ function M.setup(opts)
   require('mini-specs.source').scandir(state.import_dir)
 end
 
-function M.install()
+function M.install(opts)
+  if type(opts.package_path) ~= 'string' then
+    return
+  end
+
   local path = vim.fs.joinpath(
-    state.config.path.package_path,
+    opts.package_path,
     'pack',
     'deps',
     'start',
