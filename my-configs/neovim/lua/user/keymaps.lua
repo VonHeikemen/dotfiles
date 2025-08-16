@@ -212,6 +212,19 @@ for _, char in ipairs(break_points) do
   bind('i', char, char .. '<C-g>u')
 end
 
+-- Toggle netrw (if active)
+vim.keymap.set('n', '<leader>fe', function()
+  if vim.bo.filetype == 'netrw' then
+    return '<cmd>close<cr>'
+  end
+
+  if vim.t.netrw_lexbufnr then
+    return '<cmd>Lexplore<cr>'
+  end
+
+  return '<cmd>Lexplore %:p:h<cr>'
+end, {expr = true})
+
 vim.api.nvim_create_autocmd('LspAttach', {
   group = 'init_cmds',
   desc = 'LSP keymaps',

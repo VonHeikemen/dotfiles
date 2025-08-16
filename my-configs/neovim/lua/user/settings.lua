@@ -55,3 +55,7 @@ vim.o.termguicolors = true
 -- Disable markdown tab settings
 vim.g.markdown_recommended_style = 0
 
+-- Netrw settings
+vim.g.netrw_winsize = 30
+vim.g.netrw_banner = 0
+
