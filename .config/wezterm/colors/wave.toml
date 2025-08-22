@@ -1,0 +1,52 @@
+[colors]
+background = "#1F1F28"
+foreground = "#DCD7BA"
+
+cursor_bg = "#8D99C8"
+cursor_border = "#8D99C8"
+cursor_fg = "#1D2021"
+
+ansi = [
+  "#1F1F28", # 00 Black
+  "#FF5D62", # 01 Red
+  "#98BB6C", # 02 Green
+  "#E6C384", # 03 Yellow
+  "#7E9CD8", # 04 Blue
+  "#957FB8", # 05 Magenta
+  "#7FB4CA", # 06 Cyan
+  "#DCD7BA", # 07 White
+]
+brights = [
+  "#727169", # 08 Black
+  "#E82424", # 09 Red
+  "#98BB6C", # 10 Green
+  "#E6C384", # 11 Yellow
+  "#7FB4CA", # 12 Blue
+  "#938AA9", # 13 Magenta
+  "#7AA89F", # 14 Cyan
+  "#DCD7BA", # 15 White
+]
+
+[colors.tab_bar]
+background = '#282834'
+
+[colors.tab_bar.active_tab]
+bg_color = '#282834'
+fg_color = '#DCD7BA'
+
+[colors.tab_bar.inactive_tab]
+bg_color = '#282834'
+fg_color = '#727169'
+
+[colors.tab_bar.new_tab]
+bg_color = '#282834'
+fg_color = '#727169'
+
+[colors.tab_bar.new_tab_hover]
+bg_color = '#957FB8'
+fg_color = '#f8f8f2'
+
+[metadata]
+aliases = []
+name = "Wave"
+

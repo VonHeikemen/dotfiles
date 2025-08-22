@@ -30,6 +30,25 @@ brights = [
 [colors.indexed]
 233 = "#191C1D"
 
+[colors.tab_bar]
+background = '#191C1D'
+
+[colors.tab_bar.active_tab]
+bg_color = '#191C1D'
+fg_color = '#D4BE98'
+
+[colors.tab_bar.inactive_tab]
+bg_color = '#191C1D'
+fg_color = '#727169'
+
+[colors.tab_bar.new_tab]
+bg_color = '#191C1D'
+fg_color = '#727169'
+
+[colors.tab_bar.new_tab_hover]
+bg_color = '#957FB8'
+fg_color = '#f8f8f2'
+
 [metadata]
 aliases = []
 name = "Sigil"
