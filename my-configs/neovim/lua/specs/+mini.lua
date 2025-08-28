@@ -4,7 +4,7 @@ local Plug = function(spec) table.insert(Plugins, spec) end
 local event = {'SpecVimEdit'}
 
 Plug {
-  'echasnovski/mini.notify',
+  'nvim-mini/mini.notify',
   opts = {
     lsp_progress = {
       enable = false,
@@ -30,7 +30,7 @@ Plug {
 }
 
 Plug {
-  'echasnovski/mini.ai',
+  'nvim-mini/mini.ai',
   user_event = event,
   opts = {
     custom_textobjects = {
@@ -45,7 +45,7 @@ Plug {
 }
 
 Plug {
-  'echasnovski/mini.surround',
+  'nvim-mini/mini.surround',
   user_event = event,
   opts = {
     search_method = 'cover_or_next',
@@ -65,7 +65,7 @@ Plug {
 }
 
 Plug {
-  'echasnovski/mini.comment',
+  'nvim-mini/mini.comment',
   user_event = event,
   depends = {'JoosepAlviste/nvim-ts-context-commentstring'},
   init = function()
@@ -89,7 +89,7 @@ Plug {
 }
 
 Plug {
-  'echasnovski/mini-git',
+  'nvim-mini/mini-git',
   user_event = event,
   init = function()
     vim.g.minigit_disable = true
@@ -142,7 +142,7 @@ Plug {
 }
 
 Plug {
-  'echasnovski/mini.snippets',
+  'nvim-mini/mini.snippets',
   depends = {'VonHeikemen/the-good-snippets'},
   user_event = {'mini-snippets'},
   config = function()
