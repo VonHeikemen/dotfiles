@@ -20,21 +20,11 @@ Plugin.opts = {
     'markdown',
     'markdown_inline',
   },
-  filetypes = {
-    vim = true,
-    php = true,
-    css = true,
-    html = true,
-    twig = true,
-    markdown = true,
-    javascript = true,
-    javascriptreact = true,
-    typescript = true,
-    typescriptreact = true,
-    lua = {indent = true},
-    json = {highlight = true},
-  }
 }
+
+function Plugin.update()
+  vim.cmd('TSUpdate')
+end
 
 function Plugin.config(opts)
   local group = vim.api.nvim_create_augroup('treesitter_cmds', {clear = true})
@@ -52,10 +42,12 @@ function Plugin.config(opts)
   textobject('ac', '@class.outer')
   textobject('ic', '@class.inner')
 
+  local filetypes = user.map_filetypes(opts.parsers)
   autocmd('FileType', {
-    pattern = vim.tbl_keys(opts.filetypes),
     group = group,
-    callback = function(event) enable(event, opts.filetypes) end,
+    callback = function(event)
+      enable(event, filetypes)
+    end,
   })
 end
 
@@ -66,24 +58,38 @@ function user.textobject(lhs, ts_capture)
   end)
 end
 
+function user.map_filetypes(parsers)
+  local result = {}
+  local get_ft = vim.treesitter.language.get_filetypes
+
+  for _, parser in ipairs(parsers) do
+    for _, ft in ipairs(get_ft(parser)) do
+      result[ft] = true
+    end
+  end
+
+  return result
+end
+
 function user.enable_feature(event, filetypes)
-  local ft = filetypes[event.match]
-
-  if ft == true then
-    ft = {highlight = true, indent = true}
+  local ft = event.match
+  if filetypes[ft] == nil then
+    return
   end
 
+  local bufnr = event.buf
+  local ts = vim.treesitter
+  local lang = ts.language.get_lang(ft)
+  local ok, query = false, nil
 
-  if ft.highlight then
-    vim.treesitter.start()
+  ok, query = pcall(ts.query.get, lang, 'highlights')
+  if ok and query then
+    ts.start(bufnr, lang)
   end
 
-  if ft.regex then
-    vim.bo.syntax = 'on'
-  end
-
-  if ft.indent then
-    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  ok, query = pcall(ts.query.get, lang, 'indents')
+  if ok and query then
+    vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
   end
 end
 
