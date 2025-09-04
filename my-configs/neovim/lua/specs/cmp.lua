@@ -2,7 +2,6 @@
 local Plugin = {'hrsh7th/nvim-cmp'}
 
 Plugin.event = {'InsertEnter'}
-Plugin.user_event = {'nvim-cmp'}
 
 local user = {}
 
@@ -192,7 +191,6 @@ end
 
 local function ext(spec)
   spec.event = Plugin.event
-  spec.user_event = Plugin.user_event
   return spec
 end
 
