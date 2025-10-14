@@ -7,7 +7,7 @@ function Plugin.opts()
   local env = vim.g.env or {}
   local opts = {
     safe_labels = '',
-    labels = {
+    labels = table.concat({
       'w', 's', 'a',
       'j', 'k', 'l', 'o', 'i', 'q', 'd', 'h', 'g',
       'u', 'y',
@@ -15,7 +15,7 @@ function Plugin.opts()
       'Q', 'D', 'L', 'N', 'H', 'G', 'M', 'U', 'Y', 'X',
       'J', 'K', 'O', 'I', 'A', 'S', 'W',
       '1', '2', '3', '4', '5', '6'
-    },
+    }, ''),
   }
 
   if env.latam_qwerty then
