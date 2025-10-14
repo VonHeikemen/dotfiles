@@ -42,11 +42,24 @@ function Plugin.config(opts)
   textobject('ac', '@class.outer')
   textobject('ic', '@class.inner')
 
-  local filetypes = user.map_filetypes(opts.parsers)
+  local filetypes = vim.iter(opts.parsers)
+    :map(vim.treesitter.language.get_filetypes)
+    :flatten()
+    :fold({}, function(tbl, v)
+      tbl[v] = true
+      return tbl
+    end)
+
   autocmd('FileType', {
     group = group,
+    desc = 'enable treesitter',
     callback = function(event)
-      enable(event, filetypes)
+      local ft = event.match
+      if filetypes[ft] == nil then
+        return
+      end
+
+      enable(event.buf, ft)
     end,
   })
 end
@@ -58,37 +71,17 @@ function user.textobject(lhs, ts_capture)
   end)
 end
 
-function user.map_filetypes(parsers)
-  local result = {}
-  local get_ft = vim.treesitter.language.get_filetypes
-
-  for _, parser in ipairs(parsers) do
-    for _, ft in ipairs(get_ft(parser)) do
-      result[ft] = true
-    end
-  end
-
-  return result
-end
-
-function user.enable_feature(event, filetypes)
-  local ft = event.match
-  if filetypes[ft] == nil then
-    return
-  end
-
-  local bufnr = event.buf
+function user.enable_feature(bufnr, filetype)
   local ts = vim.treesitter
-  local lang = ts.language.get_lang(ft)
-  local ok, query = false, nil
+  local lang = ts.language.get_lang(filetype)
 
-  ok, query = pcall(ts.query.get, lang, 'highlights')
-  if ok and query then
+  local ok, hl = pcall(ts.query.get, lang, 'highlights')
+  if ok and hl then
     ts.start(bufnr, lang)
   end
 
-  ok, query = pcall(ts.query.get, lang, 'indents')
-  if ok and query then
+  local ok, idt = pcall(ts.query.get, lang, 'indents')
+  if ok and idt then
     vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
   end
 end
