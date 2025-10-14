@@ -7,7 +7,6 @@ return {
   ["cmp-path"] = "91ff86cd9c29299a64f968ebb45846c485725f23",
   ["ctrlsf.vim"] = "32236a8b376d9311dec9b5fe795ca99d32060b13",
   ["fine-cmdline.nvim"] = "aec9efebf6f4606a5204d49ffa3ce2eeb7e08a3e",
-  ["flit.nvim"] = "1ef72de6a02458d31b10039372c8a15ab8989e0d",
   ["guess-indent.nvim"] = "84a4987ff36798c2fc1169cbaff67960aed9776f",
   ["html5.vim"] = "485f2cd62162c81e56d8604b4c630f0b5ef69d1f",
   ["leap.nvim"] = "346a16ef942635a8ca5ff92e603d07e7e8be6cbe",

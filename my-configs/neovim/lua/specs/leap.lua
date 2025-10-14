@@ -1,7 +1,6 @@
 -- Jump anywhere
 local Plugin = {'ggandor/leap.nvim'}
 
-Plugin.depends = {'ggandor/flit.nvim'}
 Plugin.user_event = {'SpecVimEdit'}
 
 function Plugin.opts()
@@ -52,13 +51,28 @@ function Plugin.init()
     require('leap-ext.line').forward()
   end, 'Jump to line below cursor')
 
+  bind('f', function()
+    require('leap-ext.char').forward({offset = false})
+  end, 'Case insensitive f')
+
+  bind('t', function()
+    require('leap-ext.char').forward({offset = true})
+  end, 'Case insensitive t')
+
+  bind('F', function()
+    require('leap-ext.char').backward({offset = false})
+  end, 'Case insensitive F')
+
+  bind('T', function()
+    require('leap-ext.char').backward({offset = true})
+  end, 'Case insensitive T')
+
   bind('sh', '<Plug>(leap-backward)', 'Jump backward')
   bind('sl', '<Plug>(leap-forward)', 'Jump forward')
 end
 
 function Plugin.config(opts)
   require('leap').setup(opts())
-  require('flit').setup({multiline = false})
 end
 
 return Plugin
