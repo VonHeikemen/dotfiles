@@ -171,13 +171,20 @@ function user.set_autocomplete(new_value)
 end
 
 function user.is_whitespace()
-  local col = vim.fn.col('.') - 1
+  local position = vim.api.nvim_win_get_cursor(0)
+  local col = position[2]
+
   if col == 0 then
     return true
   end
 
-  local char = vim.fn.getline('.'):sub(col, col)
-  return type(char:match('%s')) == 'string'
+  local line = position[1] - 1
+  local ch = vim.api.nvim_buf_get_text(0, line, col - 1, line, col, {})[1] or ''
+  if ch == '' or ch:match('%s') then
+    return true
+  end
+
+  return false
 end
 
 function user.enable_cmd()
