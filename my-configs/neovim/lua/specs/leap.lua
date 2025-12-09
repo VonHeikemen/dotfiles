@@ -1,5 +1,5 @@
 -- Jump anywhere
-local Plugin = {'ggandor/leap.nvim'}
+local Plugin = {'https://codeberg.org/andyg/leap.nvim'}
 
 Plugin.user_event = {'SpecVimEdit'}
 
