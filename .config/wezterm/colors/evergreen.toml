@@ -1,0 +1,52 @@
+[colors]
+background = "#272E33"
+foreground = "#D3C6AA"
+
+cursor_bg = "#8D99C8"
+cursor_border = "#8D99C8"
+cursor_fg = "#1D2021"
+
+ansi = [
+  "#272E33", # 00 Black
+  "#E67E80", # 01 Red
+  "#A7C080", # 02 Green
+  "#DBBC7F", # 03 Yellow
+  "#7FBBB3", # 04 Blue
+  "#D699B6", # 05 Magenta
+  "#83C092", # 06 Cyan
+  "#D3C6AA", # 07 White
+]
+brights = [
+  "#859289", # 08 Black
+  "#E67E80", # 09 Red
+  "#A7C080", # 10 Green
+  "#DBBC7F", # 11 Yellow
+  "#7FBBB3", # 12 Blue
+  "#D699B6", # 13 Magenta
+  "#83C092", # 14 Cyan
+  "#FDF6E3", # 15 White
+]
+
+[colors.tab_bar]
+background = "#2E383C"
+
+[colors.tab_bar.active_tab]
+bg_color = "#2E383C"
+fg_color = "#D4BE98"
+
+[colors.tab_bar.inactive_tab]
+bg_color = "#2E383C"
+fg_color = "#859289"
+
+[colors.tab_bar.new_tab]
+bg_color = "#2E383C"
+fg_color = "#859289"
+
+[colors.tab_bar.new_tab_hover]
+bg_color = "#D699B6"
+fg_color = "#F8F8F2"
+
+[metadata]
+aliases = []
+name = "Evergreen"
+
