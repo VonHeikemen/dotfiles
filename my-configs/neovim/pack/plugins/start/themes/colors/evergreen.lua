@@ -32,7 +32,7 @@ local theme = {
     comment  = color.gray,
     string   = color.green,
     constant = color.magenta,
-    storage  = color.dark_blue,
+    storage  = color.blue,
     special  = color.green,
     error    = color.red,
     error_bg = nil
@@ -90,7 +90,7 @@ hi('DiffChange', color.yellow)
 hi('DiffDelete', color.red)
 hi('DiffText', color.cyan)
 
-hi('MiniJump2dSpot', color.black, color.green)
+hi('MiniJump2dSpot', color.black, color.yellow)
 link('MiniJump2dSpotAhead', 'MiniJump2dSpot')
 link('LeapMatch', 'MiniJump2dSpot')
 link('LeapLabel', 'MiniJump2dSpot')
@@ -104,6 +104,7 @@ hi('CmpItemKind', color.yellow)
 
 hi('MatchParen', {}, color.bright_gray)
 hi('htmlTagN', color.orange)
+hi('@tag.delimiter.html', color.cyan)
 link('htmlTagName', 'htmlTagN')
 link('@tag.html', 'htmlTagN')
 
