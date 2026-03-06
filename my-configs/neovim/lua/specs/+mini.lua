@@ -11,21 +11,23 @@ Plug {
     },
   },
   config = function(opts)
-    local notify = require('mini.notify')
+    require('mini.notify').setup(opts)
 
-    notify.setup(opts)
-    vim.notify = notify.make_notify()
+    vim.keymap.set('n', '<leader><space>', '<cmd>Notify clear<cr>')
 
-    vim.keymap.set('n', '<leader><space>', function()
-      vim.cmd("echo ''")
-      notify.clear()
-    end)
+    vim.api.nvim_create_user_command('Notify', function(input)
+      local cmd = input.args
+      if cmd == 'clear' then
+        vim.cmd('echo ""')
+        require('mini.notify').clear()
+        return
+      end
 
-    vim.api.nvim_create_user_command(
-      'Notifications',
-      'lua MiniNotify.show_history()',
-      {}
-    )
+      if cmd == 'history' then
+        require('mini.notify').show_history()
+        return
+      end
+    end, {nargs = 1})
   end,
 }
 
