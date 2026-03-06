@@ -18,12 +18,6 @@ function Plugin.opts()
       enabled = false,
       char = '▏',
     },
-    scope = {
-      enabled = false,
-    },
-    animate = {
-      enabled = false,
-    },
     terminal = {
       win = {
         bo = {filetype = 'term'},
@@ -63,6 +57,9 @@ function Plugin.config(opts)
   bind('n', '<leader>fb', '<cmd>lua Snacks.picker("lines")<cr>')
   bind('n', '<leader>fh', '<cmd>lua Snacks.picker("recent")<cr>')
   bind('n', '<leader>fu', '<cmd>lua Snacks.picker("undo")<cr>')
+  bind('n', '<leader>fy', '<cmd>lua Snacks.picker("registers")<cr>')
+  bind('n', '<leader>fm', '<cmd>lua Snacks.picker("marks")<cr>')
+  bind('i', '<C-x>y', '<cmd>lua Snacks.picker("registers")<cr>')
   bind('n', '<leader>?', '<cmd>lua Snacks.picker("keymaps")<cr>')
   bind('n', '<leader>/', '<cmd>lua Snacks.picker("pickers")<cr>')
 
@@ -77,7 +74,7 @@ function user.bigfile()
   }
 
   opts.setup = function(ctx)
-    if vim.fn.has('nvim-0.11') == 0 then
+    if vim.g._ts_force_sync_parsing then
       vim.cmd('syntax clear')
       vim.opt_local.syntax = 'OFF'
       local buf = vim.b[ctx.buf]
@@ -96,7 +93,7 @@ function user.bigfile()
     end
   end
 
-  return opts 
+  return opts
 end
 
 function user.zen()
@@ -159,14 +156,14 @@ function user.snack_terminal()
     Snacks.terminal.toggle(nil, {win = window})
   end
 
-  local float = function(cmd)
+  local float = function()
     local window = {border = 'rounded'}
     if vim.o.lines < small_screen then
       window = {height = 0, width = 0}
     end
 
     window.position = 'float'
-    return window 
+    return window
   end
 
   command('ToggleShell', toggle_shell, {nargs = '?'})
@@ -178,7 +175,7 @@ function user.snack_terminal()
     win.on_win = function(w)
       vim.keymap.set('t', '<F4>', '<cmd>GitPush<cr>', {buffer = w.buf})
     end
-    
+
     Snacks.terminal.toggle(cmd, {win = win, interactive = true})
   end, {})
 
@@ -215,6 +212,10 @@ function user.picker()
     actions = {
       noop = function() end,
     },
+  }
+
+  opts.layouts.select = {
+    layout = {row = 0.08},
   }
 
   opts.layouts.palette = {
@@ -286,6 +287,7 @@ function user.picker()
 
   if vim.o.lines < small_screen then
     opts.layouts.palette.layout.row = 1
+    opts.layouts.select.layout.row = 1
   end
 
   opts.sources.git_status = opts.sources.git_diff
