@@ -21,7 +21,7 @@ function Plugin.opts()
   if env.latam_qwerty then
     opts.keys = {
       next_target = 'ñ',
-      prev_target = 'Ñ',
+      prev_target = ',',
       next_group = '<Tab>',
       prev_group = '<S-Tab>',
     }
