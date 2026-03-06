@@ -5,6 +5,9 @@ Plugin.depends = {'MunifTanjim/nui.nvim'}
 Plugin.cmd = {'FineCmdline'}
 
 Plugin.opts = {
+  popup = {
+    relative = 'editor',
+  },
   cmdline = {
     prompt = ' '
   },

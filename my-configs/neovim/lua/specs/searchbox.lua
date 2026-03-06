@@ -14,6 +14,9 @@ Plugin.opts = {
     confirm = 'native',
     show_matches = '[T:{total}]'
   },
+  popup = {
+    border = {style = 'rounded'},
+  },
   hooks = {
     after_mount = function(input)
       local opts = {buffer = input.bufnr}
