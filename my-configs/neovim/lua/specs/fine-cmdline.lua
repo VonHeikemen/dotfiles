@@ -1,6 +1,7 @@
 -- Command line prompt
+-- NOTE: depends on MunifTanjim/nui.nvim
+
 local Plugin = {'VonHeikemen/fine-cmdline.nvim'}
-Plugin.depends = {'MunifTanjim/nui.nvim'}
 
 Plugin.cmd = {'FineCmdline'}
 

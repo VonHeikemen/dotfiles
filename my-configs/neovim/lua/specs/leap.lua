@@ -1,6 +1,7 @@
 -- Jump anywhere
-local Plugin = {'https://codeberg.org/andyg/leap.nvim'}
+local Plugin = {'andyg/leap.nvim'}
 
+Plugin.host = 'https://codeberg.org'
 Plugin.user_event = {'SpecVimEdit'}
 
 function Plugin.opts()

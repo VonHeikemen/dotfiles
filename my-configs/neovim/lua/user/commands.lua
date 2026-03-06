@@ -5,23 +5,6 @@ local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup('init_cmds', {clear = true})
 
 command(
-  'InstallPlugins',
-  function()
-    if vim.g.env == nil then
-      local msg = 'vim.g.env is not defined.\n' 
-        .. 'You should probably load the "user.env" module.\n'
-        .. 'Rename lua/user/env.sample if necessary.\n\n'
-
-      vim.notify(msg, vim.log.levels.ERROR)
-      return
-    end
-
-    require('plugin-specs').bootstrap()
-  end,
-  {}
-)
-
-command(
   'LspEnable',
   function(input)
     require('user.diagnostics')
@@ -239,7 +222,7 @@ autocmd('CmdWinEnter', {group = augroup, command = 'quit'})
 autocmd('FileType', {
   group = augroup,
   pattern = {
-    'qf', 'help', 'man', 'lspinfo',
+    'qf', 'help', 'man', 'lspinfo', 'nvim-pack',
     'checkhealth', 'mininotify-history'
   },
   command = 'nnoremap <buffer> q <cmd>close<cr>'

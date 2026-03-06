@@ -1,29 +1,7 @@
 local M = {}
-local noop = function() end
-local md = {add = noop, now = noop, later = noop}
-
-local state = require('plugin-specs.state')
-M.augroup = state.augroup
-
-function M.bootstrap()
-  local config = vim.g.plugin_specs
-  if type(config) ~= 'table' then
-    config = {}
-  end
-
-  M.install(config)
-
-  if vim.tbl_isempty(config) then
-    return
-  end
-
-  M.setup(config)
-end
 
 function M.setup(opts)
-  if type(opts.package_path) ~= 'string' then
-    return
-  end
+  local state = require('plugin-specs.state')
 
   if type(opts.import_dir) == 'string'  then
     state.import_dir = opts.import_dir
@@ -33,71 +11,71 @@ function M.setup(opts)
     return
   end
 
+  if type(opts.default_host) == 'string' then
+    state.default_host = opts.default_host
+  end
+
   vim.go.packpath = table.concat({
     vim.env.VIMRUNTIME,
-    opts.package_path,
     vim.fn.stdpath('config'),
+    vim.fs.joinpath(vim.fn.stdpath('data'), 'site')
   }, ',')
 
-  local settings = {path = {package = opts.package_path}}
-
-  local ok = pcall(function()
-    package.loaded['mini.deps'] = nil
-    local deps = require('mini.deps')
-    deps.setup(settings)
-    md = deps
-  end)
-
-  if not ok then
-    return
-  end
-
-  require('plugin-specs.source').scandir(state.import_dir)
+  local source = require('plugin-specs.source')
+  source.load(source.scandir(state.import_dir), state)
 end
 
-function M.install(opts)
-  if type(opts.package_path) ~= 'string' then
-    return
-  end
+function M.commands()
+  local command = vim.api.nvim_create_user_command
 
-  local path = vim.fs.joinpath(
-    opts.package_path,
-    'pack',
-    'deps',
-    'start',
-    'mini.deps'
-  )
+  command('Spec', function()
+    M.actions()
+  end, {})
 
-  if vim.uv.fs_stat(path) then
-    return
-  end
+  command('SpecUpdate', function()
+    vim.pack.update()
+  end, {})
 
-  print('Installing mini.deps....')
-  vim.fn.system({
-   'git',
-    'clone',
-    '--filter=blob:none',
-    'https://github.com/echasnovski/mini.deps',
-    path,
-  })
+  command('SpecRestore', function()
+    vim.pack.update(nil, {target = 'lockfile'})
+  end, {})
 
-  vim.cmd('packadd mini.deps')
-  local added = #vim.api.nvim_get_runtime_file('doc/mini-deps.txt', false) > 0
+  command('SpecErrors', function()
+    require('plugin-specs.source').report_errors()
+  end, {})
 
-  if vim.uv.fs_stat(path) then
-    if not added then
-      vim.opt.runtimepath:append(path)
+  command('SpecEvent', function(input)
+    M.event(input.fargs)
+  end, {nargs = '*'})
+
+  command('SpecRemove', function(input)
+    vim.pack.del({input.args})
+  end, {nargs = 1})
+
+  command('SpecShow', function(input)
+    local param = input.args
+    local show = vim.print
+    if input.bang then
+      show = function(a) vim.notify(vim.inspect(a)) end
     end
 
-    vim.cmd('helptags ALL')
-    print('Done.')
-    state.lazy_load = false
-  end
+    if param == 'session' then
+      show(vim.pack.get())
+      return
+    end
+
+    if param == 'installed' then
+      vim.pack.update(nil, {offline = true})
+      return
+    end
+
+    vim.print('sub-commands: "session" "installed"')
+  end, {nargs = '?', bang = true})
 end
 
 function M.event(events)
   local opts = {
-    group = M.augroup,
+    group = require('plugin-specs.state').augroup,
     modeline = false,
   }
 
@@ -113,12 +91,11 @@ end
 
 function M.actions()
   local items = {
-    {'Update Plugins', 'SpecUpdate'},
-    {'Make snapshot', 'SpecSnapshot'},
-    {'Load all plugins', 'SpecLoadAll'},
-    {'Plugins loaded', 'SpecShow used'},
-    {'Show loaded', 'SpecShow! loaded'},
+    {'Update plugins', 'SpecUpdate'},
+    {'Report errors', 'SpecErrors'},
+    {'Restore from lockfile', 'SpecRestore'},
     {'Inspect session', 'SpecShow! session'},
+    {'Installed plugins', 'SpecShow installed'},
   }
 
   local options = vim.tbl_map(function(i) return i[1] end, items)
@@ -130,69 +107,6 @@ function M.actions()
 
     vim.cmd(items[i][2])
   end)
-end
-
-function M.commands()
-  local command = vim.api.nvim_create_user_command
-
-  local function load_all()
-    for _, spec in ipairs(state.all_plugins) do
-      md.add(spec)
-    end
-  end
-
-  command('Spec', M.actions, {})
-
-  command('SpecLoadAll', load_all, {})
-
-  command('SpecEvent', function(input)
-      M.event(input.fargs)
-  end, {nargs = '*'})
-
-  command('SpecUpdate', function()
-    load_all()
-    vim.cmd('DepsUpdate')
-  end, {})
-
-  command('SpecSnapshot', function()
-    load_all()
-    vim.cmd('DepsSnapSave')
-  end, {})
-
-  command('SpecShow', function(input)
-    local param = input.args
-    local show = vim.print
-    if input.bang then
-      show = function(a) vim.notify(vim.inspect(a)) end
-    end
-
-    if param == 'loaded' then
-      show(state.loaded)
-      return
-    end
-
-    if param == 'sourced' then
-      for _, d in pairs(state.all_plugins) do
-        show(d)
-      end
-      return
-    end
-
-    if param == 'session' then
-      for _, d in pairs(md.get_session()) do
-        show(d)
-      end
-      return
-    end
-
-    if param == 'used' then
-      local msg = '%s plugins loaded'
-      vim.notify(msg:format(#md.get_session()))
-      return 
-    end
-
-    vim.print('sub-commands: "loaded" "sourced" "session" "used"')
-  end, {nargs = '?', bang = true})
 end
 
 return M

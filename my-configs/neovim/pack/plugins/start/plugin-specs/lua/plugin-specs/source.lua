@@ -1,36 +1,37 @@
 local M = {}
-local H = {}
-
-local state = require('plugin-specs.state')
-local mini = require('mini.deps')
-local join = vim.fs.joinpath
+local H = {error_messages = {}}
 
 function M.scandir(import_path)
   local uv = vim.uv
-  local include = H.include
+  local join = vim.fs.joinpath
+  local make_spec = H.make_spec
   local warn = vim.log.levels.WARN
+  local all_specs = {}
 
-  local source = function(name)
+  local source = function(name, index)
     local path = join(import_path, name)
     local chunk = loadfile(path)
 
     if chunk == nil then
-      local msg = 'Failed to process "%s"'
+      local msg = '[plugin-spec]: Failed to process "%s"'
       vim.notify(msg:format(name), warn)
       return
     end
 
-    local err, config = pcall(chunk)
-    if type(config) ~= 'table' then
-      local msg = 'Invalid spec "%s"'
+    local err, Plug = pcall(chunk)
+    if type(Plug) ~= 'table' then
+      local msg = '[plugin-spec]: Invalid spec "%s"'
       vim.notify(msg:format(name), warn)
       vim.notify(err, warn)
       return
     end
 
-    local kind = type(config[1])
+    local kind = type(Plug[1])
     if kind == 'string' then
-      include(config)
+      if Plug.enabled ~= false then
+        local index = #all_specs
+        table.insert(all_specs, make_spec(Plug, index))
+      end
       return
     end
 
@@ -38,9 +39,12 @@ function M.scandir(import_path)
       return
     end
 
-    for _, c in ipairs(config) do
-      if type(c) == 'table' and type(c[1]) == 'string' then
-        include(c)
+    for _, p in ipairs(Plug) do
+      if type(p) == 'table' and type(p[1]) == 'string' then
+        if p.enabled ~= false then
+          local index = #all_specs
+          table.insert(all_specs, make_spec(p, index))
+        end
       end
     end
   end
@@ -53,143 +57,194 @@ function M.scandir(import_path)
     end
 
     if kind == 'file' then
-      source(name)
+      source(name, index)
+    end
+  end
+
+  return all_specs
+end
+
+function M.load(specs, state)
+  local start_plugins = {}
+  local lazy_plugins = {}
+
+  local process = function(arg)
+    local data = arg.spec.data
+    local info = {
+      name = vim.fn.escape(arg.spec.name, ' '),
+      config = tostring(data.config_id),
+    }
+
+    if data.start_plugin then
+      table.insert(start_plugins, info)
+    else
+      table.insert(lazy_plugins, info)
+    end
+  end
+
+  vim.pack.add(specs, {load = process})
+
+  -- Execute Plugin.init callbacks
+  for _, f in ipairs(state.queue_init) do
+    M.safe_call(f)
+  end
+  state.queue_init = nil
+
+  -- Load start plugins
+  for _, i in ipairs(start_plugins) do
+    M.packadd(i, state)
+  end
+
+  -- Setup handlers for lazy plugins
+  for _, i in ipairs(lazy_plugins) do
+    for _, handler in ipairs(state.queue_handler[i.config]) do
+      M.safe_call(function() handler(i) end)
+    end
+  end
+  state.queue_handler = nil
+
+  if #H.error_messages > 0 then
+    local msg = '[plugin-specs]: There were errors in Plugin callbacks.\n'
+      .. 'Use the command :SpecErrors to show details.'
+
+    local notify = vim.schedule_wrap(vim.notify)
+    notify(msg, vim.log.levels.WARN)
+  end
+end
+
+function M.safe_call(fn)
+  local ok, err = pcall(fn)
+  if not ok then
+    table.insert(H.error_messages, err)
+  end
+end
+
+function M.packadd(info, state)
+  vim.cmd.packadd({info.name, magic = {file = false}})
+
+  local config_fn = state.queue_config[info.config]
+  if config_fn then
+    M.safe_call(config_fn)
+    state.queue_config[info.config] = nil
+  end
+
+  if vim.v.vim_did_enter == 1 then
+    local plug = vim.pack.get({info.name})[1]
+    local after = vim.fn.glob(plug.path .. '/after/plugin/**/*.{vim,lua}', false, true)
+    for _, path in ipairs(after) do
+      vim.cmd.source({path, magic = {file = false}})
     end
   end
 end
 
-function H.include(Plugin)
-  if Plugin.enabled == false then
+function M.packadd_callback(info)
+  return function()
+    local state = require('plugin-specs.state')
+    require('plugin-specs.source').packadd(info, state)
+  end
+end
+
+function M.report_errors()
+  if #H.error_messages == 0 then
+    vim.notify('[plugin-spec]: There no errors to report')
     return
   end
 
-  local id = Plugin[1]
-  local is_lazy = type(Plugin.event or Plugin.cmd or Plugin.user_event) ~= 'nil'
-  state.loaded[id] = false
+  local msg = '[plugin-spec]: Plugin spec runtime errors:\n\n'
+    .. table.concat(H.error_messages, '\n\n')
 
-  Plugin.is_lazy = state.lazy_load and is_lazy
+  H.error_messages = {}
+  vim.notify(msg, vim.log.levels.ERROR)
+end
 
-  if type(Plugin.config) == 'function' then
-    local user_config = Plugin.config
-    local opts = Plugin.opts
-    Plugin.load_config = function()
-      if state.loaded[id] then
-        return
-      end
-      mini.now(function() user_config(opts) end)
-      state.loaded[id] = true
-    end
+
+function H.make_spec(Plugin, index)
+  local spec = {data = {}}
+  local state = require('plugin-specs.state')
+  local augroup = state.augroup
+
+  if type(Plugin.host) == 'string' then
+    spec.src = string.format('%s/%s', Plugin.host, Plugin[1])
+  elseif state.default_host ~= '' then
+    spec.src = string.format('%s/%s', state.default_host, Plugin[1])
   else
-    Plugin.load_config = function()
-      state.loaded[id] = true
+    spec.src = Plugin[1]
+  end
+
+  spec.data.config_id = index
+
+  local init_fn = Plugin.init
+  local config_fn = Plugin.config
+
+  if type(init_fn) == 'function' then
+    table.insert(state.queue_init, init_fn)
+  end
+
+  if type(config_fn) == 'function' then
+    local opts = Plugin.opts
+    state.queue_config[tostring(index)] = function() config_fn(opts) end
+  end
+
+  local lazy = type(Plugin.event or Plugin.cmd or Plugin.user_event) ~= 'nil'
+
+  if not lazy then
+    spec.data.start_plugin = true
+    return spec
+  end
+
+  spec.data.start_plugin = false
+  local handlers = {}
+
+  local events = Plugin.event
+  if type(events) == 'table' then
+     local h = function(info)
+      vim.api.nvim_create_autocmd(events, {
+        group = augroup,
+        once = true,
+        desc = string.format('Lazy load %s', info.name),
+        callback = M.packadd_callback(info)
+      })
     end
+
+    table.insert(handlers, h)
   end
 
-  if type(Plugin.init) == 'function' then
-    mini.now(Plugin.init)
-  end
-
-  local spec = H.make_spec(Plugin)
-  table.insert(state.all_plugins, spec)
-
-  if Plugin.is_lazy then
-    H.lazy_load(Plugin, spec)
-    return
-  end
-
-  mini.now(function()
-    mini.add(spec)
-    Plugin.load_config()
-  end)
-end
-
-function H.make_spec(Plugin)
-  local spec = {
-    source = Plugin[1],
-    checkout = Plugin.rev,
-  }
-
-  if Plugin.update then
-    spec.hooks = {post_checkout = Plugin.update}
-  end
-
-  if Plugin.depends then
-    spec.depends = {}
-    for _, c in pairs(Plugin.depends) do
-      local kind = type(c)
-      if kind == 'string' then
-        table.insert(spec.depends, c)
-      elseif kind == 'table' then
-        local d = H.make_spec(c)
-        table.insert(spec.depends, d)
-      end
+  local user_events = Plugin.user_event
+  if type(user_events) == 'table' then
+    local h = function(info)
+      vim.api.nvim_create_autocmd('User', {
+        group = augroup,
+        pattern = user_events,
+        once = true,
+        desc = string.format('Lazy load %s', info.name),
+        callback = M.packadd_callback(info)
+      })
     end
+
+    table.insert(handlers, h)
   end
+
+  local cmds = Plugin.cmd
+  if type(cmds) == 'table' then
+    local h = function(info)
+      H.cmd_loader(cmds, info)
+    end
+
+    table.insert(handlers, h)
+  end
+
+  state.queue_handler[tostring(index)] = handlers
 
   return spec
 end
 
-function H.lazy_load(Plugin, spec)
-  if Plugin.event then
-    H.event_loader('builtin', Plugin, spec)
-  end
-  if Plugin.user_event then
-    H.event_loader('user', Plugin, spec)
-  end
-  if Plugin.cmd then
-    H.cmd_loader(Plugin, spec)
-  end
-end
-
-function H.event_loader(kind, Plugin, spec)
-  local events
-  local patterns
-  local callback = Plugin.load_config
-
-  if kind == 'builtin' then
-    events = Plugin.event
-  elseif kind == 'user' then
-    events = 'User'
-    patterns = Plugin.user_event
-  end
-
-  local desc = 'Lazy load %s'
-
-  vim.api.nvim_create_autocmd(events, {
-    group = state.augroup,
-    pattern = patterns,
-    once = true,
-    desc = desc:format(Plugin[1]),
-    callback = function()
-      if spec then
-        mini.add(spec)
-      end
-      mini.now(callback)
-    end,
-  })
-end
-
-function H.cmd_loader(Plugin, spec)
-  local commands = Plugin.cmd
-  local callback = Plugin.load_config
-  local kind = type(commands)
-
-  if kind == 'string' then
-    commands = {commands}
-  end
-
-  if kind ~= 'table'  then
-    return
-  end
-
+function H.cmd_loader(commands, info)
   local make_cmd = vim.api.nvim_create_user_command
 
   for _, name in ipairs(commands) do
     local do_cmd = function(input)
-      if spec then
-        mini.add(spec)
-      end
-      mini.now(callback)
+      local state = require('plugin-specs.state')
+      M.packadd(info, state)
 
       local bang = input.bang and '!' or ''
       local range = input.range

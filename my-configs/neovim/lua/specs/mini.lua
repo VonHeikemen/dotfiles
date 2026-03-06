@@ -3,6 +3,9 @@ local Plug = function(spec) table.insert(Plugins, spec) end
 
 local event = {'SpecVimEdit'}
 
+Plug {'JoosepAlviste/nvim-ts-context-commentstring'}
+Plug {'VonHeikemen/the-good-snippets'}
+
 Plug {
   'nvim-mini/mini.ai',
   user_event = event,
@@ -38,10 +41,10 @@ Plug {
   end
 }
 
+-- NOTE: depends on JoosepAlviste/nvim-ts-context-commentstring
 Plug {
   'nvim-mini/mini.comment',
   user_event = event,
-  depends = {'JoosepAlviste/nvim-ts-context-commentstring'},
   init = function()
     vim.g.skip_ts_context_commentstring_module = true
   end,
@@ -115,9 +118,9 @@ Plug {
   end,
 }
 
+-- NOTE: depends on VonHeikemen/the-good-snippets
 Plug {
   'nvim-mini/mini.snippets',
-  depends = {'VonHeikemen/the-good-snippets'},
   user_event = {'mini-snippets'},
   config = function()
     local ms = require('mini.snippets')

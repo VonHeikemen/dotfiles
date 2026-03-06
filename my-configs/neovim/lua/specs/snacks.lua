@@ -215,7 +215,10 @@ function user.picker()
   }
 
   opts.layouts.select = {
-    layout = {row = 0.08},
+    layout = {
+      row = 0.08,
+      height = 0.6,
+    }
   }
 
   opts.layouts.palette = {
@@ -288,6 +291,7 @@ function user.picker()
   if vim.o.lines < small_screen then
     opts.layouts.palette.layout.row = 1
     opts.layouts.select.layout.row = 1
+    opts.layouts.select.layout.height = 3
   end
 
   opts.sources.git_status = opts.sources.git_diff

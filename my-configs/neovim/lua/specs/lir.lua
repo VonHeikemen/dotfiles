@@ -1,6 +1,5 @@
 -- File explorer
 local Plugin = {'tamago324/lir.nvim'}
-Plugin.depends = {'nvim-lua/plenary.nvim'}
 
 local user = {}
 local env = vim.g.env or {}
@@ -22,6 +21,9 @@ function Plugin.init()
 end
 
 function Plugin.config()
+  vim.g.loaded_netrw = 1
+  vim.g.loaded_netrwPlugin = 1
+
   local lir = require('lir')
 
   local actions = require('lir.actions')
@@ -99,5 +101,8 @@ function user.toggle(cwd, root)
   end
 end
 
-return Plugin
+return {
+  {'nvim-lua/plenary.nvim'},
+  Plugin
+}
 

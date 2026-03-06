@@ -1,6 +1,7 @@
 -- Buffer search prompt
+-- NOTE: depends on MunifTanjim/nui.nvim
+
 local Plugin = {'VonHeikemen/searchbox.nvim'}
-Plugin.depends = {'MunifTanjim/nui.nvim'}
 
 Plugin.cmd = {
   'SearchBoxIncSearch',

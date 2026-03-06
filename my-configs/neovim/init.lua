@@ -9,13 +9,14 @@
 -- c compiler - gcc or tcc or zig
 
 -- NOTE:
--- To complete installation you must
--- 1) rename lua/user/env.sample to lua/user/env.lua
--- 2) execute the command :InstallPlugins
+-- To complete installation you should
+-- rename lua/user/env.sample to lua/user/env.lua
 
--- use neovim's lua module loader (experimental)
+-- use neovim's lua module loader
 -- see :help vim.loader.enable()
 vim.loader.enable()
+
+pcall(require, 'user.env')
 
 require('user.settings')
 require('user.commands')
