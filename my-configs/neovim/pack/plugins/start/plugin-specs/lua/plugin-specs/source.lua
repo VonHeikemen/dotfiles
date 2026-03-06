@@ -1,7 +1,7 @@
 local M = {}
 local H = {}
 
-local state = require('mini-specs.state')
+local state = require('plugin-specs.state')
 local mini = require('mini.deps')
 local join = vim.fs.joinpath
 

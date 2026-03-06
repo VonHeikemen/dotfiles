@@ -16,7 +16,7 @@ command(
       return
     end
 
-    require('mini-specs').bootstrap()
+    require('plugin-specs').bootstrap()
   end,
   {}
 )

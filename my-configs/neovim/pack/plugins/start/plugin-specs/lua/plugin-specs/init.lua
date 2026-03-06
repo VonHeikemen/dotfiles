@@ -2,11 +2,11 @@ local M = {}
 local noop = function() end
 local md = {add = noop, now = noop, later = noop}
 
-local state = require('mini-specs.state')
+local state = require('plugin-specs.state')
 M.augroup = state.augroup
 
 function M.bootstrap()
-  local config = vim.g.mini_specs
+  local config = vim.g.plugin_specs
   if type(config) ~= 'table' then
     config = {}
   end
@@ -52,7 +52,7 @@ function M.setup(opts)
     return
   end
 
-  require('mini-specs.source').scandir(state.import_dir)
+  require('plugin-specs.source').scandir(state.import_dir)
 end
 
 function M.install(opts)

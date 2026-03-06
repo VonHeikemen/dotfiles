@@ -1,12 +1,12 @@
-local specs = require('mini-specs')
+local specs = require('plugin-specs')
 
 specs.commands()
 
-if type(vim.g.mini_specs) ~= 'table' then
+if type(vim.g.plugin_specs) ~= 'table' then
   return
 end
 
-specs.setup(vim.g.mini_specs)
+specs.setup(vim.g.plugin_specs)
 
 local later = function(callback)
   return vim.defer_fn(callback, 10)
