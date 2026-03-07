@@ -7,5 +7,6 @@ return {
   queue_init = {},
   queue_config = {},
   queue_handler = {},
+  loaded_plugins = {},
 }
 

@@ -120,6 +120,10 @@ function M.safe_call(fn)
 end
 
 function M.packadd(info, state)
+  if state.loaded_plugins[info.name] then
+    return
+  end
+
   vim.cmd.packadd({info.name, magic = {file = false}})
 
   local config_fn = state.queue_config[info.config]
@@ -135,6 +139,8 @@ function M.packadd(info, state)
       vim.cmd.source({path, magic = {file = false}})
     end
   end
+
+  state.loaded_plugins[info.name] = true
 end
 
 function M.packadd_callback(info)
