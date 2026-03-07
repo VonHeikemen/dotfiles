@@ -90,11 +90,6 @@ function M.load(specs, state)
   end
   state.queue_init = nil
 
-  -- Load start plugins
-  for _, i in ipairs(start_plugins) do
-    M.packadd(i, state)
-  end
-
   -- Setup handlers for lazy plugins
   for _, i in ipairs(lazy_plugins) do
     for _, handler in ipairs(state.queue_handler[i.config]) do
@@ -102,6 +97,11 @@ function M.load(specs, state)
     end
   end
   state.queue_handler = nil
+
+  -- Load start plugins
+  for _, i in ipairs(start_plugins) do
+    M.packadd(i, state)
+  end
 
   if #H.error_messages > 0 then
     local msg = '[plugin-specs]: There were errors in Plugin callbacks.\n'
