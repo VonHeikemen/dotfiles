@@ -243,7 +243,7 @@ autocmd('ColorScheme', {
 autocmd({'ModeChanged', 'BufEnter', 'DiagnosticChanged'}, {
   group = augroup,
   desc = 'Update statusline highlights',
-  callback = function()
+  callback = function(event)
     state.set_mode()
     state.position()
     state.update_done = false
@@ -263,6 +263,14 @@ autocmd('FileType', {
   desc = 'Apply "short" statusline pattern',
   pattern = {'lir', 'ctrlsf'},
   callback = function(event)
+    if event.match == 'lir' then
+      -- don't do anything if its a floating window
+      local winconfig = vim.api.nvim_win_get_config(0)
+      if winconfig.relative ~= '' then
+        return
+      end
+    end
+
     vim.wo.statusline = state.short_pattern
     vim.w.stl_style = 'short'
 
