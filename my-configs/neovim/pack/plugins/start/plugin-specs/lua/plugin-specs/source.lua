@@ -98,6 +98,11 @@ function M.load(specs, state)
   end
   state.queue_handler = nil
 
+  vim.api.nvim_exec_autocmds('User', {
+    pattern = {'SpecInit'},
+    modeline = false,
+  })
+
   -- Load start plugins
   for _, i in ipairs(start_plugins) do
     M.packadd(i, state)
