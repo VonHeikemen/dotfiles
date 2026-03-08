@@ -7,6 +7,10 @@ function M.setup(opts)
     state.import_dir = opts.import_dir
   end
 
+  if type(opts.patch_fs_dir) == 'boolean'  then
+    state.patch_fs_dir = opts.patch_fs_dir
+  end
+
   if state.import_dir == '' then
     return
   end

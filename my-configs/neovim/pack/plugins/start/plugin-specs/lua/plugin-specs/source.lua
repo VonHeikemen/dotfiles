@@ -82,7 +82,12 @@ function M.load(specs, state)
     end
   end
 
-  vim.pack.add(specs, {load = process})
+  if state.patch_fs_dir then
+    H.patch_add(specs, {load = process})
+  else
+    vim.pack.add(specs, {load = process})
+  end
+
 
   -- Execute Plugin.init callbacks
   for _, f in ipairs(state.queue_init) do
@@ -278,6 +283,29 @@ function H.cmd_loader(commands, info)
       bang = true,
     })
   end
+end
+
+function H.patch_add(specs, opts)
+  local nvim_fs_dir = vim.fs.dir
+  local packpath = vim.fs.joinpath(vim.fn.stdpath('data'), 'site', 'pack', 'core', 'opt')
+
+  local fs_dir_patch = function(path, fs_opts)
+    local plugin_dir = path == packpath
+    if not plugin_dir  then
+      return nvim_fs_dir(path, fs_opts)
+    end
+
+    local iter = vim.iter(vim.fn.globpath(path, '*', 0, 1))
+      :map(function(i) return vim.fn.fnamemodify(i, ':t') end)
+
+    return function()
+      return iter:next(), 'directory'
+    end
+  end
+
+  vim.fs.dir = fs_dir_patch
+  vim.pack.add(specs, opts)
+  vim.fs.dir = nvim_fs_dir
 end
 
 return M
