@@ -164,7 +164,16 @@ function H.make_spec(Plugin, index)
     spec.src = Plugin[1]
   end
 
-  spec.name = string.match(spec.src, '[^/]+$')
+  if type(Plugin.name) == 'string' then
+    spec.name = Plugin.name
+  else
+    spec.name = string.match(spec.src, '[^/]+$')
+  end
+
+  if type(Plugin.rev) == 'string' then
+    spec.version = Plugin.rev
+  end
+
   spec.data.config_id = index
 
   local init_fn = Plugin.init

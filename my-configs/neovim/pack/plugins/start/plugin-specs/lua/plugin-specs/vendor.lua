@@ -25,8 +25,9 @@ function M.manage(MiniDeps, specs, state)
 
   vim.cmd = cmd_patch
   local opts = {bang = true}
+  local add = MiniDeps.add
   for _, i in ipairs(specs) do
-    MiniDeps.add({source = i.src, name = i.name}, opts)
+    add({source = i.src, name = i.name, checkout = i.version}, opts)
   end
 
   vim.cmd = nvim_cmd
