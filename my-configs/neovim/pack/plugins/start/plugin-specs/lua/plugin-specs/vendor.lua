@@ -69,6 +69,7 @@ function M.actions()
     {'Update Plugins', 'SpecUpdate'},
     {'Make snapshot', 'SpecSnapshot'},
     {'Restore from snapshot', 'SpecRestore'},
+    {'Show update logs', 'SpecLog'},
     {'Show loaded', 'SpecShow! loaded'},
     {'Inspect session', 'SpecShow! session'},
   }
@@ -120,6 +121,8 @@ function M.commands()
   command('SpecEvent', function(input)
     M.event(input.fargs)
   end, {nargs = '*'})
+
+  command('SpecLog', 'DepsShowLog', {})
 
   command('SpecShow', function(input)
     local param = input.args

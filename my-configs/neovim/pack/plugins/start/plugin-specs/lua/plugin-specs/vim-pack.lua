@@ -31,6 +31,12 @@ function M.commands()
     require('plugin-specs.source').report_errors()
   end, {})
 
+  command('SpecLog', function()
+    local path = vim.fs.joinpath(vim.fn.stdpath('log'), 'nvim-pack.log')
+    vim.cmd.view(path)
+    vim.keymap.set('n', 'q', '<cmd>bdelete<cr>', {buffer = true, nowait = true})
+  end, {})
+
   command('SpecEvent', function(input)
     M.event(input.fargs)
   end, {nargs = '*'})
@@ -79,6 +85,7 @@ end
 function M.actions()
   local items = {
     {'Update plugins', 'SpecUpdate'},
+    {'Show update logs', 'SpecLog'},
     {'Report errors', 'SpecErrors'},
     {'Restore from lockfile', 'SpecRestore'},
     {'Inspect session', 'SpecShow! session'},
