@@ -128,12 +128,12 @@ function M.commands()
     end
 
     if param == 'loaded' then
-      show(state.loaded_plugins)
+      show(require('plugin-specs.state').loaded_plugins)
       return
     end
 
     if param == 'session' then
-      for _, d in pairs(md.get_session()) do
+      for _, d in pairs(require('mini.deps').get_session()) do
         show(d)
       end
       return
