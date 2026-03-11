@@ -1,4 +1,5 @@
 local M = {}
+local H = {}
 
 function M.setup(opts)
   local state = require('plugin-specs.state')
@@ -26,7 +27,21 @@ function M.setup(opts)
   }, ',')
 
   local source = require('plugin-specs.source')
-  source.load(source.scandir(state.import_dir), state)
+  local specs = source.scandir(state.import_dir)
+
+  if state.use_fallback then
+    local vendor = require('plugin-specs.vendor')
+    local deps = vendor.require_deps()
+    if deps.setup == nil then
+      return
+    end
+
+    vendor.manage(deps, specs, state)
+  else
+    H.manage(specs, state)
+  end
+
+  source.load(state)
 end
 
 function M.commands()
@@ -111,6 +126,40 @@ function M.actions()
 
     vim.cmd(items[i][2])
   end)
+end
+
+function H.manage(specs, state)
+  local noop = function() end
+
+  if state.patch_fs_dir then
+    H.patch_add(specs, {load = noop})
+    return
+  end
+
+  vim.pack.add(specs, {load = noop})
+end
+
+function H.patch_add(specs, opts)
+  local nvim_fs_dir = vim.fs.dir
+  local packpath = require('plugin-specs.state').packpath
+
+  local fs_dir_patch = function(path, fs_opts)
+    local plugin_dir = path == packpath
+    if not plugin_dir  then
+      return nvim_fs_dir(path, fs_opts)
+    end
+
+    local iter = vim.iter(vim.fn.globpath(path, '*', 0, 1))
+      :map(function(i) return vim.fn.fnamemodify(i, ':t') end)
+
+    return function()
+      return iter:next(), 'directory'
+    end
+  end
+
+  vim.fs.dir = fs_dir_patch
+  vim.pack.add(specs, opts)
+  vim.fs.dir = nvim_fs_dir
 end
 
 return M

@@ -1,4 +1,10 @@
-require('plugin-specs').commands()
+local state = require('plugin-specs.state')
+
+if state.use_fallback then
+  require('plugin-specs.vendor').commands()
+else
+  require('plugin-specs').commands()
+end
 
 local later = function(callback)
   return vim.defer_fn(callback, 10)
@@ -22,11 +28,10 @@ else
 end
 
 local autocmd = vim.api.nvim_create_autocmd
-local augroup = require('plugin-specs.state').augroup
 
 autocmd('InsertEnter', {
   once = true,
-  group = augroup,
+  group = state.augroup,
   desc = 'Ensure InsertEnter autocommands',
   callback = function()
     later(emit('InsertEnter'))
@@ -36,7 +41,7 @@ autocmd('InsertEnter', {
 local vim_edit = 0
 autocmd({'BufNew', 'BufNewFile', 'BufReadPre', 'ModeChanged'}, {
   once = true,
-  group = augroup,
+  group = state.augroup,
   desc = 'Emit SpecVimEdit event',
   callback = function()
     if vim_edit == 1 then

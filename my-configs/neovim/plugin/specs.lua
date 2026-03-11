@@ -1,5 +1,5 @@
--- Only load plugin specs on Neovim v0.12
-if vim.fn.has('nvim-0.12') == 0 then
+-- Only load plugin specs on Neovim v0.11 or greater
+if vim.fn.has('nvim-0.11') == 0 then
   return
 end
 

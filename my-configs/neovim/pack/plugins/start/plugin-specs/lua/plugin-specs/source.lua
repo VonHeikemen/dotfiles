@@ -64,31 +64,7 @@ function M.scandir(import_path)
   return all_specs
 end
 
-function M.load(specs, state)
-  local start_plugins = {}
-  local lazy_plugins = {}
-
-  local process = function(arg)
-    local data = arg.spec.data
-    local info = {
-      name = vim.fn.escape(arg.spec.name, ' '),
-      config = tostring(data.config_id),
-    }
-
-    if data.start_plugin then
-      table.insert(start_plugins, info)
-    else
-      table.insert(lazy_plugins, info)
-    end
-  end
-
-  if state.patch_fs_dir then
-    H.patch_add(specs, {load = process})
-  else
-    vim.pack.add(specs, {load = process})
-  end
-
-
+function M.load(state)
   -- Execute Plugin.init callbacks
   for _, f in ipairs(state.queue_init) do
     M.safe_call(f)
@@ -96,12 +72,13 @@ function M.load(specs, state)
   state.queue_init = nil
 
   -- Setup handlers for lazy plugins
-  for _, i in ipairs(lazy_plugins) do
+  for _, i in ipairs(state.lazy_plugins) do
     for _, handler in ipairs(state.queue_handler[i.config]) do
       M.safe_call(function() handler(i) end)
     end
   end
   state.queue_handler = nil
+  state.lazy_plugins = nil
 
   vim.api.nvim_exec_autocmds('User', {
     pattern = {'SpecInit'},
@@ -109,9 +86,10 @@ function M.load(specs, state)
   })
 
   -- Load start plugins
-  for _, i in ipairs(start_plugins) do
+  for _, i in ipairs(state.start_plugins) do
     M.packadd(i, state)
   end
+  state.start_plugins = nil
 
   if #H.error_messages > 0 then
     local msg = '[plugin-specs]: There were errors in Plugin callbacks.\n'
@@ -143,8 +121,8 @@ function M.packadd(info, state)
   end
 
   if vim.v.vim_did_enter == 1 then
-    local plug = vim.pack.get({info.name})[1]
-    local after = vim.fn.glob(plug.path .. '/after/plugin/**/*.{vim,lua}', false, true)
+    local pattern = string.format('%s/%s/%s', state.packpath, info.name, '/after/plugin/**/*.{vim,lua}')
+    local after = vim.fn.glob(pattern, false, true)
     for _, path in ipairs(after) do
       vim.cmd.source({path, magic = {file = false}})
     end
@@ -173,7 +151,6 @@ function M.report_errors()
   vim.notify(msg, vim.log.levels.ERROR)
 end
 
-
 function H.make_spec(Plugin, index)
   local spec = {data = {}}
   local state = require('plugin-specs.state')
@@ -187,6 +164,7 @@ function H.make_spec(Plugin, index)
     spec.src = Plugin[1]
   end
 
+  spec.name = string.match(spec.src, '[^/]+$')
   spec.data.config_id = index
 
   local init_fn = Plugin.init
@@ -202,13 +180,19 @@ function H.make_spec(Plugin, index)
   end
 
   local lazy = type(Plugin.event or Plugin.cmd or Plugin.user_event) ~= 'nil'
+  local info = {
+    name = vim.fn.escape(spec.name, ' '),
+    config = tostring(index),
+  }
 
   if not lazy then
     spec.data.start_plugin = true
+    table.insert(state.start_plugins, info)
     return spec
   end
 
-  spec.data.start_plugin = false
+  table.insert(state.lazy_plugins, info)
+
   local handlers = {}
 
   local events = Plugin.event
@@ -283,29 +267,6 @@ function H.cmd_loader(commands, info)
       bang = true,
     })
   end
-end
-
-function H.patch_add(specs, opts)
-  local nvim_fs_dir = vim.fs.dir
-  local packpath = vim.fs.joinpath(vim.fn.stdpath('data'), 'site', 'pack', 'core', 'opt')
-
-  local fs_dir_patch = function(path, fs_opts)
-    local plugin_dir = path == packpath
-    if not plugin_dir  then
-      return nvim_fs_dir(path, fs_opts)
-    end
-
-    local iter = vim.iter(vim.fn.globpath(path, '*', 0, 1))
-      :map(function(i) return vim.fn.fnamemodify(i, ':t') end)
-
-    return function()
-      return iter:next(), 'directory'
-    end
-  end
-
-  vim.fs.dir = fs_dir_patch
-  vim.pack.add(specs, opts)
-  vim.fs.dir = nvim_fs_dir
 end
 
 return M
