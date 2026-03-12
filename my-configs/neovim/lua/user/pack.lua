@@ -1,5 +1,5 @@
 ---
--- Config for local plugins in "pack/plugins/start/"
+-- Config for local plugins in "pack/dlc/start/"
 ---
 
 local env = vim.g.env or {}
