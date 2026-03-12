@@ -15,9 +15,7 @@ end
 function M.commands()
   local command = vim.api.nvim_create_user_command
 
-  command('Spec', function()
-    M.actions()
-  end, {})
+  command('Spec', M.actions, {})
 
   command('SpecUpdate', function()
     vim.pack.update()
@@ -28,7 +26,7 @@ function M.commands()
   end, {})
 
   command('SpecErrors', function()
-    require('plugin-specs.source').report_errors()
+    require('specify.source').report_errors()
   end, {})
 
   command('SpecLog', function()
@@ -38,7 +36,7 @@ function M.commands()
   end, {})
 
   command('SpecEvent', function(input)
-    M.event(input.fargs)
+    require('specify').event(input.fargs)
   end, {nargs = '*'})
 
   command('SpecRemove', function(input)
@@ -66,22 +64,6 @@ function M.commands()
   end, {nargs = '?', bang = true})
 end
 
-function M.event(events)
-  local opts = {
-    group = require('plugin-specs.state').augroup,
-    modeline = false,
-  }
-
-  if type(events) == 'string' then
-    events = {events}
-  end
-
-  for _, event in pairs(events) do
-    opts.pattern = event
-    vim.api.nvim_exec_autocmds('User', opts)
-  end
-end
-
 function M.actions()
   local items = {
     {'Update plugins', 'SpecUpdate'},
@@ -105,7 +87,7 @@ end
 
 function H.patch_add(specs, opts)
   local nvim_fs_dir = vim.fs.dir
-  local packpath = require('plugin-specs.state').packpath
+  local packpath = require('specify.state').packpath
 
   local fs_dir_patch = function(path, fs_opts)
     local plugin_dir = path == packpath

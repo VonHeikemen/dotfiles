@@ -1,9 +1,9 @@
-local state = require('plugin-specs.state')
+local state = require('specify.state')
 
 if state.use_fallback then
-  require('plugin-specs.vendor').commands()
+  require('specify.vendor').commands()
 else
-  require('plugin-specs').commands()
+  require('specify.vim-pack').commands()
 end
 
 local later = function(callback)

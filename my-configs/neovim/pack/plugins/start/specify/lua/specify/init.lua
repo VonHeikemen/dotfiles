@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup(opts)
-  local state = require('plugin-specs.state')
+  local state = require('specify.state')
 
   if type(opts.import_dir) == 'string'  then
     state.import_dir = opts.import_dir
@@ -25,11 +25,11 @@ function M.setup(opts)
     vim.fs.joinpath(vim.fn.stdpath('data'), 'site')
   }, ',')
 
-  local source = require('plugin-specs.source')
+  local source = require('specify.source')
   local specs = source.scandir(state.import_dir)
 
   if state.use_fallback then
-    local vendor = require('plugin-specs.vendor')
+    local vendor = require('specify.vendor')
     local deps = vendor.require_deps()
     if deps.setup == nil then
       return
@@ -37,10 +37,26 @@ function M.setup(opts)
 
     vendor.manage(deps, specs, state)
   else
-    require('plugin-specs.vim-pack').manage(specs, state)
+    require('specify.vim-pack').manage(specs, state)
   end
 
   source.load(state)
+end
+
+function M.event(events)
+  local opts = {
+    group = require('specify.state').augroup,
+    modeline = false,
+  }
+
+  if type(events) == 'string' then
+    events = {events}
+  end
+
+  for _, event in ipairs(events) do
+    opts.pattern = event
+    vim.api.nvim_exec_autocmds('User', opts)
+  end
 end
 
 return M

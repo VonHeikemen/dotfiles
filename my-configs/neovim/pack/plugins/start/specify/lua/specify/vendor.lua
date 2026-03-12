@@ -37,7 +37,7 @@ function M.require_deps()
   local uv = vim.uv or vim.loop
 
   local revision = 'v0.17.0'
-  local mini_path = packpath .. '/pack/plugin-specs/start/mini.deps'
+  local mini_path = packpath .. '/pack/specify/start/mini.deps'
 
   if not uv.fs_stat(mini_path) then
     print('Installing mini.deps....')
@@ -85,22 +85,6 @@ function M.actions()
   end)
 end
 
-function M.event(events)
-  local opts = {
-    group = require('plugin-specs.state').augroup,
-    modeline = false,
-  }
-
-  if type(events) == 'string' then
-    events = {events}
-  end
-
-  for _, event in ipairs(events) do
-    opts.pattern = event
-    vim.api.nvim_exec_autocmds('User', opts)
-  end
-end
-
 function M.commands()
   local command = vim.api.nvim_create_user_command
 
@@ -119,7 +103,7 @@ function M.commands()
   end, {})
 
   command('SpecEvent', function(input)
-    M.event(input.fargs)
+    require('specify').event(input.fargs)
   end, {nargs = '*'})
 
   command('SpecLog', 'DepsShowLog', {})
@@ -132,7 +116,7 @@ function M.commands()
     end
 
     if param == 'loaded' then
-      show(require('plugin-specs.state').loaded_plugins)
+      show(require('specify.state').loaded_plugins)
       return
     end
 

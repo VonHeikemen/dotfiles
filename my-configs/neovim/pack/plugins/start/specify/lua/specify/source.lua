@@ -13,14 +13,14 @@ function M.scandir(import_path)
     local chunk = loadfile(path)
 
     if chunk == nil then
-      local msg = '[plugin-spec]: Failed to process "%s"'
+      local msg = '[spec]: Failed to process "%s"'
       vim.notify(msg:format(name), warn)
       return
     end
 
     local err, Plug = pcall(chunk)
     if type(Plug) ~= 'table' then
-      local msg = '[plugin-spec]: Invalid spec "%s"'
+      local msg = '[spec]: Invalid spec "%s"'
       vim.notify(msg:format(name), warn)
       vim.notify(err, warn)
       return
@@ -92,7 +92,7 @@ function M.load(state)
   state.start_plugins = nil
 
   if #H.error_messages > 0 then
-    local msg = '[plugin-specs]: There were errors in Plugin callbacks.\n'
+    local msg = '[spec]: There were errors in Plugin callbacks.\n'
       .. 'Use the command :SpecErrors to show details.'
 
     local notify = vim.schedule_wrap(vim.notify)
@@ -133,18 +133,18 @@ end
 
 function M.packadd_callback(info)
   return function()
-    local state = require('plugin-specs.state')
-    require('plugin-specs.source').packadd(info, state)
+    local state = require('specify.state')
+    require('specify.source').packadd(info, state)
   end
 end
 
 function M.report_errors()
   if #H.error_messages == 0 then
-    vim.notify('[plugin-spec]: There no errors to report')
+    vim.notify('[spec]: There no errors to report')
     return
   end
 
-  local msg = '[plugin-spec]: Plugin spec runtime errors:\n\n'
+  local msg = '[spec]: Plugin spec runtime errors:\n\n'
     .. table.concat(H.error_messages, '\n\n')
 
   H.error_messages = {}
@@ -153,7 +153,7 @@ end
 
 function H.make_spec(Plugin, index)
   local spec = {data = {}}
-  local state = require('plugin-specs.state')
+  local state = require('specify.state')
   local augroup = state.augroup
 
   if type(Plugin.host) == 'string' then
@@ -252,7 +252,7 @@ function H.cmd_loader(commands, info)
 
   for _, name in ipairs(commands) do
     local do_cmd = function(input)
-      local state = require('plugin-specs.state')
+      local state = require('specify.state')
       M.packadd(info, state)
 
       local bang = input.bang and '!' or ''
