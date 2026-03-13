@@ -39,6 +39,9 @@ function Plugin.config(opts)
   textobject('ac', '@class.outer')
   textobject('ic', '@class.inner')
 
+  -- Search in function
+  vim.keymap.set('n', 'sif', [[vif<Esc>/\%V\V]], {remap = true})
+
   local filetypes = vim.iter(opts.parsers)
     :map(vim.treesitter.language.get_filetypes)
     :flatten()

@@ -44,9 +44,6 @@ function Plugin.init()
   bind('x', 'sr', '<Esc><cmd>SearchBoxReplace  visual_mode=true<cr>')
   bind('n', 'sR', "<cmd>exe 'SearchBoxReplace  --' expand('<cword>')<cr>")
   bind('x', 'sR', "<Esc><cmd>GetSelection<cr><cmd>exe 'SearchBoxReplace --' getreg('/')<cr>")
-
-  -- Search in function (depends on nvim-treesitter-textobjects)
-  bind('n', 'sif', 'vif<Esc><cmd>SearchBoxIncSearch modifier=":\\V\\%V"<cr>', {remap = true})
 end
 
 function Plugin.config(opts)
