@@ -39,7 +39,7 @@ function Plugin.init()
 
   bind('gW', 'gw')
 
-  -- note: leap-ext is a module from pack/plugins/start/leap-ext
+  -- note: leap-ext is a module from pack/dlc/start/leap-ext
   bind('gw', function()
     require('leap-ext.word').start()
   end, 'Jump to word')
