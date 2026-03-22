@@ -356,7 +356,7 @@ function user.dashboard()
     {
       sep(),
       fmt('Help poor children in Uganda!'),
-      fmt_cmd(':help Kuwasha', 'for information'),
+      fmt_cmd(':help Kuwasha', '  for information'),
     }
   }
 
