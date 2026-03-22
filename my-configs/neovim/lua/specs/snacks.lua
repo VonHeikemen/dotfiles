@@ -303,109 +303,95 @@ function user.picker()
 end
 
 function user.dashboard()
+  -- Based on echasnovski's work on the intro message for Neovim v0.12:
+  -- https://github.com/neovim/neovim/pull/38378
+
   local version = vim.version()
   local version_str = string.format(
-    'v%s.%s.%s',
+    'NVIM v%s.%s.%s',
     version.major,
     version.minor,
     version.patch
   )
 
-  return {
-    enabled = true,
-    formats = {
-      header = {'%s', align = 'center', hl = 'String'},
-    },
-    preset = {
-      header = 'NEOVIM',
-      keys = user.dashboard_actions(),
-    },
-    sections = {
-      {section = 'header'},
-      {section = 'keys', gap = 1, padding = 1},
-      {text = {version_str, hl = 'Comment'}, align = 'center'},
-    },
-  }
-end
+  local fmt = function(str)
+    return {align = 'center', text = str}
+  end
 
-function user.dashboard_actions()
-  local action = {
-    new_file = {
-      icon = '➤',
-      key = 'n',
-      desc = 'New File',
-      action = ':enew',
+  local sep = function()
+    local str = '────────────────────────────────────────────'
+    return {align = 'center', text = {str, hl = 'NonText'}}
+  end
+
+  local fmt_cmd = function(cmd, desc)
+    return {
+      align = 'left',
+      text = {
+        {'type '},
+        {cmd, hl = 'Identifier'},
+        {'<Enter>', hl = 'Special'},
+        {desc}
+      },
+    }
+  end
+
+  local sections = {
+    -- Logo
+    {align = 'center', text = {version_str, hl = 'String'}},
+    -- Tagline
+    {
+      sep(),
+      fmt('Nvim is open source and freely distributable'),
+      sep(),
     },
-    search_file = {
-      icon = '➤',
-      key = 'ff',
-      desc = 'Find File',
-      action = ':lua Snacks.picker("files")'
-    },
-    recently_used = {
-      icon = '➤',
-      key = 'fh',
-      desc = 'History',
-      action = ':lua Snacks.picker("recent")'
-    },
-    help = {
-      icon = '➤',
-      key = 'H',
-      desc = 'Get Help',
-      action = ':lua Snacks.picker("help")',
-      hidden = true,
-    },
-    explore = {
-      icon = '➤',
-      key = 'e',
-      desc = 'Explore',
-      action = ':FileExplorer!'
-    },
-    project_settings = {
-      icon = '➤',
-      key = 's',
-      desc = 'Project settings',
-      action = ':ProjectLoad'
-    },
-    quit = {
-      icon = '➤',
-      key = 'q',
-      desc = 'Quit',
-      action = ':quitall',
-    },
-    open_last = {
-      icon = '',
-      key = 'o',
-      desc = 'Open last',
-      action = '<C-o><C-o>',
-      hidden = true
-    },
-    specs_actions = {
-      icon = '',
-      key = 'L',
-      desc = 'Plugin manager',
-      action = ':Spec',
-      hidden = true
-    },
+    -- Actions
+    {},
+    -- Footer
+    {
+      sep(),
+      fmt('Help poor children in Uganda!'),
+      fmt_cmd(':help Kuwasha', 'for information'),
+    }
   }
 
-  -- hide actions in very small screens
   if vim.o.lines < small_screen then
-    action.new_file.hidden = true
-    action.project_settings.hidden = true
-    action.quit.hidden = true
+    sections[3] = {
+      fmt_cmd(':q', '             to exit'),
+      fmt_cmd(':help', '          for help'),
+    }
+  else
+    local fmt_logo = function(s1, s2)
+      return {
+        align = 'center',
+        text = {
+          {s1, hl = 'Special'},
+          {s2, hl = 'String'}
+        }
+      }
+    end
+
+    sections[1] = {
+      fmt_logo('│ ','╲ ││'),
+      fmt_logo('││','╲╲││'),
+      fmt_logo('││',' ╲ │'),
+      {align = 'center', text = ''},
+      {align = 'center', text = {version_str, hl = 'String'}},
+    }
+
+    sections[3] = {
+      fmt_cmd(':help nvim', '     if you are new!'),
+      fmt_cmd(':checkhealth', '   to optimize Nvim'),
+      fmt_cmd(':q', '             to exit'),
+      fmt_cmd(':help', '          for help'),
+      sep(),
+      fmt_cmd(':help news', '     for changelog'),
+    }
   end
 
   return {
-    action.new_file,
-    action.search_file,
-    action.recently_used,
-    action.explore,
-    action.project_settings,
-    action.quit,
-    action.open_last,
-    action.help,
-    action.specs_actions,
+    enabled = true,
+    width = 44,
+    sections = sections,
   }
 end
 
