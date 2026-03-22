@@ -4,6 +4,8 @@ local H = {}
 function M.manage(specs, state)
   local noop = function() end
 
+  H.packchanged(state)
+
   if state.patch_fs_dir then
     H.patch_add(specs, {load = noop})
     return
@@ -106,6 +108,30 @@ function H.patch_add(specs, opts)
   vim.fs.dir = fs_dir_patch
   vim.pack.add(specs, opts)
   vim.fs.dir = nvim_fs_dir
+end
+
+function H.packchanged(state)
+  vim.api.nvim_create_autocmd('PackChanged', {
+    group = state.augroup,
+    desc = 'Execute plugin callbacks',
+    callback = function(event)
+      local data = event.data or {}
+      local kind = data.kind or ''
+      local callback = vim.tbl_get(data, 'spec', 'data', 'on_' .. kind)
+
+      -- possible callbacks: on_install, on_update, on_delete
+      if type(callback) ~= 'function' then
+        return
+      end
+
+      local ok, err = pcall(callback, data)
+      if not ok then
+        local msg = '[spec]: %s %s callback failed:\n%s'
+        local name = vim.tbl_get(data, 'spec', 'name') or 'plugin'
+        vim.notify(msg:format(name, kind, err), vim.log.levels.WARN)
+      end
+    end,
+  })
 end
 
 return M

@@ -27,7 +27,13 @@ function M.manage(MiniDeps, specs, state)
   local opts = {bang = true}
   local add = MiniDeps.add
   for _, i in ipairs(specs) do
-    add({source = i.src, name = i.name, checkout = i.version}, opts)
+    local spec = {source = i.src, name = i.name, checkout = i.version}
+    if i.data.on_update then
+      spec.hooks = {}
+      speck.hooks.post_checkout = i.data.on_update
+    end
+
+    add(spec, opts)
   end
 
   vim.cmd = nvim_cmd
