@@ -2,7 +2,7 @@
 local Plugin = {'andyg/leap.nvim'}
 
 Plugin.host = 'https://codeberg.org'
-Plugin.user_event = {'SpecVimEdit'}
+Plugin.user_event = {'LazySpec'}
 
 function Plugin.opts()
   local env = vim.g.env or {}
