@@ -137,6 +137,7 @@ function user.snack_terminal()
 
   vim.keymap.set({'n', 'i', 'x', 't'}, '<M-i>', '<cmd>ToggleShell<cr>')
   vim.keymap.set('n', 'gis', '<cmd>GitStatus<cr>')
+  vim.keymap.set('n', 'gia', '<cmd>GitPatch<cr>')
   vim.keymap.set('n', 'gic', '<cmd>GitCommit<cr>')
   vim.keymap.set('n', 'giB', '<cmd>GitBlame<cr>')
 
@@ -177,6 +178,11 @@ function user.snack_terminal()
     end
 
     Snacks.terminal.toggle(cmd, {win = win, interactive = true})
+  end, {})
+
+  command('GitPatch', function()
+    local cmd = {'git', 'add', '--patch'}
+    Snacks.terminal.toggle(cmd, {win = float(), interactive = true})
   end, {})
 
   command('GitBlame', function()
