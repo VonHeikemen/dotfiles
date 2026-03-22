@@ -30,7 +30,7 @@ function M.manage(MiniDeps, specs, state)
     local spec = {source = i.src, name = i.name, checkout = i.version}
     if i.data.on_update then
       spec.hooks = {}
-      speck.hooks.post_checkout = i.data.on_update
+      spec.hooks.post_checkout = i.data.on_update
     end
 
     add(spec, opts)
