@@ -33,7 +33,7 @@ local theme = {
     string   = color.green,
     constant = color.magenta,
     storage  = color.blue,
-    special  = color.green,
+    special  = color.orange,
     error    = color.red,
     error_bg = nil
   },
