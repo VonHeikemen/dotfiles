@@ -1,5 +1,3 @@
--- Try to load "env" file
-pcall(require, 'user.env')
 local env = vim.g.env or {}
 
 if not env.tempdir then
