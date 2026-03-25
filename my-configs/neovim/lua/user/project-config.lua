@@ -83,13 +83,28 @@ function Project.notes()
   end, {})
 
   vim.api.nvim_create_user_command('Browse', function()
-    local query = get_word('-,.')
-    local pattern = 'find %s'
+    local line = vim.trim(vim.fn.getline('.'))
+    local kind = line:sub(3, 3)
+    local id, name
 
-    if query:find('-') then
-      query = query:sub(1, 3)
+    if kind == '.' then
+      -- ID/Content
+      id = line:sub(1, 5)
+      name = line:sub(7)
+    elseif kind == ' ' then
+      -- Category
+      id = line:sub(1, 2)
+      name = line:sub(4)
+    elseif kind == '-' then
+      -- Area
+      id = line:sub(1, 2)
+      name = line:sub(7)
+    else
+      return
     end
 
+    local pattern = 'find %s'
+    local query = string.format('%s-%s', id, name:gsub(' ', '-'):lower())  
     local results = vim.fn.getcompletion(pattern:format(query), 'cmdline')[1]
 
     if results == nil then
