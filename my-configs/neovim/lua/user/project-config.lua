@@ -46,8 +46,44 @@ function Project.notes()
     return word
   end
 
+  local get_label = function(bufnr)
+    local curpos = vim.fn.getcurpos()
+    local line = curpos[2]
+
+    local ob = vim.fn.searchpos('\\V[', 'bn', line)
+    if ob[1] == 0 then
+      -- opening bracket not found
+      return
+    end
+
+    local cb = vim.fn.searchpos('\\V]', 'n', line)
+    if cb[1] == 0 or curpos[3] > cb[2] then
+      -- closing bracket not found or was found before the cursor
+      return
+    end
+
+    local label_cb = vim.fn.searchpos('\\v(.{-}\\zs]){2}', 'n', line)
+    if label_cb[1] == 0 then
+      -- reference closing bracket was not found
+      return
+    end
+
+    line = line - 1
+    local start = cb[2]
+    local ends = label_cb[2]
+    return vim.api.nvim_buf_get_text(bufnr, line, start, line, ends, {})[1]
+  end
+
   vim.keymap.set('n', 'K', '<cmd>GoToLink<cr>')
   vim.keymap.set('n', '<leader>1', '<cmd>find 00-index.md<cr>')
+
+  vim.keymap.set('n', 'gl', function()
+    local query = get_word('/,-,:,.')
+    local ok = pcall(vim.cmd, {cmd = 'find', args = {query}})
+    if not ok then
+      vim.notify('No file found', warn)
+    end
+  end)
 
   if vim.fn.bufname() == '00-index.md' then
     vim.keymap.set('n', 'K', '<cmd>Browse<cr>', {buffer = true})
@@ -59,14 +95,33 @@ function Project.notes()
   })
 
   ---
-  -- In this case a "link" is a markdown footnote, like [^1].
-  -- The text of the footnote must be a valid file path.
+  -- Jump to the "content" of a reference-style link or footnote.
+  -- Example: this is [a link][01] and this is a [^footnote]
+  --
+  -- [01]: #link-content
+  -- [^footnote]: footnote content
+  --
+  -- If the content begins with an @ character, treat it like a filename.
+  -- Use the `find` command to open the file.
   ---
   vim.api.nvim_create_user_command('GoToLink', function()
+    local query = ''
+    local cword = get_word('.,-,^')
     local bufnr = vim.api.nvim_get_current_buf()
-    local pattern = string.format('^\\V[^%s]: ', get_word('/,-,:,.'))
 
+    if cword:sub(1, 1) == '^' then
+      query = string.format('[%s]', cword)
+    else
+      query = get_label(bufnr) or ''
+    end
+
+    if query == '' then
+      return
+    end
+
+    local pattern = string.format([[\V\^%s:\s\*]], query)
     local results = vim.fn.matchbufline(bufnr, pattern, 1, '$')[1]
+
     if results == nil then
       vim.notify('No links found', warn)
       return
@@ -74,12 +129,19 @@ function Project.notes()
 
     local lnum = results.lnum
     local line = vim.api.nvim_buf_get_lines(bufnr, lnum - 1, lnum, true)[1]
-    local file = line:sub(line:find(':') + 1)
+    local idx = line:find(']:') + 3
 
-    local ok = pcall(vim.cmd, {cmd = 'find', args = {file}})
-    if not ok then
-      vim.notify('No file found', warn)
+    if line:sub(idx, idx) == '@' then
+      local file = line:sub(idx + 1)
+      local ok = pcall(vim.cmd, {cmd = 'find', args = {file}})
+      if not ok then
+        vim.notify('No file found', warn)
+      end
+      return
     end
+
+    vim.cmd("normal! m'")
+    vim.api.nvim_win_set_cursor(0, {results.lnum, 1})
   end, {})
 
   vim.api.nvim_create_user_command('Browse', function()
