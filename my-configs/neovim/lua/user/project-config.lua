@@ -74,37 +74,7 @@ function Project.notes()
     return vim.api.nvim_buf_get_text(bufnr, line, start, line, ends, {})[1]
   end
 
-  vim.keymap.set('n', 'K', '<cmd>GoToLink<cr>')
-  vim.keymap.set('n', '<leader>1', '<cmd>find 00-index.md<cr>')
-
-  vim.keymap.set('n', 'gl', function()
-    local query = get_word('/,-,:,.')
-    local ok = pcall(vim.cmd, {cmd = 'find', args = {query}})
-    if not ok then
-      vim.notify('No file found', warn)
-    end
-  end)
-
-  if vim.fn.bufname() == '00-index.md' then
-    vim.keymap.set('n', 'K', '<cmd>Browse<cr>', {buffer = true})
-  end
-
-  vim.api.nvim_create_autocmd('BufReadPost', {
-    pattern = '*00-index.md',
-    command = 'nnoremap <buffer> K <cmd>Browse<cr>'
-  })
-
-  ---
-  -- Jump to the "content" of a reference-style link or footnote.
-  -- Example: this is [a link][01] and this is a [^footnote]
-  --
-  -- [01]: #link-content
-  -- [^footnote]: footnote content
-  --
-  -- If the content begins with an @ character, treat it like a filename.
-  -- Use the `find` command to open the file.
-  ---
-  vim.api.nvim_create_user_command('GoToLink', function()
+  local get_content = function()
     local query = ''
     local cword = get_word('.,-,^')
     local bufnr = vim.api.nvim_get_current_buf()
@@ -129,6 +99,64 @@ function Project.notes()
 
     local lnum = results.lnum
     local line = vim.api.nvim_buf_get_lines(bufnr, lnum - 1, lnum, true)[1]
+    -- local idx = line:find(']:') + 3
+
+    return line, results.lnum
+  end
+
+  vim.keymap.set('n', 'K', '<cmd>GoToLink<cr>')
+  vim.keymap.set('n', '<leader>1', '<cmd>find 00-index.md<cr>')
+
+  vim.keymap.set('n', 'gl', function()
+    local query = get_word('/,-,:,.')
+    local ok = pcall(vim.cmd, {cmd = 'find', args = {query}})
+    if not ok then
+      vim.notify('No file found', warn)
+    end
+  end)
+
+  vim.keymap.set('n', 'gx', function()
+    local line = get_content()
+    if line == nil then
+      return
+    end
+
+    local idx = line:find(']:') + 3
+    local content = vim.trim(line:sub(idx))
+
+    if content == '' then
+      return
+    end
+
+    vim.fn.setreg('+', content)
+    vim.notify('Content copied to clipboard')
+  end)
+
+  if vim.fn.bufname() == '00-index.md' then
+    vim.keymap.set('n', 'K', '<cmd>Browse<cr>', {buffer = true})
+  end
+
+  vim.api.nvim_create_autocmd('BufReadPost', {
+    pattern = '*00-index.md',
+    command = 'nnoremap <buffer> K <cmd>Browse<cr>'
+  })
+
+  ---
+  -- Jump to the "content" of a reference-style link or footnote.
+  -- Example: this is [a link][01] and this is a [^footnote]
+  --
+  -- [01]: #link-content
+  -- [^footnote]: footnote content
+  --
+  -- If the content begins with an @ character, treat it like a filename.
+  -- Use the `find` command to open the file.
+  ---
+  vim.api.nvim_create_user_command('GoToLink', function()
+    local line, lnum = get_content()
+    if line == nil then
+      return
+    end
+
     local idx = line:find(']:') + 3
 
     if line:sub(idx, idx) == '@' then
@@ -141,7 +169,7 @@ function Project.notes()
     end
 
     vim.cmd("normal! m'")
-    vim.api.nvim_win_set_cursor(0, {results.lnum, 1})
+    vim.api.nvim_win_set_cursor(0, {lnum, 1})
   end, {})
 
   vim.api.nvim_create_user_command('Browse', function()
