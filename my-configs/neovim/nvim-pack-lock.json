@@ -29,7 +29,7 @@
       "src": "https://github.com/dyng/ctrlsf.vim"
     },
     "fine-cmdline.nvim": {
-      "rev": "7db181d1cb294581b12a036eadffffde762a118f",
+      "rev": "6e646f4da6afe856e36f3d952489b723d1475638",
       "src": "https://github.com/VonHeikemen/fine-cmdline.nvim"
     },
     "guess-indent.nvim": {
@@ -41,11 +41,11 @@
       "src": "https://github.com/othree/html5.vim"
     },
     "leap.nvim": {
-      "rev": "b81866399072af08195ebfbcfea9d3dcab970972",
+      "rev": "e20f33507bd2d6c671b7273f797f2d3cf521ac61",
       "src": "https://codeberg.org/andyg/leap.nvim"
     },
     "lir.nvim": {
-      "rev": "5b1a927cfee45845d7d4450a1e8f2f63cf0baaac",
+      "rev": "f1291b88d3649743165cfb5d0d44a7722d4021ea",
       "src": "https://github.com/tamago324/lir.nvim"
     },
     "mason.nvim": {
@@ -69,7 +69,7 @@
       "src": "https://github.com/nvim-mini/mini.notify"
     },
     "mini.snippets": {
-      "rev": "0d0b435e3f9563965f73703a6a6d17acb432a93c",
+      "rev": "c7a5fd5e767dcc732940f59f2a83c64ea7346a3e",
       "src": "https://github.com/nvim-mini/mini.snippets"
     },
     "mini.surround": {
@@ -81,20 +81,22 @@
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim-cmp": {
-      "rev": "da88697d7f45d16852c6b2769dc52387d1ddc45f",
+      "rev": "a1d504892f2bc56c2e79b65c6faded2fd21f3eca",
       "src": "https://github.com/hrsh7th/nvim-cmp"
     },
     "nvim-lint": {
-      "rev": "606b823a57b027502a9ae00978ebf4f5d5158098",
+      "rev": "4b03656c09c1561f89b6aa0665c15d292ba9499d",
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-treesitter": {
-      "rev": "ebe76eb800d4e8df754fc96f8a7b84f578224a97",
-      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
+      "rev": "7caec274fd19c12b55902a5b795100d21531391f",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter",
+      "version": "'main'"
     },
     "nvim-treesitter-textobjects": {
-      "rev": "0bc4ef0a34d80fd6e67b59bd71fcbb0ef9ef4756",
-      "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
+      "rev": "93d60a475f0b08a8eceb99255863977d3a25f310",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
+      "version": "'main'"
     },
     "nvim-ts-context-commentstring": {
       "rev": "1b212c2eee76d787bbea6aa5e92a2b534e7b4f8f",
@@ -109,7 +111,7 @@
       "src": "https://github.com/VonHeikemen/searchbox.nvim"
     },
     "snacks.nvim": {
-      "rev": "9912042fc8bca2209105526ac7534e9a0c2071b2",
+      "rev": "ad9ede6a9cddf16cedbd31b8932d6dcdee9b716e",
       "src": "https://github.com/folke/snacks.nvim"
     },
     "the-good-snippets": {
