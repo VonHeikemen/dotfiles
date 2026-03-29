@@ -1,4 +1,4 @@
-local group = vim.api.nvim_create_augroup('specify', {clear = true})
+local group = vim.api.nvim_create_augroup('offspec', {clear = true})
 local nvim_data = vim.fn.stdpath('data') --[[@as string]]
 local use_fallback = vim.pack == nil
 local packpath = ''

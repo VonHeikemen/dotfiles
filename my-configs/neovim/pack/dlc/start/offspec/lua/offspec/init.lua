@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup(opts)
-  local state = require('specify.state')
+  local state = require('offspec.state')
 
   if type(opts.import_dir) == 'string'  then
     state.import_dir = opts.import_dir
@@ -25,11 +25,11 @@ function M.setup(opts)
     vim.fs.joinpath(vim.fn.stdpath('data'), 'site')
   }, ',')
 
-  local source = require('specify.source')
+  local source = require('offspec.source')
   local specs = source.scandir(state.import_dir)
 
   if state.use_fallback then
-    local vendor = require('specify.vendor')
+    local vendor = require('offspec.vendor')
     local deps = vendor.require_deps()
     if deps.setup == nil then
       return
@@ -37,7 +37,7 @@ function M.setup(opts)
 
     vendor.manage(deps, specs, state)
   else
-    require('specify.vim-pack').manage(specs, state)
+    require('offspec.vim-pack').manage(specs, state)
   end
 
   source.load(state)
@@ -45,7 +45,7 @@ end
 
 function M.event(events)
   local opts = {
-    group = require('specify.state').augroup,
+    group = require('offspec.state').augroup,
     modeline = false,
   }
 

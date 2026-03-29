@@ -133,8 +133,8 @@ end
 
 function M.packadd_callback(info)
   return function()
-    local state = require('specify.state')
-    require('specify.source').packadd(info, state)
+    local state = require('offspec.state')
+    require('offspec.source').packadd(info, state)
   end
 end
 
@@ -153,7 +153,7 @@ end
 
 function H.make_spec(Plugin, index)
   local spec = {data = {}}
-  local state = require('specify.state')
+  local state = require('offspec.state')
   local augroup = state.augroup
 
   if type(Plugin.host) == 'string' then
@@ -256,7 +256,7 @@ function H.cmd_loader(commands, info)
 
   for _, name in ipairs(commands) do
     local do_cmd = function(input)
-      local state = require('specify.state')
+      local state = require('offspec.state')
       M.packadd(info, state)
 
       local bang = input.bang and '!' or ''

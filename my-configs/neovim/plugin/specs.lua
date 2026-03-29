@@ -3,7 +3,7 @@ if vim.fn.has('nvim-0.11') == 0 then
   return
 end
 
-require('specify').setup({
+require('offspec').setup({
   -- when using a "short url" assume the plugin comes from github
   default_host = 'https://github.com',
   -- path to plugin configs

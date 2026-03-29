@@ -28,7 +28,7 @@ function M.commands()
   end, {})
 
   command('SpecErrors', function()
-    require('specify.source').report_errors()
+    require('offspec.source').report_errors()
   end, {})
 
   command('SpecLog', function()
@@ -38,7 +38,7 @@ function M.commands()
   end, {})
 
   command('SpecEvent', function(input)
-    require('specify').event(input.fargs)
+    require('offspec').event(input.fargs)
   end, {nargs = '*'})
 
   command('SpecRemove', function(input)
@@ -89,7 +89,7 @@ end
 
 function H.patch_add(specs, opts)
   local nvim_fs_dir = vim.fs.dir
-  local packpath = require('specify.state').packpath
+  local packpath = require('offspec.state').packpath
 
   local fs_dir_patch = function(path, fs_opts)
     local plugin_dir = path == packpath

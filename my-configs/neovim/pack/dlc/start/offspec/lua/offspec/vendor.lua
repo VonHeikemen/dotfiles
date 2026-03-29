@@ -43,7 +43,7 @@ function M.require_deps()
   local uv = vim.uv or vim.loop
 
   local revision = 'v0.17.0'
-  local mini_path = packpath .. '/pack/specify/start/mini.deps'
+  local mini_path = packpath .. '/pack/offspec/start/mini.deps'
 
   if not uv.fs_stat(mini_path) then
     print('Installing mini.deps....')
@@ -109,7 +109,7 @@ function M.commands()
   end, {})
 
   command('SpecEvent', function(input)
-    require('specify').event(input.fargs)
+    require('offspec').event(input.fargs)
   end, {nargs = '*'})
 
   command('SpecLog', 'DepsShowLog', {})
@@ -122,7 +122,7 @@ function M.commands()
     end
 
     if param == 'loaded' then
-      show(require('specify.state').loaded_plugins)
+      show(require('offspec.state').loaded_plugins)
       return
     end
 
