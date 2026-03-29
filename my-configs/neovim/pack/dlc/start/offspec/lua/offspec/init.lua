@@ -28,17 +28,7 @@ function M.setup(opts)
   local source = require('offspec.source')
   local specs = source.scandir(state.import_dir)
 
-  if state.use_fallback then
-    local vendor = require('offspec.vendor')
-    local deps = vendor.require_deps()
-    if deps.setup == nil then
-      return
-    end
-
-    vendor.manage(deps, specs, state)
-  else
-    require('offspec.vim-pack').manage(specs, state)
-  end
+  require('offspec.vim-pack').manage(specs, state)
 
   source.load(state)
 end

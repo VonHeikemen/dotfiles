@@ -1,10 +1,6 @@
 local state = require('offspec.state')
 
-if state.use_fallback then
-  require('offspec.vendor').commands()
-else
-  require('offspec.vim-pack').commands()
-end
+require('offspec.vim-pack').commands()
 
 local later = function(callback)
   return vim.defer_fn(callback, 10)
