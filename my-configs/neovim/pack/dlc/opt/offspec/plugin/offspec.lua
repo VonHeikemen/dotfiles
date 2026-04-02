@@ -1,6 +1,13 @@
+if vim.g.loaded_offspec ~= nil or vim.pack == nil then
+  return
+end
+
+vim.g.loaded_offspec = 1
+
 local state = require('offspec.state')
 
 require('offspec.vim-pack').commands()
+require('offspec').setup()
 
 local later = function(callback)
   return vim.defer_fn(callback, 10)

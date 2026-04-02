@@ -1,6 +1,7 @@
 local M = {}
 
-function M.setup(opts)
+function M.setup()
+  local opts = vim.g.offspec or {}
   local state = require('offspec.state')
 
   if type(opts.import_dir) == 'string'  then

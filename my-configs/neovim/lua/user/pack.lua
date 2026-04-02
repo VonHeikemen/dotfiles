@@ -1,5 +1,5 @@
 ---
--- Config for local plugins in "pack/dlc/start/"
+-- Config for local plugins in "pack/dlc"
 ---
 
 local env = vim.g.env or {}
@@ -18,4 +18,8 @@ vim.keymap.set('n', '<M-1>', '<cmd>BufferNav 1<cr>')
 vim.keymap.set('n', '<M-2>', '<cmd>BufferNav 2<cr>')
 vim.keymap.set('n', '<M-3>', '<cmd>BufferNav 3<cr>')
 vim.keymap.set('n', '<M-4>', '<cmd>BufferNav x<cr>')
+
+-- `offspec` is an optional plugin located in "pack/dlc/opt"
+-- it'll try to load plugin configs in "lua/specs"
+vim.cmd('packadd! offspec')
 
