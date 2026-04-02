@@ -4,7 +4,7 @@ local Plug = function(spec) table.insert(Plugins, spec) end
 local event = {'SpecVimEdit'}
 
 Plug {'VonHeikemen/the-good-snippets'}
-Plug {'JoosepAlviste/nvim-ts-context-commentstring'}
+Plug {'JoosepAlviste/nvim-ts-context-commentstring', user_event = event}
 
 Plug {
   'nvim-mini/mini.notify',
