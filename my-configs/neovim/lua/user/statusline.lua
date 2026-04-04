@@ -229,7 +229,16 @@ command('StlDiagnostics', function(input)
     return
   end
 
+  local bufnr = vim.api.nvim_get_current_buf()
+  for _, client in ipairs(vim.lsp.get_clients({bufnr = bufnr})) do
+    if client:supports_method('textDocument/diagnostics') then
+      vim.b.linter_attached = 1
+      break
+    end
+  end
+
   if input.bang then
+    state.set_mode()
     vim.cmd('redrawstatus')
   end
 end, {nargs = 1, bang = true, desc = 'Manage diagnostic icon in statusline'})
