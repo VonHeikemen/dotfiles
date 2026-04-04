@@ -31,8 +31,6 @@ Plugin.opts = {
 function Plugin.init()
   local bind = vim.keymap.set
 
-  bind('n', 's', '<nop>')
-
   bind('n', 'sb', '<cmd>SearchBoxIncSearch<cr>')
   bind('x', 'sb', "<Esc><cmd>'<,'>SearchBoxIncSearch visual_mode=true<cr>")
   bind('n', 's+', "<cmd>exe 'SearchBoxIncSearch  --' expand('<cword>')<cr>")

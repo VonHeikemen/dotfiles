@@ -150,6 +150,9 @@ bind('n', '<leader>ur', '<cmd>set invrelativenumber<cr>')
 -- ==                          SEARCH AND REPLACE                          == --
 -- ========================================================================== --
 
+-- `s` will be a prefix for search and highlight commands
+bind('n', 's', '<nop>')
+
 -- Very nomagic search
 bind('n', 'S', '/\\V')
 
@@ -162,9 +165,6 @@ bind('n', 'sib', [[vib<Esc>/\%V\V]])
 
 -- Search inside curly braces
 bind('n', 'siB', [[viB<Esc>/\%V\V]])
-
--- Search selected text
-bind('x', 'siy', '<Esc><cmd>GetSelection<cr>gv')
 
 -- Highlight selected text
 bind('x', 'sy', '<Esc><cmd>GetSelection<cr><cmd>set hlsearch<cr>')
@@ -179,10 +179,10 @@ bind('n', 'sx', [[<cmd>let @/='\<'.expand('<cword>').'\>'<cr>"_ciw]])
 bind('x', 'sx', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>"_cgn]])
 
 -- Record macro on word
-bind('n', 'siq', [[<cmd>let @/=expand('<cword>')<cr>viwo<Esc>qi]])
+bind('n', 'sc', [[<cmd>let @/=expand('<cword>')<cr>viwo<Esc>qi]])
 
 -- Begin search and replace with a macro
-bind('x', 'siq', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>gvqi]])
+bind('x', 'sc', [[y<cmd>let @/=substitute(escape(@", '/'), '\n', '\\n', 'g')<cr>gvqi]])
 
 -- Apply macro in the next instance of the search
 bind('n', '<F8>', 'gn@i')
@@ -195,7 +195,8 @@ bind('n', '<F8>', 'gn@i')
 bind('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
 
 -- `gi` will be a prefix for git related commands
-bind('n', 'gi', '<Nop>')
+bind('n', 'gi', '<nop>')
+bind('n', 'gii', 'gi')
 bind('n', 'giu', '<cmd>GitPush<cr>')
 
 -- Repeat recently used macro
