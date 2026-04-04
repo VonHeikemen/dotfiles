@@ -213,11 +213,9 @@ autocmd('TextYankPost', {
   desc = 'highlight text after is copied',
   group = augroup,
   callback = function()
-    vim.highlight.on_yank({higroup = 'Visual', timeout = 80})
+    vim.hl.on_yank({higroup = 'Visual', timeout = 80})
   end
 })
-
-autocmd('CmdWinEnter', {group = augroup, command = 'quit'})
 
 autocmd('FileType', {
   group = augroup,
@@ -241,6 +239,8 @@ autocmd('LspAttach', {
     client.server_capabilities.semanticTokensProvider = nil
   end,
 })
+
+autocmd('CmdWinEnter', {group = augroup, command = 'quit'})
 
 if env.preserve_beam_cursor then
   autocmd('VimLeave', {group = augroup, command = 'set guicursor=a:ver25'})
