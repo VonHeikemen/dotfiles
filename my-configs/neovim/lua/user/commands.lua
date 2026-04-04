@@ -5,21 +5,6 @@ local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup('init_cmds', {clear = true})
 
 command(
-  'LspEnable',
-  function(input)
-    require('user.diagnostics')
-
-    vim.lsp.enable(input.fargs)
-    local has_filetype = vim.bo.filetype ~= ''
-
-    if has_filetype then
-      vim.schedule(function() pcall(vim.api.nvim_command, 'edit') end)
-    end
-  end,
-  {nargs = '*'}
-)
-
-command(
   'GetSelection',
   function()
     local f = vim.fn
@@ -238,6 +223,16 @@ autocmd('LspAttach', {
 
     client.server_capabilities.semanticTokensProvider = nil
   end,
+})
+
+autocmd('LspAttach', {
+  once = true,
+  group = augroup,
+  desc = 'enable diagnostics',
+  callback = function(event)
+    require('user.diagnostics')
+    vim.cmd('StlDiagnostics! enable')
+  end
 })
 
 autocmd('CmdWinEnter', {group = augroup, command = 'quit'})
