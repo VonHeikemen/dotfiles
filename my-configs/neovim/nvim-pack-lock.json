@@ -114,7 +114,7 @@
       "src": "https://github.com/VonHeikemen/the-good-snippets"
     },
     "ts-enable.nvim": {
-      "rev": "b99a87126722ee9e16b604bd5f2786f2c47d23ad",
+      "rev": "32242c015f404d2cac8db3bddf72badf13b55654",
       "src": "https://github.com/VonHeikemen/ts-enable.nvim",
       "version": "'v2.x'"
     },
