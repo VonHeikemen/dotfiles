@@ -176,6 +176,10 @@ function H.make_spec(Plugin, index)
 
   spec.data.config_id = index
 
+  if type(Plugin.install) == 'function' then
+    spec.data.on_install = Plugin.install
+  end
+
   if type(Plugin.update) == 'function' then
     spec.data.on_update = Plugin.update
   end
