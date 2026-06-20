@@ -146,6 +146,9 @@ bind('n', '<leader>un', '<cmd>set invnumber<cr>')
 -- Relative line numbers
 bind('n', '<leader>ur', '<cmd>set invrelativenumber<cr>')
 
+-- Quickfix window
+bind('n', '<leader>uf', '<cmd>QflToggle<cr>')
+
 -- ========================================================================== --
 -- ==                          SEARCH AND REPLACE                          == --
 -- ========================================================================== --

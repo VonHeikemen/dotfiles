@@ -19,8 +19,6 @@ function Plugin.config(opts)
   command('QflExpand', function()
     quicker.toggle_expand()
   end, {})
-
-  vim.keymap.set('n', '<leader>uf', '<cmd>QflToggle<cr>')
 end
 
 return Plugin
