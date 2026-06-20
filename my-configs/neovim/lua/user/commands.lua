@@ -4,6 +4,9 @@ local command = vim.api.nvim_create_user_command
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup('init_cmds', {clear = true})
 
+local env = vim.g.env or {}
+local small_screen = env.small_screen or 19
+
 command(
   'GetSelection',
   function()
@@ -90,6 +93,31 @@ command(
     end
   end,
   {nargs = '*', bang = true, desc = 'Toggle vim option'}
+)
+
+command(
+  'QflToggle', 
+  function()
+    -- depends on ftplugin/qf.lua and vim.g.env
+    local tab = -1
+    local height = 10
+
+    if vim.o.lines < small_screen then
+      tab = 1
+    end
+
+    local winid = vim.g.quickfix_win or -1
+    if winid > 0 then
+      vim.api.nvim_win_close(winid, {})
+    else
+      vim.cmd({
+        cmd = 'copen',
+        args = {height},
+        mods = {tab = tab}
+      })
+    end
+  end, 
+  {desc = 'Toggle quickfix window'}
 )
 
 command(

@@ -3,10 +3,14 @@
 
 local Plugin = {'VonHeikemen/searchbox.nvim'}
 
+local env = vim.g.env or {}
+local small_screen = env.small_screen or 19
+
 Plugin.cmd = {
   'SearchBoxIncSearch',
   'SearchBoxMatchAll',
   'SearchBoxReplace',
+  'Grep'
 }
 
 Plugin.opts = {
@@ -17,6 +21,12 @@ Plugin.opts = {
   },
   popup = {
     border = {style = 'rounded'},
+  },
+  grep_options = {
+    executable = 'rg',
+    flags = {'--vimgrep', '-uu'},
+    quickfix_format = '%f:%l:%c:%m',
+    quickfix_window = true,
   },
   hooks = {
     after_mount = function(input)
@@ -42,10 +52,35 @@ function Plugin.init()
   bind('x', 'sr', '<Esc><cmd>SearchBoxReplace  visual_mode=true<cr>')
   bind('n', 'sR', "<cmd>exe 'SearchBoxReplace  --' expand('<cword>')<cr>")
   bind('x', 'sR', "<Esc><cmd>GetSelection<cr><cmd>exe 'SearchBoxReplace --' getreg('/')<cr>")
+
+  bind('n', '<leader>F', '<cmd>Grep<cr>')
+  bind('x', '<leader>F', "<Esc><cmd>GetSelection<cr><cmd>exe 'Grep -F --' getreg('/')<cr>")
+  bind('n', '<leader>fw', "<Esc><cmd>exe 'Grep -F --' expand('<cword>')<cr>")
 end
 
 function Plugin.config(opts)
-  require('searchbox').setup(opts)
+  local searchbox = require('searchbox')
+  
+  if vim.o.lines < small_screen then
+    opts.grep_options.quickfix_window = false
+  end
+
+  searchbox.setup(opts)
+
+  vim.api.nvim_create_user_command('Grep', function(input)
+    local query = input.args
+    if #query > 0  then
+      searchbox.run_grep(query)
+      return
+    end
+
+    searchbox.grep({
+      position_relative = 'editor',
+      position_x = '50%',
+      position_y = '15%',
+      window_width = '45%',
+    })
+  end, {nargs = '?'})
 end
 
 return Plugin

@@ -24,10 +24,6 @@
       "rev": "c642487086dbd9a93160e1679a1327be111cbc25",
       "src": "https://github.com/hrsh7th/cmp-path"
     },
-    "ctrlsf.vim": {
-      "rev": "39db9af4d26a91a8a6261c66ffb624f8b3d29114",
-      "src": "https://github.com/dyng/ctrlsf.vim"
-    },
     "fine-cmdline.nvim": {
       "rev": "6e646f4da6afe856e36f3d952489b723d1475638",
       "src": "https://github.com/VonHeikemen/fine-cmdline.nvim"
@@ -101,8 +97,12 @@
       "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
+    "quicker.nvim": {
+      "rev": "4a6883cb13fe097a20a046eb55f6dffd239276e3",
+      "src": "https://github.com/stevearc/quicker.nvim"
+    },
     "searchbox.nvim": {
-      "rev": "ed230583c78795526b3d4585ac1460c108e26213",
+      "rev": "f86a9f7943ffa4dd5829ef0fc7c55fa2f95729ba",
       "src": "https://github.com/VonHeikemen/searchbox.nvim"
     },
     "snacks.nvim": {
