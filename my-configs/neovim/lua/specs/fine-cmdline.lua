@@ -25,6 +25,11 @@ Plugin.opts = {
 function Plugin.init()
   vim.keymap.set('n', '<cr>', '<cmd>FineCmdline<cr>')
   vim.keymap.set('x', '<cr>', "<Esc><cmd>FineCmdline '<,'><cr>")
+
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'qf',
+    command = 'nnoremap <buffer> <cr> <cr>'
+  })
 end
 
 function Plugin.config(opts)
